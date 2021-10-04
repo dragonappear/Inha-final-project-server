@@ -2,7 +2,6 @@ HELP.md
 .gradle
 build/
 application-real-oauth.properties
-application.yml
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
