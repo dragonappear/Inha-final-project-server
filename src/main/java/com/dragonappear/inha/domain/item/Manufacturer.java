@@ -1,5 +1,6 @@
 package com.dragonappear.inha.domain.item;
 
+import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import static javax.persistence.EnumType.STRING;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Manufacturer {
+public class Manufacturer extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "manufacturer_id")

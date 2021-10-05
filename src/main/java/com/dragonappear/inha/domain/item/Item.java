@@ -1,6 +1,8 @@
 package com.dragonappear.inha.domain.item;
 
 
+import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,7 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class Item {
+public class Item extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "item_id")
@@ -54,6 +56,9 @@ public class Item {
 
     @OneToMany(mappedBy = "item")
     private List<UserLikeItem> userLikeItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item")
+    private List<Auctionitem> auctionitems = new ArrayList<>();
 
 
     /**

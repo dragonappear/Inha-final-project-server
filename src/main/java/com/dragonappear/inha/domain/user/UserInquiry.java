@@ -1,5 +1,6 @@
 package com.dragonappear.inha.domain.user;
 
+import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.user.value.InquiryStatus;
 import com.dragonappear.inha.domain.user.value.InquiryType;
 import lombok.AccessLevel;
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class UserInquiry {
+public class UserInquiry extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_inquiry_id")

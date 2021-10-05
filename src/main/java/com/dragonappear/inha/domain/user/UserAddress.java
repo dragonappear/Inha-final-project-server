@@ -1,5 +1,6 @@
 package com.dragonappear.inha.domain.user;
 
+import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.user.value.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class UserAddress {
+public class UserAddress extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_address_id")

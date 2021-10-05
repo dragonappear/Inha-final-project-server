@@ -1,5 +1,6 @@
 package com.dragonappear.inha.domain.item;
 
+import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class UserLikeItem {
+public class UserLikeItem extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_item_id")
