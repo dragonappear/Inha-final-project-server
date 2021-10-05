@@ -19,23 +19,21 @@ import static org.assertj.core.api.Assertions.*;
 class UserRepositoryTest {
 
     @Autowired UserRepository userRepository;
-    @Autowired EntityManager em;
 
     @Test
     public void 유저생성_테스트() throws Exception{
         //given
-        User user = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
+        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
         //when
-        User save = userRepository.save(user);
-        User findUser = userRepository.findById(user.getId()).get();
+        userRepository.save(newUser);
+        User findUser = userRepository.findById(newUser.getId()).get();
 
         //then
-        assertThat(findUser).isEqualTo(user);
-        assertThat(findUser.getId()).isEqualTo(user.getId());
-        assertThat(findUser.getUsername()).isEqualTo(user.getUsername());
-        assertThat(findUser.getEmail()).isEqualTo(user.getEmail());
-        assertThat(findUser.getUserTel()).isEqualTo(user.getUserTel());
-
+        assertThat(findUser).isEqualTo(newUser);
+        assertThat(findUser.getId()).isEqualTo(newUser.getId());
+        assertThat(findUser.getUsername()).isEqualTo(newUser.getUsername());
+        assertThat(findUser.getEmail()).isEqualTo(newUser.getEmail());
+        assertThat(findUser.getUserTel()).isEqualTo(newUser.getUserTel());
     }
 
 

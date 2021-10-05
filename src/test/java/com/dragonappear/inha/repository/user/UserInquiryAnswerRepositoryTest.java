@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Commit
 class UserInquiryAnswerRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserInquiryRepository userInquiryRepository;

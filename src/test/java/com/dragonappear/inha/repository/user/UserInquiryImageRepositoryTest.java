@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Commit
 class UserInquiryImageRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserInquiryRepository userInquiryRepository;

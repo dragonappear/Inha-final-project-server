@@ -15,7 +15,6 @@ import javax.persistence.EntityManager;
 
 @SpringBootTest
 @Transactional
-@Commit
 class UserCardInfoRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserCardInfoRepository userCardInfoRepository;

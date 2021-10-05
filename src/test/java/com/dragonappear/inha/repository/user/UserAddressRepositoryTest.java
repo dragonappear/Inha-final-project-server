@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Commit
 class UserAddressRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserAddressRepository userAddressRepository;

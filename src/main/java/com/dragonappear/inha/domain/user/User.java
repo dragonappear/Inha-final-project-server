@@ -1,5 +1,6 @@
 package com.dragonappear.inha.domain.user;
 
+import com.dragonappear.inha.domain.item.UserLikeItem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +57,9 @@ public class User {
     @OneToOne(fetch = LAZY,cascade = ALL)
     @JoinColumn(name = "user_image_id")
     private UserImage userImage;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserLikeItem> userLikeItems = new ArrayList<>();
 
     /**
      * 생성자 메서드
