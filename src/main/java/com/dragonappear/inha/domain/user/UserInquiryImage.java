@@ -22,17 +22,26 @@ public class UserInquiryImage {
     @JoinColumn(name = "user_inquiry_user_inquiry_id")
     private UserInquiry userInquiry;
 
-    @NotNull
-    private String url;
+    @Column(nullable = false)
+    private String fileName;
+
+    @Column(nullable = false)
+    private String fileOriName;
+
+    @Column(nullable = false)
+    private String fileUrl;
 
     /**
      * 생성자 메서드
      */
-    public UserInquiryImage(UserInquiry userInquiry, String url) {
-        this.url = url;
+
+    public UserInquiryImage(UserInquiry userInquiry, String fileName, String fileOriName, String fileUrl) {
         if (userInquiry != null) {
             updateUserInquiryImage(userInquiry);
         }
+        this.fileName = fileName;
+        this.fileOriName = fileOriName;
+        this.fileUrl = fileUrl;
     }
 
     /**

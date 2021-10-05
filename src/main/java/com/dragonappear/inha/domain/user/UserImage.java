@@ -21,15 +21,23 @@ public class UserImage {
     @OneToOne(fetch = LAZY)
     private User user;
 
-    @NotNull
-    private String url;
+    @Column(nullable = false)
+    private String fileName;
+
+    @Column(nullable = false)
+    private String fileOriName;
+
+    @Column(nullable = false)
+    private String fileUrl;
 
     /**
      * 생성자 메서드
      */
-    public UserImage(User user, String url) {
+    public UserImage(User user, String fileName, String fileOriName, String fileUrl) {
         this.user = user;
-        this.url = url;
+        this.fileName = fileName;
+        this.fileOriName = fileOriName;
+        this.fileUrl = fileUrl;
     }
 
     /**
