@@ -1,5 +1,6 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
-class UserTest {
+class UserRepositoryTest {
 
     @Autowired UserRepository userRepository;
     @Autowired EntityManager em;
@@ -30,8 +31,10 @@ class UserTest {
 
         //then
         assertThat(findUser).isEqualTo(user);
+        assertThat(findUser.getId()).isEqualTo(user.getId());
         assertThat(findUser.getUsername()).isEqualTo(user.getUsername());
         assertThat(findUser.getEmail()).isEqualTo(user.getEmail());
+        assertThat(findUser.getUserTel()).isEqualTo(user.getUserTel());
 
     }
 

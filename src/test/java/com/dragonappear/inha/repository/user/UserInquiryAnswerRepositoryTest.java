@@ -1,11 +1,10 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserInquiry;
+import com.dragonappear.inha.domain.user.UserInquiryAnswer;
 import com.dragonappear.inha.domain.user.value.InquiryStatus;
 import com.dragonappear.inha.domain.user.value.InquiryType;
-import com.dragonappear.inha.repository.user.UserInquiryAnswerRepository;
-import com.dragonappear.inha.repository.user.UserInquiryRepository;
-import com.dragonappear.inha.repository.user.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,12 +12,11 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Commit
-class UserInquiryAnswerTest {
+class UserInquiryAnswerRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserInquiryRepository userInquiryRepository;
     @Autowired UserInquiryAnswerRepository userInquiryAnswerRepository;

@@ -1,8 +1,8 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.user.value.Address;
-import com.dragonappear.inha.repository.user.UserAddressRepository;
-import com.dragonappear.inha.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Commit
-class UserAddressTest {
+class UserAddressRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserAddressRepository userAddressRepository;
 

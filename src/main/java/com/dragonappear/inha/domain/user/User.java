@@ -31,6 +31,10 @@ public class User {
     @Column(nullable = false)
     private String userTel;
 
+    /**
+     * 연관관계
+     */
+
     @OneToOne(fetch = LAZY,cascade = ALL)
     @JoinColumn(name = "user_point_id")
     private UserPoint userPoint;
@@ -49,7 +53,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserInquiry> userInquiries = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY,cascade = ALL)
+    @JoinColumn(name = "user_image_id")
     private UserImage userImage;
 
     /**

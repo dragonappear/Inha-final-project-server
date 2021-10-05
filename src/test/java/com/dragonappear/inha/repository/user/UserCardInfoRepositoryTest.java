@@ -1,9 +1,9 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserCardInfo;
 import com.dragonappear.inha.domain.user.value.Card;
 import com.dragonappear.inha.domain.user.value.CardCompanyName;
-import com.dragonappear.inha.repository.user.UserCardInfoRepository;
-import com.dragonappear.inha.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 @SpringBootTest
 @Transactional
 @Commit
-class UserCardInfoTest {
+class UserCardInfoRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserCardInfoRepository userCardInfoRepository;
     @Autowired EntityManager em;

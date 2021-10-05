@@ -18,9 +18,6 @@ public class UserImage {
     @Column(name = "user_image_id")
     private Long id;
 
-    @OneToOne(fetch = LAZY)
-    private User user;
-
     @Column(nullable = false)
     private String fileName;
 
@@ -29,6 +26,14 @@ public class UserImage {
 
     @Column(nullable = false)
     private String fileUrl;
+
+    /**
+     * 연관관계
+     */
+
+    @OneToOne(fetch = LAZY)
+    private User user;
+
 
     /**
      * 생성자 메서드

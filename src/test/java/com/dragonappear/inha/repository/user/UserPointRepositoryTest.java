@@ -1,5 +1,7 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserPoint;
 import com.dragonappear.inha.repository.user.UserPointRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
-class UserPointTest {
+class UserPointRepositoryTest {
 
     @Autowired UserRepository userRepository;
     @Autowired EntityManager em;
