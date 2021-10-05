@@ -24,18 +24,22 @@ public class UserInquiry {
     @Column(name = "user_inquiry_id")
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     @Enumerated(STRING)
     private InquiryType inquiryType;
 
-    @NotNull
+    @Column(nullable = false)
     private String title;
     @NotNull
     private String content;
 
-    @NotNull
+    @Column(nullable = false)
     @Enumerated(STRING)
     private InquiryStatus inquiryStatus;
+
+    /**
+     * 연관관계
+     */
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")

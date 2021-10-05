@@ -25,7 +25,7 @@ public class UserAddress {
     private User user;
 
     @Embedded
-    @NotNull
+    @Column(nullable = false)
     private Address userAddress;
 
     public UserAddress(User user, Address userAddress) {

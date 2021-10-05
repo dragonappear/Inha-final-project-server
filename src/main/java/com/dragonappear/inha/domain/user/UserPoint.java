@@ -19,15 +19,23 @@ public class UserPoint {
     @Column(name = "user_point_id")
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private Long total;
-    @NotNull
+    @Column(nullable = false)
     private Long used;
-    @NotNull
+    @Column(nullable = false)
     private Long earned;
+
+    /**
+     * 연관관계
+     */
 
     @OneToOne(fetch = LAZY, mappedBy = "userPoint")
     private User user;
+
+    /**
+     * 생성자 메서드
+     */
 
     public UserPoint(Long total, Long used, Long earned) {
         this.total = total;

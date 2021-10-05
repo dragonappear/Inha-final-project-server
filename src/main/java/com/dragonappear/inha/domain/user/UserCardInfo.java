@@ -22,7 +22,7 @@ public class UserCardInfo {
     private Long id;
 
     @Embedded
-    @NotNull
+    @Column(nullable = false)
     private Card userCard;
 
     @ManyToOne(fetch = LAZY)

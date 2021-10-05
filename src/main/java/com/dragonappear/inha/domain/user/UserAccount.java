@@ -24,9 +24,8 @@ public class UserAccount {
     @OneToOne(fetch = LAZY)
     private User user;
 
-
     @Embedded
-    @NotNull
+    @Column(nullable = false)
     private Account userAccount;
 
 

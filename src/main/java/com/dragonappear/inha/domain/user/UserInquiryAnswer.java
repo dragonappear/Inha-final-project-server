@@ -18,8 +18,12 @@ public class UserInquiryAnswer {
     @Column(name = "user_inquiry_answer_id")
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String content;
+
+    /**
+     * 연관관계
+     */
 
     @OneToOne(fetch = LAZY,mappedBy = "userInquiryAnswer")
     private UserInquiry userInquiry;
