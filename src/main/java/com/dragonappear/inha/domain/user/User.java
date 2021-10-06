@@ -3,6 +3,7 @@ package com.dragonappear.inha.domain.user;
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.value.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -66,6 +67,9 @@ public class User extends JpaBaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Payment> payments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seller")
+    private List<Selling> sellings = new ArrayList<>();
 
     /**
      * 연관관계 메서드
