@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.payment;
 
 import com.dragonappear.inha.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
@@ -61,6 +62,9 @@ public class Payment extends JpaBaseEntity {
     @JoinColumn(name = "auctionitem_id")
     private Auctionitem auctionitem;
 
+    @OneToOne(fetch = LAZY, mappedBy = "payment")
+    private Buying buying;
+
     /**
      * 연관관계편의메서드
      */
@@ -72,6 +76,10 @@ public class Payment extends JpaBaseEntity {
     private void updatePaymentUser(User user) {
         this.user = user;
         user.getPayments().add(this);
+    }
+
+    public void updatePayment(Buying buying) {
+        this.buying = buying;
     }
 
     /**
