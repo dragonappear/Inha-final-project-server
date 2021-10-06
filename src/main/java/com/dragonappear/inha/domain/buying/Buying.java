@@ -1,6 +1,8 @@
 package com.dragonappear.inha.domain.buying;
 
+import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
+import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.payment.Payment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class Buying {
+public class Buying extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "buying_id")
@@ -30,6 +32,9 @@ public class Buying {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "payment_id")
     private Payment payment;
+
+    @OneToOne(fetch = LAZY,mappedBy = "buying")
+    private Deal deal;
 
     /**
      * 연관관계편의메서드

@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.selling;
 
 import com.dragonappear.inha.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import lombok.AccessLevel;
@@ -43,6 +44,9 @@ public class Selling extends JpaBaseEntity {
     @JoinColumn(name = "auctionitem_id")
     private Auctionitem auctionitem;
 
+    @OneToOne(fetch = LAZY,mappedBy = "selling")
+    private Deal deal;
+
     /**
      * 연관관계편의메서드
      */
@@ -74,8 +78,4 @@ public class Selling extends JpaBaseEntity {
         }
 
     }
-
-
-
-
 }
