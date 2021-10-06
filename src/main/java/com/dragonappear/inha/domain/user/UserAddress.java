@@ -21,32 +21,43 @@ public class UserAddress extends JpaBaseTimeEntity {
     @Column(name = "user_address_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @Embedded
     @Column(nullable = false)
     private Address userAddress;
 
-    public UserAddress(User user, Address userAddress) {
-        this.userAddress = userAddress;
-        if (user != null) {
-            updateUserAddress(user);
-        }
-    }
 
     /**
-     * 비즈니스 로직
-     * /
+     * 연관관계
+     */
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
     /**
      * 연관관계 편의 메서드
      */
-    private void updateUserAddress(User user) {
+    public void updateUserAddress(User user) {
         this.user = user;
+        user.getUserAddresses().add(this);
+    }
+
+    private void updateAddress(Address userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    /**
+     * 생성자 함수
+     */
+
+    public UserAddress(User user, Address userAddress) {
+        if (user != null) {
+            updateUserAddress(user);
+        }
+        if (userAddress != null) {
+            updateAddress(userAddress);
+        }
     }
 
 
