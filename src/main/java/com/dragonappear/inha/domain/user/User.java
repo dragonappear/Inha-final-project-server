@@ -2,6 +2,8 @@ package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.UserLikeItem;
+import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.user.value.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,6 +64,27 @@ public class User extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<UserLikeItem> userLikeItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Payment> payments = new ArrayList<>();
+
+    /**
+     * 연관관계 메서드
+     */
+    public void updateUserPoint(UserPoint userPoint) {
+        this.userPoint = userPoint;
+        userPoint.updateUser(this);
+    }
+
+    public void updateUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+        userAccount.updateUser(this);
+    }
+
+    public void updateUserImage(UserImage image) {
+        this.userImage = image;
+        image.updateUser(this);
+    }
+
     /**
      * 생성자 메서드
      */
@@ -83,23 +106,7 @@ public class User extends JpaBaseTimeEntity {
         }
     }
 
-    /**
-     * 연관관계 메서드
-     */
-    public void updateUserPoint(UserPoint userPoint) {
-        this.userPoint = userPoint;
-        userPoint.updateUser(this);
-    }
 
-    public void updateUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-        userAccount.updateUser(this);
-    }
-
-    public void updateUserImage(UserImage image) {
-        this.userImage = image;
-        image.updateUser(this);
-    }
 
 
 

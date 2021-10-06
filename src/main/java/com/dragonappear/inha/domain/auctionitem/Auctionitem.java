@@ -5,6 +5,7 @@ import com.dragonappear.inha.JpaBaseEntity;
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Item;
+import com.dragonappear.inha.domain.payment.Payment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,10 +39,12 @@ public class Auctionitem extends JpaBaseEntity {
     /**
      * 연관관계
      */
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    @OneToOne(fetch = LAZY,mappedBy = "auctionitem")
+    private Payment payment;
 
     /**
      * 연관관계편의메서드
@@ -51,6 +54,9 @@ public class Auctionitem extends JpaBaseEntity {
         item.getAuctionitems().add(this);
     }
 
+    public void updateAuctionitemPayment(Payment payment) {
+        this.payment = payment;
+    }
 
     /**
      * 생성자메서드
@@ -62,5 +68,4 @@ public class Auctionitem extends JpaBaseEntity {
             updateAuctionItem(item);
         }
     }
-
 }
