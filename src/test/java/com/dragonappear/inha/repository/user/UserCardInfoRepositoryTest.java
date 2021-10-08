@@ -2,13 +2,12 @@ package com.dragonappear.inha.repository.user;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserCardInfo;
-import com.dragonappear.inha.domain.user.value.Card;
-import com.dragonappear.inha.domain.user.value.CardCompanyName;
+import com.dragonappear.inha.domain.value.Card;
+import com.dragonappear.inha.domain.value.CardCompanyName;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;

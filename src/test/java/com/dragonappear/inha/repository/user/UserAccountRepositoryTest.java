@@ -2,12 +2,11 @@ package com.dragonappear.inha.repository.user;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAccount;
-import com.dragonappear.inha.domain.user.value.Account;
-import com.dragonappear.inha.domain.user.value.BankName;
+import com.dragonappear.inha.domain.value.Account;
+import com.dragonappear.inha.domain.value.BankName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;

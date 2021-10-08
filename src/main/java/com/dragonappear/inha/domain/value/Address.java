@@ -1,9 +1,10 @@
-package com.dragonappear.inha.domain.user.value;
+package com.dragonappear.inha.domain.value;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
@@ -11,9 +12,13 @@ import java.util.Objects;
 @Getter
 @Embeddable
 public class Address {
+    @Column(nullable = false)
     private String city;
+    @Column(nullable = false)
     private String street;
+    @Column(nullable = false)
     private String detail;
+    @Column(nullable = false)
     private String zipcode;
 
     public Address(String city, String street, String detail, String zipcode) {

@@ -1,5 +1,6 @@
 package com.dragonappear.inha.domain.user.value;
 
+import com.dragonappear.inha.domain.value.Address;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

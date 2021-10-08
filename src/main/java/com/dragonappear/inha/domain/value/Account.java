@@ -1,9 +1,10 @@
-package com.dragonappear.inha.domain.user.value;
+package com.dragonappear.inha.domain.value;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
 import java.util.Objects;
@@ -14,8 +15,10 @@ import static javax.persistence.EnumType.*;
 @Getter
 @Embeddable
 public class Account {
+    @Column(nullable = false)
     @Enumerated(STRING)
     private BankName bankName;
+    @Column(nullable = false)
     private String accountNumber;
 
     public Account(BankName bankName, String accountNumber) {

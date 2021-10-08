@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,8 +19,10 @@ import static lombok.AccessLevel.*;
 @Getter
 public class Delivery {
 
+    @Column(nullable = false)
     @Enumerated(STRING)
     private CourierName courierName;
+    @Column(nullable = false)
     private String invoiceNumber;
 
     public Delivery(CourierName courierName, String invoiceNumber) {

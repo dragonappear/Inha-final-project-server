@@ -1,13 +1,12 @@
 package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
-import com.dragonappear.inha.domain.user.value.Card;
+import com.dragonappear.inha.domain.value.Card;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;

@@ -3,6 +3,7 @@ package com.dragonappear.inha.domain.deal;
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.value.DealStatus;
+import com.dragonappear.inha.domain.inspection.Inspection;
 import com.dragonappear.inha.domain.selling.Selling;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,9 @@ public class Deal extends JpaBaseTimeEntity {
     @JoinColumn(name = "selling_id")
     private Selling selling;
 
+    @OneToOne(fetch = LAZY)
+    private Inspection inspection;
+
     /**
      * 연관관계메서드
      */
@@ -47,8 +51,8 @@ public class Deal extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-
     public Deal(DealStatus dealStatus, Buying buying, Selling selling) {
+
         this.dealStatus = dealStatus;
         this.buying = buying;
         this.selling = selling;

@@ -4,7 +4,6 @@ import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
-import com.dragonappear.inha.domain.user.value.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
