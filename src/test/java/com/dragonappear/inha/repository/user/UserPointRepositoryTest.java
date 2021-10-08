@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Rollback
 class UserPointRepositoryTest {
     @Autowired UserRepository userRepository;
 
@@ -29,7 +30,6 @@ class UserPointRepositoryTest {
         User findUser = userRepository.findById(user.getId()).get();
         //when
         findUser.getUserPoint().plus(50L);
-
         //then
         assertThat(findUser.getUserPoint().getTotal()).isEqualTo(50L);
         assertThat(findUser.getUserPoint().getUsed()).isEqualTo(0L);
