@@ -3,9 +3,9 @@ package com.dragonappear.inha.domain.value;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -14,14 +14,9 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class Money {
     /**
-     * 상수
-     */
-    @Embedded
-    public static final Money zero = Money.wons(0);
-
-    /**
      * 필드
      */
+
     private BigDecimal amount;
 
     public static Money wons(long amount) {
@@ -63,5 +58,18 @@ public class Money {
      */
     public Money(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Money money = (Money) o;
+        return Objects.equals(getAmount(), money.getAmount());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAmount());
     }
 }

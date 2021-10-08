@@ -40,8 +40,8 @@ public class User extends JpaBaseTimeEntity {
      * 연관관계
      */
 
-    @OneToOne(fetch = LAZY,cascade = ALL)
-    @JoinColumn(name = "user_point_id")
+
+    @OneToOne(fetch = LAZY, cascade = ALL,mappedBy = "user")
     private UserPoint userPoint;
 
     @OneToMany(mappedBy = "user")
@@ -53,7 +53,6 @@ public class User extends JpaBaseTimeEntity {
     @OneToOne(fetch = LAZY,cascade = ALL)
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
-
 
     @OneToMany(mappedBy = "user")
     private List<UserInquiry> userInquiries = new ArrayList<>();
@@ -76,7 +75,6 @@ public class User extends JpaBaseTimeEntity {
      */
     public void updateUserPoint(UserPoint userPoint) {
         this.userPoint = userPoint;
-        userPoint.updateUser(this);
     }
 
     public void updateUserAccount(UserAccount userAccount) {
@@ -99,20 +97,6 @@ public class User extends JpaBaseTimeEntity {
         this.email = email;
         this.userTel = userTel;
     }
-
-    public User(String username, String nickname, String email, String userTel, UserPoint userPoint) {
-        this.username = username;
-        this.nickname = nickname;
-        this.email = email;
-        this.userTel = userTel;
-        if (userPoint != null) {
-            updateUserPoint(userPoint);
-        }
-    }
-
-
-
-
 
 }
 
