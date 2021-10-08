@@ -8,7 +8,6 @@ import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import com.dragonappear.inha.domain.inspection.failinspection.FailInspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
@@ -25,6 +24,7 @@ import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
+import com.dragonappear.inha.repository.inspection.failinspection.FailInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -42,7 +42,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -60,7 +59,8 @@ class FailInspectionRepositoryTest {
     @Autowired PaymentRepository paymentRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired FailInspectionRepository failInspectionRepository;
+    @Autowired
+    FailInspectionRepository failInspectionRepository;
 
     @BeforeEach
     void setUp() {
