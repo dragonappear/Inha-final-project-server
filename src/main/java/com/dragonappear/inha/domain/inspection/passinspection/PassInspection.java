@@ -45,6 +45,10 @@ public class PassInspection extends JpaBaseTimeEntity {
         inspection.updatePassInspection(this);
     }
 
+    public void updateDelivery(PassDelivery passDelivery) {
+        this.passDelivery = passDelivery;
+    }
+
     /**
      * 생성자메서드
      */

@@ -1,4 +1,4 @@
-package com.dragonappear.inha.repository.inspection.passinspection;
+package com.dragonappear.inha.repository.inspection.failinspection;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
@@ -7,7 +7,9 @@ import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
+import com.dragonappear.inha.domain.inspection.failinspection.FailDelivery;
+import com.dragonappear.inha.domain.inspection.failinspection.FailInspection;
+import com.dragonappear.inha.domain.inspection.passinspection.PassDelivery;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
@@ -21,11 +23,14 @@ import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.domain.value.CourierName;
+import com.dragonappear.inha.domain.value.Delivery;
+import com.dragonappear.inha.domain.value.DeliveryStatus;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
-import com.dragonappear.inha.repository.inspection.InspectionImageRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
+import com.dragonappear.inha.repository.inspection.passinspection.PassInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -42,12 +47,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
 @Rollback
-class PassInspectionRepositoryTest {
+class FailDeliveryRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired SellingRepository sellingRepository;
     @Autowired AuctionitemRepository auctionitemRepository;
@@ -59,8 +64,8 @@ class PassInspectionRepositoryTest {
     @Autowired PaymentRepository paymentRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired InspectionImageRepository inspectionImageRepository;
-    @Autowired PassInspectionRepository passInspectionRepository;
+    @Autowired FailDeliveryRepository failDeliveryRepository;
+    @Autowired FailInspectionRepository failInspectionRepository;
 
     @BeforeEach
     void setUp() {
@@ -87,24 +92,29 @@ class PassInspectionRepositoryTest {
         dealRepository.save(newDeal);
         Inspection newInspection = new Inspection(InspectionStatus.검수진행, newDeal);
         inspectionRepository.save(newInspection);
+        FailInspection failInspection = new FailInspection(newInspection);
+        failInspectionRepository.save(failInspection);
+
     }
 
     @Test
-    public void 합격검수생성_테스트() throws Exception{
+    public void 탈락검수배송생성_테스트() throws Exception{
         //given
-        Inspection inspection = inspectionRepository.findAll().get(0);
-        PassInspection passInspection = new PassInspection(inspection);
-        passInspectionRepository.save(passInspection);
+        FailInspection failInspection = failInspectionRepository.findAll().get(0);
+        FailDelivery newDelivery = new FailDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
+                new Address("city", "street", "detail", "zipcode"),
+                DeliveryStatus.배송시작,
+                failInspection);
+        failDeliveryRepository.save(newDelivery);
         //when
-        PassInspection findInspection = passInspectionRepository.findById(passInspection.getId()).get();
+        FailDelivery findDelivery = failDeliveryRepository.findById(newDelivery.getId()).get();
         //then
-        assertThat(findInspection).isEqualTo(passInspection);
-        assertThat(findInspection.getId()).isEqualTo(passInspection.getId());
-        assertThat(findInspection.getInspection()).isEqualTo(passInspection.getInspection());
-        assertThat(inspection.getFailInspection()).isNull();
-        assertThat(inspection.getPassInspection()).isNotNull();
-        assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수합격);
-        assertThat(inspection.getPassInspection()).isEqualTo(passInspection);
+        assertThat(findDelivery).isEqualTo(newDelivery);
+        assertThat(findDelivery.getId()).isEqualTo(newDelivery.getId());
+        assertThat(findDelivery.getDelivery()).isEqualTo(newDelivery.getDelivery());
+        assertThat(findDelivery.getDeliveryStatus()).isEqualTo(newDelivery.getDeliveryStatus());
+        assertThat(findDelivery.getSellerAddress()).isEqualTo(newDelivery.getSellerAddress());
+        assertThat(findDelivery.getFailInspection()).isEqualTo(newDelivery.getFailInspection());
+        assertThat(failInspection.getFailDelivery()).isEqualTo(findDelivery);
     }
-
 }

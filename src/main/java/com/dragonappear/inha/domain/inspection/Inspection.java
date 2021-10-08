@@ -17,7 +17,6 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
-import static javax.persistence.InheritanceType.*;
 import static lombok.AccessLevel.*;
 
 @NoArgsConstructor(access = PROTECTED)
@@ -42,7 +41,7 @@ public class Inspection extends JpaBaseTimeEntity {
     private PassInspection passInspection;
 
     @OneToOne(fetch = LAZY,mappedBy = "inspection")
-    private FailInspection failInspection;
+    private com.dragonappear.inha.domain.inspection.failinspection.FailInspection failInspection;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "deal_id")

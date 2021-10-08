@@ -1,4 +1,4 @@
-package com.dragonappear.inha.repository.inspection;
+package com.dragonappear.inha.repository.inspection.failinspection;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
@@ -24,6 +24,7 @@ import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
+import com.dragonappear.inha.repository.inspection.InspectionRepository;
 import com.dragonappear.inha.repository.inspection.failinspection.FailInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
@@ -58,7 +59,8 @@ class FailInspectionRepositoryTest {
     @Autowired UserAddressRepository userAddressRepository;
     @Autowired PaymentRepository paymentRepository;
     @Autowired DealRepository dealRepository;
-    @Autowired InspectionRepository inspectionRepository;
+    @Autowired
+    InspectionRepository inspectionRepository;
     @Autowired
     FailInspectionRepository failInspectionRepository;
 

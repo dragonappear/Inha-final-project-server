@@ -42,6 +42,12 @@ public class FailInspection extends JpaBaseTimeEntity {
         inspection.updateFailInspection(this);
     }
 
+    public void updateDelivery(FailDelivery failDelivery) {
+        if (inspection != null) {
+            this.failDelivery = failDelivery;
+        }
+    }
+
     /**
      * 생성자메서드
      */
