@@ -18,10 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class UserPointRepositoryTest {
-
     @Autowired UserRepository userRepository;
-    @Autowired EntityManager em;
-    @Autowired UserPointRepository userPointRepository;
 
     @Test
     public void 유저포인트_테스트() throws Exception{

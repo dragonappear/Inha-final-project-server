@@ -15,6 +15,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @Transactional
+@Rollback
+
 class ItemRepositoryTest {
     @Autowired ItemRepository itemRepository;
     @Autowired ManufacturerRepository manufacturerRepository;

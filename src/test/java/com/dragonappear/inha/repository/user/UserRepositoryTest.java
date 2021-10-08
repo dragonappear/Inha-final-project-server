@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
+@Rollback
 class UserRepositoryTest {
 
     @Autowired UserRepository userRepository;

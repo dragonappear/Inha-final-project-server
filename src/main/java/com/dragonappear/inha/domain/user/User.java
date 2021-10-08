@@ -15,6 +15,7 @@ import java.util.List;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.LAZY;
 
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email","userTel"})})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
