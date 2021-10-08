@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 
 import static javax.persistence.FetchType.*;
 
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -52,6 +53,12 @@ public class UserPoint extends JpaBaseTimeEntity {
         user.updateUserPoint(this);
     }
 
+    public void updatePoint(Money total, Money used, Money earned) {
+        this.total = total;
+        this.used = used;
+        this.earned = earned;
+    }
+
     /**
      * 생성자 메서드
      */
@@ -68,25 +75,28 @@ public class UserPoint extends JpaBaseTimeEntity {
     /**
      * 비즈니스 로직
      */
-    public void plus(BigDecimal amount) {
+    public void plus(BigDecimal amount) throws Exception {
         if(amount.compareTo(BigDecimal.ZERO)<0){
-            new IllegalArgumentException("포인트적립 파라미터 오류");
+            throw new IllegalArgumentException("포인트적립 파라미터 오류");
         }
         else{
             Money money = new Money(amount);
-            this.earned.plus(money);
-            this.total.plus(money);
+            this.earned= this.earned.plus(money);
+            this.total = this.total.plus(money);
         }
     }
 
-    public void minus(BigDecimal amount) {
+    public void minus(BigDecimal amount) throws Exception {
         if(amount.compareTo(BigDecimal.ZERO)<0){
-            new IllegalArgumentException("포인트차감 파라미터 오류");
+            throw new IllegalArgumentException("포인트차감 파라미터 오류");
+        }
+        else if(this.total.getAmount().compareTo(amount)<0){
+            throw new IllegalArgumentException("포인트차감 파라미터 오류");
         }
         else{
             Money money = new Money(amount);
-            this.used.plus(money);
-            this.total.minus(money);
+            this.used = this.used.plus(money);
+            this.total= this.total.minus(money);
         }
     }
 }

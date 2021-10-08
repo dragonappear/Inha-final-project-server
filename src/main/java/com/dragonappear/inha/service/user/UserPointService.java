@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserPointService {
     private final UserPointRepository userPointRepository;
 
-    
+
 }
