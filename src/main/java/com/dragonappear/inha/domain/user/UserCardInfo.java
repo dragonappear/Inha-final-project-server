@@ -25,9 +25,22 @@ public class UserCardInfo extends JpaBaseTimeEntity {
     @Column(nullable = false)
     private Card userCard;
 
+
+    /**
+     * 연관관계
+     */
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    /**
+     * 연관관계 편의 메서드
+     */
+    private void updateUserCardInfo(User user) {
+        this.user = user;
+        user.getUserCardInfos().add(this);
+    }
 
 
     /**
@@ -39,14 +52,6 @@ public class UserCardInfo extends JpaBaseTimeEntity {
         if (user != null) {
             updateUserCardInfo(user);
         }
-    }
-
-    /**
-     * 연관관계 편의 메서드
-     */
-    private void updateUserCardInfo(User user) {
-        this.user = user;
-        user.getUserCardInfos().add(this);
     }
 
 }
