@@ -18,15 +18,15 @@ import javax.persistence.Id;
 @Transactional(readOnly = true)
 @Service
 public class UserAccountService {
+
     private final UserRepository userRepository;
     private final UserAccountRepository userAccountRepository;
 
     // 유저 계좌 등록/수정
     public void update(User user, Account userAccount) {
-        if(user.getUserAccount()!=null){
+        if (user.getUserAccount() != null) {
             user.getUserAccount().changeUserAccount(userAccount);
-        }
-        else{
+        } else {
             userAccountRepository.save(new UserAccount(user, userAccount));
         }
     }
@@ -34,12 +34,12 @@ public class UserAccountService {
     //  유저 계좌 조회 by 유저아이디
     public UserAccount findByUserId(Long userId) {
         return userAccountRepository.findByUserId(userId)
-                .orElseThrow(()->new IllegalStateException("해당 계좌가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalStateException("해당 계좌가 존재하지 않습니다."));
     }
 
     // 유저 계좌 조회 by 계좌아이디
     public UserAccount findByAccountId(Long addressId) {
         return userAccountRepository.findById(addressId)
-                .orElseThrow(()->new IllegalStateException("해당 계좌가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalStateException("해당 계좌가 존재하지 않습니다."));
     }
 }

@@ -20,7 +20,8 @@ public class Card {
     @Column(nullable = false)
     @Enumerated(STRING)
     private CardCompanyName cardCompanyName;
-    @Column(nullable = false)
+
+    @Column(nullable = false,unique = true)
     private String cardNumber;
 
     public Card(CardCompanyName cardCompanyName, String cardNumber) {

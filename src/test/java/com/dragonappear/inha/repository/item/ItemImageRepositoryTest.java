@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.item.ItemImage;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
+import com.dragonappear.inha.domain.value.Image;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,8 @@ class ItemImageRepositoryTest {
         manufacturerRepository.save(newManufacturer);
         Item newItem = new Item("맥북", "serial1", 1_000_000L, 0, 1_000_000L, newCategory,newManufacturer);
         itemRepository.save(newItem);
-        ItemImage newImage = new ItemImage(newItem, "file1", "origin1", "url1");
+        Image image = new Image("file1", "origin1", "url1");
+        ItemImage newImage = new ItemImage(newItem, image);
         itemImageRepository.save(newImage);
         //when
         ItemImage findImage = itemImageRepository.findById(newImage.getId()).get();
@@ -42,8 +44,8 @@ class ItemImageRepositoryTest {
         assertThat(findImage).isEqualTo(newImage);
         assertThat(findImage.getId()).isEqualTo(newImage.getId());
         assertThat(findImage.getItem()).isEqualTo(newImage.getItem());
-        assertThat(findImage.getFileName()).isEqualTo(newImage.getFileName());
-        assertThat(findImage.getFileOriName()).isEqualTo(newImage.getFileOriName());
-        assertThat(findImage.getFileUrl()).isEqualTo(newImage.getFileUrl());
+        assertThat(findImage.getItemImage().getFileName()).isEqualTo(newImage.getItemImage().getFileName());
+        assertThat(findImage.getItemImage().getFileOriName()).isEqualTo(newImage.getItemImage().getFileOriName());
+        assertThat(findImage.getItemImage().getFileUrl()).isEqualTo(newImage.getItemImage().getFileUrl());
     }
 }

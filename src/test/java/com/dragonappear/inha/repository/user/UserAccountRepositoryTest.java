@@ -24,9 +24,9 @@ class UserAccountRepositoryTest {
     public void 유저계좌생성_테스트() throws Exception{
         //given
         User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
-        UserAccount userAccount = new UserAccount(new Account(BankName.신한은행, "110-1234-1234"));
-        user.updateUserAccount(userAccount);
         userRepository.save(user);
+        UserAccount userAccount = new UserAccount(user,new Account(BankName.신한은행, "110-1234-1234"));
+        userAccountRepository.save(userAccount);
         //when
         UserAccount findUserAccount = userAccountRepository.findById(userAccount.getId()).get();
         //then

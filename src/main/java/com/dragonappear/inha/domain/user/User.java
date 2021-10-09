@@ -56,8 +56,7 @@ public class User extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserInquiry> userInquiries = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY,cascade = ALL)
-    @JoinColumn(name = "user_image_id")
+    @OneToOne(fetch = LAZY,mappedBy = "user",cascade = ALL)
     private UserImage userImage;
 
     @OneToMany(mappedBy = "user",cascade = ALL)
@@ -82,7 +81,6 @@ public class User extends JpaBaseTimeEntity {
 
     public void updateUserImage(UserImage image) {
         this.userImage = image;
-        image.updateUser(this);
     }
 
     /**

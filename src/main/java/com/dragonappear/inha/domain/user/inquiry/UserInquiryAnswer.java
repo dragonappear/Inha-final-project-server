@@ -1,4 +1,4 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.domain.user.inquiry;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import lombok.AccessLevel;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 

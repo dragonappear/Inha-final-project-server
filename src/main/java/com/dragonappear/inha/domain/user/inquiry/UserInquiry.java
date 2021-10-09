@@ -1,6 +1,7 @@
-package com.dragonappear.inha.domain.user;
+package com.dragonappear.inha.domain.user.inquiry;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.value.InquiryStatus;
 import com.dragonappear.inha.domain.user.value.InquiryType;
 import lombok.AccessLevel;

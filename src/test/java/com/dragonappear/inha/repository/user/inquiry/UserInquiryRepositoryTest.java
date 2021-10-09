@@ -1,13 +1,13 @@
-package com.dragonappear.inha.repository.user;
+package com.dragonappear.inha.repository.user.inquiry;
 
 import com.dragonappear.inha.domain.user.User;
-import com.dragonappear.inha.domain.user.UserInquiry;
+import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import com.dragonappear.inha.domain.user.value.InquiryStatus;
 import com.dragonappear.inha.domain.user.value.InquiryType;
+import com.dragonappear.inha.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +17,10 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 @Rollback
 class UserInquiryRepositoryTest {
-    @Autowired UserRepository userRepository;
-    @Autowired UserInquiryRepository userInquiryRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserInquiryRepository userInquiryRepository;
 
     @Test
     public void 유저질문생성_테스트() throws Exception{
