@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class UserCardInfoService {
-    @Autowired UserCardInfoRepository userCardInfoRepository;
+    private final UserCardInfoRepository userCardInfoRepository;
 
     // 유저카드 등록
     public Long save(UserCardInfo userCardInfo) {

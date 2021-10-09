@@ -4,6 +4,7 @@ import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,35 +40,33 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 연관관계
      */
-
-
     @OneToOne(fetch = LAZY, cascade = ALL,mappedBy = "user")
     private UserPoint userPoint;
 
-    @OneToMany(mappedBy = "user")
-    private List<UserCardInfo> userCardInfos = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = ALL)
+    private List<UserCardInfo>
+            userCardInfos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserAddress> userAddresses = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY,cascade = ALL)
-    @JoinColumn(name = "user_account_id")
+    @OneToOne(fetch = LAZY,cascade = ALL,mappedBy = "user")
     private UserAccount userAccount;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserInquiry> userInquiries = new ArrayList<>();
 
     @OneToOne(fetch = LAZY,cascade = ALL)
     @JoinColumn(name = "user_image_id")
     private UserImage userImage;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserLikeItem> userLikeItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = ALL)
     private List<Payment> payments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller",cascade = ALL)
     private List<Selling> sellings = new ArrayList<>();
 
     /**
@@ -79,7 +78,6 @@ public class User extends JpaBaseTimeEntity {
 
     public void updateUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
-        userAccount.updateUser(this);
     }
 
     public void updateUserImage(UserImage image) {

@@ -17,8 +17,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class UserAddressService {
-    @Autowired UserAddressRepository userAddressRepository;
-    @Autowired UserRepository userRepository;
+    private final UserAddressRepository userAddressRepository;
+    private final UserRepository userRepository;
 
     // 유저주소등록
     public Long save(User user, Address address) {

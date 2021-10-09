@@ -20,34 +20,43 @@ public class UserAccount extends JpaBaseTimeEntity {
     @Column(name = "user_account_id")
     private Long id;
 
-
-    @OneToOne(fetch = LAZY)
-    private User user;
-
     @Embedded
     @Column(nullable = false)
     private Account userAccount;
 
+    /**
+     * 연관관계
+     */
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     /**
      * 생성자 메서드
      */
-    public UserAccount(Account userAccount) {
+    /*public UserAccount(Account userAccount) {
         this.userAccount = userAccount;
+    }*/
+
+    public UserAccount( User user,Account userAccount) {
+        this.userAccount = userAccount;
+        if (user != null) {
+            this.user = user;
+            user.updateUserAccount(this);
+        }
     }
 
     /**
      * 연관관계 편의 메서드
      */
 
-    public void updateUser(User user) {
-        this.user = user;
-    }
+
 
     /**
      * 비즈니스 로직
      */
-    public void changeUserAccount(Account userAccount) {
+    public void
+    changeUserAccount(Account userAccount) {
         this.userAccount = userAccount;
     }
 }
