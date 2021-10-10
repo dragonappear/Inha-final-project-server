@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 @Entity
 public class InstantAuctionitem extends Auctionitem{
 
-    public InstantAuctionitem(Item item, Money price, AuctionitemStatus auctionitemStatus) {
-        super(item, price, auctionitemStatus);
+    public InstantAuctionitem(Item item, Money price) {
+        super(item, price);
     }
 }

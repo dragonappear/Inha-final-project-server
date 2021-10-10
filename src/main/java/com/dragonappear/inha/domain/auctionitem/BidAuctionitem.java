@@ -22,8 +22,8 @@ public class BidAuctionitem extends Auctionitem{
     @Column(nullable = false,updatable = false)
     private LocalDateTime endDate;
 
-    public BidAuctionitem(Item item, Money price, AuctionitemStatus auctionitemStatus, LocalDateTime startDate, LocalDateTime endDate) {
-        super(item, price, auctionitemStatus);
+    public BidAuctionitem(Item item, Money price, LocalDateTime startDate, LocalDateTime endDate) {
+        super(item, price);
         this.startDate = startDate;
         this.endDate = endDate;
     }

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -71,9 +72,9 @@ public class Auctionitem extends JpaBaseEntity {
     /**
      * 생성자메서드
      */
-    public Auctionitem(Item item, Money price, AuctionitemStatus auctionitemStatus) {
+    public Auctionitem(Item item, Money price) {
         this.price = price;
-        this.auctionitemStatus = auctionitemStatus;
+        this.auctionitemStatus = 경매진행;
         if (item != null) {
             updateAuctionItem(item);
         }
