@@ -1,6 +1,8 @@
 package com.dragonappear.inha.service.item;
 
 import com.dragonappear.inha.domain.item.Item;
+import com.dragonappear.inha.domain.item.value.CategoryName;
+import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -70,12 +72,12 @@ public class ItemService {
     }
 
     // 아이템 조회 by 제조사 이름
-    public List<Item> findByManufacturerName(String manufacturerName) {
+    public List<Item> findByManufacturerName(ManufacturerName manufacturerName) {
         return itemRepository.findByManufacturerName(manufacturerName);
     }
 
     // 아이템 조회 by 카테고리 이름
-    public List<Item> findByCategoryName(String categoryName) {
+    public List<Item> findByCategoryName(CategoryName categoryName) {
         return itemRepository.findByCategoryName(categoryName);
     }
 }

@@ -22,7 +22,7 @@ public class Manufacturer extends JpaBaseTimeEntity {
     private Long id;
 
     @Enumerated(STRING)
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false,unique = true)
     private ManufacturerName manufacturerName;
 
     /**

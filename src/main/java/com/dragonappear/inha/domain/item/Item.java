@@ -25,7 +25,7 @@ public class Item extends JpaBaseTimeEntity {
     @Column(name = "item_id")
     private Long id;
 
-    @Column(nullable = false,updatable = false,unique = true)
+    @Column(nullable = false,updatable = false)
     private String itemName;
 
     @Column(nullable = false,updatable = false,unique = true)

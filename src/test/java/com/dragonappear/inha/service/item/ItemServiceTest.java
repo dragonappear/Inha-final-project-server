@@ -9,6 +9,7 @@ import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
+import com.dragonappear.inha.service.user.UserService;
 import com.mysema.commons.lang.Assert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import static com.dragonappear.inha.domain.item.value.CategoryName.*;
+import static com.dragonappear.inha.domain.item.value.ManufacturerName.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,14 +38,28 @@ class ItemServiceTest {
 
     @BeforeEach
     public void setUp() {
-        Category category = new Category(CategoryName.노트북);
-        Manufacturer manufacturer = new Manufacturer(ManufacturerName.삼성);
+        Category category = new Category(노트북);
+        Category category1 = new Category(태블릿);
+        Manufacturer manufacturer = new Manufacturer(삼성);
+        Manufacturer manufacturer1 = new Manufacturer(애플);
         categoryRepository.save(category);
+        categoryRepository.save(category1);
         manufacturerRepository.save(manufacturer);
+        manufacturerRepository.save(manufacturer1);
 
-        Item item = new Item("맥북", "modelNumber1", Money.wons(10000L),
+        Item item = new Item("맥북1", "modelNumber1", Money.wons(10000L),
                 100L, Money.wons(20000L),category,manufacturer);
+        Item item1 = new Item("맥북1", "modelNumber2", Money.wons(20000L),
+                100L, Money.wons(20000L),category,manufacturer);
+        Item item2 = new Item("맥북2", "modelNumber3", Money.wons(30000L),
+                100L, Money.wons(20000L),category1,manufacturer1);
+        Item item3 = new Item("맥북2", "modelNumber4", Money.wons(40000L),
+                100L, Money.wons(20000L),category1,manufacturer1);
+
         itemRepository.save(item);
+        itemRepository.save(item1);
+        itemRepository.save(item2);
+        itemRepository.save(item3);
     }
 
     @Test
@@ -49,7 +67,7 @@ class ItemServiceTest {
         //given
         Category category = categoryRepository.findAll().get(0);
         Manufacturer manufacturer = manufacturerRepository.findAll().get(0);
-        Item item = new Item("맥북1", "modelNumber2", Money.wons(10000L),
+        Item item = new Item("맥북1", "modelNumber10", Money.wons(10000L),
                 100L, Money.wons(20000L), category, manufacturer);
         //when
         Long save = itemService.save(item);
@@ -110,10 +128,44 @@ class ItemServiceTest {
     @Test
     public void 아이템조회_아이템이름으로_테스트() throws Exception{
         //given
-        String itemName = "맥북";
+        String itemName = "맥북1";
         //when
-
-        
+        List<Item> all = itemService.findByItemName(itemName);
         //then
+        assertThat(all.size()).isEqualTo(2);
+        assertThat(all).extracting("releasePrice").containsOnly(Money.wons(10000L), Money.wons(20000L));
+        assertThat(all).extracting("latestPrice").containsOnly(Money.wons(20000L));
+    }
+
+    @Test
+    public void 아이템조회_모델명으로_테스트() throws Exception{
+        //given
+        String modelNumber = "modelNumber2";
+        //when
+        Item findItem = itemService.findByModelNumber(modelNumber);
+        //then
+        assertThat(findItem.getModelNumber()).isEqualTo("modelNumber2");
+    }
+
+    @Test
+    public void 아이템조회_제조사이름으로_테스트() throws Exception{
+        //given
+        ManufacturerName name = 삼성;
+        //when
+        List<Item> all = itemService.findByManufacturerName(name);
+        //then
+        assertThat(all.size()).isEqualTo(2);
+        assertThat(all).extracting("modelNumber").containsOnly("modelNumber1", "modelNumber2");
+    }
+
+    @Test
+    public void 아이템조회_카테고리이름으로_테스트() throws Exception{
+        //given
+        CategoryName categoryName = 태블릿;
+        //when
+        List<Item> all = itemService.findByCategoryName(categoryName);
+        //then
+        assertThat(all.size()).isEqualTo(2);
+        assertThat(all).extracting("modelNumber").containsOnly("modelNumber3", "modelNumber4");
     }
 }
