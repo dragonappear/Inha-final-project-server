@@ -17,6 +17,7 @@ import static javax.persistence.EnumType.*;
 @Getter
 @Entity
 public class Category extends JpaBaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")

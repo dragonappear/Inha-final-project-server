@@ -7,6 +7,7 @@ import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class UserLikeItemRepositoryTest {
         categoryRepository.save(newCategory);
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
-        Item newItem = new Item("맥북", "serial1", 1_000_000L, 0, 1_000_000L, newCategory,newManufacturer);
+        Item newItem = new Item("맥북", "serial1", Money.wons(1_000_000L), 0L,  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
         UserLikeItem newLike = new UserLikeItem(newItem, newUser);
         userLikeItemRepository.save(newLike);

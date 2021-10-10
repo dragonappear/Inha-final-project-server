@@ -3,7 +3,7 @@ package com.dragonappear.inha.domain.item;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import lombok.AccessLevel;
+import com.dragonappear.inha.domain.value.Money;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,19 +25,23 @@ public class Item extends JpaBaseTimeEntity {
     @Column(name = "item_id")
     private Long id;
 
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false,updatable = false,unique = true)
     private String itemName;
 
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false,updatable = false,unique = true)
     private String modelNumber;
 
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "releasePrice"))})
     @Column(nullable = false,updatable = false)
-    private Long releasePrice;
+    @Embedded
+    private Money releasePrice;
 
-    private Integer likeCount;
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "marketPrice"))})
+    @Embedded
+    private Money latestPrice;
 
-    private Long marketPrice;
-
+    @Column(nullable = false)
+    private Long likeCount;
 
     /**
      * 연관관계
@@ -64,6 +68,7 @@ public class Item extends JpaBaseTimeEntity {
     /**
      * 연관관계편의메서드
      */
+
     private void updateManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
         manufacturer.getItems().add(this);
@@ -74,16 +79,15 @@ public class Item extends JpaBaseTimeEntity {
         category.getItems().add(this);
     }
 
-
     /**
      * 생성자메서드
      */
-    public Item(String itemName, String modelNumber, Long releasePrice, Integer likeCount, Long marketPrice, Category category, Manufacturer manufacturer) {
+    public Item(String itemName, String modelNumber, Money releasePrice, Long likeCount, Money latestPrice, Category category, Manufacturer manufacturer) {
         this.itemName = itemName;
         this.modelNumber = modelNumber;
         this.releasePrice = releasePrice;
         this.likeCount = likeCount;
-        this.marketPrice = marketPrice;
+        this.latestPrice = latestPrice;
         if(category!=null){
             updateCategory(category);
         }
@@ -91,4 +95,22 @@ public class Item extends JpaBaseTimeEntity {
             updateManufacturer(manufacturer);
         }
     }
+
+    /**
+     * 비즈니스 로직
+     */
+    public Long count() {
+        this.likeCount+=1;
+        return this.likeCount;
+    }
+
+    public Long cancel() {
+        this.likeCount-=1;
+        return this.likeCount;
+    }
+
+    public void updateLatestPrice(Money amount) {
+        this.latestPrice = amount;
+    }
+
 }

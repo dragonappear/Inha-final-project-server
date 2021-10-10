@@ -38,8 +38,9 @@ public class Manufacturer extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-
     public Manufacturer(ManufacturerName manufacturerName) {
         this.manufacturerName = manufacturerName;
     }
+
+
 }
