@@ -1,11 +1,8 @@
 package com.dragonappear.inha.service.user;
-
-
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserImage;
 import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.repository.user.UserImageRepository;
-import com.dragonappear.inha.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserImageService {
     private final UserImageRepository userImageRepository;
-    private final UserRepository userRepository;
 
     // 유저이미지 생성 or 업데이트
     public void update(User user, Image image) {

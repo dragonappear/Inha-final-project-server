@@ -20,6 +20,7 @@ public class ItemImage extends JpaBaseTimeEntity {
     private Long id;
 
 
+    @Column(nullable = false)
     @Embedded
     private Image itemImage;
 
