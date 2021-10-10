@@ -6,7 +6,6 @@ import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +34,7 @@ public class ItemService {
     public Long likePlus(Item item) {
        return itemRepository.findById(item.getId())
                 .orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"))
-                .count();
+                .like();
     }
 
     // 아이템 좋아요 취소

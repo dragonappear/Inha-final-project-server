@@ -30,7 +30,7 @@ class ItemRepositoryTest {
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
         //given
-        Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L), 0L,  Money.wons(1_000_000L), newCategory,newManufacturer);
+        Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
         //when
         Item findItem = itemRepository.findById(newItem.getId()).get();

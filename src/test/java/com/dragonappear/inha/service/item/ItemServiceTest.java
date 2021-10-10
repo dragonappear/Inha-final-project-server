@@ -48,13 +48,13 @@ class ItemServiceTest {
         manufacturerRepository.save(manufacturer1);
 
         Item item = new Item("맥북1", "modelNumber1", Money.wons(10000L),
-                100L, Money.wons(20000L),category,manufacturer);
+                 Money.wons(20000L),category,manufacturer);
         Item item1 = new Item("맥북1", "modelNumber2", Money.wons(20000L),
-                100L, Money.wons(20000L),category,manufacturer);
+                 Money.wons(20000L),category,manufacturer);
         Item item2 = new Item("맥북2", "modelNumber3", Money.wons(30000L),
-                100L, Money.wons(20000L),category1,manufacturer1);
+                 Money.wons(20000L),category1,manufacturer1);
         Item item3 = new Item("맥북2", "modelNumber4", Money.wons(40000L),
-                100L, Money.wons(20000L),category1,manufacturer1);
+                 Money.wons(20000L),category1,manufacturer1);
 
         itemRepository.save(item);
         itemRepository.save(item1);
@@ -68,7 +68,7 @@ class ItemServiceTest {
         Category category = categoryRepository.findAll().get(0);
         Manufacturer manufacturer = manufacturerRepository.findAll().get(0);
         Item item = new Item("맥북1", "modelNumber10", Money.wons(10000L),
-                100L, Money.wons(20000L), category, manufacturer);
+                 Money.wons(20000L), category, manufacturer);
         //when
         Long save = itemService.save(item);
         Item find = itemRepository.findById(save).get();
@@ -101,7 +101,7 @@ class ItemServiceTest {
         Long like = itemService.likePlus(find);
         //then
         assertThat(find.getLikeCount()).isEqualTo(like);
-        assertThat(find.getLikeCount()).isEqualTo(101L);
+        assertThat(find.getLikeCount()).isEqualTo(1L);
     }
 
     @Test
@@ -109,10 +109,12 @@ class ItemServiceTest {
         //given
         Item find = itemRepository.findAll().get(0);
         //when
-        Long like = itemService.likeMinus(find);
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalStateException.class, () -> {
+                    itemService.likeMinus(find);
+                }
+        );
         //then
-        assertThat(find.getLikeCount()).isEqualTo(like);
-        assertThat(find.getLikeCount()).isEqualTo(99L);
     }
 
     @Test

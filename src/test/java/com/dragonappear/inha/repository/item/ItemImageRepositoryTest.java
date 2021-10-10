@@ -34,7 +34,7 @@ class ItemImageRepositoryTest {
         categoryRepository.save(newCategory);
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
-        Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L), 0L,  Money.wons(1_000_000L), newCategory,newManufacturer);
+        Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
         Image image = new Image("file1", "origin1", "url1");
         ItemImage newImage = new ItemImage(newItem, image);

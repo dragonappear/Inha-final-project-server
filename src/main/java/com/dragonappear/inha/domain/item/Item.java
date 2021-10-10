@@ -82,11 +82,11 @@ public class Item extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public Item(String itemName, String modelNumber, Money releasePrice, Long likeCount, Money latestPrice, Category category, Manufacturer manufacturer) {
+    public Item(String itemName, String modelNumber, Money releasePrice, Money latestPrice, Category category, Manufacturer manufacturer) {
         this.itemName = itemName;
         this.modelNumber = modelNumber;
         this.releasePrice = releasePrice;
-        this.likeCount = likeCount;
+        this.likeCount = 0L;
         this.latestPrice = latestPrice;
         if(category!=null){
             updateCategory(category);
@@ -99,12 +99,15 @@ public class Item extends JpaBaseTimeEntity {
     /**
      * 비즈니스 로직
      */
-    public Long count() {
+    public Long like() {
         this.likeCount+=1;
         return this.likeCount;
     }
 
     public Long cancel() {
+        if (likeCount - 1 < 0) {
+            throw new IllegalStateException("회원아이템 찜은 0보다 커야합니다");
+        }
         this.likeCount-=1;
         return this.likeCount;
     }
