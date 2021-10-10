@@ -7,6 +7,7 @@ import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.value.Money;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.InheritanceType.*;
 
-@DiscriminatorColumn(name = "DTYPE")
+
 @Inheritance(strategy = SINGLE_TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -30,7 +31,8 @@ public class Auctionitem extends JpaBaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long price;
+    @Embedded
+    private Money price;
 
     @Enumerated(STRING)
     @Column(nullable = false)
@@ -69,7 +71,7 @@ public class Auctionitem extends JpaBaseEntity {
     /**
      * 생성자메서드
      */
-    public Auctionitem(Item item, Long price, AuctionitemStatus auctionitemStatus) {
+    public Auctionitem(Item item, Money price, AuctionitemStatus auctionitemStatus) {
         this.price = price;
         this.auctionitemStatus = auctionitemStatus;
         if (item != null) {

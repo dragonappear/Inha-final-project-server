@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.domain.value.Money;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,8 @@ public class Payment extends JpaBaseEntity {
     private String itemName;
 
     @Column(nullable = false)
-    private Long paymentPrice;
+    @Embedded
+    private Money paymentPrice;
 
     @Column(nullable = false)
     private String buyerName;
@@ -85,7 +87,7 @@ public class Payment extends JpaBaseEntity {
      * 생성자메서드
      */
 
-    public Payment(String itemName, Long paymentPrice, String buyerName, String buyerEmail, String buyerTel, Address buyerAddress, PaymentStatus paymentStatus, User user, Auctionitem auctionitem) {
+    public Payment(String itemName, Money paymentPrice, String buyerName, String buyerEmail, String buyerTel, Address buyerAddress, PaymentStatus paymentStatus, User user, Auctionitem auctionitem) {
         this.itemName = itemName;
         this.paymentPrice = paymentPrice;
         this.buyerName = buyerName;

@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.auctionitem;
 
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Item;
+import com.dragonappear.inha.domain.value.Money;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class BidAuctionitem extends Auctionitem{
     @Column(nullable = false,updatable = false)
     private LocalDateTime endDate;
 
-    public BidAuctionitem(Item item, Long price, AuctionitemStatus auctionitemStatus, LocalDateTime startDate, LocalDateTime endDate) {
+    public BidAuctionitem(Item item, Money price, AuctionitemStatus auctionitemStatus, LocalDateTime startDate, LocalDateTime endDate) {
         super(item, price, auctionitemStatus);
         this.startDate = startDate;
         this.endDate = endDate;
