@@ -30,9 +30,11 @@ public class UserInquiry extends JpaBaseTimeEntity {
     @Enumerated(STRING)
     private InquiryType inquiryType;
 
+
     @Column(nullable = false)
     private String title;
-    @NotNull
+
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
@@ -85,4 +87,14 @@ public class UserInquiry extends JpaBaseTimeEntity {
         this.getUserInquiryImages().add(image);
     }
 
+
+    /**
+     * 비즈니스 로직
+     */
+
+    public void changeInquiry(InquiryType inquiryType, String title, String content) {
+        this.inquiryType = inquiryType;
+        this.title = title;
+        this.content = content;
+    }
 }
