@@ -53,7 +53,7 @@ class PaymentRepositoryTest {
         Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
         
-        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), now(), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
+        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
         auctionitemRepository.save(newBid);
         
         User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
