@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dragonappear.inha.domain.user.value.InquiryStatus.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 
@@ -29,7 +30,6 @@ public class UserInquiry extends JpaBaseTimeEntity {
     @Column(nullable = false)
     @Enumerated(STRING)
     private InquiryType inquiryType;
-
 
     @Column(nullable = false)
     private String title;
@@ -49,25 +49,11 @@ public class UserInquiry extends JpaBaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "user_inquiry_answer_id")
+    @OneToOne(fetch = LAZY,mappedBy = "userInquiry")
     private UserInquiryAnswer userInquiryAnswer;
 
     @OneToMany(mappedBy = "userInquiry")
     private List<UserInquiryImage> userInquiryImages = new ArrayList<>();
-
-    /**
-     * 생성자 메서드
-     */
-    public UserInquiry(User user, InquiryType inquiryType, String title, String content, InquiryStatus inquiryStatus) {
-        this.inquiryType = inquiryType;
-        this.title = title;
-        this.content = content;
-        this.inquiryStatus = inquiryStatus;
-        if (user != null) {
-            updateUserInquiry(user);
-        }
-    }
 
     /**
      * 연관관계 편의 메서드
@@ -80,11 +66,31 @@ public class UserInquiry extends JpaBaseTimeEntity {
 
     public void updateUserInquiryAnswer(UserInquiryAnswer userInquiryAnswer) {
         this.userInquiryAnswer = userInquiryAnswer;
-        this.inquiryStatus = InquiryStatus.답변완료;
+        if(userInquiryAnswer!=null){
+            this.inquiryStatus = 답변완료;
+        }
+        else{
+            this.inquiryStatus = 답변미완료;
+        }
+
     }
 
     public void updateUserInquiryImage(UserInquiryImage image) {
         this.getUserInquiryImages().add(image);
+    }
+
+    /**
+     * 생성자 메서드
+     */
+    public
+    UserInquiry(User user, InquiryType inquiryType, String title, String content) {
+        this.inquiryType = inquiryType;
+        this.title = title;
+        this.content = content;
+        this.inquiryStatus = 답변미완료;
+        if (user != null) {
+            updateUserInquiry(user);
+        }
     }
 
 

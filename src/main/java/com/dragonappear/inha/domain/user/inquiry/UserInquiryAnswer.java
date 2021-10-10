@@ -25,7 +25,8 @@ public class UserInquiryAnswer extends JpaBaseTimeEntity {
      * 연관관계
      */
 
-    @OneToOne(fetch = LAZY,mappedBy = "userInquiryAnswer")
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "user_inquiry_id",unique = true)
     private UserInquiry userInquiry;
 
     /**
@@ -46,6 +47,10 @@ public class UserInquiryAnswer extends JpaBaseTimeEntity {
         userInquiry.updateUserInquiryAnswer(this);
     }
 
-
-
+    /**
+     * 비즈니스 로직
+     */
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }

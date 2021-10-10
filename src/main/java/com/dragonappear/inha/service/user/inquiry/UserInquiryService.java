@@ -15,7 +15,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class UserInquiryService {
-    @Autowired UserInquiryRepository userInquiryRepository;
+    private final UserInquiryRepository userInquiryRepository;
 
     // 유저질문등록
     public Long save(UserInquiry userInquiry) {

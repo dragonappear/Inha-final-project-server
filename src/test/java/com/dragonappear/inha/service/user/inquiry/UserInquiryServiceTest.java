@@ -39,8 +39,8 @@ class UserInquiryServiceTest {
     public void 유저질문_등록_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
-        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title2", "content2", 답변미완료);
+        UserInquiry userInquiry = new UserInquiry(findUser, 배송, "title1", "content1");
+        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title2", "content2");
         //when
         userInquiryService.save(userInquiry);
         userInquiryService.save(userInquiry1);
@@ -56,7 +56,7 @@ class UserInquiryServiceTest {
     public void 유저질문_수정_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
+        UserInquiry userInquiry = new UserInquiry(findUser, 배송, "title1", "content1");
         userInquiryRepository.save(userInquiry);
         //when
         userInquiryService.change(userInquiry, 주문, "title2", "content2");
@@ -71,8 +71,8 @@ class UserInquiryServiceTest {
     public void 유저질문_삭제_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
-        UserInquiry userInquiry2 = new UserInquiry(findUser, 주문, "title2", "content2", 답변미완료);
+        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1");
+        UserInquiry userInquiry2 = new UserInquiry(findUser, 주문, "title2", "content2");
         userInquiryRepository.save(userInquiry1);
         userInquiryRepository.save(userInquiry2);
         //when
@@ -91,8 +91,8 @@ class UserInquiryServiceTest {
     public void 유저모든질문_조회_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
-        UserInquiry userInquiry2 = new UserInquiry(findUser, 주문, "title2", "content2", 답변미완료);
+        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1");
+        UserInquiry userInquiry2 = new UserInquiry(findUser, 주문, "title2", "content2");
         userInquiryRepository.save(userInquiry1);
         userInquiryRepository.save(userInquiry2);
         //when
@@ -110,8 +110,8 @@ class UserInquiryServiceTest {
     public void 유저질문_유저아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
-        UserInquiry userInquiry2 = new UserInquiry(findUser, 주문, "title2", "content2", 답변미완료);
+        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1");
+        UserInquiry userInquiry2 = new UserInquiry(findUser, 주문, "title2", "content2");
         userInquiryRepository.save(userInquiry1);
         userInquiryRepository.save(userInquiry2);
         //when
@@ -129,7 +129,7 @@ class UserInquiryServiceTest {
     public void 유저질문조회_질문아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
+        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1");
         userInquiryRepository.save(userInquiry1);
         //when
         UserInquiry findInquiry = userInquiryService.findOne(userInquiry1.getId());
@@ -146,7 +146,7 @@ class UserInquiryServiceTest {
     @Test
     public void 유저질문조회_유저그리고질문아이디로_테스트() throws Exception{
         User findUser = userRepository.findAll().get(0);
-        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1", 답변미완료);
+        UserInquiry userInquiry1 = new UserInquiry(findUser, 배송, "title1", "content1");
         userInquiryRepository.save(userInquiry1);
         //when
         UserInquiry findInquiry = userInquiryService.findOne(findUser.getId(),userInquiry1.getId());

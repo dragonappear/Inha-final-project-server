@@ -38,9 +38,9 @@ class UserInquiryImageServiceTest {
     public void setUp() {
         User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
         userRepository.save(user);
-        UserInquiry userInquiry = new UserInquiry(user, 배송, "title1", "content1", 답변미완료);
+        UserInquiry userInquiry = new UserInquiry(user, 배송, "title1", "content1");
         userInquiryRepository.save(userInquiry);
-        UserInquiry userInquiry1 = new UserInquiry(user, 주문, "title2", "content2", 답변미완료);
+        UserInquiry userInquiry1 = new UserInquiry(user, 주문, "title2", "content2");
         userInquiryRepository.save(userInquiry1);
         UserInquiryImage image1 = new UserInquiryImage(userInquiry1, "filename1", "fileoriname1", "fileurl1");
         UserInquiryImage image2 = new UserInquiryImage(userInquiry1, "filename2", "fileoriname2", "fileurl2");

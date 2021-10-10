@@ -27,7 +27,7 @@ class UserInquiryRepositoryTest {
         //given
         User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
         userRepository.save(user);
-        UserInquiry userInquiry = new UserInquiry(user, InquiryType.배송, "언제 배송출발하나요?", "빨리 배송좀해주세요", InquiryStatus.답변미완료);
+        UserInquiry userInquiry = new UserInquiry(user, InquiryType.배송, "언제 배송출발하나요?", "빨리 배송좀해주세요");
         userInquiryRepository.save(userInquiry);
         //when
         UserInquiry findInquiry = userInquiryRepository.findById(userInquiry.getId()).get();
