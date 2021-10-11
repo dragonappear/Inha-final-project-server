@@ -76,7 +76,7 @@ class FailDeliveryRepositoryTest {
         itemRepository.save(newItem);
         BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
         auctionitemRepository.save(newBid);
-        Selling newSelling = new Selling(SellingStatus.판매중,newUser, newBid);
+        Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
         UserAddress newAddress = new UserAddress(newUser, new Address("incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);

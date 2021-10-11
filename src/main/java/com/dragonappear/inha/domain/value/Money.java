@@ -43,7 +43,7 @@ public class Money {
     }
 
     /**
-     * 비교 메서드
+     * 값 비교 메서드
      */
     public boolean isLessThan(Money other) {
         return this.amount.compareTo(other.amount) < 0;
@@ -60,6 +60,10 @@ public class Money {
         this.amount = amount;
     }
 
+
+    /**
+     * 인스턴스 비교 메서드
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,5 +75,13 @@ public class Money {
     @Override
     public int hashCode() {
         return Objects.hash(getAmount());
+    }
+
+    /**
+     * 비즈니스 로직
+     */
+
+    public void updateAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

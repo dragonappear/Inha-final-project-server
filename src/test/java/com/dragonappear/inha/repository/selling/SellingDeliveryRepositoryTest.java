@@ -59,7 +59,7 @@ class SellingDeliveryRepositoryTest {
         BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
         auctionitemRepository.save(newBid);
 
-        Selling newSelling = new Selling(SellingStatus.판매중, newUser, newBid);
+        Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
 
         SellingDelivery newDelivery = new SellingDelivery(newSelling, new Delivery(CourierName.CJ대한통운, "1234-1234"));

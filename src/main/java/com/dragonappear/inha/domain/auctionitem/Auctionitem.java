@@ -2,7 +2,6 @@ package com.dragonappear.inha.domain.auctionitem;
 
 
 import com.dragonappear.inha.JpaBaseEntity;
-import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.payment.Payment;
@@ -14,18 +13,19 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.InheritanceType.*;
 
-
 @Inheritance(strategy = SINGLE_TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Auctionitem extends JpaBaseEntity {
+public abstract class Auctionitem extends JpaBaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "auctionitem_id")
@@ -38,6 +38,11 @@ public class Auctionitem extends JpaBaseEntity {
     @Enumerated(STRING)
     @Column(nullable = false)
     private AuctionitemStatus auctionitemStatus;
+
+    @Column(nullable = false,updatable = false)
+    protected LocalDateTime startDate;
+    @Column(nullable = false,updatable = false)
+    protected LocalDateTime endDate;
 
 
     /**
@@ -74,11 +79,17 @@ public class Auctionitem extends JpaBaseEntity {
      */
     public Auctionitem(Item item, Money price) {
         this.price = price;
-        this.auctionitemStatus = 경매진행;
+        this.auctionitemStatus = 경매중;
         if (item != null) {
             updateAuctionItem(item);
         }
     }
 
+    /**
+     * 비즈니스 로직
+     */
 
+    public void updateStatus(AuctionitemStatus status) {
+        this.auctionitemStatus = status;
+    }
 }

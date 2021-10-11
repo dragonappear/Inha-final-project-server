@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.selling.value.SellingStatus.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
@@ -67,9 +68,8 @@ public class Selling extends JpaBaseEntity {
     /**
      * 생성자메서드
      */
-    public Selling(SellingStatus sellingStatus,  User seller, Auctionitem auctionitem) {
-        this.sellingStatus = sellingStatus;
-
+    public Selling(User seller, Auctionitem auctionitem) {
+        this.sellingStatus = 판매중;
         if (seller != null) {
             updateSellingSeller(seller);
         }

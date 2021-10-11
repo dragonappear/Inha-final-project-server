@@ -20,10 +20,6 @@ import static java.time.LocalDateTime.*;
 @Entity
 public class BidAuctionitem extends Auctionitem{
 
-    @Column(nullable = false,updatable = false)
-    private LocalDateTime startDate;
-    @Column(nullable = false,updatable = false)
-    private LocalDateTime endDate;
     /**
      * 생성자 함수
      */

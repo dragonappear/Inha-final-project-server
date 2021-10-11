@@ -19,14 +19,9 @@ import static java.time.LocalDateTime.*;
 @Getter
 @Entity
 public class InstantAuctionitem extends Auctionitem{
-    @Column(nullable = false,updatable = false)
-    private LocalDateTime startDate;
-    @Column(nullable = false,updatable = false)
-    private LocalDateTime endDate;
-
 
     /**
-     * 생성자 함수
+     * 생성자 메서드
      */
 
     public InstantAuctionitem(Item item, Money price) {
@@ -35,10 +30,10 @@ public class InstantAuctionitem extends Auctionitem{
     }
 
     /**
-     * 비즈니스 함수
+     * 비즈니스 로직
      */
     private void updateStartDateAndEndDate() {
         this.startDate = now();
-        this.endDate = now().plusDays(30);
+        this.endDate = now().plusDays(7);
     }
 }
