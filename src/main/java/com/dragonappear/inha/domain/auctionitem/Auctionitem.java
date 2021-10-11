@@ -68,11 +68,11 @@ public abstract class Auctionitem extends JpaBaseEntity {
 
     public void updateAuctionitemPayment(Payment payment) {
         this.payment = payment;
+        this.auctionitemStatus = 거래중;
     }
 
     public void updateSellingAuctionitem(Selling selling) {
         this.selling = selling;
-        this.auctionitemStatus = 거래중;
     }
 
     /**

@@ -2,10 +2,12 @@ package com.dragonappear.inha.service.payment;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
@@ -22,6 +24,7 @@ import com.dragonappear.inha.repository.user.UserAddressRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
 import com.dragonappear.inha.service.selling.SellingDeliveryService;
 import org.assertj.core.api.Assertions;
+import org.hibernate.boot.TempTableDdlTransactionHandling;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +32,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.GeneratedValue;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
+import static com.dragonappear.inha.domain.payment.value.PaymentStatus.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Rollback
 class PaymentServiceTest {
-    @Autowired SellingRepository sellingRepository;
     @Autowired AuctionitemRepository auctionitemRepository;
     @Autowired CategoryRepository categoryRepository;
     @Autowired ManufacturerRepository manufacturerRepository;
     @Autowired ItemRepository itemRepository;
     @Autowired UserRepository userRepository;
-    @Autowired SellingDeliveryRepository sellingDeliveryRepository;
-    @Autowired SellingDeliveryService sellingDeliveryService;
     @Autowired PaymentRepository paymentRepository;
     @Autowired PaymentService paymentService;
     @Autowired UserAddressRepository userAddressRepository;
@@ -60,6 +65,8 @@ class PaymentServiceTest {
 
         User user2 = new User("name2", "nickname2", "email2@", "userTel22");
         userRepository.save(user2);
+        UserAddress userAddress2 = new UserAddress(user2, new Address("city", "street", "detail", "zipcode"));
+        userAddressRepository.save(userAddress2);
 
         Category category = new Category(노트북);
         Manufacturer manufacturer = new Manufacturer(삼성);
@@ -73,15 +80,37 @@ class PaymentServiceTest {
         BidAuctionitem bidAuctionitem = new BidAuctionitem(item, Money.wons(4_000_000L), LocalDateTime.now().plusHours(1));
         auctionitemRepository.save(bidAuctionitem);
 
-        Selling selling = new Selling(user2, bidAuctionitem);
-        sellingRepository.save(selling);
+        BidAuctionitem bidAuctionitem1 = new BidAuctionitem(item, Money.wons(5_000_000L), LocalDateTime.now().plusHours(1));
+        auctionitemRepository.save(bidAuctionitem1);
+
+        BidAuctionitem bidAuctionitem2 = new BidAuctionitem(item, Money.wons(6_000_000L), LocalDateTime.now().plusHours(1));
+        auctionitemRepository.save(bidAuctionitem2);
+
+        Payment payment1 = new Payment(bidAuctionitem.getItem().getItemName()
+                , bidAuctionitem.getPrice()
+                , user1.getUsername()
+                , user1.getEmail()
+                , user1.getUserTel()
+                , user1.getUserAddresses().get(0).getUserAddress()
+                , user1
+                , bidAuctionitem);
+        Payment save1 = paymentRepository.save(payment1);
+        Payment payment2 = new Payment(bidAuctionitem1.getItem().getItemName()
+                , bidAuctionitem1.getPrice()
+                , user1.getUsername()
+                , user1.getEmail()
+                , user1.getUserTel()
+                , user1.getUserAddresses().get(0).getUserAddress()
+                , user1
+                , bidAuctionitem1);
+        Payment save2 = paymentRepository.save(payment2);
     }
 
     @Test
     public void 결제내역_생성_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
+        Auctionitem auctionitem = auctionitemRepository.findAll().get(2);
         Payment payment = new Payment(auctionitem.getItem().getItemName()
                 , auctionitem.getPrice()
                 , user.getUsername()
@@ -94,14 +123,20 @@ class PaymentServiceTest {
         Long save = paymentService.save(payment);
         Payment findPayment = paymentRepository.findById(save).get();
         //then
-        Assertions.assertThat(findPayment.getId()).isEqualTo(save);
+        assertThat(findPayment.getId()).isEqualTo(save);
+        assertThat(findPayment).isEqualTo(payment);
+        assertThat(findPayment.getId()).isEqualTo(payment.getId());
+        assertThat(findPayment.getId()).isEqualTo(save);
+        assertThat(findPayment.getPaymentStatus()).isEqualTo(결제완료);
+        assertThat(findPayment.getUser()).isEqualTo(payment.getUser());
+        assertThat(findPayment.getAuctionitem()).isEqualTo(payment.getAuctionitem());
     }
 
     @Test
     public void 결제조회_결제아이디로_테스트()  throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
+        Auctionitem auctionitem = auctionitemRepository.findAll().get(2);
         Payment payment = new Payment(auctionitem.getItem().getItemName()
                 , auctionitem.getPrice()
                 , user.getUsername()
@@ -110,8 +145,71 @@ class PaymentServiceTest {
                 , user.getUserAddresses().get(0).getUserAddress()
                 , user
                 , auctionitem);
+        Payment save = paymentRepository.save(payment);
         //when
-
+        Payment findPayment = paymentService.findById(save.getId());
         //then
+        assertThat(findPayment).isEqualTo(save);
+        assertThat(findPayment.getId()).isEqualTo(save.getId());
+        assertThat(findPayment).isEqualTo(save);
+        assertThat(findPayment.getPaymentStatus()).isEqualTo(결제완료);
+        assertThat(findPayment.getUser()).isEqualTo(save.getUser());
+        assertThat(findPayment.getAuctionitem()).isEqualTo(save.getAuctionitem());
+        assertThat(findPayment.getAuctionitem().getAuctionitemStatus()).isEqualTo(거래중);
     }
+
+    // 결제 조회 by 유저아이디
+    @Test
+    public void 결제조회_유저아이디로_테스트() throws Exception{
+        //given
+        User user = userRepository.findAll().get(0);
+        List<Payment> list = paymentRepository.findAll();
+        //when
+        List<Payment> all = paymentService.findByUserId(user.getId());
+        //then
+        assertThat(all).extracting("user").containsOnly(user);
+        list.stream().forEach(payment -> {assertThat(all).contains(payment);});
+    }
+
+    //결제 조회 by 경매상품아이디
+    @Test
+    public void 결제조회_경매상품아이디로_테스트() throws Exception{
+        //given
+        User user = userRepository.findAll().get(0);
+        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
+        //when
+        List<Payment> all = paymentService.findByAuctionItemId(auctionitem.getId());
+        //then
+        assertThat(all.size()).isEqualTo(1);
+        assertThat(all).extracting("auctionitem").containsOnly(auctionitem);
+        assertThat(all).extracting("user").containsOnly(user);
+    }
+
+    //결제 조회 by 상품이름
+    @Test
+    public void 결제조회_상품이름으로_테스트() throws Exception{
+        //given
+        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
+        Auctionitem auctionitem1 = auctionitemRepository.findAll().get(1);
+        //when
+        List<Payment> all = paymentService.findByItemName(auctionitem.getItem().getItemName());
+        //then
+        assertThat(all.size()).isEqualTo(2);
+        assertThat(all).extracting("auctionitem").containsOnly(auctionitem,auctionitem1);
+    }
+
+    // 결제 조회 by 경매상품이름 and 결제상태
+    @Test
+    public void 왼료된결제조회_상품이름으로_테스트() throws Exception{
+        //given
+        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
+        Auctionitem auctionitem1 = auctionitemRepository.findAll().get(1);
+        //when
+        List<Payment> all = paymentService.findByCompletedItemName(auctionitem.getItem().getItemName(), 결제완료);
+        //then
+        assertThat(all.size()).isEqualTo(2);
+        assertThat(all).extracting("auctionitem").containsOnly(auctionitem,auctionitem1);
+        assertThat(all).extracting("paymentStatus").containsOnly(결제완료);
+    }
+
 }

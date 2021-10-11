@@ -43,8 +43,8 @@ public class PaymentService {
     }
 
     // 결제완료된 결제 조회 by 경매상품이름
-    public List<Payment> findByCompletedItemName(String itemName) {
-        return paymentRepository.findByCompletedItemName(itemName);
+    public List<Payment> findByCompletedItemName(String itemName,PaymentStatus paymentStatus) {
+        return paymentRepository.findByCompletedItemName(itemName,paymentStatus);
     }
 
 

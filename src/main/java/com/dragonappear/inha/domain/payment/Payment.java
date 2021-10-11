@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.payment;
 
 import com.dragonappear.inha.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
@@ -71,6 +72,9 @@ public class Payment extends JpaBaseEntity {
      * 연관관계편의메서드
      */
     private void updateAuctionitem(Auctionitem auctionitem) {
+        if(auctionitem.getAuctionitemStatus()!= AuctionitemStatus.경매중){
+            throw new IllegalStateException("이 제품은 경매가 종료되었습니다");
+        }
         this.auctionitem = auctionitem;
         auctionitem.updateAuctionitemPayment(this);
     }

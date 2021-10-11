@@ -1,6 +1,7 @@
 package com.dragonappear.inha.repository.payment;
 
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +19,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select p from Payment p where p.itemName=:itemName")
     List<Payment> findByItemName(@Param("itemName") String itemName);
 
-    @Query("select p from Payment p where p.itemName=:itemName and p.paymentStatus=:결제완료")
-    List<Payment> findByCompletedItemName(@Param("itemName") String itemName);
+    @Query("select p from Payment p where p.itemName=:itemName and p.paymentStatus=:staus")
+    List<Payment> findByCompletedItemName(@Param("itemName") String itemName, @Param("staus") PaymentStatus status);
 
 }
