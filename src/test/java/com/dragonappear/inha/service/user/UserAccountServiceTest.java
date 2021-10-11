@@ -1,13 +1,11 @@
 package com.dragonappear.inha.service.user;
 
-import com.dragonappear.inha.domain.inspection.failinspection.FailDelivery;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAccount;
 import com.dragonappear.inha.domain.value.Account;
 import com.dragonappear.inha.domain.value.BankName;
 import com.dragonappear.inha.repository.user.UserAccountRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

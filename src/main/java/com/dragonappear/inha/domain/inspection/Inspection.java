@@ -2,9 +2,8 @@ package com.dragonappear.inha.domain.inspection;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.deal.value.DealStatus;
-import com.dragonappear.inha.domain.inspection.failinspection.FailInspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
+import com.dragonappear.inha.domain.inspection.fail.FailInspection;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +42,7 @@ public class Inspection extends JpaBaseTimeEntity {
     private PassInspection passInspection;
 
     @OneToOne(fetch = LAZY,mappedBy = "inspection")
-    private com.dragonappear.inha.domain.inspection.failinspection.FailInspection failInspection;
+    private com.dragonappear.inha.domain.inspection.fail.FailInspection failInspection;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "deal_id")

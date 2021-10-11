@@ -1,4 +1,4 @@
-package com.dragonappear.inha.domain.inspection.passinspection;
+package com.dragonappear.inha.domain.inspection.fail;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Address;
@@ -6,20 +6,21 @@ import com.dragonappear.inha.domain.value.Delivery;
 import com.dragonappear.inha.domain.value.DeliveryStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
-import static javax.persistence.EnumType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class PassDelivery extends JpaBaseTimeEntity {
+public class FailDelivery extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "pass_delivery_id")
+    @Column(name = "fail_delivery_id")
     private Long id;
 
     @Column(nullable = false)
@@ -28,7 +29,7 @@ public class PassDelivery extends JpaBaseTimeEntity {
 
     @Column(nullable = false)
     @Embedded
-    private Address buyerAddress;
+    private Address sellerAddress;
 
     @Column(nullable = false)
     @Enumerated(STRING)
@@ -39,36 +40,34 @@ public class PassDelivery extends JpaBaseTimeEntity {
      */
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "pass_inspection_id")
-    private PassInspection passInspection;
+    @JoinColumn(name = "fail_delivery_id")
+    private FailInspection failInspection;
 
     /**
      * 연관관계편의메서드
      */
 
-    private void updateInspectionDelivery(PassInspection passInspection) {
-        this.passInspection = passInspection;
-        passInspection.updateDelivery(this);
+    private void updateFailDelivery(FailInspection failInspection) {
+        this.failInspection = failInspection;
+        failInspection.updateDelivery(this);
     }
 
     /**
      * 생성자메서드
      */
-    public PassDelivery(Delivery delivery, Address buyerAddress, DeliveryStatus deliveryStatus, PassInspection passInspection) {
+    public FailDelivery(Delivery delivery, Address sellerAddress, DeliveryStatus deliveryStatus, FailInspection failInspection) {
         this.delivery = delivery;
-        this.buyerAddress = buyerAddress;
+        this.sellerAddress = sellerAddress;
         this.deliveryStatus = deliveryStatus;
-        if (passInspection != null) {
-            updateInspectionDelivery(passInspection);
+        if (failInspection != null) {
+            updateFailDelivery(failInspection);
         }
+
     }
 
     /**
      * 비즈니스로직
      */
-    public void updateDeliveryStatus(DeliveryStatus deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
-    }
 
 
 }

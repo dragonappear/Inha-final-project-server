@@ -1,8 +1,7 @@
-package com.dragonappear.inha.service.inspection;
+package com.dragonappear.inha.service.inspection.pass;
 
-import com.dragonappear.inha.domain.inspection.Inspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
-import com.dragonappear.inha.repository.inspection.passinspection.PassInspectionRepository;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
+import com.dragonappear.inha.repository.inspection.pass.PassInspectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

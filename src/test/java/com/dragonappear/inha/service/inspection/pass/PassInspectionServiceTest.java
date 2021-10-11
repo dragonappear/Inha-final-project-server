@@ -1,4 +1,4 @@
-package com.dragonappear.inha.service.inspection;
+package com.dragonappear.inha.service.inspection.pass;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
@@ -7,7 +7,7 @@ import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
@@ -23,7 +23,7 @@ import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
-import com.dragonappear.inha.repository.inspection.passinspection.PassInspectionRepository;
+import com.dragonappear.inha.repository.inspection.pass.PassInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -31,12 +31,10 @@ import com.dragonappear.inha.repository.payment.PaymentRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +43,6 @@ import java.time.LocalDateTime;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -63,7 +60,8 @@ class PassInspectionServiceTest {
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
     @Autowired PassInspectionRepository passInspectionRepository;
-    @Autowired PassInspectionService passInspectionService;
+    @Autowired
+    PassInspectionService passInspectionService;
 
     @BeforeEach
     public void setUp() {

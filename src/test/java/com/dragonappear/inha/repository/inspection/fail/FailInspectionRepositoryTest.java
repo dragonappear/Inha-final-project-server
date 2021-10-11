@@ -1,13 +1,10 @@
-package com.dragonappear.inha.repository.inspection.passinspection;
+package com.dragonappear.inha.repository.inspection.fail;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
-import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
+import com.dragonappear.inha.domain.inspection.fail.FailInspection;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
@@ -15,9 +12,7 @@ import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.payment.Payment;
-import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.selling.Selling;
-import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -25,7 +20,6 @@ import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
-import com.dragonappear.inha.repository.inspection.InspectionImageRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
@@ -43,12 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @SpringBootTest
 @Transactional
 @Rollback
-class PassInspectionRepositoryTest {
+class FailInspectionRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired SellingRepository sellingRepository;
     @Autowired AuctionitemRepository auctionitemRepository;
@@ -59,9 +54,10 @@ class PassInspectionRepositoryTest {
     @Autowired UserAddressRepository userAddressRepository;
     @Autowired PaymentRepository paymentRepository;
     @Autowired DealRepository dealRepository;
-    @Autowired InspectionRepository inspectionRepository;
-    @Autowired InspectionImageRepository inspectionImageRepository;
-    @Autowired PassInspectionRepository passInspectionRepository;
+    @Autowired
+    InspectionRepository inspectionRepository;
+    @Autowired
+    FailInspectionRepository failInspectionRepository;
 
     @BeforeEach
     void setUp() {
@@ -73,7 +69,7 @@ class PassInspectionRepositoryTest {
         manufacturerRepository.save(newManufacturer);
         Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
-        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
+        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L),of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
         auctionitemRepository.save(newBid);
         Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
@@ -84,28 +80,26 @@ class PassInspectionRepositoryTest {
         paymentRepository.save(newPayment);
         Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);
-        Deal newDeal = new Deal( newBuying, newSelling);
+        Deal newDeal = new Deal(newBuying, newSelling);
         dealRepository.save(newDeal);
         Inspection newInspection = new Inspection(newDeal);
         inspectionRepository.save(newInspection);
     }
 
     @Test
-    public void 합격검수생성_테스트() throws Exception{
-        //given
+    public void 탈락검수생성_테스트() throws Exception{
         Inspection inspection = inspectionRepository.findAll().get(0);
-        PassInspection passInspection = new PassInspection(inspection);
-        passInspectionRepository.save(passInspection);
+        FailInspection failInspection = new FailInspection(inspection);
+        failInspectionRepository.save(failInspection);
         //when
-        PassInspection findInspection = passInspectionRepository.findById(passInspection.getId()).get();
+        FailInspection findInspection = failInspectionRepository.findById(failInspection.getId()).get();
         //then
-        assertThat(findInspection).isEqualTo(passInspection);
-        assertThat(findInspection.getId()).isEqualTo(passInspection.getId());
-        assertThat(findInspection.getInspection()).isEqualTo(passInspection.getInspection());
-        assertThat(inspection.getFailInspection()).isNull();
-        assertThat(inspection.getPassInspection()).isNotNull();
-        assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수합격);
-        assertThat(inspection.getPassInspection()).isEqualTo(passInspection);
+        assertThat(findInspection).isEqualTo(failInspection);
+        assertThat(findInspection.getId()).isEqualTo(failInspection.getId());
+        assertThat(findInspection.getInspection()).isEqualTo(failInspection.getInspection());
+        assertThat(inspection.getFailInspection()).isNotNull();
+        assertThat(inspection.getPassInspection()).isNull();
+        assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수탈락);
+        assertThat(inspection.getFailInspection()).isEqualTo(failInspection);
     }
-
 }
