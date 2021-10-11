@@ -83,7 +83,7 @@ class FailDeliveryRepositoryTest {
         Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
                 newAddress.getUserAddress(),  newUser, newBid );
         paymentRepository.save(newPayment);
-        Buying newBuying = new Buying(BuyingStatus.구매중, newPayment);
+        Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);
         Deal newDeal = new Deal(DealStatus.거래진행, newBuying, newSelling);
         dealRepository.save(newDeal);

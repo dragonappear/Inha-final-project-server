@@ -25,7 +25,6 @@ public class SellingService {
     @Transactional
     public Long save(User user,Auctionitem auctionitem) {
         validateAuctionItem(auctionitem); // 경매상품 중복등록 검증
-
         return sellingRepository.save(new Selling(user, auctionitem)).getId();
     }
 

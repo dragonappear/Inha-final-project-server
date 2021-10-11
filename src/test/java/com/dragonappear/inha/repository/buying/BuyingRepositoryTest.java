@@ -71,7 +71,7 @@ class BuyingRepositoryTest {
                 newAddress.getUserAddress(), newUser, newBid );
         paymentRepository.save(newPayment);
 
-        Buying newBuying = new Buying(BuyingStatus.구매중, newPayment);
+        Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);
         //when
         Buying findBuying = buyingRepository.findById(newBuying.getId()).get();

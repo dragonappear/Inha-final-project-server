@@ -86,13 +86,11 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 생성자 메서드
      */
-
     public User(String username, String nickname, String email, String userTel) {
         this.username = username;
         this.nickname = nickname;
         this.email = email;
         this.userTel = userTel;
     }
-
 }
 
