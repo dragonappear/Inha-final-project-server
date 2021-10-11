@@ -13,6 +13,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
@@ -31,7 +32,6 @@ public class Inspection extends JpaBaseTimeEntity {
     @Column(nullable = false)
     @Enumerated(STRING)
     private InspectionStatus inspectionStatus;
-
 
     /**
      * 연관관계
@@ -57,19 +57,19 @@ public class Inspection extends JpaBaseTimeEntity {
 
     public void updatePassInspection(PassInspection passInspection) {
         this.passInspection = passInspection;
-        this.inspectionStatus = InspectionStatus.검수합격;
+        this.inspectionStatus = 검수합격;
     }
 
     public void updateFailInspection(FailInspection failInspection) {
         this.failInspection = failInspection;
-        this.inspectionStatus = InspectionStatus.검수탈락;
+        this.inspectionStatus = 검수탈락;
     }
 
     /**
      * 생성자메서드
      */
-    public Inspection(InspectionStatus inspectionStatus, Deal deal) {
-        this.inspectionStatus = inspectionStatus;
+    public Inspection(Deal deal) {
+        this.inspectionStatus = 검수진행;
         this.deal = deal;
     }
 

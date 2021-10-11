@@ -91,7 +91,7 @@ class InspectionRepositoryTest {
     public void 검수생성_테스트() throws Exception{
         //given
         Deal deal = dealRepository.findAll().get(0);
-        Inspection newInspection = new Inspection(InspectionStatus.검수진행, deal);
+        Inspection newInspection = new Inspection(deal);
         inspectionRepository.save(newInspection);
         //when
         Inspection findInspection = inspectionRepository.findById(newInspection.getId()).get();

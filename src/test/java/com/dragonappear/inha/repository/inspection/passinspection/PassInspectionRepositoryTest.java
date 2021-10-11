@@ -86,7 +86,7 @@ class PassInspectionRepositoryTest {
         buyingRepository.save(newBuying);
         Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);
-        Inspection newInspection = new Inspection(InspectionStatus.검수진행, newDeal);
+        Inspection newInspection = new Inspection(newDeal);
         inspectionRepository.save(newInspection);
     }
 
