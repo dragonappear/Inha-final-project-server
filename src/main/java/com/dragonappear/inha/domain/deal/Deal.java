@@ -2,9 +2,11 @@ package com.dragonappear.inha.domain.deal;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.buying.Buying;
+import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,7 +55,7 @@ public class Deal extends JpaBaseTimeEntity {
      * 생성자메서드
      */
     public Deal(Buying buying, Selling selling) {
-        this.dealStatus = 거래진행;
+        this.dealStatus = 거래완료;
         this.buying = buying;
         this.selling = selling;
     }
@@ -63,5 +65,13 @@ public class Deal extends JpaBaseTimeEntity {
      */
     public void updateDealStatus(DealStatus dealStatus) {
         this.dealStatus = dealStatus;
+        if(dealStatus== 거래취소){
+            this.buying.updateStatus(BuyingStatus.구매취소);
+            this.selling.updateStatus(SellingStatus.판매취소);
+        }
+        else if(dealStatus== 거래완료){
+            this.buying.updateStatus(BuyingStatus.구매완료);
+            this.selling.updateStatus(SellingStatus.판매완료);
+        }
     }
 }

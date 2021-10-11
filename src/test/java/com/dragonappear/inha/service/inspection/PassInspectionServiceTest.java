@@ -1,15 +1,20 @@
 package com.dragonappear.inha.service.inspection;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
+import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
+import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
-import com.dragonappear.inha.domain.inspection.InspectionImage;
+import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
+import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -17,8 +22,8 @@ import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
-import com.dragonappear.inha.repository.inspection.InspectionImageRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
+import com.dragonappear.inha.repository.inspection.passinspection.PassInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -31,12 +36,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
@@ -46,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Rollback
-class InspectionImageServiceTest {
+class PassInspectionServiceTest {
     @Autowired BuyingRepository buyingRepository;
     @Autowired AuctionitemRepository auctionitemRepository;
     @Autowired CategoryRepository categoryRepository;
@@ -58,8 +62,8 @@ class InspectionImageServiceTest {
     @Autowired SellingRepository sellingRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired InspectionImageRepository inspectionImageRepository;
-    @Autowired InspectionImageService inspectionImageService;
+    @Autowired PassInspectionRepository passInspectionRepository;
+    @Autowired PassInspectionService passInspectionService;
 
     @BeforeEach
     public void setUp() {
@@ -99,47 +103,38 @@ class InspectionImageServiceTest {
         Deal deal = new Deal(buying, selling);
         dealRepository.save(deal);
 
-        Inspection inspection = new Inspection(deal);
-        inspectionRepository.save(inspection);
+        Inspection newInspection = new Inspection(deal);
+        inspectionRepository.save(newInspection);
     }
 
     @Test
-    public void 검수이미지_생성_테스트() throws Exception{
+    public void 검수합격_생성_테스트() throws Exception{
         //given
         Inspection inspection = inspectionRepository.findAll().get(0);
-        List<InspectionImage> list = Arrays.asList(
-                new InspectionImage("filename1", "fileoriname1", "fileurl1", inspection)
-                , new InspectionImage("filename2", "fileoriname2", "fileurl2", inspection)
-                , new InspectionImage("filename3", "fileoriname3", "fileurl3", inspection)
-        );
+        PassInspection passInspection = new PassInspection(inspection);
         //when
-        inspectionImageService.save(list);
-        List<InspectionImage> all = inspectionImageRepository.findAll();
+        passInspectionService.save(passInspection);
+        PassInspection find = passInspectionRepository.findById(passInspection.getId()).get();
         //then
-        assertThat(all.size()).isEqualTo(3);
-        list.stream().forEach(image -> {
-            assertThat(all).contains(image);
-        });
+        assertThat(find).isEqualTo(passInspection);
+        assertThat(find.getId()).isEqualTo(passInspection.getId());
+        assertThat(find.getInspection()).isEqualTo(passInspection.getInspection());
+        assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수합격);
+        assertThat(inspection.getDeal().getDealStatus()).isEqualTo(DealStatus.거래완료);
+        assertThat(inspection.getDeal().getSelling().getSellingStatus()).isEqualTo(SellingStatus.판매완료);
+        assertThat(inspection.getDeal().getSelling().getAuctionitem().getAuctionitemStatus()).isEqualTo(AuctionitemStatus.경매완료);
+        assertThat(inspection.getDeal().getBuying().getBuyingStatus()).isEqualTo(BuyingStatus.구매완료);
     }
 
     @Test
-    public void 검수이미지조회_이미지아이디로_테스트() throws Exception{
+    public void 검수합격_조회_테스트() throws Exception{
         //given
         Inspection inspection = inspectionRepository.findAll().get(0);
-        List<InspectionImage> list = Arrays.asList(
-                new InspectionImage("filename1", "fileoriname1", "fileurl1", inspection)
-                , new InspectionImage("filename2", "fileoriname2", "fileurl2", inspection)
-                , new InspectionImage("filename3", "fileoriname3", "fileurl3", inspection)
-        );
-        for (InspectionImage inspectionImage : list) {
-            inspectionImageRepository.save(inspectionImage);
-        }
-       //when
-        List<InspectionImage> all = inspectionImageService.findByInspectionId(inspection.getId());
+        PassInspection passInspection = new PassInspection(inspection);
+        passInspectionRepository.save(passInspection);
+        //when
+        PassInspection find = passInspectionService.findById(passInspection.getId());
         //then
-        assertThat(all.size()).isEqualTo(3);
-        list.stream().forEach(image -> {
-            assertThat(all).contains(image);
-        });
+        assertThat(find).isEqualTo(passInspection);
     }
 }

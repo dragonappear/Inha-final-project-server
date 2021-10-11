@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.selling;
 
 import com.dragonappear.inha.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static com.dragonappear.inha.domain.selling.value.SellingStatus.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
@@ -83,5 +85,10 @@ public class Selling extends JpaBaseEntity {
      */
     public void updateStatus(SellingStatus sellingStatus) {
         this.sellingStatus = sellingStatus;
+        if (sellingStatus == 판매취소) {
+            this.auctionitem.updateStatus(경매취소);
+        } else if (sellingStatus == 판매완료) {
+            this.auctionitem.updateStatus(경매완료);
+        }
     }
 }

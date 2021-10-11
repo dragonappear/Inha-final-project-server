@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.buying.value.BuyingStatus.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -50,7 +51,7 @@ public class Buying extends JpaBaseTimeEntity {
      */
 
     public Buying(Payment payment) {
-        this.buyingStatus = BuyingStatus.구매중;
+        this.buyingStatus = 구매중;
         if (payment != null) {
             this.payment = payment;
             updateBuyingPayment(payment);
@@ -62,6 +63,9 @@ public class Buying extends JpaBaseTimeEntity {
      */
     public void updateStatus(BuyingStatus buyingStatus) {
         this.buyingStatus = buyingStatus;
+        if (buyingStatus == 구매취소) {
+            this.payment.cancel();
+        }
     }
 
 
