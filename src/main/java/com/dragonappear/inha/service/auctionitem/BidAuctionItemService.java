@@ -34,9 +34,9 @@ public class BidAuctionItemService {
     // 입찰경매아이템 판매기한만료시 status 변경
     @Transactional
     //@EnableScheduling
-    public void overdue(BidAuctionitem bidAuctionitem) {
-        validateOverdue(bidAuctionitem.getEndDate());
-        bidAuctionitem.updateStatus(AuctionitemStatus.경매기한만료);
+    public void overdue(Auctionitem auctionitem) {
+        validateOverdue(auctionitem.getEndDate());
+        auctionitem.updateStatus(AuctionitemStatus.경매기한만료);
     }
 
     // 판매가완료되었을때 status 변경

@@ -33,8 +33,7 @@ public class Selling extends JpaBaseEntity {
      * 연관관계
      */
 
-    @OneToOne(fetch = LAZY, cascade = ALL)
-    @JoinColumn(name = "selling_delivery_id")
+    @OneToOne(fetch = LAZY, cascade = ALL, mappedBy = "selling")
     private SellingDelivery sellingDelivery;
 
     @ManyToOne(fetch = LAZY)
@@ -76,6 +75,13 @@ public class Selling extends JpaBaseEntity {
         if (auctionitem != null) {
             updateSellingAuctionitem(auctionitem);
         }
+        this.sellingDelivery = null;
+    }
 
+    /**
+     * 비즈니스 로직
+     */
+    public void updateStatus(SellingStatus sellingStatus) {
+        this.sellingStatus = sellingStatus;
     }
 }
