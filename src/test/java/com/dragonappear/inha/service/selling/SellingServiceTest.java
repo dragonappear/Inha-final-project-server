@@ -52,6 +52,9 @@ class SellingServiceTest {
         User newUser1 = new User("name1", "nickname1", "email1@", "userTel11");
         userRepository.save(newUser1);
 
+        User newUser2 = new User("name1", "nickname1", "email2@", "userTel11");
+        userRepository.save(newUser2);
+
         Category category = new Category(노트북);
         Manufacturer manufacturer = new Manufacturer(삼성);
         categoryRepository.save(category);
@@ -66,13 +69,16 @@ class SellingServiceTest {
 
         BidAuctionitem bidAuctionitem1 = new BidAuctionitem(item, Money.wons(5_000_000L), LocalDateTime.now().plusHours(1));
         auctionitemRepository.save(bidAuctionitem1);
+
+        Selling selling = new Selling(newUser1, bidAuctionitem);
+        sellingRepository.save(selling);
     }
 
     @Test
     public void 판매_등록_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
+        Auctionitem auctionitem = auctionitemRepository.findAll().get(1);
         //when
         Long save = sellingService.save(user, auctionitem);
         Selling selling = sellingRepository.findById(save).get();
@@ -97,13 +103,13 @@ class SellingServiceTest {
         //when
         List<Selling> all = sellingService.findByUserId(user.getId());
         //then
-        assertThat(all.size()).isEqualTo(2);
+        assertThat(all.size()).isEqualTo(3);
         org.assertj.core.api.Assertions.assertThat(all).extracting("auctionitem").containsOnly(auctionitem, auctionitem1);
         org.assertj.core.api.Assertions.assertThat(all).extracting("seller").containsOnly(user);
     }
 
     @Test
-    public void 판매내역조회_상품아이디로_테스트() throws Exception{
+    public void 판매내역조회_상품이름으로_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
         Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
@@ -115,7 +121,7 @@ class SellingServiceTest {
         //when
         List<Selling> all = sellingService.findByItemName("맥북1");
         //then
-        Assertions.assertThat(all.size()).isEqualTo(2);
+        Assertions.assertThat(all.size()).isEqualTo(3);
         Assertions.assertThat(all).extracting("auctionitem").containsOnly(auctionitem, auctionitem1);
         Assertions.assertThat(all).extracting("seller").containsOnly(user);
     }

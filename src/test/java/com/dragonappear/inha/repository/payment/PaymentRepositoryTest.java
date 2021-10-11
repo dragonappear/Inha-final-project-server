@@ -63,7 +63,7 @@ class PaymentRepositoryTest {
         userAddressRepository.save(newAddress);
         
         Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
-                newAddress.getUserAddress(), PaymentStatus.결제완료, newUser, newBid );
+                newAddress.getUserAddress(), newUser, newBid );
         paymentRepository.save(newPayment);
         
         //when
