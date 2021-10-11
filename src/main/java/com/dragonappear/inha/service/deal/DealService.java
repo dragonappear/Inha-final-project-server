@@ -19,7 +19,8 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 public class DealService {
     private final DealRepository dealRepository;
 
-    // 거래 생성
+    // 거래 생성직
+    @Transactional
     public Long save(Deal deal) {
         return dealRepository.save(deal).getId();
     }
@@ -31,11 +32,13 @@ public class DealService {
     }
 
     // 거래상태변경 when 검수탈락시
+    @Transactional
     public void cancel(Deal deal) {
         deal.updateDealStatus(거래취소);
     }
 
     // 거래상태변경 when 검수합격시
+    @Transactional
     public void complete(Deal deal) {
         deal.updateDealStatus(거래완료);
     }

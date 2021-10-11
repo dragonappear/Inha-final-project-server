@@ -18,17 +18,20 @@ public class UserInquiryAnswerService {
     private final UserInquiryAnswerRepository userInquiryAnswerRepository;
 
     // 답변등록
+    @Transactional
     public void save(UserInquiryAnswer answer) {
         userInquiryAnswerRepository.save(answer);
     }
 
     // 답변수정
+    @Transactional
     public void update(UserInquiryAnswer answer, String newContent) {
         answer.updateContent(newContent);
     }
 
-    @Transactional
+
     // 답변삭제
+    @Transactional
     public void delete(UserInquiryAnswer answer) {
        answer.getUserInquiry().updateUserInquiryAnswer(null);
         userInquiryAnswerRepository.delete(answer);

@@ -14,6 +14,7 @@ public class UserImageService {
     private final UserImageRepository userImageRepository;
 
     // 유저이미지 생성 or 업데이트
+    @Transactional
     public void update(User user, Image image) {
         if (user.getUserImage()!=null) {
             user.getUserImage().changeImage(image);
@@ -23,8 +24,8 @@ public class UserImageService {
         }
     }
 
-   @Transactional
     // 유저이미지 삭제
+   @Transactional
     public void delete(User user) {
         user.updateUserImage(null);
         userImageRepository.deleteByUserId(user.getId());

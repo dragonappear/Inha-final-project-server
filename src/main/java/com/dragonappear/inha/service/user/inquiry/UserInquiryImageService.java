@@ -23,6 +23,7 @@ public class UserInquiryImageService {
     private final UserInquiryImageRepository userInquiryImageRepository;
 
     // 유저질문이미지 단건 추가
+    @Transactional
     public void save(UserInquiryImage image) {
         UserInquiry inquiry = image.getUserInquiry();
         if (inquiry.getUserInquiryImages().size()>=6) {
@@ -32,6 +33,7 @@ public class UserInquiryImageService {
     }
 
     // 유저질문이미지 리스트로 추가
+    @Transactional
     public void save(List<UserInquiryImage> images) {
         UserInquiry inquiry = images.get(0).getUserInquiry();
         if (images.size()>=6) {
@@ -44,8 +46,8 @@ public class UserInquiryImageService {
         }
     }
 
-    @Transactional
     // 유저질문이미지 삭제
+    @Transactional
     public void delete(UserInquiryImage image) {
         image.getUserInquiry().getUserInquiryImages().remove(image);
         userInquiryImageRepository.delete(image.getId());

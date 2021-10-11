@@ -16,6 +16,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
 
     // 결제내역 생성
+    @Transactional
     public Long save(Payment payment) {
         // 검증 로직 필요
         return paymentRepository.save(payment).getId();
@@ -49,6 +50,7 @@ public class PaymentService {
 
 
     // 거래취소 시 결제내역 상태 변경
+    @Transactional
     public void cancel(Payment payment) {
         payment.cancel();
     }

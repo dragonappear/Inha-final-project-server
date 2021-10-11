@@ -31,7 +31,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    // 검증 로직
+    /**
+     * 검증로직
+     */
     private void validateUser(String email,String userTel) {
         List<User> users = userRepository.findByEmailOrUserTel(email, userTel);
         if (!users.isEmpty()) {

@@ -21,6 +21,7 @@ public class UserLikeItemService {
     private final UserLikeItemRepository userLikeItemRepository;
 
     // 회원아이템 찜 저장
+    @Transactional
     public Long save(UserLikeItem userLikeItem) {
         return userLikeItemRepository.save(userLikeItem).getId();
     }

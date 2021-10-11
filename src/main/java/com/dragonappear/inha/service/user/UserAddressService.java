@@ -21,6 +21,7 @@ public class UserAddressService {
     private final UserRepository userRepository;
 
     // 유저주소등록
+    @Transactional
     public Long save(User user, Address address) {
         validateUserAddress(user, address);
         return userAddressRepository.save(new UserAddress(user, address)).getId();

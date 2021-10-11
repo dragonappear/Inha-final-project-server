@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 @Transactional(readOnly = true)
 @Service
 public class BidAuctionItemService {
-    @Autowired AuctionitemRepository auctionitemRepository;
+    private final AuctionitemRepository auctionitemRepository;
 
-    @Transactional
     // 입찰경매아이템 등록
+    @Transactional
     public Long save(Item item, Money price, LocalDateTime endDate) {
         return auctionitemRepository.save(new BidAuctionitem(item, price, endDate)).getId();
     }

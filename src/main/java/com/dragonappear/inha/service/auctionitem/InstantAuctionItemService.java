@@ -21,11 +21,11 @@ import java.time.LocalDateTime;
 @Transactional(readOnly = true)
 @Service
 public class InstantAuctionItemService {
-    @Autowired AuctionitemRepository auctionitemRepository;
-    @Autowired SellingRepository sellingRepository;
+    private final AuctionitemRepository auctionitemRepository;
+    private final SellingRepository sellingRepository;
 
-    @Transactional
     // 즉시경매아이템 등록
+    @Transactional
     public Long save(Item item) {
         Money price = new Money(sellingRepository.findLowestPriceByItemId(item.getId()).
                 orElse(item.getReleasePrice().getAmount()));

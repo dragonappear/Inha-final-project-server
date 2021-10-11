@@ -17,6 +17,7 @@ public class UserPointService {
     private final UserRepository userRepository;
 
     // 포인트 생성
+    @Transactional
     public Long create(Long userId) {
         User findUser = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다"));
         UserPoint newPoint = new UserPoint(findUser);
@@ -35,12 +36,14 @@ public class UserPointService {
 
 
     // 포인트 적립
+    @Transactional
     public UserPoint accumulate(UserPoint userPoint, Money amount) throws Exception {
         userPoint.plus(amount.getAmount());
         return userPoint;
     }
 
     //  포인트 차감
+    @Transactional
     public UserPoint subtract(UserPoint userPoint, Money amount) throws Exception {
         userPoint.minus(amount.getAmount());
         return userPoint;

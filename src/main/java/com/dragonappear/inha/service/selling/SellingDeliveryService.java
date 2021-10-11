@@ -35,6 +35,7 @@ public class SellingDeliveryService {
     /**
      * 비즈니스 로직
      */
+    @Transactional
     private void updateSellingDelivery(Selling selling, Delivery delivery, SellingDelivery sellingDelivery) {
         sellingDelivery.updateDelivery(delivery);
         selling.updateSellingDelivery(sellingDelivery);

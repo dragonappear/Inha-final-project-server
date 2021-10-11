@@ -16,6 +16,7 @@ public class BuyingService {
     private final BuyingRepository buyingRepository;
 
     // 구매내역 생성
+    @Transactional
     public Long save(Buying buying) {
         return buyingRepository.save(buying).getId();
     }
@@ -32,11 +33,13 @@ public class BuyingService {
     }
 
     // 검수합격시 status 변경
+    @Transactional
     public void complete(Buying buying) {
         buying.updateStatus(BuyingStatus.구매완료);
     }
 
     // 검수합격시 sttatus 변경
+    @Transactional
     public void cancel(Buying buying) {
         buying.updateStatus(BuyingStatus.구매취소);
     }

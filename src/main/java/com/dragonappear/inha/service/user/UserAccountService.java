@@ -23,6 +23,7 @@ public class UserAccountService {
     private final UserAccountRepository userAccountRepository;
 
     // 유저 계좌 등록/수정
+    @Transactional
     public void update(User user, Account userAccount) {
         if (user.getUserAccount() != null) {
             user.getUserAccount().changeUserAccount(userAccount);

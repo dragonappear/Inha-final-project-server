@@ -17,6 +17,7 @@ public class UserCardInfoService {
     private final UserCardInfoRepository userCardInfoRepository;
 
     // 유저카드 등록
+    @Transactional
     public Long save(UserCardInfo userCardInfo) {
         return userCardInfoRepository.save(userCardInfo).getId();
     }

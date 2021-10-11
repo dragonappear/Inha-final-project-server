@@ -18,17 +18,20 @@ public class UserInquiryService {
     private final UserInquiryRepository userInquiryRepository;
 
     // 유저질문등록
+    @Transactional
     public Long save(UserInquiry userInquiry) {
        return userInquiryRepository.save(userInquiry).getId();
     }
 
     // 유저질문수정
+    @Transactional
     public Long change(UserInquiry userInquiry,InquiryType inquiryType,String title,String content) {
         userInquiry.changeInquiry(inquiryType,title,content);
         return userInquiry.getId();
     }
 
     // 유저질문삭제
+    @Transactional
     public void delete(UserInquiry userInquiry) {
         userInquiry.getUser().getUserInquiries().remove(userInquiry);
         userInquiryRepository.delete(userInquiry);
