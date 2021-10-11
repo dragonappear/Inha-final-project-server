@@ -5,6 +5,7 @@ import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
+import com.dragonappear.inha.domain.user.value.UserRole;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dragonappear.inha.domain.user.value.UserRole.*;
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email","userTel"})})
@@ -36,6 +39,10 @@ public class User extends JpaBaseTimeEntity {
 
     @Column(nullable = false)
     private String userTel;
+
+    @Column(nullable = false)
+    @Enumerated(STRING)
+    private UserRole userRole;
 
     /**
      * 연관관계
@@ -91,6 +98,7 @@ public class User extends JpaBaseTimeEntity {
         this.nickname = nickname;
         this.email = email;
         this.userTel = userTel;
+        this.userRole = 일반사용자;
     }
 }
 
