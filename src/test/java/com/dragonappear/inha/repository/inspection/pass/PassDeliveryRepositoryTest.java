@@ -92,7 +92,6 @@ class PassDeliveryRepositoryTest {
         PassInspection passInspection = passInspectionRepository.findAll().get(0);
         PassDelivery newDelivery = new PassDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
                 new Address("city", "street", "detail", "zipcode"),
-                DeliveryStatus.배송시작,
                 passInspection);
         passDeliveryRepository.save(newDelivery);
         //when

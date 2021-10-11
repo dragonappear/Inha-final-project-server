@@ -1,28 +1,24 @@
 package com.dragonappear.inha.service.inspection.pass;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
-import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
+import com.dragonappear.inha.domain.inspection.pass.PassDelivery;
 import com.dragonappear.inha.domain.inspection.pass.PassInspection;
-import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
-import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
-import com.dragonappear.inha.domain.value.Address;
-import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.domain.value.*;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
+import com.dragonappear.inha.repository.inspection.pass.PassDeliveryRepository;
 import com.dragonappear.inha.repository.inspection.pass.PassInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
@@ -31,6 +27,7 @@ import com.dragonappear.inha.repository.payment.PaymentRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +36,17 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
-import static org.assertj.core.api.Assertions.*;
+import static com.dragonappear.inha.domain.value.CourierName.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Rollback
-class PassInspectionServiceTest {
+class PassDeliveryServiceTest {
     @Autowired BuyingRepository buyingRepository;
     @Autowired AuctionitemRepository auctionitemRepository;
     @Autowired CategoryRepository categoryRepository;
@@ -60,7 +59,8 @@ class PassInspectionServiceTest {
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
     @Autowired PassInspectionRepository passInspectionRepository;
-    @Autowired PassInspectionService passInspectionService;
+    @Autowired PassDeliveryRepository passDeliveryRepository;
+    @Autowired PassDeliveryService passDeliveryService;
 
     @BeforeEach
     public void setUp() {
@@ -102,36 +102,44 @@ class PassInspectionServiceTest {
 
         Inspection newInspection = new Inspection(deal);
         inspectionRepository.save(newInspection);
-    }
 
-    @Test
-    public void 검수합격_생성_테스트() throws Exception{
-        //given
-        Inspection inspection = inspectionRepository.findAll().get(0);
-        PassInspection passInspection = new PassInspection(inspection);
-        //when
-        passInspectionService.save(passInspection);
-        PassInspection find = passInspectionRepository.findById(passInspection.getId()).get();
-        //then
-        assertThat(find).isEqualTo(passInspection);
-        assertThat(find.getId()).isEqualTo(passInspection.getId());
-        assertThat(find.getInspection()).isEqualTo(passInspection.getInspection());
-        assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수합격);
-        assertThat(inspection.getDeal().getDealStatus()).isEqualTo(DealStatus.거래완료);
-        assertThat(inspection.getDeal().getSelling().getSellingStatus()).isEqualTo(SellingStatus.판매완료);
-        assertThat(inspection.getDeal().getSelling().getAuctionitem().getAuctionitemStatus()).isEqualTo(AuctionitemStatus.경매완료);
-        assertThat(inspection.getDeal().getBuying().getBuyingStatus()).isEqualTo(BuyingStatus.구매완료);
-    }
-
-    @Test
-    public void 검수합격_조회_테스트() throws Exception{
-        //given
-        Inspection inspection = inspectionRepository.findAll().get(0);
-        PassInspection passInspection = new PassInspection(inspection);
+        PassInspection passInspection = new PassInspection(newInspection);
         passInspectionRepository.save(passInspection);
+    }
+
+    @Test
+    public void 합격검수배송_생성_테스트() throws Exception{
+        //given
+        User user = userRepository.findAll().get(0);
+        PassInspection passInspection = passInspectionRepository.findAll().get(0);
+        PassDelivery passDelivery = new PassDelivery(new Delivery(CJ대한통운, "1234-1234")
+                , passInspection.getInspection().getDeal().getBuying().getPayment().getBuyerAddress()
+                , passInspection);
         //when
-        PassInspection find = passInspectionService.findById(passInspection.getId());
+        passDeliveryService.save(passDelivery);
+        PassDelivery find = passDeliveryRepository.findById(passDelivery.getId()).get();
         //then
-        assertThat(find).isEqualTo(passInspection);
+        Assertions.assertThat(find).isEqualTo(passDelivery);
+        Assertions.assertThat(find.getDeliveryStatus()).isEqualTo(DeliveryStatus.배송시작);
+        Assertions.assertThat(find.getBuyerAddress()).isEqualTo(user.getUserAddresses().get(0).getUserAddress());
+        Assertions.assertThat(find.getDelivery()).isEqualTo(new Delivery(CJ대한통운, "1234-1234"));
+    }
+
+    @Test
+    public void 합격검수배송_조회_테스트() throws Exception{
+        //given
+        User user = userRepository.findAll().get(0);
+        PassInspection passInspection = passInspectionRepository.findAll().get(0);
+        PassDelivery passDelivery = new PassDelivery(new Delivery(CJ대한통운, "1234-1234")
+                , passInspection.getInspection().getDeal().getBuying().getPayment().getBuyerAddress()
+                , passInspection);
+        passDeliveryRepository.save(passDelivery);
+        //when
+        PassDelivery find = passDeliveryService.findById(passDelivery.getId());
+        //then
+        Assertions.assertThat(find).isEqualTo(passDelivery);
+        Assertions.assertThat(find.getDeliveryStatus()).isEqualTo(DeliveryStatus.배송시작);
+        Assertions.assertThat(find.getBuyerAddress()).isEqualTo(user.getUserAddresses().get(0).getUserAddress());
+        Assertions.assertThat(find.getDelivery()).isEqualTo(new Delivery(CJ대한통운, "1234-1234"));
     }
 }

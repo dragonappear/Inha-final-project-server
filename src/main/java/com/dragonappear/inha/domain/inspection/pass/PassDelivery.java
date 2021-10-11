@@ -54,10 +54,10 @@ public class PassDelivery extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public PassDelivery(Delivery delivery, Address buyerAddress, DeliveryStatus deliveryStatus, PassInspection passInspection) {
+    public PassDelivery(Delivery delivery, Address buyerAddress,PassInspection passInspection) {
         this.delivery = delivery;
         this.buyerAddress = buyerAddress;
-        this.deliveryStatus = deliveryStatus;
+        this.deliveryStatus = DeliveryStatus.배송시작;
         if (passInspection != null) {
             updateInspectionDelivery(passInspection);
         }
