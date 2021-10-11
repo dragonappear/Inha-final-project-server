@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class InspectionService {
     private final InspectionRepository inspectionRepository;
 
-    @Transactional
     // 검수 생성
+    @Transactional
     public Long save(Inspection inspection) {
         return inspectionRepository.save(inspection).getId();
     }
