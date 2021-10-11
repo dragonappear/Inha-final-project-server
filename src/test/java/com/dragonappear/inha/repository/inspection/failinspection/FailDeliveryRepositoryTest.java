@@ -85,7 +85,7 @@ class FailDeliveryRepositoryTest {
         paymentRepository.save(newPayment);
         Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);
-        Deal newDeal = new Deal(DealStatus.거래진행, newBuying, newSelling);
+        Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);
         Inspection newInspection = new Inspection(InspectionStatus.검수진행, newDeal);
         inspectionRepository.save(newInspection);

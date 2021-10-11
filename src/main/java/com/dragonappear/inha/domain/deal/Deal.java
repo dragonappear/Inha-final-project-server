@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -51,10 +52,16 @@ public class Deal extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public Deal(DealStatus dealStatus, Buying buying, Selling selling) {
-
-        this.dealStatus = dealStatus;
+    public Deal(Buying buying, Selling selling) {
+        this.dealStatus = 거래진행;
         this.buying = buying;
         this.selling = selling;
+    }
+
+    /**
+     * 비즈니스로직
+     */
+    public void updateDealStatus(DealStatus dealStatus) {
+        this.dealStatus = dealStatus;
     }
 }

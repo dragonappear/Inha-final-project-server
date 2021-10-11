@@ -79,7 +79,7 @@ class DealRepositoryTest {
         Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);
 
-        Deal newDeal = new Deal(DealStatus.거래진행, newBuying, newSelling);
+        Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);
         //when
         Deal findDeal = dealRepository.findById(newDeal.getId()).get();
