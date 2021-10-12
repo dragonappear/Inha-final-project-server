@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.user;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

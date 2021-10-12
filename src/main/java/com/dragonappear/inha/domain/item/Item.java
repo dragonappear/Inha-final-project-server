@@ -1,7 +1,7 @@
 package com.dragonappear.inha.domain.item;
 
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.value.Money;
 import lombok.Getter;

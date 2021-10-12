@@ -1,7 +1,7 @@
 package com.dragonappear.inha.domain.auctionitem;
 
 
-import com.dragonappear.inha.JpaBaseEntity;
+import com.dragonappear.inha.domain.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.payment.Payment;
