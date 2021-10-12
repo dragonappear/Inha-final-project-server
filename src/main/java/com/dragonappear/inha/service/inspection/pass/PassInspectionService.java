@@ -21,6 +21,6 @@ public class PassInspectionService {
     // 합격검수 조회 by 검수아이디
     public PassInspection findById(Long passInspectionId) {
         return passInspectionRepository.findById(passInspectionId)
-                .orElseThrow(() -> new IllegalStateException("검수 합격내역이 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalStateException("합격검수 내역이 존재하지 않습니다"));
     }
 }
