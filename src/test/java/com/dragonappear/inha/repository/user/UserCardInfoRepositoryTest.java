@@ -8,16 +8,17 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 @SpringBootTest
 @Transactional
+@Rollback
 class UserCardInfoRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserCardInfoRepository userCardInfoRepository;
-    @Autowired EntityManager em;
 
     @Test
     public void 유저카드_테스트() throws Exception{

@@ -33,25 +33,26 @@ public class UserLikeItem extends JpaBaseTimeEntity {
      * 연관관계편의메서드
      */
 
-    private void updateItem(User user) {
+    private void updateUser(User user) {
         this.user = user;
         user.getUserLikeItems().add(this);
     }
 
-    private void updateUser(Item item) {
+    private void updateItem(Item item) {
         this.item = item;
         item.getUserLikeItems().add(this);
+        item.like();
     }
 
     /**
      * 생성자메서드
      */
     public UserLikeItem(Item item, User user) {
-        if(item!=null){
-            updateUser(item);
-        }
         if(user!=null){
-            updateItem(user);
+            updateUser(user);
+        }
+        if(item!=null){
+            updateItem(item);
         }
     }
 }

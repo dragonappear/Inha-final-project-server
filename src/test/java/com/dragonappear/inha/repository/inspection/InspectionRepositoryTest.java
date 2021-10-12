@@ -20,6 +20,7 @@ import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
@@ -66,23 +67,23 @@ class InspectionRepositoryTest {
         categoryRepository.save(newCategory);
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
-        Item newItem = new Item("맥북", "serial1", 1_000_000L, 0, 1_000_000L, newCategory,newManufacturer);
+        Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
-        BidAuctionitem newBid = new BidAuctionitem(newItem,10_000_000_000L, AuctionitemStatus.경매진행, now(), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
+        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
         auctionitemRepository.save(newBid);
-        Selling newSelling = new Selling(SellingStatus.판매중,newUser, newBid);
+        Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
         UserAddress newAddress = new UserAddress(newUser, new Address("incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
 
         Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
-                newAddress.getUserAddress(), PaymentStatus.결제완료, newUser, newBid );
+                newAddress.getUserAddress(), newUser, newBid );
         paymentRepository.save(newPayment);
 
-        Buying newBuying = new Buying(BuyingStatus.구매중, newPayment);
+        Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);
 
-        Deal newDeal = new Deal(DealStatus.거래진행, newBuying, newSelling);
+        Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);
     }
 
@@ -90,7 +91,7 @@ class InspectionRepositoryTest {
     public void 검수생성_테스트() throws Exception{
         //given
         Deal deal = dealRepository.findAll().get(0);
-        Inspection newInspection = new Inspection(InspectionStatus.검수진행, deal);
+        Inspection newInspection = new Inspection(deal);
         inspectionRepository.save(newInspection);
         //when
         Inspection findInspection = inspectionRepository.findById(newInspection.getId()).get();

@@ -1,12 +1,12 @@
 package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.value.Image;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.*;
 
@@ -19,40 +19,39 @@ public class UserImage extends JpaBaseTimeEntity {
     @Column(name = "user_image_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String fileName;
-
-    @Column(nullable = false)
-    private String fileOriName;
-
-    @Column(nullable = false)
-    private String fileUrl;
+    @Embedded
+    private Image image;
 
     /**
      * 연관관계
      */
 
     @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-
-    /**
-     * 생성자 메서드
-     */
-    public UserImage(User user, String fileName, String fileOriName, String fileUrl) {
-        this.user = user;
-        this.fileName = fileName;
-        this.fileOriName = fileOriName;
-        this.fileUrl = fileUrl;
-    }
 
     /**
      * 연관관계 편의 메서드
      */
 
-    public void updateUser(User user) {
+    private void updateUserImage(User user) {
         this.user = user;
+        user.updateUserImage(this);
+
     }
 
+    /**
+     * 생성자 메서드
+     */
+    public UserImage(User user, Image image) {
+        if (user != null) {
+            updateUserImage(user);
+        }
+        this.image = image;
+    }
 
+    public void changeImage(Image image) {
+        this.image = image;
+    }
 }

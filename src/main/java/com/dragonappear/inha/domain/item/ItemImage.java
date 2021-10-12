@@ -1,6 +1,7 @@
 package com.dragonappear.inha.domain.item;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.value.Image;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +21,8 @@ public class ItemImage extends JpaBaseTimeEntity {
 
 
     @Column(nullable = false)
-    private String fileName;
-
-    @Column(nullable = false)
-    private String fileOriName;
-
-    @Column(nullable = false)
-    private String fileUrl;
+    @Embedded
+    private Image itemImage;
 
     /**
      * 연관관계
@@ -48,10 +44,8 @@ public class ItemImage extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public ItemImage( Item item,String fileName, String fileOriName, String fileUrl) {
-        this.fileName = fileName;
-        this.fileOriName = fileOriName;
-        this.fileUrl = fileUrl;
+    public ItemImage( Item item,Image image) {
+        this.itemImage = image;
         if (item != null) {
             updateItemImage(item);
         }

@@ -20,6 +20,7 @@ public class SellingDelivery extends JpaBaseTimeEntity {
     @Column(name = "selling_delivery_id")
     private Long id;
 
+    @Column(nullable = false)
     @Embedded
     private Delivery delivery;
 
@@ -27,6 +28,7 @@ public class SellingDelivery extends JpaBaseTimeEntity {
      * 연관관계
      */
     @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "selling_id")
     private Selling selling;
 
     /**
@@ -46,5 +48,13 @@ public class SellingDelivery extends JpaBaseTimeEntity {
     public SellingDelivery(Selling selling,Delivery delivery) {
         this.delivery = delivery;
         updateSellingDelivery(selling);
+    }
+
+    /**
+     * 비즈니스 로직
+     */
+
+    public void updateDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 }

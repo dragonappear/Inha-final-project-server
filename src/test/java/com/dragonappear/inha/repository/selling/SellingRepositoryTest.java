@@ -10,6 +10,7 @@ import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static java.time.LocalDateTime.now;
@@ -30,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Rollback
 class SellingRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired SellingRepository sellingRepository;
@@ -47,11 +50,11 @@ class SellingRepositoryTest {
         categoryRepository.save(newCategory);
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
-        Item newItem = new Item("맥북", "serial1", 1_000_000L, 0, 1_000_000L, newCategory,newManufacturer);
+        Item newItem = new Item("맥북", "serial1", Money.wons(1_000_000L), Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
-        BidAuctionitem newBid = new BidAuctionitem(newItem,10_000_000_000L, AuctionitemStatus.경매진행, now(), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
+        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
         auctionitemRepository.save(newBid);
-        Selling newSelling = new Selling(SellingStatus.판매중,newUser, newBid);
+        Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
         //when
         Selling findSelling = sellingRepository.findById(newSelling.getId()).get();

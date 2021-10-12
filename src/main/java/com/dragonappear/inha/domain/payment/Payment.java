@@ -2,16 +2,19 @@ package com.dragonappear.inha.domain.payment;
 
 import com.dragonappear.inha.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.domain.value.Money;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.payment.value.PaymentStatus.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
@@ -30,7 +33,8 @@ public class Payment extends JpaBaseEntity {
     private String itemName;
 
     @Column(nullable = false)
-    private Long paymentPrice;
+    @Embedded
+    private Money paymentPrice;
 
     @Column(nullable = false)
     private String buyerName;
@@ -68,6 +72,9 @@ public class Payment extends JpaBaseEntity {
      * 연관관계편의메서드
      */
     private void updateAuctionitem(Auctionitem auctionitem) {
+        if(auctionitem.getAuctionitemStatus()!= AuctionitemStatus.경매중){
+            throw new IllegalStateException("이 제품은 경매가 종료되었습니다");
+        }
         this.auctionitem = auctionitem;
         auctionitem.updateAuctionitemPayment(this);
     }
@@ -85,14 +92,14 @@ public class Payment extends JpaBaseEntity {
      * 생성자메서드
      */
 
-    public Payment(String itemName, Long paymentPrice, String buyerName, String buyerEmail, String buyerTel, Address buyerAddress, PaymentStatus paymentStatus, User user, Auctionitem auctionitem) {
+    public Payment(String itemName, Money paymentPrice, String buyerName, String buyerEmail, String buyerTel, Address buyerAddress, User user, Auctionitem auctionitem) {
         this.itemName = itemName;
         this.paymentPrice = paymentPrice;
         this.buyerName = buyerName;
         this.buyerEmail = buyerEmail;
         this.buyerTel = buyerTel;
         this.buyerAddress = buyerAddress;
-        this.paymentStatus = paymentStatus;
+        this.paymentStatus = 결제완료;
         if(user!=null){
             updatePaymentUser(user);
         }
@@ -103,5 +110,11 @@ public class Payment extends JpaBaseEntity {
 
     }
 
+    /**
+     * 비즈니스로직
+     */
 
+    public void cancel() {
+        this.paymentStatus = 결제취소;
+    }
 }

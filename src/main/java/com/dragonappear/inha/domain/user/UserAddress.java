@@ -24,15 +24,12 @@ public class UserAddress extends JpaBaseTimeEntity {
     @Column(nullable = false)
     private Address userAddress;
 
-
     /**
      * 연관관계
      */
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
 
     /**
      * 연관관계 편의 메서드

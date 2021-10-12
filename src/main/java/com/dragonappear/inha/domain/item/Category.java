@@ -17,13 +17,14 @@ import static javax.persistence.EnumType.*;
 @Getter
 @Entity
 public class Category extends JpaBaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
 
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true,updatable = false)
     private CategoryName categoryName;
 
     /**

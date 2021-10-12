@@ -2,8 +2,8 @@ package com.dragonappear.inha.domain.inspection;
 
 import com.dragonappear.inha.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.inspection.failinspection.FailInspection;
-import com.dragonappear.inha.domain.inspection.passinspection.PassInspection;
+import com.dragonappear.inha.domain.inspection.fail.FailInspection;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +13,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
+import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
-import static javax.persistence.InheritanceType.*;
 import static lombok.AccessLevel.*;
 
 @NoArgsConstructor(access = PROTECTED)
@@ -33,7 +34,6 @@ public class Inspection extends JpaBaseTimeEntity {
     @Enumerated(STRING)
     private InspectionStatus inspectionStatus;
 
-
     /**
      * 연관관계
      */
@@ -42,7 +42,7 @@ public class Inspection extends JpaBaseTimeEntity {
     private PassInspection passInspection;
 
     @OneToOne(fetch = LAZY,mappedBy = "inspection")
-    private FailInspection failInspection;
+    private com.dragonappear.inha.domain.inspection.fail.FailInspection failInspection;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "deal_id")
@@ -58,19 +58,21 @@ public class Inspection extends JpaBaseTimeEntity {
 
     public void updatePassInspection(PassInspection passInspection) {
         this.passInspection = passInspection;
-        this.inspectionStatus = InspectionStatus.검수합격;
+        this.inspectionStatus = 검수합격;
+        this.deal.updateDealStatus(거래완료);
     }
 
     public void updateFailInspection(FailInspection failInspection) {
         this.failInspection = failInspection;
-        this.inspectionStatus = InspectionStatus.검수탈락;
+        this.inspectionStatus = 검수탈락;
+        this.deal.updateDealStatus(거래취소);
     }
 
     /**
      * 생성자메서드
      */
-    public Inspection(InspectionStatus inspectionStatus, Deal deal) {
-        this.inspectionStatus = inspectionStatus;
+    public Inspection(Deal deal) {
+        this.inspectionStatus = 검수진행;
         this.deal = deal;
     }
 
