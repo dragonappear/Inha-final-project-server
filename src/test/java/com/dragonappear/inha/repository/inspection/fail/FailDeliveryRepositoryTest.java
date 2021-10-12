@@ -92,7 +92,6 @@ class FailDeliveryRepositoryTest {
         FailInspection failInspection = failInspectionRepository.findAll().get(0);
         FailDelivery newDelivery = new FailDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
                 new Address("city", "street", "detail", "zipcode"),
-                DeliveryStatus.배송시작,
                 failInspection);
         failDeliveryRepository.save(newDelivery);
         //when

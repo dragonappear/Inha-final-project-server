@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static com.dragonappear.inha.domain.value.DeliveryStatus.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -55,10 +56,10 @@ public class FailDelivery extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public FailDelivery(Delivery delivery, Address sellerAddress, DeliveryStatus deliveryStatus, FailInspection failInspection) {
+    public FailDelivery(Delivery delivery, Address sellerAddress,FailInspection failInspection) {
         this.delivery = delivery;
         this.sellerAddress = sellerAddress;
-        this.deliveryStatus = deliveryStatus;
+        this.deliveryStatus = 배송시작;
         if (failInspection != null) {
             updateFailDelivery(failInspection);
         }
