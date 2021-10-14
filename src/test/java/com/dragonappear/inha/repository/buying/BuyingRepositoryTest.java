@@ -29,6 +29,8 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDate;
+
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.assertj.core.api.Assertions.*;
@@ -55,7 +57,9 @@ class BuyingRepositoryTest {
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
 
-        Item newItem = new Item("맥북", "serial1",  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
+        Item newItem = new Item("맥북", "serial1", LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                ,  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
 
         BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L),  of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));

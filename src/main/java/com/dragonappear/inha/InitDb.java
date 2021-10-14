@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
@@ -64,9 +66,9 @@ public class InitDb {
         public void dbInit1() {
             Category category = categoryRepository.findByCategoryName(노트북).get();
             Manufacturer manufacturer = manufacturerRepository.findByManufacturerName(애플).get();
-            Item item1 = new Item("13인치 MacBook Pro", "modelNumber1", Money.wons(1_690_000),
+            Item item1 = new Item("13인치 MacBook Pro", "modelNumber1", LocalDate.of(2020, 5, 4),"space-gray",Money.wons(1_690_000),
                     Money.wons(1_400_000),category,manufacturer);
-            Item item2 = new Item("13인치 MacBook Air", "modelNumber2", Money.wons(1_690_000),
+            Item item2 = new Item("13인치 MacBook Air", "modelNumber2",LocalDate.of(2020, 5, 4),"space-gray", Money.wons(1_690_000),
                     Money.wons(1_400_000),category,manufacturer);
             em.persist(item1);
             em.persist(item2);
@@ -80,10 +82,20 @@ public class InitDb {
         public void dbInit2() {
             Category category = categoryRepository.findByCategoryName(노트북).get();
             Manufacturer manufacturer = manufacturerRepository.findByManufacturerName(삼성).get();
-            Item item1 = new Item("Galaxy Book Pro", "modelNumber3", Money.wons(1_690_000),
-                    Money.wons(1_400_000),category,manufacturer);
-            Item item2 = new Item("Galaxy Book", "modelNumber4", Money.wons(1_690_000),
-                    Money.wons(1_400_000),category,manufacturer);
+            Item item1 = new Item("Galaxy Book Pro"
+                    , "modelNumber3"
+                    ,LocalDate.of(2021, 5, 21)
+                    ,"미스틱 실버"
+                    , Money.wons(2_470_000)
+                    , Money.wons(1_500_000),category,manufacturer);
+
+            Item item2 = new Item("Galaxy Book"
+                    , "modelNumber4"
+                    ,LocalDate.of(2021, 5, 21)
+                    ,"미스틱 실버"
+                    , Money.wons(1_790_000)
+                    , Money.wons(1_400_000),category,manufacturer);
+
             em.persist(item1);
             em.persist(item2);
             Image image1 = new Image("2021 Galaxy Book Pro", "samsung_galaxybook_pro_2021.jpg", "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/");
