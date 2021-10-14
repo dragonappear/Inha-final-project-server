@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuctionItemApiController {
     private final ItemService itemService;
-    private final ItemImageService itemImageService;
 
     @GetMapping("/items")
     public List<ItemDto> allItems() {
         return itemService.findAll()
                 .stream()
                 .map(item ->
-                        new ItemDto(item.getItemImages().get(0).getItemImage().getFileOriName()
+                        new ItemDto(item.getId()
+                                ,item.getItemImages().get(0).getItemImage().getFileOriName()
                                 , item.getManufacturer().getManufacturerName()
                                 , item.getItemName()
                                 , item.getLikeCount()
@@ -32,25 +32,27 @@ public class AuctionItemApiController {
                 collect(Collectors.toList());
     }
 
-    @GetMapping("/items/{categoryName}")
+    @GetMapping("/items/find/{categoryName}")
     public List<ItemDto> categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName) {
         return itemService.findByCategoryName(categoryName)
                 .stream()
                 .map(item ->
-                        new ItemDto(item.getItemImages().get(0).getItemImage().getFileOriName()
+                        new ItemDto(item.getId()
+                                ,item.getItemImages().get(0).getItemImage().getFileOriName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
                                 , item.getLatestPrice().getAmount()))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/items/{categoryName}/{manufacturerName}")
+    @GetMapping("/items/find/{categoryName}/{manufacturerName}")
     public List<ItemDto> categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName
             , @PathVariable(name = "manufacturerName")ManufacturerName manufacturerName) {
         return itemService.findByCategoryAndManufacturer(categoryName,manufacturerName)
                 .stream()
                 .map(item ->
-                        new ItemDto(item.getItemImages().get(0).getItemImage().getFileOriName()
+                        new ItemDto(item.getId()
+                                , item.getItemImages().get(0).getItemImage().getFileOriName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
                                 , item.getLatestPrice().getAmount()))
