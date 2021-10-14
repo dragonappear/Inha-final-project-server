@@ -1,4 +1,4 @@
-package com.dragonappear.inha.config.auth.dto;
+package com.dragonappear.inha.config.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

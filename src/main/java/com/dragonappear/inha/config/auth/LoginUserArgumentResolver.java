@@ -1,5 +1,6 @@
-package com.dragonappear.inha.config.auth.dto;
+package com.dragonappear.inha.config.auth;
 
+import com.dragonappear.inha.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

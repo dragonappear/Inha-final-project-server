@@ -1,6 +1,7 @@
 package com.dragonappear.inha.config.auth.dto;
 
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.value.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 

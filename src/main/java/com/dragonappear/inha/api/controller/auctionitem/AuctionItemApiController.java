@@ -3,7 +3,6 @@ package com.dragonappear.inha.api.controller.auctionitem;
 import com.dragonappear.inha.api.controller.auctionitem.dto.ItemDto;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
-import com.dragonappear.inha.service.item.ItemImageService;
 import com.dragonappear.inha.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,5 +57,4 @@ public class AuctionItemApiController {
                                 , item.getLatestPrice().getAmount()))
                 .collect(Collectors.toList());
     }
-
 }
