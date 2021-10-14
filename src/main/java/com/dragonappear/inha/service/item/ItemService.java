@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,6 +28,16 @@ public class ItemService {
     public Item findByItemId(Long itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
+    }
+
+    // 모든 아이템 조회
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
+
+    // 카테고리와 제조사명으로 아이템 조회
+    public List<Item> findByCategoryAndManufacturer(CategoryName categoryName,ManufacturerName manufacturerName) {
+        return itemRepository.findByCategoryAndManufacturer(categoryName,manufacturerName);
     }
 
     // 아이템 좋아요 카운트
@@ -79,4 +90,6 @@ public class ItemService {
     public List<Item> findByCategoryName(CategoryName categoryName) {
         return itemRepository.findByCategoryName(categoryName);
     }
+
+
 }

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: oauth,init
+    include: oauth
 
   session:
     store-type : jdbc

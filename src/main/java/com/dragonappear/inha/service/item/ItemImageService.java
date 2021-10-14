@@ -24,7 +24,7 @@ public class ItemImageService {
         return itemImageRepository.save(image).getId();
     }
 
-    // 아이템이미지 전체조회 by 유저아이디
+    // 아이템이미지 전체조회 by 아이템아이디
     public List<ItemImage> findByItemId(Long itemId) {
         return itemImageRepository.findByItemId(itemId);
     }
