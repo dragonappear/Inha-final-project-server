@@ -1,24 +1,23 @@
 package com.dragonappear.inha.api.controller.auctionitem.dto;
 
-import com.dragonappear.inha.domain.item.Manufacturer;
-import com.dragonappear.inha.domain.value.Money;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
 public class ItemDto {
-    private List<String> imageUrl;
+    private String fileOriginName;
     private Enum manufacturer;
     private String itemName;
+    private Long itemLike;
     private BigDecimal latestPrice;
 
-    public ItemDto(List<String>imageUrl, Enum manufacturer, String itemName, BigDecimal latestPrice) {
-        this.imageUrl = imageUrl;
+    public ItemDto(String fileOriginName, Enum manufacturer, String itemName, Long itemLike, BigDecimal latestPrice) {
+        this.fileOriginName = fileOriginName;
         this.manufacturer = manufacturer;
         this.itemName = itemName;
+        this.itemLike = itemLike;
         this.latestPrice = latestPrice;
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -31,6 +32,7 @@ public class Manufacturer extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "manufacturer")
     private List<Item> items = new ArrayList<>();
 
+
     /**
      * 연관관계편의메서드
      */
@@ -39,6 +41,7 @@ public class Manufacturer extends JpaBaseTimeEntity {
      * 생성자메서드
      */
     public Manufacturer(ManufacturerName manufacturerName) {
+
         this.manufacturerName = manufacturerName;
     }
 

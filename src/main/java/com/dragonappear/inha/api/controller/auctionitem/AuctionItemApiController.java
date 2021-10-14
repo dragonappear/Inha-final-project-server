@@ -24,9 +24,10 @@ public class AuctionItemApiController {
         return itemService.findAll()
                 .stream()
                 .map(item ->
-                        new ItemDto(item.getItemImages().stream().map(image -> image.getItemImage().getFileUrl()).collect(Collectors.toList())
+                        new ItemDto(item.getItemImages().get(0).getItemImage().getFileOriName()
                                 , item.getManufacturer().getManufacturerName()
                                 , item.getItemName()
+                                , item.getLikeCount()
                                 , item.getLatestPrice().getAmount())).
                 collect(Collectors.toList());
     }
@@ -36,8 +37,9 @@ public class AuctionItemApiController {
         return itemService.findByCategoryName(categoryName)
                 .stream()
                 .map(item ->
-                        new ItemDto(item.getItemImages().stream().map(image -> image.getItemImage().getFileUrl()).collect(Collectors.toList())
+                        new ItemDto(item.getItemImages().get(0).getItemImage().getFileOriName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
+                                , item.getLikeCount()
                                 , item.getLatestPrice().getAmount()))
                 .collect(Collectors.toList());
     }
@@ -48,9 +50,11 @@ public class AuctionItemApiController {
         return itemService.findByCategoryAndManufacturer(categoryName,manufacturerName)
                 .stream()
                 .map(item ->
-                        new ItemDto(item.getItemImages().stream().map(image -> image.getItemImage().getFileUrl()).collect(Collectors.toList())
+                        new ItemDto(item.getItemImages().get(0).getItemImage().getFileOriName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
+                                , item.getLikeCount()
                                 , item.getLatestPrice().getAmount()))
                 .collect(Collectors.toList());
     }
+
 }

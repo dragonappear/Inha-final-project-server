@@ -34,6 +34,7 @@ public class Category extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "category")
     private List<Item> items = new ArrayList<>();
 
+
     /**
      * 연관관계편의메서드
      */

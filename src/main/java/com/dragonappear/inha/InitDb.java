@@ -1,13 +1,11 @@
 package com.dragonappear.inha;
 
 
-import com.dragonappear.inha.domain.item.Category;
-import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.ItemImage;
-import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.*;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.repository.item.CategoryManufacturerRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +43,7 @@ public class InitDb {
         private final EntityManager em;
         private final CategoryRepository categoryRepository;
         private final ManufacturerRepository manufacturerRepository;
+        private final CategoryManufacturerRepository categoryManufacturerRepository;
 
         public void dbInit0() {
             Category category = new Category(노트북);
@@ -55,6 +54,10 @@ public class InitDb {
             Manufacturer manufacturer1 = new Manufacturer(삼성);
             em.persist(manufacturer);
             em.persist(manufacturer1);
+            em.persist(new CategoryManufacturer(category, manufacturer));
+            em.persist(new CategoryManufacturer(category, manufacturer1));
+            em.persist(new CategoryManufacturer(category1, manufacturer));
+            em.persist(new CategoryManufacturer(category1, manufacturer1));
         }
 
 
@@ -63,14 +66,14 @@ public class InitDb {
             Manufacturer manufacturer = manufacturerRepository.findByManufacturerName(애플).get();
             Item item1 = new Item("13인치 MacBook Pro", "modelNumber1", Money.wons(1_690_000),
                     Money.wons(1_400_000),category,manufacturer);
-            Item item2 = new Item("13인치 MacBook Pro", "modelNumber2", Money.wons(1_690_000),
+            Item item2 = new Item("13인치 MacBook Air", "modelNumber2", Money.wons(1_690_000),
                     Money.wons(1_400_000),category,manufacturer);
             em.persist(item1);
             em.persist(item2);
-            Image image1 = new Image("macbook", "img.png", "src/main/resources/static/items/img.png");
+            Image image1 = new Image("2020 macbook13 pro", "macbook_pro_13_2020.png", "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/");
+            Image image2 = new Image("2020 macbook13 air", "macbook_air_13_2020.png", "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/");
             ItemImage itemImage1 = new ItemImage(item1, image1);
-            Image image2 = new Image("macbook", "img.png", "src/main/resources/static/items/img.png");
-            ItemImage itemImage2 = new ItemImage(item2, image2);
+            ItemImage itemImage2 = new ItemImage(item2, image1);
             em.persist(itemImage1);
             em.persist(itemImage2);
         }
@@ -83,9 +86,9 @@ public class InitDb {
                     Money.wons(1_400_000),category,manufacturer);
             em.persist(item1);
             em.persist(item2);
-            Image image1 = new Image("Galaxy Book Pro", "img.png", "src/main/resources/static/items/img.png");
+            Image image1 = new Image("2021 Galaxy Book Pro", "samsung_galaxybook_pro_2021.jpg", "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/");
             ItemImage itemImage1 = new ItemImage(item1, image1);
-            Image image2 = new Image("Galaxy Book", "img.png", "src/main/resources/static/items/img.png");
+            Image image2 = new Image("2021 Galaxy Book", "samsung_galaxybook_2021.jpg", "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/");
             ItemImage itemImage2 = new ItemImage(item2, image2);
             em.persist(itemImage1);
             em.persist(itemImage2);
