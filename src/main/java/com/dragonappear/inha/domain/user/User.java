@@ -1,12 +1,13 @@
 package com.dragonappear.inha.domain.user;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import com.dragonappear.inha.domain.user.value.UserRole;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,7 @@ import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email","userTel"})})
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Entity
 public class User extends JpaBaseTimeEntity {
@@ -37,12 +38,13 @@ public class User extends JpaBaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String userTel;
 
-    @Column(nullable = false)
     @Enumerated(STRING)
+    @Column(nullable = false)
     private UserRole userRole;
+
+    private String picture;
 
     /**
      * 연관관계
@@ -93,12 +95,34 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 생성자 메서드
      */
+
     public User(String username, String nickname, String email, String userTel) {
         this.username = username;
         this.nickname = nickname;
         this.email = email;
         this.userTel = userTel;
-        this.userRole = 일반사용자;
+        this.userRole = USER;
+    }
+
+    @Builder
+    public User(String username, String email,UserRole userRole, String picture) {
+        this.username = username;
+        this.email = email;
+        this.userRole = userRole;
+        this.picture = picture;
+    }
+
+    /**
+     * 비즈니스 로직
+     */
+    public User update(String username,String picture) {
+        this.username = username;
+        this.picture = picture;
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.userRole.getKey();
     }
 }
 

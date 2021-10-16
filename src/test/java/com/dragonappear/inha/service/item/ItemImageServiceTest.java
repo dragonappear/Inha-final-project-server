@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
@@ -41,7 +42,9 @@ class ItemImageServiceTest {
         Manufacturer manufacturer = new Manufacturer(삼성);
         categoryRepository.save(category);
         manufacturerRepository.save(manufacturer);
-        Item item = new Item("맥북1", "modelNumber1", Money.wons(10000L),
+        Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                , Money.wons(10000L),
                 Money.wons(20000L),category,manufacturer);
         itemRepository.save(item);
     }

@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.selling;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Delivery;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

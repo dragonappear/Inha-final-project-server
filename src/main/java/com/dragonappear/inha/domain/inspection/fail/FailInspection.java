@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.inspection.fail;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

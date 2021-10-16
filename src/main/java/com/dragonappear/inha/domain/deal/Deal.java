@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.deal;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.value.DealStatus;

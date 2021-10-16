@@ -1,4 +1,4 @@
-package com.dragonappear.inha;
+package com.dragonappear.inha.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;

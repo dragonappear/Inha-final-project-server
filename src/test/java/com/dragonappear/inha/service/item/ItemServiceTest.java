@@ -20,6 +20,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.*;
@@ -47,13 +48,21 @@ class ItemServiceTest {
         manufacturerRepository.save(manufacturer);
         manufacturerRepository.save(manufacturer1);
 
-        Item item = new Item("맥북1", "modelNumber1", Money.wons(10000L),
+        Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                , Money.wons(10000L),
                  Money.wons(20000L),category,manufacturer);
-        Item item1 = new Item("맥북1", "modelNumber2", Money.wons(20000L),
+        Item item1 = new Item("맥북1", "modelNumber2",LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                , Money.wons(20000L),
                  Money.wons(20000L),category,manufacturer);
-        Item item2 = new Item("맥북2", "modelNumber3", Money.wons(30000L),
+        Item item2 = new Item("맥북2", "modelNumber3",LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                , Money.wons(30000L),
                  Money.wons(20000L),category1,manufacturer1);
-        Item item3 = new Item("맥북2", "modelNumber4", Money.wons(40000L),
+        Item item3 = new Item("맥북2", "modelNumber4",LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                , Money.wons(40000L),
                  Money.wons(20000L),category1,manufacturer1);
 
         itemRepository.save(item);
@@ -67,7 +76,9 @@ class ItemServiceTest {
         //given
         Category category = categoryRepository.findAll().get(0);
         Manufacturer manufacturer = manufacturerRepository.findAll().get(0);
-        Item item = new Item("맥북1", "modelNumber10", Money.wons(10000L),
+        Item item = new Item("맥북1", "modelNumber10",LocalDate.of(2021, 5, 21)
+                ,"미스틱 실버"
+                , Money.wons(10000L),
                  Money.wons(20000L), category, manufacturer);
         //when
         Long save = itemService.save(item);

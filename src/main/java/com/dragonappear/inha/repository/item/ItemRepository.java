@@ -22,4 +22,8 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 
     @Query("select i from Item i where i.category.categoryName =:categoryName")
     List<Item> findByCategoryName(@Param("categoryName") CategoryName categoryName);
+
+
+    @Query("select i from Item i where i.category.categoryName=:categoryName and i.manufacturer.manufacturerName =:manufacturerName")
+    List<Item> findByCategoryAndManufacturer(@Param("categoryName") CategoryName categoryName,@Param("manufacturerName") ManufacturerName manufacturerName);
 }

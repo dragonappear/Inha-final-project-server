@@ -1,7 +1,7 @@
 package com.dragonappear.inha.domain.item;
 
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.value.Money;
 import lombok.Getter;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,12 @@ public class Item extends JpaBaseTimeEntity {
 
     @Column(nullable = false,updatable = false)
     private String itemName;
+
+    @Column(nullable = false,updatable = false)
+    private LocalDate releaseDay;
+
+    @Column(nullable = false,updatable = false)
+    private String color;
 
     @Column(nullable = false,updatable = false,unique = true)
     private String modelNumber;
@@ -82,10 +90,12 @@ public class Item extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public Item(String itemName, String modelNumber, Money releasePrice, Money latestPrice, Category category, Manufacturer manufacturer) {
+    public Item(String itemName, String modelNumber,LocalDate releaseDay,String color,Money releasePrice, Money latestPrice, Category category, Manufacturer manufacturer) {
         this.itemName = itemName;
         this.modelNumber = modelNumber;
         this.releasePrice = releasePrice;
+        this.releaseDay = releaseDay;
+        this.color = color;
         this.likeCount = 0L;
         this.latestPrice = latestPrice;
         if(category!=null){

@@ -1,16 +1,10 @@
 package com.dragonappear.inha.service.deal;
 
-
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.Id;
-import java.util.List;
-
 import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 
 @RequiredArgsConstructor

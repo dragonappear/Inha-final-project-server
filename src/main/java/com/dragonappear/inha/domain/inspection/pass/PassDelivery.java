@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.inspection.pass;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Delivery;
 import com.dragonappear.inha.domain.value.DeliveryStatus;

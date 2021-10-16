@@ -1,10 +1,9 @@
 package com.dragonappear.inha.domain.buying;
 
-import com.dragonappear.inha.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.payment.Payment;
-import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
