@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class AuctionItemApiController {
     private final ItemService itemService;
 
-    @GetMapping("/items")
+    @GetMapping("/api/v2/items")
     public List<ItemDto> allItems() {
         return itemService.findAll()
                 .stream()
@@ -31,7 +31,7 @@ public class AuctionItemApiController {
                 collect(Collectors.toList());
     }
 
-    @GetMapping("/items/find/{categoryName}")
+    @GetMapping("/api/v2/items/find/{categoryName}")
     public List<ItemDto> categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName) {
         return itemService.findByCategoryName(categoryName)
                 .stream()
@@ -44,7 +44,7 @@ public class AuctionItemApiController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/items/find/{categoryName}/{manufacturerName}")
+    @GetMapping("/api/v2/items/find/{categoryName}/{manufacturerName}")
     public List<ItemDto> categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName
             , @PathVariable(name = "manufacturerName")ManufacturerName manufacturerName) {
         return itemService.findByCategoryAndManufacturer(categoryName,manufacturerName)

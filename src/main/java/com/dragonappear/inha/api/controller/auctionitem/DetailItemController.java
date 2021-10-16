@@ -17,7 +17,7 @@ public class DetailItemController {
     private final ItemService itemService;
     private final DealService dealService;
 
-    @GetMapping("/items/{itemId}")
+    @GetMapping("/api/v2/items/{itemId}")
     public DetailItemDto detailItem(@PathVariable("itemId") Long itemId) {
         Item find = itemService.findByItemId(itemId);
 

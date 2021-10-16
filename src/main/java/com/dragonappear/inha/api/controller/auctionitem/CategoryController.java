@@ -18,7 +18,7 @@ public class CategoryController {
     private final CategoryRepository categoryRepository;
     private final CategoryManufacturerRepository categoryManufacturerRepository;
 
-    @GetMapping("/categories")
+    @GetMapping("/api/v2/categories")
     public List<CategoryName> categoryNames() {
         return categoryRepository.findAll()
                 .stream()
@@ -26,7 +26,7 @@ public class CategoryController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{categoryName}/manufacturers")
+    @GetMapping("/api/v2/{categoryName}/manufacturers")
     public List<ManufacturerName> manufacturerNames(@PathVariable(name = "categoryName") CategoryName categoryName) {
         return categoryManufacturerRepository.findByCategoryName(categoryName)
                 .stream()

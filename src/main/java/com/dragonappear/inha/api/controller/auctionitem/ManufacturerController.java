@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ManufacturerController {
     private final ManufacturerRepository manufacturerRepository;
-    @GetMapping("/manufacturers")
+    @GetMapping("/api/v2/manufacturers")
     public List<ManufacturerName> manufacturerNames() {
         return manufacturerRepository.findAll()
                 .stream()
