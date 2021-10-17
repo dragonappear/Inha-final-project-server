@@ -1,7 +1,9 @@
 HELP.md
 .gradle
 build/
-*.yml
+application-oauth.yml
+application-real-db.yml
+
 *.properties
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

@@ -1,10 +1,11 @@
 spring:
   profiles:
-    include: init,oauth,real-db
+    include: real
 
   jpa:
     hibernate:
       ddl-auto: create-drop
+
     properties:
       hibernate:
         format_sql: true
