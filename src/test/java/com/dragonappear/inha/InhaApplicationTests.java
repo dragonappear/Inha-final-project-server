@@ -8,5 +8,4 @@ class InhaApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

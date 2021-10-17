@@ -1,10 +1,6 @@
 spring:
   profiles:
-    include: oauth,init
-
-  session:
-    store-type : jdbc
-    jdbc.initialize-schema: always
+    include: init,oauth,real-db
 
   jpa:
     hibernate:
