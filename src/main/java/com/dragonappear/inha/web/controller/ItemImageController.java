@@ -1,5 +1,7 @@
 package com.dragonappear.inha.web.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.repository.query.Param;
@@ -15,9 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Api(tags = {"이미지 조회 API"})
 @RestController
 public class ItemImageController {
 
+    @ApiOperation(value = "이미지 조회", notes = "이미지를 반환합니다.")
     @GetMapping(value = "/api/v2/images/items/{fileOriginName}")
     public ResponseEntity<Resource> itemImages(@PathVariable("fileOriginName") String fileOriginName) {
         String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static";

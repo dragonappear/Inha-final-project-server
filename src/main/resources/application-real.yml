@@ -1,8 +1,11 @@
 spring:
   profiles:
-    include: oauth,real-db,init
+    active: oauth,real-db,init
 
   jpa:
-    hibernate:
-      properties:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+logging.level:
+  org.hibernate.SQL: debug
+

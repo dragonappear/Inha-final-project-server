@@ -17,8 +17,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any()) // 모든 RequestMapping URI 추출
-                // .apis(RequestHandlerSelectors.basePackage("com")) // 패키지 기준 추출
-                .paths(PathSelectors.ant("/api/v2/**")) // 경로 패턴 URI만 추출
+                //.paths(PathSelectors.ant("/api/v2/**")) // 경로 패턴 URI만 추출
                 .build()
                 .apiInfo(apiInfo());
     }
@@ -27,7 +26,7 @@ public class SwaggerConfiguration {
         return new ApiInfo(
                 "Auction REST Api ", //title
                 "미개봉 전자제품 경매 서비스", //description
-                "v2", //version
+                "v1", //version
                 "서비스 약관 URL", //termsOfServiceUrl
                 "contactName", //contactName
                 "License", //license

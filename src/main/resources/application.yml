@@ -1,11 +1,10 @@
 spring:
   profiles:
-    include: real
+    active: oauth,real-db,init
 
   jpa:
     hibernate:
       ddl-auto: create-drop
-
     properties:
       hibernate:
         format_sql: true
@@ -13,3 +12,4 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+
