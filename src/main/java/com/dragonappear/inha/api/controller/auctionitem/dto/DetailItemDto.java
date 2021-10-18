@@ -18,7 +18,8 @@ public class DetailItemDto {
     private Long itemLike;
     private BigDecimal latestPrice;
 
-    public DetailItemDto(Long itemId,List<String> fileOriginName, Enum manufacturer
+    public
+    DetailItemDto(Long itemId,List<String> fileOriginName, Enum manufacturer
             , String itemName, String modelNumber, LocalDate releaseDay
             , String color, Long itemLike, BigDecimal latestPrice) {
         this.itemId = itemId;

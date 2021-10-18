@@ -56,8 +56,12 @@ public class Deal extends JpaBaseTimeEntity {
      */
     public Deal(Buying buying, Selling selling) {
         this.dealStatus = 거래완료;
-        this.buying = buying;
-        this.selling = selling;
+        if (buying != null) {
+            updateBuying(buying);
+        }
+        if (selling != null) {
+            updateSelling(selling);
+        }
     }
 
     /**
@@ -73,5 +77,15 @@ public class Deal extends JpaBaseTimeEntity {
             this.buying.updateStatus(BuyingStatus.구매완료);
             this.selling.updateStatus(SellingStatus.판매완료);
         }
+    }
+
+    private void updateBuying(Buying buying) {
+        this.buying = buying;
+        buying.updateStatus(BuyingStatus.구매완료);
+    }
+
+    private void updateSelling(Selling selling) {
+        this.selling = selling;
+        selling.updateStatus(SellingStatus.판매완료);
     }
 }

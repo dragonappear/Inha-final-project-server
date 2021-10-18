@@ -21,7 +21,7 @@ public class AuctionItemApiController {
     private final ItemService itemService;
 
     @ApiOperation(value = "전체 아이템 조회", notes = "모든 아이템을 조회합니다.")
-    @GetMapping("/api/v2/items")
+    @GetMapping("/api/v1/items")
     public List<ItemDto> allItems() {
         return itemService.findAll()
                 .stream()
@@ -36,7 +36,7 @@ public class AuctionItemApiController {
     }
 
     @ApiOperation(value = "카테고리 내 전체 아이템 조회", notes = "카테고리 내 전체 아이템을 조회합니다.")
-    @GetMapping("/api/v2/items/{categoryName}")
+    @GetMapping("/api/v1/items/{categoryName}")
     public List<ItemDto> categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName) {
         return itemService.findByCategoryName(categoryName)
                 .stream()
@@ -50,7 +50,7 @@ public class AuctionItemApiController {
     }
 
     @ApiOperation(value = "카테고리+제조사 내 전체 아이템 조회", notes = "카테고리+제조사 내 전체 아이템을 조회합니다.")
-    @GetMapping("/api/v2/items/{categoryName}/{manufacturerName}")
+    @GetMapping("/api/v1/items/{categoryName}/{manufacturerName}")
     public List<ItemDto> categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName
             , @PathVariable(name = "manufacturerName")ManufacturerName manufacturerName) {
         return itemService.findByCategoryAndManufacturer(categoryName,manufacturerName)

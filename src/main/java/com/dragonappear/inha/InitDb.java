@@ -1,8 +1,18 @@
 package com.dragonappear.inha;
 
 
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.buying.Buying;
+import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.item.*;
 import com.dragonappear.inha.domain.item.value.CategoryName;
+import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserAddress;
+import com.dragonappear.inha.domain.user.value.UserRole;
+import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.CategoryManufacturerRepository;
@@ -16,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +47,7 @@ public class InitDb {
         initService.dbInit0();
         initService.dbInit1();
         initService.dbInit2();
+        initService.dbInit3();
     }
 
     @RequiredArgsConstructor
@@ -105,5 +117,38 @@ public class InitDb {
             em.persist(itemImage1);
             em.persist(itemImage2);
         }
+
+        public void dbInit3() {
+            User admin = new User("admin", "admin@auctionhelp.com", UserRole.ADMIN, null);
+            User user1 = new User("user1", "nickname1", "user1@naver.com", "010-3141-3519");
+
+            em.persist(admin);
+            em.persist(user1);
+
+            UserAddress userAddress = new UserAddress(user1, new Address("city1", "steet1", "detail1", "zipcode1"));
+            em.persist(userAddress);
+
+            Item item = em.find(Item.class, 1L);
+            Auctionitem auctionitem = new BidAuctionitem(item, Money.wons(10_000_000L),LocalDateTime.now().plusDays(10));
+            em.persist(auctionitem);
+            Selling selling = new Selling(admin, auctionitem);
+            em.persist(selling);
+
+            Payment payment = new Payment(item.getItemName()
+                    , auctionitem.getPrice()
+                    , user1.getUsername()
+                    , user1.getEmail()
+                    , user1.getUserTel()
+                    , user1.getUserAddresses().get(0).getUserAddress()
+                    , user1
+                    , auctionitem);
+            em.persist(payment);
+            Buying buying = new Buying(payment);
+            em.persist(buying);
+
+            Deal deal = new Deal(buying, selling);
+            em.persist(deal);
+        }
+
     }
 }

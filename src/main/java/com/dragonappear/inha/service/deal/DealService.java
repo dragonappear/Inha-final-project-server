@@ -13,7 +13,7 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 public class DealService {
     private final DealRepository dealRepository;
 
-    // 거래 생성직
+    // 거래 생성
     @Transactional
     public Long save(Deal deal) {
         return dealRepository.save(deal).getId();
@@ -24,6 +24,8 @@ public class DealService {
         return dealRepository.findById(dealId)
                 .orElseThrow(() -> new IllegalStateException("해당 거래가 존재하지 않습니다."));
     }
+
+    // 거래 조회 by 아이템 아이디
 
     // 거래상태변경 when 검수탈락시
     @Transactional
