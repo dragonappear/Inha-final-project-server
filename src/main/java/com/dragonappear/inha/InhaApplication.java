@@ -27,7 +27,6 @@ public class InhaApplication {
 		return () -> Optional.of(UUID.randomUUID().toString());
 	}
 
-
 	@Bean
 	JPAQueryFactory jpaQueryFactory(EntityManager em) {
 		return new JPAQueryFactory(em);

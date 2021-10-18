@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+InitDb.java
 application-oauth.yml
 application-real-db.yml
 
