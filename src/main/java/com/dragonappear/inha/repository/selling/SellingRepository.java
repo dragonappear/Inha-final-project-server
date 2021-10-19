@@ -1,6 +1,7 @@
 package com.dragonappear.inha.repository.selling;
 
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,7 @@ public interface SellingRepository extends JpaRepository<Selling,Long>{
 
     @Query("select s from Selling s where s.auctionitem.item.itemName=:itemName")
     List<Selling> findByItemName(@Param("itemName") String itemName);
+
+    @Query("select s from Selling s where s.sellingStatus =:sellingStatus")
+    List<Selling> findByStatus(@Param("sellingStatus") SellingStatus sellingStatus);
 }

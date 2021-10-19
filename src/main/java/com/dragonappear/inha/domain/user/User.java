@@ -124,5 +124,9 @@ public class User extends JpaBaseTimeEntity {
     public String getRoleKey() {
         return this.userRole.getKey();
     }
+
+    public void updateUserTel(String userTel) {
+        this.userTel = userTel;
+    }
 }
 

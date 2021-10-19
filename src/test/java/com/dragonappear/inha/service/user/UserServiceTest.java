@@ -2,7 +2,6 @@ package com.dragonappear.inha.service.user;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.repository.user.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ class UserServiceTest {
         //given
         User user = userRepository.findByEmail("email1@").get();
         //when
-        User findUser = userService.findOne(user.getId());
+        User findUser = userService.findOneById(user.getId());
         //then
         assertThat(findUser).isEqualTo(user);
         assertThat(findUser.getId()).isEqualTo(user.getId());

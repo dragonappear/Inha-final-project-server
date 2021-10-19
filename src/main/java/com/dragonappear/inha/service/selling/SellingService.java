@@ -1,7 +1,6 @@
 package com.dragonappear.inha.service.selling;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
@@ -50,16 +49,21 @@ public class SellingService {
         selling.updateStatus(SellingStatus.판매완료);
     }
 
-    // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
-    @Transactional
-    public void overdue(Selling selling) {
-        selling.updateStatus(SellingStatus.판매기간만료);
-    }
-
     // 경매상품판매가 취소되었을때 status 변경 (검수탈락했을경우)
     @Transactional
     public void cancel(Selling selling) {
         selling.updateStatus(SellingStatus.판매취소);
+    }
+
+    // 판매중인 판매 조회
+    public List<Selling> findOnSale(SellingStatus sellingStatus) {
+        return sellingRepository.findByStatus(sellingStatus);
+    }
+
+    // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
+    @Transactional
+    public void overdue(Selling selling) {
+        selling.updateStatus(SellingStatus.판매기간만료);
     }
 
     /**

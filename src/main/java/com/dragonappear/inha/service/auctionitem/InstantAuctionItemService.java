@@ -34,7 +34,6 @@ public class InstantAuctionItemService {
 
     // 즉시판매아이템 판매기한만료시 status 변경
     @Transactional
-    //@EnableScheduling
     public void overdue(Auctionitem auctionitem) {
         auctionitem.updateStatus(AuctionitemStatus.경매기한만료);
     }

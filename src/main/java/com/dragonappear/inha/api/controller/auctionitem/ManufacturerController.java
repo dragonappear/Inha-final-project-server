@@ -19,7 +19,7 @@ public class ManufacturerController {
     private final ManufacturerRepository manufacturerRepository;
 
     @ApiOperation(value = "모든 제조사 조회", notes = "모든 제조사를 조회합니다.")
-    @GetMapping("/api/v1/manufacturers")
+    @GetMapping("/items/manufacturers")
     public List<ManufacturerName> manufacturerNames() {
         return manufacturerRepository.findAll()
                 .stream()

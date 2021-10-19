@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.selling;
 
 import com.dragonappear.inha.domain.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
@@ -26,7 +27,7 @@ public class Selling extends JpaBaseEntity {
     @Column(name = "selling_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name ="status",nullable = false)
     @Enumerated(STRING)
     private SellingStatus sellingStatus;
 
@@ -88,6 +89,8 @@ public class Selling extends JpaBaseEntity {
             this.auctionitem.updateStatus(경매취소);
         } else if (sellingStatus == 판매완료) {
             this.auctionitem.updateStatus(경매완료);
+        } else if (sellingStatus == 판매기간만료) {
+            this.auctionitem.updateStatus(경매기한만료);
         }
     }
 }

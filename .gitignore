@@ -4,6 +4,7 @@ build/
 InitDb.java
 application-oauth.yml
 application-real-db.yml
+application-local-db.yml
 
 *.properties
 !gradle/wrapper/gradle-wrapper.jar

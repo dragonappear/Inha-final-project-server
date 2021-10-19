@@ -1,19 +1,12 @@
-package com.dragonappear.inha.api.repository;
+package com.dragonappear.inha.api.repository.deal;
 
-import com.dragonappear.inha.domain.deal.QDeal;
-import com.dragonappear.inha.domain.selling.QSelling;
-import com.dragonappear.inha.domain.selling.value.SellingStatus;
-import com.dragonappear.inha.domain.value.Money;
-import com.querydsl.core.QueryResults;
+import com.dragonappear.inha.api.repository.deal.dto.MarketPriceInfoDto;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +19,22 @@ import static com.dragonappear.inha.domain.selling.value.SellingStatus.*;
 public class DealQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<BigDecimal> findRecentPrice(Long itemId, Pageable pageable) {
-        return queryFactory.select(selling.auctionitem.price)
+    public List<MarketPriceInfoDto> findRecentPrice(Long itemId, Pageable pageable) {
+        List<Tuple> result = queryFactory.select(selling.auctionitem.price, deal.createdDate)
                 .from(deal)
                 .leftJoin(deal.selling, selling)
                 .where(selling.auctionitem.item.id.eq(itemId).and(selling.sellingStatus.eq(판매완료)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch()
-                .stream().map(money -> money.getAmount()).collect(Collectors.toList());
+                .fetch();
+
+        return result.stream().map(tuple -> {
+            return MarketPriceInfoDto.builder()
+                    .amount(tuple.get(selling.auctionitem.price).getAmount())
+                    .localDate(tuple.get(deal.createdDate).toLocalDate())
+                    .build();
+        }).collect(Collectors.toList());
     }
+
+
 }

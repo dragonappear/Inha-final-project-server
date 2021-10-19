@@ -8,11 +8,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
 import java.util.UUID;
 
+@EnableScheduling
 @EnableJpaAuditing
 @SpringBootApplication
 public class InhaApplication {

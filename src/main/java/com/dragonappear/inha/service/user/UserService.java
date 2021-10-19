@@ -21,9 +21,15 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
-    //  회원 단건조회
-    public User findOne(Long id) {
-        return userRepository.findById(id).orElse(null);
+    //  회원 단건조회 by 유저아이디
+    public User findOneById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원입니다."));
+    }
+
+    // 회원 단건조회 by 유저이메일
+    public User findOneByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     //  모든 회원 조회

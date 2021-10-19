@@ -4,6 +4,7 @@ package com.dragonappear.inha.domain.item;
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.value.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,12 +17,15 @@ import java.util.List;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
+import static javax.persistence.InheritanceType.*;
 import static lombok.AccessLevel.*;
 
+@DiscriminatorColumn(name = "dtype")
+@Inheritance(strategy = JOINED)
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class Item extends JpaBaseTimeEntity {
+public  class Item extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "item_id")
@@ -55,20 +59,25 @@ public class Item extends JpaBaseTimeEntity {
      * 연관관계
      */
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "item")
     private List<ItemImage> itemImages = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "item")
     private List<UserLikeItem> userLikeItems = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "item")
     private List<Auctionitem> auctionitems = new ArrayList<>();
 

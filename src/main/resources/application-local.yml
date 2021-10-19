@@ -1,9 +1,9 @@
 spring:
-  profiles: real
+  profiles: local
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 

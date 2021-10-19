@@ -86,6 +86,7 @@ public class Deal extends JpaBaseTimeEntity {
 
     private void updateSelling(Selling selling) {
         this.selling = selling;
+        this.selling.getAuctionitem().getItem().updateLatestPrice(this.selling.getAuctionitem().getPrice());
         selling.updateStatus(SellingStatus.판매완료);
     }
 }

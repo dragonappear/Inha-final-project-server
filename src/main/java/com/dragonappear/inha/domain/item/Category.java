@@ -24,7 +24,7 @@ public class Category extends JpaBaseTimeEntity {
     private Long id;
 
     @Enumerated(STRING)
-    @Column(nullable = false,unique = true,updatable = false)
+    @Column(nullable = false, unique = true, updatable = false)
     private CategoryName categoryName;
 
     /**

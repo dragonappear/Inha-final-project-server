@@ -1,6 +1,5 @@
 package com.dragonappear.inha.config.auth;
 
-
 import com.dragonappear.inha.config.auth.dto.OAuthAttributes;
 import com.dragonappear.inha.config.auth.dto.SessionUser;
 import com.dragonappear.inha.domain.user.User;
