@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
+
 @Api(tags = {"로그인 유저 정보 API"})
 @RequiredArgsConstructor
 @RestController
@@ -43,7 +45,7 @@ public class LoginUserApiController {
     
     @ApiOperation(value = "유저 정보 저장", notes = "유저 휴대폰 정보, 주소 저장")
     @PostMapping(value = "/users/new")
-    public void saveUserInfo(@RequestBody SaveUserInfoDto userInfoDto) {
+    public SaveUserInfoDto saveUserInfo(@RequestBody SaveUserInfoDto userInfoDto) {
         Long id = userService.join(
                 User.builder()
                         .email(userInfoDto.getEmail())
@@ -52,12 +54,15 @@ public class LoginUserApiController {
                         .nickname(userInfoDto.getNickname())
                         .build()
         );
+
         User user = userService.findOneById(id);
         userAddressService.save(user, userInfoDto.getAddress());
         userImageService.update(user
                 , new Image("basic icon","profile.png", "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/user"));
         userPointService.create(user.getId());
+        return userInfoDto;
     }
+
 
 
     /**

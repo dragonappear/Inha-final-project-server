@@ -36,9 +36,10 @@ public class User extends JpaBaseTimeEntity {
 
     private String nickname;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
+    @Column(nullable = false,unique = true)
     private String userTel;
 
     @Enumerated(STRING)
@@ -97,21 +98,24 @@ public class User extends JpaBaseTimeEntity {
      * 생성자 메서드
      */
     @Builder
-    public User(String username, String nickname, String email, String userTel) {
+    public User(String username, String nickname, String email, String userTel,UserRole userRole,String picture) {
+        this(username, email, userRole, picture,userTel);
         this.username = username;
         this.nickname = nickname;
         this.email = email;
         this.userTel = userTel;
-        this.userRole = USER;
+        if (userRole == null) {
+            this.userRole = USER;
+        }
     }
 
-
     @Builder
-    public User(String username, String email,UserRole userRole, String picture) {
+    public User(String username, String email,UserRole userRole, String picture,String userTel) {
         this.username = username;
         this.email = email;
         this.userRole = userRole;
         this.picture = picture;
+        this.userTel = userTel;
     }
 
     /**
