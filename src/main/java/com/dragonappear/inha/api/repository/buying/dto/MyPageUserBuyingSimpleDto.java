@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.user.mypage.dto;
+package com.dragonappear.inha.api.repository.buying.dto;
 
 import lombok.Builder;
 import lombok.Data;

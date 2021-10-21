@@ -120,7 +120,7 @@ class PassInspectionServiceTest {
         assertThat(find.getId()).isEqualTo(passInspection.getId());
         assertThat(find.getInspection()).isEqualTo(passInspection.getInspection());
         assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수합격);
-        assertThat(inspection.getDeal().getDealStatus()).isEqualTo(DealStatus.거래완료);
+        assertThat(inspection.getDeal().getDealStatus()).isEqualTo(DealStatus.검수완료);
         assertThat(inspection.getDeal().getSelling().getSellingStatus()).isEqualTo(SellingStatus.판매완료);
         assertThat(inspection.getDeal().getSelling().getAuctionitem().getAuctionitemStatus()).isEqualTo(AuctionitemStatus.경매완료);
         assertThat(inspection.getDeal().getBuying().getBuyingStatus()).isEqualTo(BuyingStatus.구매완료);

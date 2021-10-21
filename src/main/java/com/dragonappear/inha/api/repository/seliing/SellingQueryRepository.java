@@ -1,8 +1,6 @@
 package com.dragonappear.inha.api.repository.seliing;
 
 
-import com.dragonappear.inha.api.controller.user.mypage.dto.MyPageUserSellingSimpleDto;
-import com.dragonappear.inha.domain.selling.QSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -24,7 +22,7 @@ public class SellingQueryRepository {
                 .fetch();
         MyPageUserSellingSimpleDto dto = new MyPageUserSellingSimpleDto();
         results.stream().forEach(result ->{
-            if(result.getSellingStatus()== SellingStatus.판매중){
+            if(result.getSellingStatus()== SellingStatus.판매입찰중){
                 dto.countBidding();
             }
             else if(result.getSellingStatus()==SellingStatus.거래중){

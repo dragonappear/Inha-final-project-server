@@ -33,7 +33,6 @@ public class InhaApplication {
 		return new JPAQueryFactory(em);
 	}
 
-
 	//PutMapping,DeleteMapping을 사용하기 위해 Bean 주입
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {

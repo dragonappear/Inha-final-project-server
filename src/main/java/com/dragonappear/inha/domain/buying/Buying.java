@@ -4,6 +4,7 @@ import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,10 +31,12 @@ public class Buying extends JpaBaseTimeEntity {
     /**
      * 연관관계
      */
+    @JsonIgnore
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY,mappedBy = "buying")
     private Deal deal;
 
@@ -50,7 +53,7 @@ public class Buying extends JpaBaseTimeEntity {
      */
 
     public Buying(Payment payment) {
-        this.buyingStatus = 구매중;
+        this.buyingStatus = 구매입찰중;
         if (payment != null) {
             this.payment = payment;
             updateBuyingPayment(payment);

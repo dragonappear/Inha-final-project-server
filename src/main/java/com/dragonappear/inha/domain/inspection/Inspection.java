@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.inspection;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.deal.Deal;
+import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.fail.FailInspection;
 import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
-import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.*;
+import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.검수진행;
+import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.검수탈락;
+import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.검수합격;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
@@ -59,7 +62,7 @@ public class Inspection extends JpaBaseTimeEntity {
     public void updatePassInspection(PassInspection passInspection) {
         this.passInspection = passInspection;
         this.inspectionStatus = 검수합격;
-        this.deal.updateDealStatus(거래완료);
+        this.deal.updateDealStatus(검수완료);
     }
 
     public void updateFailInspection(FailInspection failInspection) {
@@ -74,6 +77,7 @@ public class Inspection extends JpaBaseTimeEntity {
     public Inspection(Deal deal) {
         this.inspectionStatus = 검수진행;
         this.deal = deal;
+        this.deal.updateDealStatus(DealStatus.검수진행);
     }
 
     /**

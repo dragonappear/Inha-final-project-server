@@ -48,7 +48,7 @@ public class BuyingService {
     // 검수합격시 status 변경
     @Transactional
     public void complete(Buying buying) {
-        buying.updateStatus(BuyingStatus.구매완료);
+        buying.updateStatus(BuyingStatus.거래중);
     }
 
     // 검수합격시 sttatus 변경

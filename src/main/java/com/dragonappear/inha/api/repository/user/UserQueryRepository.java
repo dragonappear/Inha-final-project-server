@@ -19,7 +19,6 @@ public class UserQueryRepository {
         User find = jpaQueryFactory.selectFrom(user)
                 .where(user.id.eq(userId))
                 .fetchOne();
-
         return MyPageUserInfoDto.builder()
                 .nickname(find.getNickname())
                 .username(find.getUsername())

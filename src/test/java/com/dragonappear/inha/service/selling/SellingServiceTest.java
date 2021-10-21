@@ -7,7 +7,6 @@ import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.selling.Selling;
-import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
@@ -16,7 +15,6 @@ import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
-import com.dragonappear.inha.service.auctionitem.BidAuctionItemService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +31,6 @@ import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static com.dragonappear.inha.domain.selling.value.SellingStatus.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -86,7 +83,7 @@ class SellingServiceTest {
         Selling selling = sellingRepository.findById(save).get();
         //then
         assertThat(selling.getId()).isEqualTo(save);
-        assertThat(selling.getSellingStatus()).isEqualTo(판매중);
+        assertThat(selling.getSellingStatus()).isEqualTo(판매입찰중);
         assertThat(selling.getAuctionitem()).isEqualTo(auctionitem);
         assertThat(selling.getSeller()).isEqualTo(user);
         assertThat(selling.getSellingDelivery()).isNull();

@@ -70,7 +70,7 @@ public class Selling extends JpaBaseEntity {
      * 생성자메서드
      */
     public Selling(User seller, Auctionitem auctionitem) {
-        this.sellingStatus = 판매중;
+        this.sellingStatus = 판매입찰중;
         if (seller != null) {
             updateSellingSeller(seller);
         }
@@ -89,8 +89,10 @@ public class Selling extends JpaBaseEntity {
             this.auctionitem.updateStatus(경매취소);
         } else if (sellingStatus == 판매완료) {
             this.auctionitem.updateStatus(경매완료);
-        } else if (sellingStatus == 판매기간만료) {
+        } else if (sellingStatus == 판매입찰종료) {
             this.auctionitem.updateStatus(경매기한만료);
+        } else if (sellingStatus == SellingStatus.거래중) {
+            this.auctionitem.updateStatus(AuctionitemStatus.거래중);
         }
     }
 }

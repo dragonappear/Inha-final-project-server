@@ -36,6 +36,6 @@ public class DealService {
     // 거래상태변경 when 검수합격시
     @Transactional
     public void complete(Deal deal) {
-        deal.updateDealStatus(거래완료);
+        deal.updateDealStatus(거래진행);
     }
 }

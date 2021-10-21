@@ -63,7 +63,7 @@ public class SellingService {
     // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
     @Transactional
     public void overdue(Selling selling) {
-        selling.updateStatus(SellingStatus.판매기간만료);
+        selling.updateStatus(SellingStatus.판매입찰종료);
     }
 
     /**

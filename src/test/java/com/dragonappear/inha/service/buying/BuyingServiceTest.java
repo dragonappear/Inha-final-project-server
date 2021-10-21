@@ -19,8 +19,6 @@ import com.dragonappear.inha.repository.item.ManufacturerRepository;
 import com.dragonappear.inha.repository.payment.PaymentRepository;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
-import com.dragonappear.inha.service.payment.PaymentService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +112,7 @@ class BuyingServiceTest {
         Buying findBuying = buyingRepository.findById(save).get();
         //then
         assertThat(findBuying).isEqualTo(buying);
-        assertThat(findBuying.getBuyingStatus()).isEqualTo(BuyingStatus.구매중);
+        assertThat(findBuying.getBuyingStatus()).isEqualTo(BuyingStatus.구매입찰중);
     }
 
     // 구매내역리스트 조회 by 유저아이디
@@ -147,6 +145,6 @@ class BuyingServiceTest {
         //then
         assertThat(find).isEqualTo(buying);
         assertThat(find.getId()).isEqualTo(buying.getId());
-        assertThat(find.getBuyingStatus()).isEqualTo(BuyingStatus.구매중);
+        assertThat(find.getBuyingStatus()).isEqualTo(BuyingStatus.구매입찰중);
     }
 }
