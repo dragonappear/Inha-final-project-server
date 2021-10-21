@@ -33,7 +33,7 @@ class UserAccountServiceTest {
     public void 유저계좌_생성_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Account newAccount = new Account(BankName.신한은행, "1234");
+        Account newAccount = new Account(BankName.신한은행, "1234","yyh");
         //when
         userAccountService.update(findUser, newAccount);
         //then
@@ -46,10 +46,10 @@ class UserAccountServiceTest {
     public void 유저계좌_업데이트_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Account newAccount = new Account(BankName.신한은행, "1234");
+        Account newAccount = new Account(BankName.신한은행, "1234","yyh");
         //when
         userAccountService.update(findUser, newAccount);
-        Account newAccount1 = new Account(BankName.신한은행, "2345");
+        Account newAccount1 = new Account(BankName.신한은행, "2345","yyh");
         userAccountService.update(findUser, newAccount1);
         //then
         assertThat(findUser.getUserAccount()).isNotNull();
@@ -61,7 +61,7 @@ class UserAccountServiceTest {
     public void 유저계좌조회_유저아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Account newAccount = new Account(BankName.신한은행, "1234");
+        Account newAccount = new Account(BankName.신한은행, "1234","yyh");
         UserAccount saveAccount = userAccountRepository.save(new UserAccount(findUser, newAccount));
         //when
         UserAccount findAccount = userAccountService.findByUserId(findUser.getId());
@@ -76,7 +76,7 @@ class UserAccountServiceTest {
     public void 유저계좌조회_계좌아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Account newAccount = new Account(BankName.신한은행, "1234");
+        Account newAccount = new Account(BankName.신한은행, "1234","yyh");
         UserAccount saveAccount = userAccountRepository.save(new UserAccount(findUser, newAccount));
         //when
         UserAccount findAccount = userAccountService.findByAccountId(saveAccount.getId());

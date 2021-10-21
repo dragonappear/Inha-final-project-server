@@ -25,7 +25,7 @@ class UserAccountRepositoryTest {
         //given
         User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
         userRepository.save(user);
-        UserAccount userAccount = new UserAccount(user,new Account(BankName.신한은행, "110-1234-1234"));
+        UserAccount userAccount = new UserAccount(user,new Account(BankName.신한은행, "110-1234-1234","yyh"));
         userAccountRepository.save(userAccount);
         //when
         UserAccount findUserAccount = userAccountRepository.findById(userAccount.getId()).get();

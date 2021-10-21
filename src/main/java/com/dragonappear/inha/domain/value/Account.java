@@ -22,9 +22,13 @@ public class Account {
     @Column(nullable = false,unique = true)
     private String accountNumber;
 
-    public Account(BankName bankName, String accountNumber) {
+    @Column(nullable = false)
+    private String accountHolder;
+
+    public Account(BankName bankName, String accountNumber, String accountHolder) {
         this.bankName = bankName;
         this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
     }
 
     @Override
@@ -32,11 +36,11 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return getBankName() == account.getBankName() && Objects.equals(getAccountNumber(), account.getAccountNumber());
+        return getBankName() == account.getBankName() && Objects.equals(getAccountNumber(), account.getAccountNumber()) && Objects.equals(getAccountHolder(), account.getAccountHolder());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBankName(), getAccountNumber());
+        return Objects.hash(getBankName(), getAccountNumber(), getAccountHolder());
     }
 }
