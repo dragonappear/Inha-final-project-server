@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = {"상품상세 조회 API"})
+@Api(tags = {"상품 조회 API"})
 @RestController
 @RequiredArgsConstructor
 public class ItemApiController {

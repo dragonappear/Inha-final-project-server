@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import com.dragonappear.inha.domain.user.value.UserRole;
+import com.dragonappear.inha.domain.value.Address;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -95,7 +96,7 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 생성자 메서드
      */
-
+    @Builder
     public User(String username, String nickname, String email, String userTel) {
         this.username = username;
         this.nickname = nickname;
@@ -103,6 +104,7 @@ public class User extends JpaBaseTimeEntity {
         this.userTel = userTel;
         this.userRole = USER;
     }
+
 
     @Builder
     public User(String username, String email,UserRole userRole, String picture) {
