@@ -13,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserImageService {
     private final UserImageRepository userImageRepository;
 
+
+    /**
+     * CREATE
+     */
     // 유저이미지 생성 or 업데이트
     @Transactional
     public void update(User user, Image image) {
@@ -24,12 +28,9 @@ public class UserImageService {
         }
     }
 
-    // 유저이미지 삭제
-   @Transactional
-    public void delete(User user) {
-        user.updateUserImage(null);
-        userImageRepository.deleteByUserId(user.getId());
-    }
+    /**
+     * 유저이미지 조회
+     */
 
     // 유저이미지 조회 by 이미지아이디
     public UserImage findByImageId(Long imageId) {
@@ -41,5 +42,23 @@ public class UserImageService {
     public UserImage findByUserId(Long userId) {
         return userImageRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalStateException("이미지가 없습니다."));
+    }
+
+    // 유저 이미지 Url 조회
+    public String getFileUrl(Long userId) {
+        return userImageRepository.findByUserId(userId)
+                .orElse(new UserImage(null,new Image(null,"profile.png",null)))
+                .getImage().getFileOriName();
+    }
+
+    /**
+     * DELETE
+     */
+
+    // 유저이미지 삭제
+    @Transactional
+    public void delete(User user) {
+        user.updateUserImage(null);
+        userImageRepository.deleteByUserId(user.getId());
     }
 }

@@ -41,4 +41,8 @@ public class UserLikeItemService {
         return items;
     }
 
+    // 유저가 누른 아이템 좋아요 개수 조회
+    public int getLikeNumber(Long userId) {
+        return userLikeItemRepository.findByUserId(userId).size();
+    }
 }

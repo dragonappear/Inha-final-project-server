@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.repository.item;
+package com.dragonappear.inha.api.repository.item.dto;
 
 
 import com.dragonappear.inha.api.controller.auctionitem.dto.DetailItemDto;

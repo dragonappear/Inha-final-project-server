@@ -130,5 +130,13 @@ public class User extends JpaBaseTimeEntity {
     public void updateUserTel(String userTel) {
         this.userTel = userTel;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateUsername(String username) {
+        this.username = username;
+    }
 }
 

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserImageRepository extends JpaRepository<UserImage,Long> {
@@ -16,4 +17,7 @@ public interface UserImageRepository extends JpaRepository<UserImage,Long> {
     @Modifying
     @Query("delete from UserImage ui where ui.user.id=:userId")
     void deleteByUserId(@Param("userId") Long userId);
+
+    @Query("select ui from UserImage ui where ui.image.fileOriName=:imageOriName and ui.image.fileName=:imageName")
+    List<UserImage> findByImageOriName(@Param("imageOriName") String imageOriName, @Param("imageName") String imageName );
 }

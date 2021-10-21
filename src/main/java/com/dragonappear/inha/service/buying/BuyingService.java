@@ -15,11 +15,19 @@ import java.util.List;
 public class BuyingService {
     private final BuyingRepository buyingRepository;
 
+    /**
+     * CREATE
+     */
+
     // 구매내역 생성
     @Transactional
     public Long save(Buying buying) {
         return buyingRepository.save(buying).getId();
     }
+
+    /**
+     * READ
+     */
 
     // 구매내역리스트 조회 by 유저아이디
     public List<Buying> findByUserId(Long userId) {
@@ -32,6 +40,11 @@ public class BuyingService {
                 .orElseThrow(() -> new IllegalStateException("구매내역이 존재하지 않습니다."));
     }
 
+
+    /**
+     * UPDATE
+     */
+
     // 검수합격시 status 변경
     @Transactional
     public void complete(Buying buying) {
@@ -43,5 +56,6 @@ public class BuyingService {
     public void cancel(Buying buying) {
         buying.updateStatus(BuyingStatus.구매취소);
     }
+
 
 }

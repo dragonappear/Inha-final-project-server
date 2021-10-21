@@ -9,12 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class UserPointService {
     private final UserPointRepository userPointRepository;
     private final UserRepository userRepository;
+
+    /**
+     * CREATE
+     */
+
 
     // 포인트 생성
     @Transactional
@@ -23,6 +30,10 @@ public class UserPointService {
         UserPoint newPoint = new UserPoint(findUser);
         return userPointRepository.save(newPoint).getId();
     }
+
+    /**
+     * READ
+     */
 
     //  포인트 조회 by 포인트 아이디로
     public UserPoint findByPointId(Long userPointId) {
@@ -34,6 +45,15 @@ public class UserPointService {
         return userPointRepository.findByUserId(userId).orElseThrow(() -> new IllegalStateException("존재하지 않는 포인트입니다"));
     }
 
+    // 유저 포인트 총합 조회
+    public Money getTotal(Long userId) {
+        return userPointRepository
+                .findByUserId(userId).orElseThrow(() -> new IllegalStateException("존재하지 않는 포인트입니다")).getTotal();
+    }
+
+    /**
+     * UPDATE
+     */
 
     // 포인트 적립
     @Transactional

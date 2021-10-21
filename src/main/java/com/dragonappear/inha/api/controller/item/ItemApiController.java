@@ -4,9 +4,8 @@ import com.dragonappear.inha.api.controller.auctionitem.dto.ItemDto;
 import com.dragonappear.inha.api.controller.auctionitem.dto.SimpleItemDto;
 import com.dragonappear.inha.api.repository.deal.DealQueryRepository;
 import com.dragonappear.inha.api.repository.deal.dto.MarketPriceInfoDto;
-import com.dragonappear.inha.api.repository.item.NotebookDto;
+import com.dragonappear.inha.api.repository.item.dto.NotebookDto;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.api.repository.item.NotebookQueryRepository;
@@ -75,7 +74,7 @@ public class ItemApiController {
 
     @ApiOperation(value = "카테고리+제조사 내 전체 아이템 조회", notes = "카테고리+제조사 내 전체 아이템을 조회합니다.")
     @GetMapping("/items/{categoryName}/{manufacturerName}")
-    public Results categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName
+    public Results categoryManufacturerItems(@PathVariable(name = "categoryName") CategoryName categoryName
             , @PathVariable(name = "manufacturerName") ManufacturerName manufacturerName) {
         List<ItemDto> items = itemService.findByCategoryAndManufacturer(categoryName,manufacturerName)
                 .stream()
@@ -96,7 +95,6 @@ public class ItemApiController {
     @ApiOperation(value = "상품상세 조회", notes = "상품을 상세 조회합니다.")
     @GetMapping("/items/details/{itemId}")
     public Detail detailItem(@PathVariable("itemId") Long itemId) {
-        //Notebook item = (Notebook) notebookQueryRepository.findById(itemId);
         NotebookDto dto = notebookQueryRepository.findById(itemId);
         List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileOriName()).collect(Collectors.toList());
             return Detail.builder()
@@ -108,7 +106,7 @@ public class ItemApiController {
 
     @ApiOperation(value = "상품정보 조회", notes = "상품 모델번호, 모델이름")
     @GetMapping("/items/simple/{itemId}")
-    public SimpleItemDto simpleItem(@PathVariable("itemId") Long itemId) {
+    public SimpleItemDto simpleItemDto(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
         return SimpleItemDto.builder()
                 .itemName(item.getItemName())

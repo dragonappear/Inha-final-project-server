@@ -1,7 +1,8 @@
 package com.dragonappear.inha.api.repository.item;
 
 
-import com.dragonappear.inha.domain.item.*;
+import com.dragonappear.inha.api.repository.item.dto.NotebookDto;
+import com.dragonappear.inha.api.repository.item.dto.QNotebookDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,12 +15,6 @@ import static com.dragonappear.inha.domain.item.QNotebook.*;
 public class NotebookQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    /*public Item findById(Long itemId) {
-        return queryFactory.selectFrom(item)
-                .where(item.id.eq(itemId))
-                .fetchOne();
-    }*/
 
     public NotebookDto findById(Long itemId) {
         return queryFactory.select(

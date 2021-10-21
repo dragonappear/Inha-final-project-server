@@ -1,10 +1,11 @@
-package com.dragonappear.inha.api.controller.user.dto;
+package com.dragonappear.inha.api.controller.user.login.dto;
 
-import com.dragonappear.inha.domain.user.value.UserRole;
 import com.dragonappear.inha.domain.value.Address;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 public class SaveUserInfoDto {
     private String email;

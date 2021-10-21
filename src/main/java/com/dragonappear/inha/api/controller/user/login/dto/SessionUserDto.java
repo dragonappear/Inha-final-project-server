@@ -1,10 +1,12 @@
-package com.dragonappear.inha.api.controller.user.dto;
+package com.dragonappear.inha.api.controller.user.login.dto;
 
 import com.dragonappear.inha.domain.user.UserAddress;
 import lombok.Builder;
 import lombok.Data;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+@NoArgsConstructor
 @Data
 public class SessionUserDto {
     private String username;
