@@ -1,5 +1,6 @@
 package com.dragonappear.inha.api.controller.user;
 
+import com.dragonappear.inha.api.controller.user.dto.SaveUserInfoDto;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserImage;
 import com.dragonappear.inha.domain.user.value.UserRole;
@@ -43,7 +44,7 @@ public class UserApiController {
     
     @ApiOperation(value = "유저 정보 저장", notes = "유저 휴대폰 정보, 주소 저장")
     @PostMapping(value = "/users/new")
-    public void saveUserInfo(UserInfoDto userInfoDto) {
+    public void saveUserInfo(SaveUserInfoDto userInfoDto) {
         Long id = userService.join(
                 User.builder()
                         .email(userInfoDto.getEmail())

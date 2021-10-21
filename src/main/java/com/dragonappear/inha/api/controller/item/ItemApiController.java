@@ -106,7 +106,7 @@ public class ItemApiController {
 
     }
 
-    @ApiOperation(value = "구매전 상품정보 조회", notes = "상품 모델번호, 모델이름")
+    @ApiOperation(value = "상품정보 조회", notes = "상품 모델번호, 모델이름")
     @GetMapping("/items/simple/{itemId}")
     public SimpleItemDto simpleItem(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
