@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Embeddable
 public class Address {
+
     @Column(nullable = false)
     private String recipient;
     @Column(nullable = false)
@@ -41,11 +42,11 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(getRecipient(), address.getRecipient()) && Objects.equals(getContactTel(), address.getContactTel()) && Objects.equals(getCity(), address.getCity()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getDetail(), address.getDetail()) && Objects.equals(getZipcode(), address.getZipcode());
+        return Objects.equals(getCity(), address.getCity()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getDetail(), address.getDetail()) && Objects.equals(getZipcode(), address.getZipcode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRecipient(), getContactTel(), getCity(), getStreet(), getDetail(), getZipcode());
+        return Objects.hash(getCity(), getStreet(), getDetail(), getZipcode());
     }
 }

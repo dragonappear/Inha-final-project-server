@@ -1,7 +1,9 @@
-package com.dragonappear.inha.api.controller.user.mypage;
+package com.dragonappear.inha.api.controller.user.mypage.update;
 
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Image;
+import com.dragonappear.inha.service.user.UserAddressService;
 import com.dragonappear.inha.service.user.UserImageService;
 import com.dragonappear.inha.service.user.UserService;
 import io.swagger.annotations.Api;
@@ -16,23 +18,26 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 
-@Api(tags = {"유저 정보 업데이트 API"})
+@Api(tags = {"마이페이지 유저 정보 업데이트 API"})
 @RequiredArgsConstructor
 @RestController
-public class UpdateUserApiController {
+public class UpdateUserInfoApiController {
     private final UserService userService;
     private final UserImageService userImageService;
+    private final UserAddressService userAddressService;
 
     @ApiOperation(value = "유저 닉네임 업데이트", notes = "유저 닉네임을 업데이트합니다.")
     @PostMapping("/users/update/nicknames/{userId} ")
-    public void updateUserNickname(@PathVariable("userId") Long userId,@RequestParam("nickname") String nickname) {
+    public String updateUserNickname(@PathVariable("userId") Long userId,@RequestParam("nickname") String nickname) {
         userService.updateNickname(userId, nickname);
+        return nickname;
     }
 
     @ApiOperation(value = "유저 이름 업데이트", notes = "유저 이름를 업데이트합니다.")
     @PostMapping("/users/update/usernames/{userId}")
-    public void updateUsername(@PathVariable("userId") Long userId,@RequestParam("username") String username) {
+    public String updateUsername(@PathVariable("userId") Long userId,@RequestParam("username") String username) {
         userService.updateUsername(userId, username);
+        return username;
     }
 
     @ApiOperation(value = "유저 전화번호 업데이트", notes = "유저 전화번호를 업데이트합니다.")
@@ -44,9 +49,10 @@ public class UpdateUserApiController {
 
     @ApiOperation(value = "유저 프로필 업데이트", notes = "유저 프로필을 업데이트합니다.")
     @PostMapping("/users/update/images/{userId}")
-    public void updateUserNickname(@PathVariable("userId") Long userId, HttpServletRequest request, @RequestPart MultipartFile file) throws  Exception {
-        userImageService.update(userService.findOneById(userId),saveUserImage(file));
+    public String updateUserNickname(@PathVariable("userId") Long userId, HttpServletRequest request, @RequestPart MultipartFile file) throws  Exception {
+        return userImageService.update(userService.findOneById(userId),saveUserImage(file));
     }
+
 
     /**
      * 이미지 저장

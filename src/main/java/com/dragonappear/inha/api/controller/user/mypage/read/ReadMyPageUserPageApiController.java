@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.user.mypage;
+package com.dragonappear.inha.api.controller.user.mypage.read;
 
 import com.dragonappear.inha.api.controller.user.mypage.dto.*;
 import com.dragonappear.inha.api.repository.buying.BuyingQueryRepository;
@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Api(tags = {"마이페이지 유저 정보 조회 API"})
 @RequiredArgsConstructor
 @RestController
-public class MyPageUserPageApiController {
+public class ReadMyPageUserPageApiController {
     private final BuyingQueryRepository buyingQueryRepository;
     private final SellingQueryRepository sellingQueryRepository;
     private final UserQueryRepository userQueryRepository;
@@ -36,28 +37,39 @@ public class MyPageUserPageApiController {
     }
 
     @ApiOperation(value = "유저 구매 개수 조회", notes = "전체, 입찰중, 진행중, 종료")
-    @GetMapping("/users/mypage/{userId}/buying")
+    @GetMapping("/users/mypage/buying/{userId}")
     public MyPageUserBuyingSimpleDto myPageUserBuyingSimpleDto(@PathVariable("userId") Long userId) {
         return buyingQueryRepository.getMyPageUserBuyingSimpleDto(userId);
     }
 
     @ApiOperation(value = "유저 판매 개수 조회", notes = "전체, 입찰중, 진행중, 종료")
-    @GetMapping("/users/mypage/{userId}/selling")
+    @GetMapping("/users/mypage/selling/{userId}")
     public MyPageUserSellingSimpleDto myPageUserSellingSimpleDto(@PathVariable("userId") Long userId) {
         return sellingQueryRepository.getMyPageUserSellingSimpleDto(userId);
     }
 
     @ApiOperation(value = "유저 로그인 정보 조회", notes = "이메일, 휴대폰 번호")
-    @GetMapping("/users/mypage/{userId}/loginInfo")
+    @GetMapping("/users/mypage/loginInfo/{userId}")
     public LoginInfoApiDto loginInfoApiDto(@PathVariable("userId") Long userId) {
         return new LoginInfoApiDto(userService.findOneById(userId));
     }
 
-    /*@ApiOperation(value = "유저 주소 조회", notes = "우편번호,시,도로명,상세주소")
-    @GetMapping("/users/mypage/{userId}/addresses")
+    @ApiOperation(value = "유저 주소 조회", notes = "우편번호,시,도로명,상세주소")
+    @GetMapping("/users/mypage/addresses/{userId}")
     public UserAddressApiDto userAddressApiDto(@PathVariable("userId") Long userId) {
+        return UserAddressApiDto.builder()
+                .addresses(userAddressService.findByUserId(userId)
+                        .stream()
+                        .map(userAddress -> userAddress.getUserAddress())
+                        .collect(Collectors.toList()))
+                .build();
+    }
+    /*@ApiOperation(value = "유저 계좌 조회", notes = "은행,계좌번호,예금주")
+    @GetMapping("/users/mypage/accounts/{userId}")
+    public UserAccountDto userAccountDto() {
 
     }*/
+
 
     /**
      * DTO

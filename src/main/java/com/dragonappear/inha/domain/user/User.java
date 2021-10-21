@@ -55,10 +55,9 @@ public class User extends JpaBaseTimeEntity {
     private UserPoint userPoint;
 
     @OneToMany(mappedBy = "user",cascade = ALL)
-    private List<UserCardInfo>
-            userCardInfos = new ArrayList<>();
+    private List<UserCardInfo> userCardInfos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAddress> userAddresses = new ArrayList<>();
 
     @OneToOne(fetch = LAZY,cascade = ALL,mappedBy = "user")

@@ -61,7 +61,7 @@ class UserAddressServiceTest {
         //given
         User findUser = userRepository.findAll().get(0);
         Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
-        Address address1 = new Address("yyh","010-1111-1111","city2", "street2", "detail2", "zipcode1");
+        Address address1 = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         //when
         userAddressService.save(findUser, address);
         //then

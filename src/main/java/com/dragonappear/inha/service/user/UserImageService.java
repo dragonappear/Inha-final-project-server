@@ -19,13 +19,14 @@ public class UserImageService {
      */
     // 유저이미지 생성 or 업데이트
     @Transactional
-    public void update(User user, Image image) {
+    public String update(User user, Image image) {
         if (user.getUserImage()!=null) {
             user.getUserImage().changeImage(image);
         }
         else{
             userImageRepository.save(new UserImage(user, image));
         }
+        return image.getFileOriName();
     }
 
     /**

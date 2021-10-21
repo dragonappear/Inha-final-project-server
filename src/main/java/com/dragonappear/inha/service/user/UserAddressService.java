@@ -5,12 +5,11 @@ import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
-import com.dragonappear.inha.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,7 +17,11 @@ import java.util.List;
 @Service
 public class UserAddressService {
     private final UserAddressRepository userAddressRepository;
-    private final UserRepository userRepository;
+    private final EntityManager entityManager;
+
+    /**
+     * CREATE
+     */
 
     // 유저주소등록
     @Transactional
@@ -26,6 +29,11 @@ public class UserAddressService {
         validateUserAddress(user, address);
         return userAddressRepository.save(new UserAddress(user, address)).getId();
     }
+
+
+    /**
+     * READ
+     */
 
     // 유저주소조회 by 유저아이디
     public List<UserAddress> findByUserId(Long userId) {
@@ -51,15 +59,36 @@ public class UserAddressService {
 
 
     /**
+     * DELETE
+     * DELETE
+     */
+    @Transactional
+    public void deleteAddress(Long userId, Address address) {
+        userAddressRepository.findByUserId(userId).stream().forEach(userAddress -> {
+                     if (userAddress.getUserAddress().equals(address)) {
+                         userAddressRepository.delete(userAddress);
+                     }
+                 }
+         );
+    }
+
+
+    /**
      * 검증로직
      */
 
     private void validateUserAddress(User user, Address address) {
         List<UserAddress> all = userAddressRepository.findByUserId(user.getId());
         for (UserAddress userAddress : all) {
-            if (userAddress.getUserAddress().getZipcode().equals(address.getZipcode())) {
-                throw new IllegalStateException("주소가 중복입니다.");
+            if (userAddress.getUserAddress().equals(address)) {
+                throw new IllegalStateException("이미 등록된 주소입니다.");
             }
         }
+
+        for (UserAddress userAddress : all) {
+            System.out.println("userAddress = " + userAddress);
+        }
     }
+
+
 }
