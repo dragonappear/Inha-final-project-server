@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.user;
+package com.dragonappear.inha.api.controller.user.mypage;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Image;
@@ -37,8 +37,9 @@ public class UpdateUserApiController {
 
     @ApiOperation(value = "유저 전화번호 업데이트", notes = "유저 전화번호를 업데이트합니다.")
     @PostMapping("/users/update/userTels/{userId}")
-    public void updateUserTel(@PathVariable("userId") Long userId, @RequestParam("userTel") String userTel) throws  Exception {
+    public String updateUserTel(@PathVariable("userId") Long userId, @RequestParam("userTel") String userTel) throws  Exception {
         userService.updateUserTel(userId, userTel);
+        return userService.findOneById(userId).getUserTel();
     }
 
     @ApiOperation(value = "유저 프로필 업데이트", notes = "유저 프로필을 업데이트합니다.")

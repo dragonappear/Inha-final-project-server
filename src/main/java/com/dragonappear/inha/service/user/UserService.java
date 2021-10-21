@@ -104,6 +104,7 @@ public class UserService {
     // 유저 연락처 업데이트
     @Transactional
     public void updateUserTel(Long userId, String userTel) {
+        validateUserTel(userTel);
         userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다.")).updateUserTel(userTel);
     }
@@ -115,6 +116,13 @@ public class UserService {
         List<User> users = userRepository.findByEmailOrUserTel(email, userTel);
         if (!users.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다");
+        }
+    }
+
+    private void validateUserTel(String userTel) {
+        List<User> users = userRepository.findByUserTel(userTel);
+        if (!users.isEmpty()) {
+            throw new IllegalStateException("이미 등록된 휴대폰 번호입니다.");
         }
     }
 
