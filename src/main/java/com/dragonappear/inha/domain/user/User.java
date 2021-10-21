@@ -79,6 +79,8 @@ public class User extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "seller",cascade = ALL)
     private List<Selling> sellings = new ArrayList<>();
 
+
+
     /**
      * 연관관계 메서드
      */
@@ -116,6 +118,17 @@ public class User extends JpaBaseTimeEntity {
         this.userRole = userRole;
         this.picture = picture;
         this.userTel = userTel;
+    }
+
+    /**
+     * 테스트용
+     */
+    public User(String username, String nickname, String email, String userTel) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.userTel = userTel;
+        this.userRole = USER;
     }
 
     /**

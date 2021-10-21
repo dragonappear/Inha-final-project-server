@@ -41,7 +41,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class SellingServiceTest {
     @Autowired SellingRepository sellingRepository;
     @Autowired SellingService sellingService;
-    @Autowired BidAuctionItemService bidAuctionItemService;
     @Autowired AuctionitemRepository auctionitemRepository;
     @Autowired CategoryRepository categoryRepository;
     @Autowired ManufacturerRepository manufacturerRepository;
@@ -50,10 +49,10 @@ class SellingServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User newUser1 = new User("name1", "nickname1", "email1@", "userTel11");
+        User newUser1 = new User("name1", "nickname1", "email1@", "userTel11231");
         userRepository.save(newUser1);
 
-        User newUser2 = new User("name1", "nickname1", "email2@", "userTel11");
+        User newUser2 = new User("name1", "nickname1", "email2@", "userTel11231231");
         userRepository.save(newUser2);
 
         Category category = new Category(노트북);
