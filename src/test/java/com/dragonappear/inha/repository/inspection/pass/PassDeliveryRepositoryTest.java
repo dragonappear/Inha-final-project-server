@@ -75,7 +75,7 @@ class PassDeliveryRepositoryTest {
         auctionitemRepository.save(newBid);
         Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
-        UserAddress newAddress = new UserAddress(newUser, new Address("incehon", "inharo", "127", "22207"));
+        UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
         Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
                 newAddress.getUserAddress(), newUser, newBid );
@@ -95,7 +95,7 @@ class PassDeliveryRepositoryTest {
         //given
         PassInspection passInspection = passInspectionRepository.findAll().get(0);
         PassDelivery newDelivery = new PassDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
-                new Address("city", "street", "detail", "zipcode"),
+                new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"),
                 passInspection);
         passDeliveryRepository.save(newDelivery);
         //when

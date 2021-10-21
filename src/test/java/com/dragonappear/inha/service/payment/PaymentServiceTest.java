@@ -61,12 +61,12 @@ class PaymentServiceTest {
     public void setUp() {
         User user1 = new User("name1", "nickname1", "email1", "userTel1");
         userRepository.save(user1);
-        UserAddress userAddress = new UserAddress(user1, new Address("city", "street", "detail", "zipcode"));
+        UserAddress userAddress = new UserAddress(user1, new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"));
         userAddressRepository.save(userAddress);
 
         User user2 = new User("name2", "nickname2", "email2@", "userTel22");
         userRepository.save(user2);
-        UserAddress userAddress2 = new UserAddress(user2, new Address("city", "street", "detail", "zipcode"));
+        UserAddress userAddress2 = new UserAddress(user2, new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"));
         userAddressRepository.save(userAddress2);
 
         Category category = new Category(노트북);

@@ -61,7 +61,7 @@ class DealServiceTest {
     public void setUp() {
         User user1 = new User("name1", "nickname1", "email1", "userTel1");
         userRepository.save(user1);
-        UserAddress userAddress = new UserAddress(user1, new Address("city", "street", "detail", "zipcode"));
+        UserAddress userAddress = new UserAddress(user1, new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"));
         userAddressRepository.save(userAddress);
 
         Category category = new Category(노트북);

@@ -24,7 +24,7 @@ class UserAddressRepositoryTest {
         //given
         User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
         userRepository.save(user);
-        UserAddress userAddress = new UserAddress(user, new Address("incheon", "inharo", "127", "1234"));
+        UserAddress userAddress = new UserAddress(user, new Address("yyh","010-1111-1111","incheon", "inharo", "127", "1234"));
         userAddressRepository.save(userAddress);
         //when
         UserAddress findAddress = userAddressRepository.findById(userAddress.getId()).get();

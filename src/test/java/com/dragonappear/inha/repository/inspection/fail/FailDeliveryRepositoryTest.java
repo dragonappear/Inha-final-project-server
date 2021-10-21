@@ -74,7 +74,7 @@ class FailDeliveryRepositoryTest {
         auctionitemRepository.save(newBid);
         Selling newSelling = new Selling(newUser, newBid);
         sellingRepository.save(newSelling);
-        UserAddress newAddress = new UserAddress(newUser, new Address("incehon", "inharo", "127", "22207"));
+        UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
         Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
                 newAddress.getUserAddress(),  newUser, newBid );
@@ -95,7 +95,7 @@ class FailDeliveryRepositoryTest {
         //given
         FailInspection failInspection = failInspectionRepository.findAll().get(0);
         FailDelivery newDelivery = new FailDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
-                new Address("city", "street", "detail", "zipcode"),
+                new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"),
                 failInspection);
         failDeliveryRepository.save(newDelivery);
         //when

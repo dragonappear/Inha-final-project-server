@@ -40,10 +40,10 @@ class UserAddressServiceTest {
     public void 유저주소_등록_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Address address = new Address("city1", "street1", "detail1", "zipcode1");
-        Address address1 = new Address("city2", "street2", "detail2", "zipcode2");
-        Address address2 = new Address("city3", "street3", "detail3", "zipcode3");
-        Address address3 = new Address("city4", "street4", "detail4", "zipcode4");
+        Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
+        Address address1 = new Address("yyh","010-1111-1111","city2", "street2", "detail2", "zipcode2");
+        Address address2 = new Address("yyh","010-1111-1111","city3", "street3", "detail3", "zipcode3");
+        Address address3 = new Address("yyh","010-1111-1111","city4", "street4", "detail4", "zipcode4");
         //when
         userAddressService.save(findUser, address);
         userAddressService.save(findUser, address1);
@@ -60,8 +60,8 @@ class UserAddressServiceTest {
     public void 유저주소_중복등록_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Address address = new Address("city1", "street1", "detail1", "zipcode1");
-        Address address1 = new Address("city2", "street2", "detail2", "zipcode1");
+        Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
+        Address address1 = new Address("yyh","010-1111-1111","city2", "street2", "detail2", "zipcode1");
         //when
         userAddressService.save(findUser, address);
         //then
@@ -74,8 +74,8 @@ class UserAddressServiceTest {
     public void 유저주소조회_유저아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Address address = new Address("city1", "street1", "detail1", "zipcode1");
-        Address address1 = new Address("city2", "street2", "detail2", "zipcode2");
+        Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
+        Address address1 = new Address("yyh","010-1111-1111","city2", "street2", "detail2", "zipcode2");
         userAddressRepository.save(new UserAddress(findUser, address));
         userAddressRepository.save(new UserAddress(findUser, address1));
         //when
@@ -93,7 +93,7 @@ class UserAddressServiceTest {
     public void 유저주소조회_유저주소아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Address address = new Address("city1", "street1", "detail1", "zipcode1");
+        Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         UserAddress newUserAddress = userAddressRepository.save(new UserAddress(findUser, address));
         //when
         UserAddress findUserAddress = userAddressService.findByUserAddressId(newUserAddress.getId());
@@ -108,7 +108,7 @@ class UserAddressServiceTest {
     public void 유저주소조회_유저그리고주소아이디로_테스트() throws Exception{
         //given
         User findUser = userRepository.findAll().get(0);
-        Address address = new Address("city1", "street1", "detail1", "zipcode1");
+        Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         UserAddress newUserAddress = userAddressRepository.save(new UserAddress(findUser, address));
         userAddressRepository.save(newUserAddress);
         //when
@@ -125,9 +125,9 @@ class UserAddressServiceTest {
         //given
         User findUser = userRepository.findAll().get(0);
         User findUser1 = userRepository.findAll().get(1);
-        Address address = new Address("city1", "street1", "detail1", "zipcode1");
+        Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         UserAddress newUserAddress = userAddressRepository.save(new UserAddress(findUser, address));
-        Address address1 = new Address("city1", "street1", "detail1", "zipcode1");
+        Address address1 = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         UserAddress newUserAddress1 = userAddressRepository.save(new UserAddress(findUser1, address1));
         userAddressRepository.save(newUserAddress);
         userAddressRepository.save(newUserAddress1);

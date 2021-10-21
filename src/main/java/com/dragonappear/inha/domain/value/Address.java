@@ -1,6 +1,7 @@
 package com.dragonappear.inha.domain.value;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,10 @@ import java.util.Objects;
 @Embeddable
 public class Address {
     @Column(nullable = false)
+    private String recipient;
+    @Column(nullable = false)
+    private String contactTel;
+    @Column(nullable = false)
     private String city;
     @Column(nullable = false)
     private String street;
@@ -21,7 +26,10 @@ public class Address {
     @Column(nullable = false)
     private String zipcode;
 
-    public Address(String city, String street, String detail, String zipcode) {
+    @Builder
+    public Address(String recipient, String contactTel, String city, String street, String detail, String zipcode) {
+        this.recipient = recipient;
+        this.contactTel = contactTel;
         this.city = city;
         this.street = street;
         this.detail = detail;
@@ -33,11 +41,11 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(getCity(), address.getCity()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getDetail(), address.getDetail()) && Objects.equals(getZipcode(), address.getZipcode());
+        return Objects.equals(getRecipient(), address.getRecipient()) && Objects.equals(getContactTel(), address.getContactTel()) && Objects.equals(getCity(), address.getCity()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getDetail(), address.getDetail()) && Objects.equals(getZipcode(), address.getZipcode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCity(), getStreet(), getDetail(), getZipcode());
+        return Objects.hash(getRecipient(), getContactTel(), getCity(), getStreet(), getDetail(), getZipcode());
     }
 }

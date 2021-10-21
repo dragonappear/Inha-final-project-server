@@ -68,7 +68,7 @@ class BuyingRepositoryTest {
         User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
         userRepository.save(newUser);
 
-        UserAddress newAddress = new UserAddress(newUser, new Address("incehon", "inharo", "127", "22207"));
+        UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
 
         Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
