@@ -49,4 +49,19 @@ public class Address {
     public int hashCode() {
         return Objects.hash(getCity(), getStreet(), getDetail(), getZipcode());
     }
+
+
+    /**
+     * 비즈니스 로직
+     */
+
+    public void update(Address address) {
+        this.recipient = address.getRecipient();
+        this.contactTel = address.getContactTel();
+        this.city = address.getCity();
+        this.street = address.getStreet();
+        this.detail = address.getDetail();
+        this.zipcode = address.getZipcode();
+    }
+
 }

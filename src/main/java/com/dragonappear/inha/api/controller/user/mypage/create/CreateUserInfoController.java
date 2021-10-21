@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = {"유저 정보 생성 API"})
+@Api(tags = {"마이페이지 유저 정보 생성 API"})
 @RequiredArgsConstructor
 @RestController
 public class CreateUserInfoController {
@@ -20,8 +20,8 @@ public class CreateUserInfoController {
 
     @ApiOperation(value = "유저 주소 추가 API", notes = "유저 주소를 추가합니다.")
     @PostMapping("/users/update/addresses/{userId}")
-    public Address updateUserNickname(@PathVariable("userId") Long userId, @RequestBody Address userAddress) {
-        userAddressService.save(userService.findOneById(userId), userAddress);
+    public Address createUserAddress(@PathVariable("userId") Long userId, @RequestBody Address userAddress) {
+        userAddressService.save(userId, userAddress);
         return userAddress;
     }
 }

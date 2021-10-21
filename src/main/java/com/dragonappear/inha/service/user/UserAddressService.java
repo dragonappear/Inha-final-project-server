@@ -5,6 +5,7 @@ import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
+import com.dragonappear.inha.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 public class UserAddressService {
     private final UserAddressRepository userAddressRepository;
-    private final EntityManager entityManager;
+    private final UserRepository userRepository;
 
     /**
      * CREATE
@@ -25,8 +26,10 @@ public class UserAddressService {
 
     // 유저주소등록
     @Transactional
-    public Long save(User user, Address address) {
-        validateUserAddress(user, address);
+    public Long save(Long userId, Address address) {
+        validateUserAddress(userId, address);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
         return userAddressRepository.save(new UserAddress(user, address)).getId();
     }
 
@@ -57,9 +60,21 @@ public class UserAddressService {
         return userAddressRepository.findAll();
     }
 
+    /**
+     * UPDATE
+     */
+    @Transactional
+    public Address updateUserAddress(Long userId, Long addressId, Address address) {
+        validateUserAddress(userId, address);
+        userAddressRepository.findById(addressId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 주소입니다."))
+                .getUserAddress()
+                .update(address);
+        return address;
+    }
+
 
     /**
-     * DELETE
      * DELETE
      */
     @Transactional
@@ -77,18 +92,15 @@ public class UserAddressService {
      * 검증로직
      */
 
-    private void validateUserAddress(User user, Address address) {
-        List<UserAddress> all = userAddressRepository.findByUserId(user.getId());
+    public void validateUserAddress(Long userId, Address address) {
+        List<UserAddress> all = userAddressRepository.findByUserId(userId);
         for (UserAddress userAddress : all) {
             if (userAddress.getUserAddress().equals(address)) {
                 throw new IllegalStateException("이미 등록된 주소입니다.");
             }
         }
-
-        for (UserAddress userAddress : all) {
-            System.out.println("userAddress = " + userAddress);
-        }
     }
+
 
 
 }

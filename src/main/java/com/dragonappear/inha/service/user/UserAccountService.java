@@ -18,18 +18,17 @@ import javax.persistence.Id;
 @Transactional(readOnly = true)
 @Service
 public class UserAccountService {
-
-    private final UserRepository userRepository;
     private final UserAccountRepository userAccountRepository;
 
     // 유저 계좌 등록/수정
     @Transactional
-    public void update(User user, Account userAccount) {
+    public Account update(User user, Account userAccount) {
         if (user.getUserAccount() != null) {
             user.getUserAccount().changeUserAccount(userAccount);
         } else {
             userAccountRepository.save(new UserAccount(user, userAccount));
         }
+        return userAccount;
     }
 
     //  유저 계좌 조회 by 유저아이디

@@ -45,10 +45,10 @@ class UserAddressServiceTest {
         Address address2 = new Address("yyh","010-1111-1111","city3", "street3", "detail3", "zipcode3");
         Address address3 = new Address("yyh","010-1111-1111","city4", "street4", "detail4", "zipcode4");
         //when
-        userAddressService.save(findUser, address);
-        userAddressService.save(findUser, address1);
-        userAddressService.save(findUser, address2);
-        userAddressService.save(findUser, address3);
+        userAddressService.save(findUser.getId(), address);
+        userAddressService.save(findUser.getId(), address1);
+        userAddressService.save(findUser.getId(), address2);
+        userAddressService.save(findUser.getId(), address3);
         List<UserAddress> all = userAddressRepository.findAll();
         //then
         assertThat(all).extracting("user").containsOnly(findUser);
@@ -63,10 +63,10 @@ class UserAddressServiceTest {
         Address address = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         Address address1 = new Address("yyh","010-1111-1111","city1", "street1", "detail1", "zipcode1");
         //when
-        userAddressService.save(findUser, address);
+        userAddressService.save(findUser.getId(), address);
         //then
         org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
-            userAddressService.save(findUser, address1);
+            userAddressService.save(findUser.getId(), address1);
         });
     }
 

@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Address;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,7 @@ public class UserAddress extends JpaBaseTimeEntity {
     /**
      * 연관관계
      */
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -56,6 +58,9 @@ public class UserAddress extends JpaBaseTimeEntity {
         }
     }
 
+    /**
+     * 비즈니스 로직
+     */
 
 
 }

@@ -3,12 +3,10 @@ package com.dragonappear.inha.api.controller.user.login;
 import com.dragonappear.inha.api.controller.user.login.dto.SaveUserInfoDto;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.value.UserRole;
+import com.dragonappear.inha.domain.value.Account;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Image;
-import com.dragonappear.inha.service.user.UserAddressService;
-import com.dragonappear.inha.service.user.UserImageService;
-import com.dragonappear.inha.service.user.UserPointService;
-import com.dragonappear.inha.service.user.UserService;
+import com.dragonappear.inha.service.user.*;
 import com.dragonappear.inha.api.controller.user.login.dto.LoginUserInfoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +23,7 @@ public class LoginUserApiController {
     private final UserAddressService userAddressService;
     private final UserImageService userImageService;
     private final UserPointService userPointService;
+    private final UserAccountService userAccountService;
     
     @ApiOperation(value = "유저 정보 조회", notes = "유저 이름, 번호, 주소 조회")
     @GetMapping(value = "/users/{email}")
@@ -56,10 +55,12 @@ public class LoginUserApiController {
         );
 
         User user = userService.findOneById(id);
-        userAddressService.save(user, userInfoDto.getAddress());
+        userAddressService.save(user.getId(), userInfoDto.getAddress());
         userImageService.update(user
                 , new Image("basic icon","profile.png", "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/user"));
         userPointService.create(user.getId());
+        userAccountService.update(user,
+                new Account(userInfoDto.getAccount().getBankName(), userInfoDto.getAccount().getAccountNumber(), userInfoDto.getAccount().getAccountHolder()));
         return userInfoDto;
     }
 

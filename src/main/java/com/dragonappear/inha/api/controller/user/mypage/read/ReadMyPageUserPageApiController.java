@@ -4,7 +4,7 @@ import com.dragonappear.inha.api.controller.user.mypage.dto.*;
 import com.dragonappear.inha.api.repository.buying.BuyingQueryRepository;
 import com.dragonappear.inha.api.repository.seliing.SellingQueryRepository;
 import com.dragonappear.inha.api.repository.user.UserQueryRepository;
-import com.dragonappear.inha.domain.user.UserAddress;
+import com.dragonappear.inha.service.user.UserAccountService;
 import com.dragonappear.inha.service.user.UserAddressService;
 import com.dragonappear.inha.service.user.UserService;
 import io.swagger.annotations.Api;
@@ -29,6 +29,7 @@ public class ReadMyPageUserPageApiController {
     private final UserQueryRepository userQueryRepository;
     private final UserService userService;
     private final UserAddressService userAddressService;
+    private final UserAccountService userAccountService;
 
     @ApiOperation(value = "유저 기본 정보 조회", notes = "유저이름,유저닉네임,등급,포인트,관심상품 개수")
     @GetMapping("/users/mypage/{userId}")
@@ -56,20 +57,27 @@ public class ReadMyPageUserPageApiController {
 
     @ApiOperation(value = "유저 주소 조회", notes = "우편번호,시,도로명,상세주소")
     @GetMapping("/users/mypage/addresses/{userId}")
-    public UserAddressApiDto userAddressApiDto(@PathVariable("userId") Long userId) {
-        return UserAddressApiDto.builder()
-                .addresses(userAddressService.findByUserId(userId)
-                        .stream()
-                        .map(userAddress -> userAddress.getUserAddress())
-                        .collect(Collectors.toList()))
+    public Results userAddressApiDto(@PathVariable("userId") Long userId) {
+        List<UserAddressApiDto> dtos = userAddressService.findByUserId(userId).stream()
+                .map(userAddress -> UserAddressApiDto.builder()
+                        .addressId(userAddress.getId())
+                        .address(userAddress.getUserAddress())
+                        .build())
+                .collect(Collectors.toList());
+
+        return Results.builder()
+                .count(dtos.size())
+                .items(dtos.stream().map(dto-> (Object) dto).collect(Collectors.toList()))
                 .build();
     }
-    /*@ApiOperation(value = "유저 계좌 조회", notes = "은행,계좌번호,예금주")
+
+    @ApiOperation(value = "유저 계좌 조회", notes = "은행,계좌번호,예금주")
     @GetMapping("/users/mypage/accounts/{userId}")
-    public UserAccountDto userAccountDto() {
-
-    }*/
-
+    public UserAccountApiDto userAccountDto(@PathVariable("userId") Long userId) {
+        return UserAccountApiDto.builder()
+                .account(userAccountService.findByUserId(userId))
+                .build();
+    }
 
     /**
      * DTO
