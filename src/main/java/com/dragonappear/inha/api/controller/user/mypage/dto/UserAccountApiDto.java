@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserAccountApiDto {
-    private Long id;
+    private Long userAccountId;
     private Account account;
 
     @Builder
     public UserAccountApiDto(UserAccount account) {
-        this.id = account.getId();
+        this.userAccountId = account.getId();
         this.account = account.getUserAccount();
     }
 }

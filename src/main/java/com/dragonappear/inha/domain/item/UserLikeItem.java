@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 import static javax.persistence.FetchType.*;
 
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"item_id","user_id"}))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity

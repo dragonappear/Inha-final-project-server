@@ -22,7 +22,7 @@ public class UserLikeItemService {
 
     // 회원아이템 찜 저장
     @Transactional
-    public Long save(UserLikeItem userLikeItem) {
+    public Long save(UserLikeItem userLikeItem)  {
         return userLikeItemRepository.save(userLikeItem).getId();
     }
 
@@ -32,17 +32,21 @@ public class UserLikeItemService {
         userLikeItem.getItem().cancel();
         userLikeItemRepository.delete(userLikeItem.getId());
     }
-
     // 아이템 찜 조회 by 유저아이디
+
     public List<Item> findByUserId(Long userId) {
         List<UserLikeItem> all = userLikeItemRepository.findByUserId(userId);
         List<Item> items = new ArrayList<>();
         all.stream().forEach(userLikeItem -> items.add(userLikeItem.getItem()));
         return items;
     }
-
     // 유저가 누른 아이템 좋아요 개수 조회
+
     public int getLikeNumber(Long userId) {
         return userLikeItemRepository.findByUserId(userId).size();
     }
+
+    /**
+     *  검증로직
+     */
 }

@@ -23,7 +23,7 @@ public class UserQueryRepository {
                 .nickname(find.getNickname())
                 .username(find.getUsername())
                 .userRole(find.getUserRole().getTitle())
-                .userPoint(find.getUserPoint().getTotal().getAmount())
+                .userPoint(find.getUserPoints().get(find.getUserPoints().size()-1).getTotal().getAmount())
                 .imageUrl(find.getUserImage().getImage().getFileOriName())
                 .userLikeCount(find.getUserLikeItems().size())
                 .build();

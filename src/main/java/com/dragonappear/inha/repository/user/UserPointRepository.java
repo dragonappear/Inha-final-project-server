@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserPointRepository extends JpaRepository<UserPoint,Long> {
     @Query("select u from UserPoint u where u.user.id=:userId")
-    Optional<UserPoint> findByUserId(@Param("userId") Long userId);
+    List<UserPoint> findByUserId(@Param("userId") Long userId);
+
 }

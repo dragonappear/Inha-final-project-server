@@ -64,6 +64,7 @@ public class Money {
     /**
      * 인스턴스 비교 메서드
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.*;
 class UserPointRepositoryTest {
     @Autowired UserRepository userRepository;
     @Autowired UserPointRepository userPointRepository;
-    @Autowired EntityManager em;
 
     @BeforeEach
     public void setUp() {
@@ -73,12 +72,11 @@ class UserPointRepositoryTest {
         UserPoint point = new UserPoint(user);
         userPointRepository.save(point);
         //when
-        UserPoint findPoint = userPointRepository.findById(point.getId()).get();
-        findPoint.updatePoint(Money.wons(200L), Money.wons(0L), Money.wons(0L));
-        findPoint.minus(BigDecimal.valueOf(100L));
+        point.updatePoint(Money.wons(200L), Money.wons(0L), Money.wons(0L));
+        point.minus(BigDecimal.valueOf(100L));
         //then
-        assertThat(findPoint.getUsed().getAmount()).isEqualTo(Money.wons(100L).getAmount());
-        assertThat(findPoint.getTotal().getAmount()).isEqualTo(Money.wons(100L).getAmount());
+        assertThat(point.getUsed().getAmount()).isEqualTo(Money.wons(100L).getAmount());
+        assertThat(point.getTotal().getAmount()).isEqualTo(Money.wons(100L).getAmount());
     }
 
 
@@ -107,9 +105,7 @@ class UserPointRepositoryTest {
         //when
         UserPoint point1 = new UserPoint(user);
         //then
-        Assertions.assertThrows(DataIntegrityViolationException.class, ()->{
-            userPointRepository.save(point1);
-        } );
+        assertThat(point1).isNotEqualTo(point);
     }
 
 }

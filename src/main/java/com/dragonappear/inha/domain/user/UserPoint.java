@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 
 import static javax.persistence.FetchType.*;
 
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -39,7 +40,8 @@ public class UserPoint extends JpaBaseTimeEntity {
      * 연관관계
      */
 
-    @OneToOne(fetch = LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -49,15 +51,14 @@ public class UserPoint extends JpaBaseTimeEntity {
 
     private void updateUserPoint(User user) {
         this.user = user;
-        user.updateUserPoint(this);
+        user.getUserPoints().add(this);
     }
-
-    public void updatePoint(Money total, Money used, Money earned) {
+    public UserPoint updatePoint(Money total, Money used, Money earned) {
         this.total = total;
         this.used = used;
         this.earned = earned;
+        return this;
     }
-
     /**
      * 생성자 메서드
      */
@@ -71,10 +72,21 @@ public class UserPoint extends JpaBaseTimeEntity {
         }
     }
 
+    public UserPoint(User user, UserPoint userPoint) {
+        this.total = userPoint.getTotal();
+        this.used = userPoint.getUsed();
+        this.earned = userPoint.getEarned();
+        if (user != null) {
+            updateUserPoint(user);
+        }
+    }
+
+
+
     /**
      * 비즈니스 로직
      */
-    public void plus(BigDecimal amount) throws Exception {
+    public UserPoint plus(BigDecimal amount) throws Exception {
         if(amount.compareTo(BigDecimal.ZERO)<0){
             throw new IllegalArgumentException("포인트적립 파라미터 오류");
         }
@@ -82,10 +94,11 @@ public class UserPoint extends JpaBaseTimeEntity {
             Money money = new Money(amount);
             this.earned= this.earned.plus(money);
             this.total = this.total.plus(money);
+            return this;
         }
     }
 
-    public void minus(BigDecimal amount) throws Exception {
+    public UserPoint minus(BigDecimal amount) throws Exception {
         if(amount.compareTo(BigDecimal.ZERO)<0){
             throw new IllegalArgumentException("포인트차감 파라미터 오류");
         }
@@ -96,6 +109,7 @@ public class UserPoint extends JpaBaseTimeEntity {
             Money money = new Money(amount);
             this.used = this.used.plus(money);
             this.total= this.total.minus(money);
+            return this;
         }
     }
 }

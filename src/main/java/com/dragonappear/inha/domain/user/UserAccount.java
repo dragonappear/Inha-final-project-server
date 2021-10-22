@@ -55,8 +55,7 @@ public class UserAccount extends JpaBaseTimeEntity {
     /**
      * 비즈니스 로직
      */
-    public void
-    changeUserAccount(Account userAccount) {
+    public void changeUserAccount(Account userAccount) {
         this.userAccount = userAccount;
     }
 }
