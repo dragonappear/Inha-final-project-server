@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.repository.seliing;
+package com.dragonappear.inha.api.repository.seliing.dto;
 
 import lombok.Builder;
 import lombok.Data;

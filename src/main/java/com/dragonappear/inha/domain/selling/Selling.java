@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,17 +36,21 @@ public class Selling extends JpaBaseEntity {
      * 연관관계
      */
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY, cascade = ALL, mappedBy = "selling")
     private SellingDelivery sellingDelivery;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User seller;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "auctionitem_id")
     private Auctionitem auctionitem;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY,mappedBy = "selling")
     private Deal deal;
 

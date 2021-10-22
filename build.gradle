@@ -26,6 +26,7 @@ repositories {
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
 		implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 		implementation 'org.thymeleaf:thymeleaf'
+		implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 		runtimeOnly 'com.h2database:h2'
 		annotationProcessor 'org.projectlombok:lombok'
 

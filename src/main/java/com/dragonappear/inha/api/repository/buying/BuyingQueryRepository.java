@@ -56,29 +56,29 @@ public class BuyingQueryRepository{
     }
 
    public List<MyPageUserBuyingOngoingDto> getMyPageUserBuyingOngoingDto(Long userId) {
-        return jpaQueryFactory.select(new QMyPageUserBuyingOngoingDto(deal.id
-                    ,itemImage1.itemImage.fileOriName
+        return jpaQueryFactory.select(new QMyPageUserBuyingOngoingDto(buying.id
+                        ,itemImage1.itemImage.fileOriName
                         , payment.itemName
-                ,deal.dealStatus))
+                        ,deal.dealStatus))
                 .from(buying)
                 .join(buying.deal,deal).on(deal.buying.id.eq(buying.id))
                 .join(buying.payment, payment).on(buying.payment.id.eq(payment.id).and(payment.user.id.eq(userId)))
                 .join(itemImage1).on(itemImage1.item.id.eq(payment.auctionitem.item.id))
-                .where(buying.buyingStatus.in(Arrays.asList(거래중, 구매완료)))
+                .where(buying.buyingStatus.in(거래중, 구매완료))
                 .fetch();
     }
 
     public List<MyPageUserBuyingEndDto> getMyPageUserBuyingEndDto(Long userId) {
-        return jpaQueryFactory.select(new QMyPageUserBuyingEndDto(deal.id
-                ,itemImage1.itemImage.fileOriName
-                , payment.itemName
-                ,payment.createdDate
+        return jpaQueryFactory.select(new QMyPageUserBuyingEndDto(buying.id
+                        ,itemImage1.itemImage.fileOriName
+                        ,payment.itemName
+                        ,payment.createdDate
                         ,buying.buyingStatus))
                 .from(buying)
                 .join(buying.deal,deal).on(deal.buying.id.eq(buying.id))
                 .join(buying.payment, payment).on(buying.payment.id.eq(payment.id).and(payment.user.id.eq(userId)))
                 .join(itemImage1).on(itemImage1.item.id.eq(payment.auctionitem.item.id))
-                .where(buying.buyingStatus.in(Arrays.asList(구매입찰종료, 구매취소, 배송완료)))
+                .where(buying.buyingStatus.in(구매입찰종료, 구매취소, 배송완료))
                 .fetch();
     }
 }

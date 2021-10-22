@@ -50,7 +50,7 @@ public class UpdateUserInfoApiController {
         return userService.findOneById(userId).getUserTel();
     }
 
-    @ApiOperation(value = "유저 프로필 수정", notes = "유저 프로필을 수정합니다.")
+    @ApiOperation(value = "유저 프로필이미지 수정", notes = "유저 프로필을 수정합니다.")
     @PostMapping("/users/update/images/{userId}")
     public String updateUserNickname(@PathVariable("userId") Long userId, HttpServletRequest request, @RequestPart MultipartFile file) throws  Exception {
         return userImageService.update(userService.findOneById(userId),saveUserImage(file));

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class MyPageUserBuyingEndDto{
-    private Long dealId;
+    private Long buyingId;
     private String imageUrl;
     private String itemName;
     private LocalDateTime purchaseTime;
@@ -20,8 +20,8 @@ public class MyPageUserBuyingEndDto{
 
     @Builder
     @QueryProjection
-    public MyPageUserBuyingEndDto(Long dealId, String imageUrl, String itemName, LocalDateTime purchaseTime, BuyingStatus buyingStatus) {
-        this.dealId = dealId;
+    public MyPageUserBuyingEndDto(Long buyingId, String imageUrl, String itemName, LocalDateTime purchaseTime, BuyingStatus buyingStatus) {
+        this.buyingId = buyingId;
         this.imageUrl = imageUrl;
         this.itemName = itemName;
         this.purchaseTime = purchaseTime;

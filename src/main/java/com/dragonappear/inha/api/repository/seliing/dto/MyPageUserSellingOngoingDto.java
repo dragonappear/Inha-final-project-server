@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.repository.buying.dto;
+package com.dragonappear.inha.api.repository.seliing.dto;
 
 import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.querydsl.core.annotations.QueryProjection;
@@ -6,19 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Data
-public class MyPageUserBuyingOngoingDto {
-    private Long buyingId;
+public class MyPageUserSellingOngoingDto {
+    private Long dealId;
     private String imageUrl;
     private String itemName;
     private DealStatus dealStatus;
 
     @Builder
     @QueryProjection
-    public MyPageUserBuyingOngoingDto(Long buyingId, String imageUrl, String itemName, DealStatus dealStatus) {
-        this.buyingId = buyingId;
-        this.imageUrl = imageUrl;
+    public MyPageUserSellingOngoingDto(Long dealId, String imageUrl, String itemName, DealStatus dealStatus) {
+        this.dealId = dealId;
+        this.imageUrl=imageUrl;
         this.itemName = itemName;
         this.dealStatus = dealStatus;
     }

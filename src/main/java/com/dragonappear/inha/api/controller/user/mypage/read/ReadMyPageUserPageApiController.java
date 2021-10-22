@@ -3,7 +3,7 @@ package com.dragonappear.inha.api.controller.user.mypage.read;
 import com.dragonappear.inha.api.controller.user.mypage.dto.*;
 import com.dragonappear.inha.api.repository.buying.BuyingQueryRepository;
 import com.dragonappear.inha.api.repository.buying.dto.MyPageUserBuyingSimpleDto;
-import com.dragonappear.inha.api.repository.seliing.MyPageUserSellingSimpleDto;
+import com.dragonappear.inha.api.repository.seliing.dto.MyPageUserSellingSimpleDto;
 import com.dragonappear.inha.api.repository.seliing.SellingQueryRepository;
 import com.dragonappear.inha.api.repository.user.UserQueryRepository;
 import com.dragonappear.inha.service.user.UserAccountService;

@@ -1,5 +1,6 @@
 package com.dragonappear.inha;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,6 +38,11 @@ public class InhaApplication {
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
 		return new HiddenHttpMethodFilter();
+	}
+
+	@Bean
+	Hibernate5Module hibernate5Module() {
+		return new Hibernate5Module();
 	}
 
 }
