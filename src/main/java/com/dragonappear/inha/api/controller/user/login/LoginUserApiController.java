@@ -13,8 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Field;
-
 @Api(tags = {"로그인 유저 정보 API"})
 @RequiredArgsConstructor
 @RestController
@@ -45,25 +43,44 @@ public class LoginUserApiController {
     @ApiOperation(value = "유저 정보 저장", notes = "유저 휴대폰 정보, 주소 저장")
     @PostMapping(value = "/users/new")
     public SaveUserInfoDto saveUserInfo(@RequestBody SaveUserInfoDto userInfoDto) {
-        Long id = userService.join(
-                User.builder()
-                        .email(userInfoDto.getEmail())
-                        .userTel(userInfoDto.getUserTel())
-                        .username(userInfoDto.getUsername())
-                        .nickname(userInfoDto.getNickname())
-                        .build()
-        );
+        return saveUserInfoDto(userInfoDto);
+    }
 
+    /**
+     *  유저 DB 저장 로직
+     */
+    private SaveUserInfoDto saveUserInfoDto(SaveUserInfoDto userInfoDto) {
+        Long id = userService.join(userBuilder(userInfoDto));
+        return userInfoService(userInfoDto, id);
+    }
+
+    /**
+     * 유저 빌더 로직
+     */
+    private User userBuilder(SaveUserInfoDto userInfoDto) {
+        return User.builder()
+                .email(userInfoDto.getEmail())
+                .userTel(userInfoDto.getUserTel())
+                .username(userInfoDto.getUsername())
+                .nickname(userInfoDto.getNickname())
+                .build();
+    }
+
+    /**
+     *  유저 서비스 로직
+     */
+    private SaveUserInfoDto userInfoService(SaveUserInfoDto userInfoDto, Long id) {
         User user = userService.findOneById(id);
+
         userAddressService.save(user.getId(), userInfoDto.getAddress());
         userImageService.update(user
                 , new Image("basic icon","profile.png", "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/user"));
         userPointService.create(user.getId());
         userAccountService.update(user,
                 new Account(userInfoDto.getAccount().getBankName(), userInfoDto.getAccount().getAccountNumber(), userInfoDto.getAccount().getAccountHolder()));
+
         return userInfoDto;
     }
-
 
 
     /**

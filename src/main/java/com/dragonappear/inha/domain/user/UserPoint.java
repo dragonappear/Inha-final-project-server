@@ -64,8 +64,8 @@ public class UserPoint extends JpaBaseTimeEntity {
      */
 
     public UserPoint(User user) {
-        this.total = Money.wons(0L);
-        this.earned = Money.wons(0L);
+        this.total = Money.wons(500L);
+        this.earned = Money.wons(500L);
         this.used = Money.wons(0L);
         if (user != null) {
             updateUserPoint(user);
@@ -80,7 +80,6 @@ public class UserPoint extends JpaBaseTimeEntity {
             updateUserPoint(user);
         }
     }
-
 
 
     /**

@@ -84,7 +84,6 @@ public class ReadMyPageUserPageApiController {
     /**
      * DTO
      */
-
     @Data
     static class Results<T> {
         private int count;
