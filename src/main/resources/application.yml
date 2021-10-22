@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local,oauth,local-db
+    active: real,oauth,real-db
 
   jpa:
     properties:

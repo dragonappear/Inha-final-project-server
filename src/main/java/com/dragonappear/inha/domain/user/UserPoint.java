@@ -53,19 +53,14 @@ public class UserPoint extends JpaBaseTimeEntity {
         this.user = user;
         user.getUserPoints().add(this);
     }
-    public UserPoint updatePoint(Money total, Money used, Money earned) {
-        this.total = total;
-        this.used = used;
-        this.earned = earned;
-        return this;
-    }
+
     /**
      * 생성자 메서드
      */
 
     public UserPoint(User user) {
-        this.total = Money.wons(500L);
-        this.earned = Money.wons(500L);
+        this.total = Money.wons(1000L);
+        this.earned = Money.wons(1000L);
         this.used = Money.wons(0L);
         if (user != null) {
             updateUserPoint(user);

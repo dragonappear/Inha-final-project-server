@@ -46,9 +46,9 @@ class UserPointServiceTest {
         //then
         assertThat(findUser.getUserPoints().get(0)).isEqualTo(findPoint);
         assertThat(findPoint.getId()).isEqualTo(id);
-        assertThat(findPoint.getTotal()).isEqualTo(Money.wons(0L));
-        assertThat(findPoint.getTotal()).isEqualTo(Money.wons(0L));
-        assertThat(findPoint.getTotal()).isEqualTo(Money.wons(0L));
+        assertThat(findPoint.getTotal()).isEqualTo(Money.wons(1000L));
+        assertThat(findPoint.getEarned()).isEqualTo(Money.wons(1000L));
+        assertThat(findPoint.getUsed()).isEqualTo(Money.wons(0L));
     }
 
     @Test
@@ -59,9 +59,9 @@ class UserPointServiceTest {
         //when
         UserPoint point = userPointService.findLatestPoint(findUser.getId());
         //then
-        assertThat(point.getTotal()).isEqualTo(Money.wons(0L));
-        assertThat(point.getEarned()).isEqualTo(Money.wons(0L));
-        assertThat(point.getEarned()).isEqualTo(Money.wons(0L));
+        assertThat(point.getTotal()).isEqualTo(Money.wons(1000L));
+        assertThat(point.getEarned()).isEqualTo(Money.wons(1000L));
+        assertThat(point.getUsed()).isEqualTo(Money.wons(0L));
     }
 
     @Test
@@ -76,8 +76,8 @@ class UserPointServiceTest {
         assertThat(findPoint).isEqualTo(userPoint);
         assertThat(findPoint.getId()).isEqualTo(userPoint.getId());
         assertThat(findPoint.getUser()).isEqualTo(userPoint.getUser());
-        assertThat(findPoint.getTotal()).isEqualTo(Money.wons(0L));
-        assertThat(findPoint.getEarned()).isEqualTo(Money.wons(0L));
+        assertThat(findPoint.getTotal()).isEqualTo(Money.wons(1000L));
+        assertThat(findPoint.getEarned()).isEqualTo(Money.wons(1000L));
         assertThat(findPoint.getUsed()).isEqualTo(Money.wons(0L));
     }
 
@@ -89,11 +89,11 @@ class UserPointServiceTest {
         userPointRepository.save(userPoint);
         //when
         userPointService.accumulate(findUser.getId(), Money.wons(100L));
-        UserPoint point = userPointService.findLatestPoint(findUser.getId());
+        UserPoint point = userPointRepository.findByUserId(findUser.getId()).get(0);
         //then
-        assertThat(point.getTotal().getAmount()).isEqualTo(BigDecimal.valueOf(100L));
+        assertThat(point.getTotal().getAmount()).isEqualTo(BigDecimal.valueOf(1100L));
         assertThat(point.getUsed().getAmount()).isEqualTo(BigDecimal.valueOf(0L));
-        assertThat(point.getEarned().getAmount()).isEqualTo(BigDecimal.valueOf(100L));
+        assertThat(point.getEarned().getAmount()).isEqualTo(BigDecimal.valueOf(1100L));
     }
 
     @Test
@@ -103,13 +103,12 @@ class UserPointServiceTest {
         UserPoint userPoint = new UserPoint(findUser);
         userPointRepository.save(userPoint);
         //when
-        userPoint.updatePoint(Money.wons(300L), Money.wons(0L), Money.wons(300L));
         userPointService.subtract(findUser.getId(), Money.wons(200L));
-        UserPoint point = userPointService.findLatestPoint(findUser.getId());
+        UserPoint point = userPointRepository.findByUserId(findUser.getId()).get(0);
         //then
-        assertThat(point.getTotal().getAmount()).isEqualTo((Money.wons(100L).getAmount()));
+        assertThat(point.getTotal().getAmount()).isEqualTo((Money.wons(800L).getAmount()));
         assertThat(point.getUsed().getAmount()).isEqualTo(Money.wons(200L).getAmount());
-        assertThat(point.getEarned().getAmount()).isEqualTo(Money.wons(300L).getAmount());
+        assertThat(point.getEarned().getAmount()).isEqualTo(Money.wons(1000L).getAmount());
     }
 
 }

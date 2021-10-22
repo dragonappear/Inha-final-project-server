@@ -61,8 +61,8 @@ class UserPointRepositoryTest {
         UserPoint findPoint = userPointRepository.findById(point.getId()).get();
         findPoint.plus(BigDecimal.valueOf(100L));
         //then
-        assertThat(findPoint.getEarned().getAmount()).isEqualTo(Money.wons(100L).getAmount());
-        assertThat(findPoint.getTotal().getAmount()).isEqualTo(Money.wons(100L).getAmount());
+        assertThat(findPoint.getEarned().getAmount()).isEqualTo(Money.wons(1100L).getAmount());
+        assertThat(findPoint.getTotal().getAmount()).isEqualTo(Money.wons(1100L).getAmount());
     }
 
     @Test
@@ -72,11 +72,10 @@ class UserPointRepositoryTest {
         UserPoint point = new UserPoint(user);
         userPointRepository.save(point);
         //when
-        point.updatePoint(Money.wons(200L), Money.wons(0L), Money.wons(0L));
         point.minus(BigDecimal.valueOf(100L));
         //then
         assertThat(point.getUsed().getAmount()).isEqualTo(Money.wons(100L).getAmount());
-        assertThat(point.getTotal().getAmount()).isEqualTo(Money.wons(100L).getAmount());
+        assertThat(point.getTotal().getAmount()).isEqualTo(Money.wons(900L).getAmount());
     }
 
 
@@ -89,10 +88,9 @@ class UserPointRepositoryTest {
         userPointRepository.save(point);
         //when
         UserPoint findPoint = userPointRepository.findById(point.getId()).get();
-        findPoint.updatePoint(Money.wons(200L), Money.wons(0L), Money.wons(0L));
         //then
        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           findPoint.minus(BigDecimal.valueOf(300L));
+           findPoint.minus(BigDecimal.valueOf(1300L));
        });
     }
 
