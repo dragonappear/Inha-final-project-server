@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 
-@Api(tags = {"상품 조회 API"})
+@Api(tags = {"아이템 경매상품 조회 API"})
 @RestController
 @RequiredArgsConstructor
 public class AuctionitemApiController {
