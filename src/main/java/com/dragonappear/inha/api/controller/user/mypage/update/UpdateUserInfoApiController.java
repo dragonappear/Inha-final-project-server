@@ -55,15 +55,13 @@ public class UpdateUserInfoApiController {
 
     @ApiOperation(value = "유저 프로필이미지 수정", notes = "유저 프로필을 수정합니다.")
     @PostMapping("/users/update/images/{userId}")
-    public ImageDto updateUserNickname(@PathVariable("userId") Long userId, @RequestBody ImageDto dto) throws  Exception {
-        //Map<String, Object>
-        /*Result result = saveUserProfile(dto);
+    public Map<String, Object> updateUserNickname(@PathVariable("userId") Long userId, @RequestBody ImageDto dto) throws  Exception {
+        Result result = saveUserProfile(dto);
         if(result.getContent()==null) {
             return result.getMap();
         }
         userImageService.update(userService.findOneById(userId), (Image)result.getContent());
-        return result.getMap();*/
-        return dto;
+        return result.getMap();
     }
 
     @ApiOperation(value = "유저 정산 계좌 수정", notes = "유저 정산 계좌를 수정합니다.")
@@ -156,11 +154,13 @@ public class UpdateUserInfoApiController {
     static class ImageDto{
         private String fileName;
         private String fileBase64;
+        private String type;
 
         @Builder
-        public ImageDto(String fileName, String fileBase64) {
+        public ImageDto(String fileName, String fileBase64, String type) {
             this.fileName = fileName;
             this.fileBase64 = fileBase64;
+            this.type = type;
         }
     }
 
