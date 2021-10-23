@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,9 +20,9 @@ import java.nio.file.Paths;
 @RestController
 public class UserImageApiController {
 
-    @ApiOperation(value = "유저 이미지 조회", notes = "이미지를 반환합니다.")
+    @ApiOperation(value = "유저 이미지 조회 by 이미지이름으로", notes = "이미지를 반환합니다.")
     @GetMapping(value = "/users/images/{fileOriginName}")
-    public ResponseEntity<Resource> itemImages(@PathVariable("fileOriginName") String fileOriginName) {
+    public ResponseEntity<Resource> getItemImagesByFileName(@PathVariable("fileOriginName") String fileOriginName) {
         String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static";
         String folder = "/users/";
 
@@ -39,4 +40,5 @@ public class UserImageApiController {
         }
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
+
 }

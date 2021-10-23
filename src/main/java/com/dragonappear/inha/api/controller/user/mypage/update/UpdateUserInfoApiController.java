@@ -54,13 +54,15 @@ public class UpdateUserInfoApiController {
 
     @ApiOperation(value = "유저 프로필이미지 수정", notes = "유저 프로필을 수정합니다.")
     @PostMapping("/users/update/images/{userId}")
-    public Map<String, Object> updateUserNickname(@PathVariable("userId") Long userId, @RequestBody ImageDto dto) throws  Exception {
-        Result result = saveUserProfile(dto);
+    public ImageDto updateUserNickname(@PathVariable("userId") Long userId, @RequestBody ImageDto dto) throws  Exception {
+        //Map<String, Object>
+        /*Result result = saveUserProfile(dto);
         if(result.getContent()==null) {
             return result.getMap();
         }
         userImageService.update(userService.findOneById(userId), (Image)result.getContent());
-        return result.getMap();
+        return result.getMap();*/
+        return dto;
     }
 
     @ApiOperation(value = "유저 정산 계좌 수정", notes = "유저 정산 계좌를 수정합니다.")
@@ -84,7 +86,10 @@ public class UpdateUserInfoApiController {
         String fileBase64 = dto.getFileBase64();
         Map<String, Object> validation = validateBase64(result, fileBase64);
         if(validation!=null){
-            Result.builder().map(validation).content(null).build();
+            Result.builder()
+                    .map(validation)
+                    .content(null)
+                    .build();
         }
         
         try {
