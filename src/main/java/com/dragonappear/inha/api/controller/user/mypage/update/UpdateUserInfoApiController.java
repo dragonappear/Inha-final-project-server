@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -150,10 +151,17 @@ public class UpdateUserInfoApiController {
      * DTO
      */
 
+    @NoArgsConstructor
     @Data
-    public class ImageDto{
+    static class ImageDto{
         private String fileName;
         private String fileBase64;
+
+        @Builder
+        public ImageDto(String fileName, String fileBase64) {
+            this.fileName = fileName;
+            this.fileBase64 = fileBase64;
+        }
     }
 
     @Data
