@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Api(tags = {"마이페이지 유저 관심상품 상세 조회 API"})
 @RequiredArgsConstructor
 @RestController
-public class ReadDetailUserLikeItemController {
+public class UserLikeItemApiController {
     private final UserLikeItemQueryRepository userLikeItemQueryRepository;
 
     @ApiOperation(value = "관심상품 상세내역 조회", notes = " 리턴값: itemUrl,manufacturerName,itemName,latestPrice")

@@ -48,7 +48,7 @@ public class UserImageService {
     // 유저 이미지 Url 조회
     public String getFileUrl(Long userId) {
         return userImageRepository.findByUserId(userId)
-                .orElse(new UserImage(null,new Image(null,"profile.png",null)))
+                .orElse(new UserImage(null,new Image(null,"NequEEEQWEeqweZXCZXCZASDsitas.png",null)))
                 .getImage().getFileOriName();
     }
 

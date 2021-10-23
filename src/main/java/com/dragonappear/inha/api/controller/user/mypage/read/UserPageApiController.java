@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Api(tags = {"마이페이지 유저 정보 조회 API"})
 @RequiredArgsConstructor
 @RestController
-public class ReadMyPageUserPageApiController {
+public class UserPageApiController {
     private final BuyingQueryRepository buyingQueryRepository;
     private final SellingQueryRepository sellingQueryRepository;
     private final UserQueryRepository userQueryRepository;

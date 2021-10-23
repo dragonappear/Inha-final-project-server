@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Api(tags = {"마이페이지 유저 포인트 상세 조회 API"})
 @RequiredArgsConstructor
 @RestController
-public class ReadDetailUserPointApiController {
+public class UserPointApiController {
     private final UserPointQueryRepository userPointQueryRepository;
     private final UserPointService userPointService;
 

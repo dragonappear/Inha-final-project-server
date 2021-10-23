@@ -9,16 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.dragonappear.inha.domain.buying.value.BuyingStatus.*;
 
 @Api(tags = {"마이페이지 유저 구매내역 상세 조회 API"})
 @RequiredArgsConstructor
 @RestController
-public class ReadDetailUserBuyingApiController {
+public class UserBuyingApiController {
     private final BuyingQueryRepository buyingQueryRepository;
 
     @ApiOperation(value = "유저 구매입찰 상세 내역 API", notes = "아이템 URL,구매희망가,상품이름,만료일")

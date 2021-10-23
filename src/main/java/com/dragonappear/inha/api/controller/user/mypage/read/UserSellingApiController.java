@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Api(tags = {"마이페이지 유저 판매내역 상세 조회 API"})
 @RequiredArgsConstructor
 @RestController
-public class ReadDetailUserSellingApiController {
+public class UserSellingApiController {
     private final SellingQueryRepository sellingQueryRepository;
 
     @ApiOperation(value = "유저 판매입찰 상세 내역 API", notes = "리턴값 : imageUrl,itemName, amount,endDate")
