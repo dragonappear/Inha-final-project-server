@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = {"상품 조회 API"})
+@Api(tags = {"아이템 정보 조회 API"})
 @RestController
 @RequiredArgsConstructor
 public class ItemApiController {
@@ -92,7 +92,7 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "상품상세 조회", notes = "상품을 상세 조회합니다.")
+    @ApiOperation(value = "아이템 상세 조회", notes = "상품을 상세 조회합니다.")
     @GetMapping("/items/details/{itemId}")
     public Detail detailItem(@PathVariable("itemId") Long itemId) {
         NotebookDto dto = notebookQueryRepository.findById(itemId);
@@ -103,7 +103,7 @@ public class ItemApiController {
                     .build();
     }
 
-    @ApiOperation(value = "상품정보 조회", notes = "상품 모델번호, 모델이름")
+    @ApiOperation(value = "아이템 대표정보 조회", notes = "상품 모델번호, 모델이름")
     @GetMapping("/items/simple/{itemId}")
     public SimpleItemDto simpleItemDto(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
@@ -114,7 +114,7 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "상품시세 조회", notes = "상품 시세를 조회합니다.")
+    @ApiOperation(value = "아이템 시세 조회", notes = "상품 시세를 조회합니다.")
     @GetMapping("/items/details/recent/{itemId}")
     public Results recentPrice(@PathVariable("itemId") Long itemId,
                                @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam(name = "limit", defaultValue = "5") int limit) {

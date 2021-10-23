@@ -24,17 +24,12 @@ public class AuctionitemApiController {
     @ApiOperation(value = "경매상품 가격 조회", notes = "경매상품 가격 조회")
     @GetMapping("/auctionitems/{auctionitemId}")
     public Money auctionItemPrice(@PathVariable("auctionitemId") Long auctionitemId) {
-        Auctionitem auctionitem = auctionitemRepository.findById(auctionitemId).orElse(null);
-        return auctionitem.getPrice();
+        return auctionitemRepository.findById(auctionitemId).orElse(null).getPrice();
     }
 
-    /*@ApiOperation(value = "해당상품 경매가격 전체 조회", notes = "거래소에 올라온 상품 경매가격 전체 조회")
-    @GetMapping("/auctionitems/items/{itemsId}")
-    public List<BigDecimal> auctionItemEntirePrice(@PathVariable("itemsId") Long itemsId) {
+    @ApiOperation(value = "해당상품 최저경매가격 조회", notes = "경매소에 올라온 상품 최저가 조회")
+    @GetMapping("/auctionitems/items/{itemsId}/lowest")
+    public void auctionItemEntirePrice(@PathVariable("itemsId") Long itemsId) {
 
-    }*/
-
-
-
-
+    }
 }
