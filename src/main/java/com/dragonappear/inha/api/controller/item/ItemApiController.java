@@ -40,7 +40,7 @@ public class ItemApiController {
     public Results allItems() {
         List<ItemDto> items = itemService.findAll().stream()
                 .map(item -> new ItemDto(item.getId()
-                                , item.getItemImages().get(0).getItemImage().getFileOriName()
+                                , item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName()
                                 , item.getItemName()
                                 , item.getLikeCount()
@@ -60,7 +60,7 @@ public class ItemApiController {
                 .stream()
                 .map(item ->
                         new ItemDto(item.getId()
-                                , item.getItemImages().get(0).getItemImage().getFileOriName()
+                                , item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
                                 , item.getLatestPrice().getAmount()))
@@ -80,7 +80,7 @@ public class ItemApiController {
                 .stream()
                 .map(item ->
                         new ItemDto(item.getId()
-                                , item.getItemImages().get(0).getItemImage().getFileOriName()
+                                , item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
                                 , item.getLatestPrice().getAmount()))
@@ -96,12 +96,11 @@ public class ItemApiController {
     @GetMapping("/items/details/{itemId}")
     public Detail detailItem(@PathVariable("itemId") Long itemId) {
         NotebookDto dto = notebookQueryRepository.findById(itemId);
-        List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileOriName()).collect(Collectors.toList());
+        List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileName()).collect(Collectors.toList());
             return Detail.builder()
-                    .fileOriginNames(names)
+                    .fileNames(names)
                     .detail(dto)
                     .build();
-
     }
 
     @ApiOperation(value = "상품정보 조회", notes = "상품 모델번호, 모델이름")
@@ -111,7 +110,7 @@ public class ItemApiController {
         return SimpleItemDto.builder()
                 .itemName(item.getItemName())
                 .modelNumber(item.getModelNumber())
-                .fileOriName(item.getItemImages().get(0).getItemImage().getFileOriName())
+                .fileOriName(item.getItemImages().get(0).getItemImage().getFileName())
                 .build();
     }
 
@@ -129,11 +128,9 @@ public class ItemApiController {
                 .build();
     }
 
-
     /**
      * DTO
      */
-
     @Data
     static class Results<T> {
         private int count;
@@ -148,12 +145,12 @@ public class ItemApiController {
 
     @Data
     static class Detail<T> {
-        private List<String> fileOriginNames;
+        private List<String> fileNames;
         private T detail;
 
         @Builder
-        public Detail(List<String> fileOriginNames, T detail) {
-            this.fileOriginNames = fileOriginNames;
+        public Detail(List<String> fileNames, T detail) {
+            this.fileNames = fileNames;
             this.detail = detail;
         }
     }

@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Api(tags = {"유저 이미지 API"})
+@Api(tags = {"마이페이지 유저 이미지 API"})
 @RequiredArgsConstructor
 @RestController
 public class UserImageApiController {
@@ -39,7 +39,7 @@ public class UserImageApiController {
             filePath = Paths.get(path+fileOriginName);
             header.add("Content-Type", Files.probeContentType(filePath));
         } catch (IOException e) {
-            e.printStackTrace();
+            return new ResponseEntity<Resource>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
@@ -60,7 +60,7 @@ public class UserImageApiController {
             filePath = Paths.get(path+fileOriginName);
             header.add("Content-Type", Files.probeContentType(filePath));
         } catch (IOException e) {
-            e.printStackTrace();
+            return new ResponseEntity<Resource>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
