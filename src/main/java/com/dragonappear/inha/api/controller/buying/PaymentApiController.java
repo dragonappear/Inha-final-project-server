@@ -231,6 +231,4 @@ public class PaymentApiController {
         result.put(status, content);
         return result;
     }
-
-
 }
