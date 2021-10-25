@@ -33,16 +33,18 @@ public class LoginUserApiController {
     @GetMapping(value = "/users/{email}")
     public Result loginUserInfoDto(@PathVariable("email") String email) {
         Long id=0L;
+        String role = "";
         try {
             id = userService.findOneByEmail(email).getId();
+            role = userService.findOneById(id).getUserRole().toString();
         } catch (Exception e) {
             return Result.builder()
-                    .result(putResult("isRegistered", false, "id", null))
+                    .result(putResult("isRegistered", false, "id", null,"role",e.getMessage()))
                     .build();
 
         }
         return Result.builder()
-                .result(putResult("isRegistered", true, "id", id.toString()))
+                .result(putResult("isRegistered", true, "id", id.toString(),"role",role))
                 .build();
     }
     
@@ -98,10 +100,11 @@ public class LoginUserApiController {
     }
 
 
-    public Map<String, Object> putResult(String insert, Boolean bool, String status, String content) {
+    public Map<String, Object> putResult(String insert, Boolean bool, String status, String content,String role, String grade) {
         Map<String, Object> result = new HashMap<>();
         result.put(insert, bool);
         result.put(status, content);
+        result.put(role, grade);
         return result;
     }
 

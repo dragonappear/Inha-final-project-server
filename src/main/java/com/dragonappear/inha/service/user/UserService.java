@@ -18,10 +18,7 @@ public class UserService {
 
 
     /**
-     *
-     *
      *  CREATE
-     *
      */
 
     // 회원등록
@@ -33,11 +30,7 @@ public class UserService {
 
 
     /**
-     *
-     *
      *  READ
-     *
-     *
      */
 
     //  회원 단건조회 by 유저아이디
@@ -78,12 +71,7 @@ public class UserService {
     }
 
     /**
-     *
-     *
      *  UPDATE
-     *
-     *
-     *
      */
 
 
