@@ -42,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
@@ -82,8 +83,10 @@ class InspectionImageRepositoryTest {
         sellingRepository.save(newSelling);
         UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
-        Payment newPayment = new Payment(newBid.getItem().getItemName(), newBid.getPrice(), newUser.getUsername(), newUser.getEmail(), newUser.getUserTel(),
-                newAddress.getUserAddress(),  newUser, newBid );
+        Payment newPayment = new Payment("카카오페이"
+                , "imp_"+ new Random().nextLong()
+                ,"merchant_"+new Random().nextLong()
+                ,newBid.getPrice(),newUser, newBid );
         paymentRepository.save(newPayment);
         Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);

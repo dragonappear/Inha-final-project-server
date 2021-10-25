@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.math.BigDecimal;
+
 import static com.dragonappear.inha.domain.payment.value.PaymentStatus.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
@@ -31,24 +33,24 @@ public class Payment extends JpaBaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String itemName;
+    private String pgName;
 
+    @Column(nullable = false,unique = true)
+    private String impId;
+
+    @Column(nullable = false,unique = true)
+    private String merchantId;
+
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "payment_price"))})
     @Column(nullable = false)
     @Embedded
     private Money paymentPrice;
 
-    @Column(nullable = false)
-    private String buyerName;
-
-    @Column(nullable = false)
-    private String buyerEmail;
-
-    @Column(nullable = false)
-    private String buyerTel;
-
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "cancel_price"))})
     @Column(nullable = false)
     @Embedded
-    private Address buyerAddress;
+    private Money cancelPrice;
+
 
     @Column(nullable = false)
     @Enumerated(STRING)
@@ -96,13 +98,12 @@ public class Payment extends JpaBaseEntity {
      * 생성자메서드
      */
 
-    public Payment(String itemName, Money paymentPrice, String buyerName, String buyerEmail, String buyerTel, Address buyerAddress, User user, Auctionitem auctionitem) {
-        this.itemName = itemName;
+    public Payment(String pgName, String impId, String merchantId, Money paymentPrice, User user, Auctionitem auctionitem) {
+        this.pgName = pgName;
+        this.impId = impId;
+        this.merchantId = merchantId;
         this.paymentPrice = paymentPrice;
-        this.buyerName = buyerName;
-        this.buyerEmail = buyerEmail;
-        this.buyerTel = buyerTel;
-        this.buyerAddress = buyerAddress;
+        this.cancelPrice = Money.wons(0);
         this.paymentStatus = 결제완료;
         if(user!=null){
             updatePaymentUser(user);
@@ -110,8 +111,6 @@ public class Payment extends JpaBaseEntity {
         if (auctionitem != null) {
             updateAuctionitem(auctionitem);
         }
-
-
     }
 
     /**

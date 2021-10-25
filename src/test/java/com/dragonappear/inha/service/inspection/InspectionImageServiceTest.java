@@ -38,6 +38,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
@@ -86,12 +87,10 @@ class InspectionImageServiceTest {
         Selling selling = new Selling(user1, bidAuctionitem);
         sellingRepository.save(selling);
 
-        Payment payment1 = new Payment(bidAuctionitem.getItem().getItemName()
-                , bidAuctionitem.getPrice()
-                , user1.getUsername()
-                , user1.getEmail()
-                , user1.getUserTel()
-                , user1.getUserAddresses().get(0).getUserAddress()
+        Payment payment1 = new Payment("카카오페이"
+                , "imp_"+ new Random().nextLong()
+                ,"merchant_"+new Random().nextLong()
+                ,bidAuctionitem.getPrice()
                 , user1
                 , bidAuctionitem);
         paymentRepository.save(payment1);

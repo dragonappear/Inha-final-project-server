@@ -45,7 +45,7 @@ public class BuyingQueryRepository{
 
     public List<MyPageUserBuyingBidDto> getMyPageUserBuyingBidDto(Long userId) {
         return jpaQueryFactory.select(new QMyPageUserBuyingBidDto(itemImage1.itemImage.fileOriName
-                        , payment.itemName
+                        , payment.auctionitem.item.itemName
                         , payment.paymentPrice.amount
                         , payment.createdDate))
                 .from(buying)
@@ -58,7 +58,7 @@ public class BuyingQueryRepository{
    public List<MyPageUserBuyingOngoingDto> getMyPageUserBuyingOngoingDto(Long userId) {
         return jpaQueryFactory.select(new QMyPageUserBuyingOngoingDto(buying.id
                         ,itemImage1.itemImage.fileOriName
-                        , payment.itemName
+                        , payment.auctionitem.item.itemName
                         ,deal.dealStatus))
                 .from(buying)
                 .join(buying.deal,deal).on(deal.buying.id.eq(buying.id))
@@ -71,7 +71,7 @@ public class BuyingQueryRepository{
     public List<MyPageUserBuyingEndDto> getMyPageUserBuyingEndDto(Long userId) {
         return jpaQueryFactory.select(new QMyPageUserBuyingEndDto(buying.id
                         ,itemImage1.itemImage.fileOriName
-                        ,payment.itemName
+                        ,payment.auctionitem.item.itemName
                         ,payment.createdDate
                         ,buying.buyingStatus))
                 .from(buying)

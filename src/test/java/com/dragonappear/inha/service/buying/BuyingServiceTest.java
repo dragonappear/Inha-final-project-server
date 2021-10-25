@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
@@ -81,21 +82,17 @@ class BuyingServiceTest {
         BidAuctionitem bidAuctionitem2 = new BidAuctionitem(item, Money.wons(6_000_000L), LocalDateTime.now().plusHours(1));
         auctionitemRepository.save(bidAuctionitem2);
 
-        Payment payment1 = new Payment(bidAuctionitem.getItem().getItemName()
+        Payment payment1 = new Payment("카카오페이"
+                , "imp_"+ new Random().nextLong()
+                ,"merchant_"+new Random().nextLong()
                 , bidAuctionitem.getPrice()
-                , user1.getUsername()
-                , user1.getEmail()
-                , user1.getUserTel()
-                , user1.getUserAddresses().get(0).getUserAddress()
                 , user1
                 , bidAuctionitem);
         Payment save1 = paymentRepository.save(payment1);
-        Payment payment2 = new Payment(bidAuctionitem1.getItem().getItemName()
-                , bidAuctionitem1.getPrice()
-                , user1.getUsername()
-                , user1.getEmail()
-                , user1.getUserTel()
-                , user1.getUserAddresses().get(0).getUserAddress()
+        Payment payment2 = new Payment("카카오페이"
+                , "imp_"+ new Random().nextLong()
+                ,"merchant_"+new Random().nextLong()
+                ,bidAuctionitem1.getPrice()
                 , user1
                 , bidAuctionitem1);
         Payment save2 = paymentRepository.save(payment2);

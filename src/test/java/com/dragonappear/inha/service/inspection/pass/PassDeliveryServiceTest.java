@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
@@ -87,12 +88,10 @@ class PassDeliveryServiceTest {
         Selling selling = new Selling(user1, bidAuctionitem);
         sellingRepository.save(selling);
 
-        Payment payment1 = new Payment(bidAuctionitem.getItem().getItemName()
-                , bidAuctionitem.getPrice()
-                , user1.getUsername()
-                , user1.getEmail()
-                , user1.getUserTel()
-                , user1.getUserAddresses().get(0).getUserAddress()
+        Payment payment1 = new Payment("카카오페이"
+                , "imp_"+ new Random().nextLong()
+                ,"merchant_"+new Random().nextLong()
+                ,bidAuctionitem.getPrice()
                 , user1
                 , bidAuctionitem);
         paymentRepository.save(payment1);
@@ -116,7 +115,7 @@ class PassDeliveryServiceTest {
         User user = userRepository.findAll().get(0);
         PassInspection passInspection = passInspectionRepository.findAll().get(0);
         PassDelivery passDelivery = new PassDelivery(new Delivery(CJ대한통운, "1234-1234")
-                , passInspection.getInspection().getDeal().getBuying().getPayment().getBuyerAddress()
+                , passInspection.getInspection().getDeal().getBuying().getPayment().getUser().getUserAddresses().get(0).getUserAddress()
                 , passInspection);
         //when
         passDeliveryService.save(passDelivery);
@@ -134,7 +133,7 @@ class PassDeliveryServiceTest {
         User user = userRepository.findAll().get(0);
         PassInspection passInspection = passInspectionRepository.findAll().get(0);
         PassDelivery passDelivery = new PassDelivery(new Delivery(CJ대한통운, "1234-1234")
-                , passInspection.getInspection().getDeal().getBuying().getPayment().getBuyerAddress()
+                , passInspection.getInspection().getDeal().getBuying().getPayment().getUser().getUserAddresses().get(0).getUserAddress()
                 , passInspection);
         passDeliveryRepository.save(passDelivery);
         //when

@@ -16,10 +16,10 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select p from Payment p where p.auctionitem.id=:auctionItemId")
     List<Payment> findByAuctionItemId(@Param("auctionItemId") Long auctionItemId);
 
-    @Query("select p from Payment p where p.itemName=:itemName")
+    @Query("select p from Payment p where p.auctionitem.item.itemName=:itemName")
     List<Payment> findByItemName(@Param("itemName") String itemName);
 
-    @Query("select p from Payment p where p.itemName=:itemName and p.paymentStatus=:staus")
-    List<Payment> findByCompletedItemName(@Param("itemName") String itemName, @Param("staus") PaymentStatus status);
+    @Query("select p from Payment p where p.auctionitem.item.itemName=:itemName and p.paymentStatus=:status")
+    List<Payment> findByCompletedItemName(@Param("itemName") String itemName, @Param("status") PaymentStatus status);
 
 }
