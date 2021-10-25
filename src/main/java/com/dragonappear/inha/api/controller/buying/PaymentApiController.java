@@ -7,6 +7,7 @@ import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.auctionitem.AuctionItemService;
 import com.dragonappear.inha.service.payment.PaymentService;
+import com.dragonappear.inha.service.user.UserPointService;
 import com.dragonappear.inha.service.user.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,7 @@ public class PaymentApiController {
     private final PaymentService paymentService;
     private final AuctionItemService auctionItemService;
     private final UserService userService;
+    private final UserPointService userPointService;
 
     public static final String IMPORT_TOKEN_URL = "https://api.iamport.kr/users/getToken";
     public static final String IMPORT_CANCEL_URL = "https://api.iamport.kr/payments/cancel";
@@ -49,14 +51,18 @@ public class PaymentApiController {
     @ApiOperation(value = "결제 정보 저장 API", notes = "결제 정보 저장하기")
     @PostMapping("/payments/new")
     public Result savePayment(@RequestBody PaymentDto dto) {
+        Long userId = 0L;
         try {
             Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
-            User user = userService.findOneById(dto.getBuyerId());
             if(auctionitem.getAuctionitemStatus()!= 경매중){
-                throw new IllegalStateException("해당 경매상품은 이미 판매되었습니다");
+                throw new IllegalStateException("해당 경매상품은 이미 판매되었습니다.");
             }
-            Payment payment = dto.toEntity(user, auctionitem);
-            paymentService.save(payment);
+            User user = userService.findOneById(dto.getBuyerId());
+            userId = user.getId();
+            userPointService.subtract(userId, new Money(dto.getPoint()));  // 유저 포인트 차감
+            Payment payment = dto.toEntity(user, auctionitem,new Money(dto.getPoint())); // 결제 생성
+            paymentService.save(payment); // 결제 저장
+
         } catch (Exception e) {
             cancelPayment(CancelDto.builder()
                     .token(getImportToken())
@@ -65,9 +71,20 @@ public class PaymentApiController {
                     .amount(dto.getPaymentPrice().toString())
                     .checksum(dto.getPaymentPrice().toString())
                     .build());
-            return Result.builder()
+            Result result = Result.builder()
                     .result(putResult("isPaySuccess", false, "Status", e.getMessage()))
                     .build();
+            if (!e.getMessage().contains("해당 경매상품은 이미 판매되었습니다.")
+                    || !e.getMessage().contains("존재하지 않는 회원입니다.")
+                    || !e.getMessage().contains("존재하지 않는 경매품입니다.")
+                    || !e.getMessage().contains("차감 포인트를 잘못 입력하였습니다.")){
+                try {
+                    userPointService.accumulate(userId, new Money(dto.getPoint()));
+                } catch (Exception e1) {
+                    return result;
+                }
+            }
+            return result;
         }
 
         return Result.builder()
@@ -80,6 +97,7 @@ public class PaymentApiController {
     public Result cancelTest(@PathVariable("paymentId") Long paymentId) {
         try {
             Payment payment = paymentService.findById(paymentId);
+            userPointService.accumulate(payment.getUser().getId(), new Money(payment.getPoint().getAmount())); // 유저 포인트 복구
             cancelPayment(CancelDto.builder()
                     .token(getImportToken())
                     .impId(payment.getImpId())
@@ -165,26 +183,30 @@ public class PaymentApiController {
         private String impId;
         private String merchantId;
         private BigDecimal paymentPrice;
+        private BigDecimal point;
         private Long buyerId;
         private Long auctionitemId;
 
+
         @Builder
-        public PaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, Long buyerId, Long auctionitemId) {
+        public PaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point,Long buyerId, Long auctionitemId) {
             this.pgName = pgName;
             this.impId = impId;
             this.merchantId = merchantId;
             this.paymentPrice = paymentPrice;
+            this.point = point;
             this.buyerId = buyerId;
             this.auctionitemId = auctionitemId;
         }
 
-        Payment toEntity(User user, Auctionitem auctionitem) {
+        Payment toEntity(User user, Auctionitem auctionitem,Money point) {
             return Payment.builder()
                     .paymentPrice(new Money(this.getPaymentPrice()))
                     .user(user)
                     .auctionitem(auctionitem)
                     .impId(this.getImpId())
                     .merchantId(this.merchantId)
+                    .point(point)
                     .pgName(this.pgName)
                     .build();
         }

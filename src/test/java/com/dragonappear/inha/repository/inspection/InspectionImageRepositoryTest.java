@@ -86,7 +86,10 @@ class InspectionImageRepositoryTest {
         Payment newPayment = new Payment("카카오페이"
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
-                ,newBid.getPrice(),newUser, newBid );
+                ,newBid.getPrice()
+                ,Money.wons(0L)
+                ,newUser
+                , newBid );
         paymentRepository.save(newPayment);
         Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);

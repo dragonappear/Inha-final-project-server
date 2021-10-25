@@ -90,6 +90,7 @@ class InspectionServiceTest {
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
                 ,bidAuctionitem.getPrice()
+                ,Money.wons(0L)
                 , user1
                 , bidAuctionitem);
         paymentRepository.save(payment1);

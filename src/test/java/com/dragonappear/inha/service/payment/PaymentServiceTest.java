@@ -94,6 +94,7 @@ class PaymentServiceTest {
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
                 ,bidAuctionitem.getPrice()
+                ,Money.wons(0L)
                 , user1
                 , bidAuctionitem);
         Payment save1 = paymentRepository.save(payment1);
@@ -101,6 +102,7 @@ class PaymentServiceTest {
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
                 ,bidAuctionitem1.getPrice()
+                ,Money.wons(0L)
                 , user1
                 , bidAuctionitem1);
         Payment save2 = paymentRepository.save(payment2);
@@ -115,6 +117,7 @@ class PaymentServiceTest {
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
                 ,auctionitem.getPrice()
+                ,Money.wons(0L)
                 , user
                 , auctionitem);
         //when
@@ -139,6 +142,7 @@ class PaymentServiceTest {
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
                 ,auctionitem.getPrice()
+                ,Money.wons(0L)
                 , user
                 , auctionitem);
         Payment save = paymentRepository.save(payment);

@@ -52,6 +52,11 @@ public class Payment extends JpaBaseEntity {
     @Embedded
     private Money cancelPrice;
 
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "point"))})
+    @Column(nullable = false)
+    @Embedded
+    private Money point;
+
 
     @Column(nullable = false)
     @Enumerated(STRING)
@@ -100,12 +105,13 @@ public class Payment extends JpaBaseEntity {
      */
 
     @Builder
-    public Payment(String pgName, String impId, String merchantId, Money paymentPrice, User user, Auctionitem auctionitem) {
+    public Payment(String pgName, String impId, String merchantId, Money paymentPrice,Money point, User user, Auctionitem auctionitem) {
         this.pgName = pgName;
         this.impId = impId;
         this.merchantId = merchantId;
         this.paymentPrice = paymentPrice;
         this.cancelPrice = Money.wons(0);
+        this.point = point;
         this.paymentStatus = 결제완료;
         if(user!=null){
             updatePaymentUser(user);

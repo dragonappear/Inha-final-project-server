@@ -74,21 +74,19 @@ public class UserPointService {
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다"));
 
         List<UserPoint> lists = userPointRepository.findByUserId(findUser.getId());
-        return userPointRepository.save(new UserPoint(findUser
-                , lists.get(lists.size() - 1).plus(amount.getAmount())));
+        return userPointRepository.save(new UserPoint(findUser,lists.get(lists.size() - 1).plus(amount.getAmount())));
     }
 
     //  포인트 차감
     @Transactional
     public UserPoint subtract(Long userId, Money amount) throws Exception {
-        System.out.println("amount.getAmount() = " + amount.getAmount());
         User findUser = userRepository
                 .findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다"));
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
         
         List<UserPoint> lists = userPointRepository.findByUserId(findUser.getId());
-        return userPointRepository.save(new UserPoint(findUser
-                , lists.get(lists.size() - 1).minus(amount.getAmount())));
+        return userPointRepository.save(new UserPoint(findUser,lists.get(lists.size() - 1).minus(amount.getAmount())));
+
     }
 
 }

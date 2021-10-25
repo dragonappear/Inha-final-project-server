@@ -94,10 +94,10 @@ public class UserPoint extends JpaBaseTimeEntity {
 
     public UserPoint minus(BigDecimal amount) throws Exception {
         if(amount.compareTo(BigDecimal.ZERO)<0){
-            throw new IllegalArgumentException("포인트차감 파라미터 오류");
+            throw new IllegalArgumentException("차감 포인트를 잘못 입력하였습니다.");
         }
         else if(this.total.getAmount().compareTo(amount)<0){
-            throw new IllegalArgumentException("포인트차감 파라미터 오류");
+            throw new IllegalArgumentException("차감 포인트를 잘못 입력하였습니다.");
         }
         else{
             Money money = new Money(amount);
