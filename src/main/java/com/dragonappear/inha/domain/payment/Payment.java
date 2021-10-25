@@ -10,6 +10,7 @@ import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -98,6 +99,7 @@ public class Payment extends JpaBaseEntity {
      * 생성자메서드
      */
 
+    @Builder
     public Payment(String pgName, String impId, String merchantId, Money paymentPrice, User user, Auctionitem auctionitem) {
         this.pgName = pgName;
         this.impId = impId;

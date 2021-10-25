@@ -48,7 +48,7 @@ public class UserService {
 
     // 회원 단건조회 by 유저이메일
     public User findOneByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+        return userRepository.findByEmail(email).orElseThrow(()->new IllegalStateException("존재하지 않는 회원입니다."));
     }
 
     //  모든 회원 조회

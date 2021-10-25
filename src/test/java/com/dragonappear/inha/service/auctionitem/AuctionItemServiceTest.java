@@ -1,8 +1,6 @@
 package com.dragonappear.inha.service.auctionitem;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
@@ -11,7 +9,6 @@ import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +21,16 @@ import java.time.LocalDateTime;
 
 import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
-import static com.dragonappear.inha.domain.item.value.CategoryName.태블릿;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
-import static com.dragonappear.inha.domain.item.value.ManufacturerName.애플;
 import static java.time.LocalDateTime.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Rollback
-class BidAuctionItemServiceTest {
-    @Autowired BidAuctionItemService bidAuctionItemService;
+class AuctionItemServiceTest {
+    @Autowired
+    AuctionItemService auctionItemService;
     @Autowired AuctionitemRepository auctionitemRepository;
     @Autowired CategoryRepository categoryRepository;
     @Autowired ManufacturerRepository manufacturerRepository;
@@ -60,7 +55,7 @@ class BidAuctionItemServiceTest {
         Item item = itemRepository.findAll().get(0);
         LocalDateTime now = now();
         //when
-        Long save = bidAuctionItemService.save(item, Money.wons(4_000_000L), now.plusHours(1));
+        Long save = auctionItemService.bidSave(item, Money.wons(4_000_000L), now.plusHours(1));
         Auctionitem auctionitem = auctionitemRepository.findById(save).get();
         //then
         assertThat(auctionitem.getId()).isEqualTo(save);
@@ -77,7 +72,8 @@ class BidAuctionItemServiceTest {
         //when
         //then
         org.junit.jupiter.api.Assertions.assertThrows(
-                IllegalStateException.class, () -> {bidAuctionItemService.save(newItem, Money.wons(4_000_000L), now().minusDays(1));}
+                IllegalStateException.class, () -> {
+                    auctionItemService.bidSave(newItem, Money.wons(4_000_000L), now().minusDays(1));}
         );
     }
 }

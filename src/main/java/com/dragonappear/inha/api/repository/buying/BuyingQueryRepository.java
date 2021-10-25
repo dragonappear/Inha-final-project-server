@@ -2,11 +2,10 @@ package com.dragonappear.inha.api.repository.buying;
 
 import com.dragonappear.inha.api.repository.buying.dto.*;
 import com.dragonappear.inha.domain.buying.Buying;
-import com.dragonappear.inha.domain.buying.QBuying;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import java.util.Arrays;
+
 import java.util.List;
 
 import static com.dragonappear.inha.domain.buying.QBuying.buying;
