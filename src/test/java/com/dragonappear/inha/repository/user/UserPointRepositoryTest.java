@@ -58,11 +58,11 @@ class UserPointRepositoryTest {
         UserPoint point = new UserPoint(user);
         userPointRepository.save(point);
         //when
-        UserPoint findPoint = userPointRepository.findById(point.getId()).get();
-        findPoint.plus(BigDecimal.valueOf(100L));
+        UserPoint plusPoint = point.plus(BigDecimal.valueOf(100L));
         //then
-        assertThat(findPoint.getEarned().getAmount()).isEqualTo(Money.wons(1100L).getAmount());
-        assertThat(findPoint.getTotal().getAmount()).isEqualTo(Money.wons(1100L).getAmount());
+        assertThat(plusPoint.getEarned().getAmount()).isEqualTo(Money.wons(1100L).getAmount());
+        assertThat(plusPoint.getTotal().getAmount()).isEqualTo(Money.wons(1100L).getAmount());
+        assertThat(plusPoint.getUsed().getAmount()).isEqualTo(Money.wons(0L).getAmount());
     }
 
     @Test
@@ -72,16 +72,17 @@ class UserPointRepositoryTest {
         UserPoint point = new UserPoint(user);
         userPointRepository.save(point);
         //when
-        point.minus(BigDecimal.valueOf(100L));
+        UserPoint minusPoint = point.minus(BigDecimal.valueOf(100L));
         //then
-        assertThat(point.getUsed().getAmount()).isEqualTo(Money.wons(100L).getAmount());
-        assertThat(point.getTotal().getAmount()).isEqualTo(Money.wons(900L).getAmount());
+        assertThat(minusPoint.getUsed().getAmount()).isEqualTo(Money.wons(100L).getAmount());
+        assertThat(minusPoint.getTotal().getAmount()).isEqualTo(Money.wons(900L).getAmount());
+        assertThat(minusPoint.getEarned().getAmount()).isEqualTo(Money.wons(1000L).getAmount());
     }
 
 
     // 총 포인트보다 차감할 오류 포인트가 많을때
    @Test
-    public void 유저포인트_차감오류_테스트() throws Exception{
+    public void 유저포인트_차감_테스트2() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
         UserPoint point = new UserPoint(user);
@@ -89,9 +90,8 @@ class UserPointRepositoryTest {
         //when
         UserPoint findPoint = userPointRepository.findById(point.getId()).get();
         //then
-       Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           findPoint.minus(BigDecimal.valueOf(1300L));
-       });
+       UserPoint userPoint = findPoint.minus(BigDecimal.valueOf(1300L));
+       org.assertj.core.api.Assertions.assertThat(userPoint.getTotal().getAmount()).isNegative();
     }
 
     @Test

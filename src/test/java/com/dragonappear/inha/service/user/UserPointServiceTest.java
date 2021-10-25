@@ -88,8 +88,7 @@ class UserPointServiceTest {
         UserPoint userPoint = new UserPoint(findUser);
         userPointRepository.save(userPoint);
         //when
-        userPointService.accumulate(findUser.getId(), Money.wons(100L));
-        UserPoint point = userPointRepository.findByUserId(findUser.getId()).get(0);
+        UserPoint point = userPointService.accumulate(findUser.getId(), Money.wons(100L));
         //then
         assertThat(point.getTotal().getAmount()).isEqualTo(BigDecimal.valueOf(1100L));
         assertThat(point.getUsed().getAmount()).isEqualTo(BigDecimal.valueOf(0L));
@@ -103,8 +102,7 @@ class UserPointServiceTest {
         UserPoint userPoint = new UserPoint(findUser);
         userPointRepository.save(userPoint);
         //when
-        userPointService.subtract(findUser.getId(), Money.wons(200L));
-        UserPoint point = userPointRepository.findByUserId(findUser.getId()).get(0);
+        UserPoint point = userPointService.subtract(findUser.getId(), Money.wons(200L));
         //then
         assertThat(point.getTotal().getAmount()).isEqualTo((Money.wons(800L).getAmount()));
         assertThat(point.getUsed().getAmount()).isEqualTo(Money.wons(200L).getAmount());

@@ -68,25 +68,19 @@ public class UserPointService {
 
     // 포인트 적립
     @Transactional
-    public UserPoint accumulate(Long userId, Money amount) throws Exception {
-        User findUser = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다"));
-
+    public UserPoint accumulate(Long userId, Money amount){
+        User findUser =userRepository.findById(userId).orElse(null);
         List<UserPoint> lists = userPointRepository.findByUserId(findUser.getId());
         return userPointRepository.save(new UserPoint(findUser,lists.get(lists.size() - 1).plus(amount.getAmount())));
     }
 
     //  포인트 차감
     @Transactional
-    public UserPoint subtract(Long userId, Money amount) throws Exception {
-        User findUser = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
-        
+    public UserPoint subtract(Long userId, Money amount) {
+        User findUser = userRepository.findById(userId).orElse(null);
         List<UserPoint> lists = userPointRepository.findByUserId(findUser.getId());
-        return userPointRepository.save(new UserPoint(findUser,lists.get(lists.size() - 1).minus(amount.getAmount())));
-
+        UserPoint userPoint = new UserPoint(findUser, lists.get(lists.size() - 1).minus(amount.getAmount()));
+        return userPointRepository.save(userPoint);
     }
 
 }

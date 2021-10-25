@@ -2,8 +2,10 @@ package com.dragonappear.inha.api.controller.buying;
 
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserPoint;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.auctionitem.AuctionItemService;
 import com.dragonappear.inha.service.payment.PaymentService;
@@ -51,46 +53,55 @@ public class PaymentApiController {
     @ApiOperation(value = "결제 정보 저장 API", notes = "결제 정보 저장하기")
     @PostMapping("/payments/new")
     public Result savePayment(@RequestBody PaymentDto dto) {
-        Long userId = 0L;
-        try {
-            Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
-            if(auctionitem.getAuctionitemStatus()!= 경매중){
-                throw new IllegalStateException("해당 경매상품은 이미 판매되었습니다.");
-            }
-            User user = userService.findOneById(dto.getBuyerId());
-            userId = user.getId();
-            userPointService.subtract(userId, new Money(dto.getPoint()));  // 유저 포인트 차감
-            Payment payment = dto.toEntity(user, auctionitem,new Money(dto.getPoint())); // 결제 생성
-            paymentService.save(payment); // 결제 저장
 
-        } catch (Exception e) {
-            cancelPayment(CancelDto.builder()
-                    .token(getImportToken())
-                    .impId(dto.getImpId())
-                    .merchantId(dto.getMerchantId())
-                    .amount(dto.getPaymentPrice().toString())
-                    .checksum(dto.getPaymentPrice().toString())
-                    .build());
-            Result result = Result.builder()
-                    .result(putResult("isPaySuccess", false, "Status", e.getMessage()))
+        // 유저, 경매상품 존재 검증
+        if (validateAuctionitemAndUser(dto)) {
+            return Result.builder()
+                .result(putResult("isPaySuccess", false, "Status", "유저 혹은 해당 상품이 존재하지 않습니다"))
+                .build();}
+
+        Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
+        User user = userService.findOneById(dto.getBuyerId());
+
+        // 사용 포인트 검증
+        if (validatePoint(dto, user)) {
+            return Result.builder()
+                    .result(putResult("isPaySuccess", false, "Status", "포인트 입력이 잘못 사용되었습니다."))
                     .build();
-            if (!e.getMessage().contains("해당 경매상품은 이미 판매되었습니다.")
-                    || !e.getMessage().contains("존재하지 않는 회원입니다.")
-                    || !e.getMessage().contains("존재하지 않는 경매품입니다.")
-                    || !e.getMessage().contains("차감 포인트를 잘못 입력하였습니다.")){
-                try {
-                    userPointService.accumulate(userId, new Money(dto.getPoint()));
-                } catch (Exception e1) {
-                    return result;
-                }
-            }
-            return result;
         }
 
+        // 경매상품 상태 검증
+        if (validateAuctionitemStatus(auctionitem)) {
+            try {
+                // 결제 취소 로직
+                cancelPayment(CancelDto.builder()
+                        .token(getImportToken())
+                        .impId(dto.getImpId())
+                        .merchantId(dto.getMerchantId())
+                        .amount(dto.getPaymentPrice().toString())
+                        .checksum(dto.getPaymentPrice().toString())
+                        .build());
+            } catch (Exception e) {
+                return Result.builder()
+                        .result(putResult("isPaySuccess", false, "Status","상품이 이미 판매되어서, 결제취소를 시도하였으나 실패하였습니다."))
+                        .build();
+            }
+            return Result.builder()
+                    .result(putResult("isPaySuccess", false, "Status", "상품이 이미 판매되어서, 결제취소를 하였습니다."))
+                    .build();
+        }
+
+        // 결제 생성
+        Payment payment = dto.toEntity(user, auctionitem,new Money(dto.getPoint()));
+        paymentService.save(payment);
+        //포인트 차감
+        userPointService.subtract(user.getId(), new Money(dto.getPoint()));
+
         return Result.builder()
-                .result(putResult("isPaySuccess", true, "Status", "결제가 성공하였습니다."))
+                .result(putResult("isPaySuccess", true, "Status", "결제가 완료하였습니다."))
                 .build();
     }
+
 
     @ApiOperation(value = "결제 취소 API", notes = "결제 취소하기")
     @GetMapping("/payments/cancel/{paymentId}")
@@ -113,6 +124,42 @@ public class PaymentApiController {
         return Result.builder()
                 .result(putResult("isCancelSuccess", true, "Status", "결제가 취소되었습니다"))
                 .build();
+    }
+
+    /**
+     *  검증로직
+     */
+    private boolean validateAuctionitemAndUser(PaymentDto dto) {
+        try {
+            auctionItemService.findById(dto.getAuctionitemId());
+            userService.findOneById(dto.getBuyerId());
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validateAuctionitemStatus(Auctionitem auctionitem) {
+        if(auctionitem.getAuctionitemStatus()!= 경매중){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validatePoint(PaymentDto dto, User user) {
+        try {
+            Money amount = new Money(dto.getPoint());
+            UserPoint point = userPointService.findLatestPoint(user.getId());
+            if (amount.isLessThan(Money.wons(0L))) {
+                throw new IllegalStateException("잘못된 포인트 입력입니다.");
+            }
+            if(point.getTotal().isLessThan(amount) ){
+                throw new IllegalStateException("잘못된 포인트 차감입니다.");
+            }
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -141,7 +188,7 @@ public class PaymentApiController {
 
 
     // 결제취소
-    public void cancelPayment(CancelDto dto){
+    public void cancelPayment(CancelDto dto) throws Exception{
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
         Map<String, String> map = new HashMap<String, String>();
@@ -158,7 +205,7 @@ public class PaymentApiController {
             String entry = EntityUtils.toString(res.getEntity());
             JsonNode rootNode = mapper.readTree(entry);
             result = rootNode.get("response").asText(); }
-        catch (Exception e) { e.printStackTrace(); }
+        catch (Exception e) {throw new IllegalStateException("결제 취소가 실패하였습니다."); }
         if (result.equals("null")) {
             throw new IllegalStateException("결제 취소가 실패하였습니다.");
         }
@@ -186,7 +233,6 @@ public class PaymentApiController {
         private BigDecimal point;
         private Long buyerId;
         private Long auctionitemId;
-
 
         @Builder
         public PaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point,Long buyerId, Long auctionitemId) {

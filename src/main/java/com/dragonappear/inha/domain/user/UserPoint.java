@@ -76,34 +76,29 @@ public class UserPoint extends JpaBaseTimeEntity {
         }
     }
 
+    public UserPoint( Money total,Money used,Money earned) {
+        this.total = total;
+        this.used = used;
+        this.earned = earned;
+    }
+
 
     /**
      * 비즈니스 로직
      */
-    public UserPoint plus(BigDecimal amount) throws Exception {
-        if(amount.compareTo(BigDecimal.ZERO)<0){
-            throw new IllegalArgumentException("포인트적립 파라미터 오류");
-        }
-        else{
-            Money money = new Money(amount);
-            this.earned= this.earned.plus(money);
-            this.total = this.total.plus(money);
-            return this;
-        }
+    public UserPoint plus(BigDecimal amount){
+        Money money = new Money(amount);
+        return new UserPoint(this.total.plus(money)
+                    , this.used
+                    , this.earned.plus(money));
+
     }
 
-    public UserPoint minus(BigDecimal amount) throws Exception {
-        if(amount.compareTo(BigDecimal.ZERO)<0){
-            throw new IllegalArgumentException("차감 포인트를 잘못 입력하였습니다.");
-        }
-        else if(this.total.getAmount().compareTo(amount)<0){
-            throw new IllegalArgumentException("차감 포인트를 잘못 입력하였습니다.");
-        }
-        else{
-            Money money = new Money(amount);
-            this.used = this.used.plus(money);
-            this.total= this.total.minus(money);
-            return this;
-        }
+    public UserPoint minus(BigDecimal amount)  {
+        Money money = new Money(amount);
+        return new UserPoint(this.total.minus(money)
+                    , this.used.plus(money)
+                    , this.earned);
+
     }
 }
