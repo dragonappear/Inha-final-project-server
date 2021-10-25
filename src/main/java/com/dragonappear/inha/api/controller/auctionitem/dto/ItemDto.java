@@ -1,8 +1,12 @@
 package com.dragonappear.inha.api.controller.auctionitem.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
+@NoArgsConstructor
 @Data
 public class ItemDto {
     private Long itemId;
@@ -12,6 +16,7 @@ public class ItemDto {
     private Long itemLike;
     private BigDecimal latestPrice;
 
+    @Builder
     public ItemDto(Long itemId,String fileOriginName, Enum manufacturer, String itemName, Long itemLike, BigDecimal latestPrice) {
         this.itemId = itemId;
         this.fileOriginName = fileOriginName;

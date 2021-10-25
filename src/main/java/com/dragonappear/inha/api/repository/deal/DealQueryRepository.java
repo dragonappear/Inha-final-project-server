@@ -1,6 +1,7 @@
 package com.dragonappear.inha.api.repository.deal;
 
 import com.dragonappear.inha.api.repository.deal.dto.MarketPriceInfoDto;
+import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

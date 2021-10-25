@@ -37,7 +37,7 @@ public class AuctionItemService {
     @Transactional
     public Long instantSave(Item item) {
         Money price = new Money(sellingRepository.findLowestPriceByItemId(item.getId()).
-                orElse(item.getLatestPrice().getAmount()));
+                orElse( (item.getLatestPrice()==null) ? item.getReleasePrice().getAmount() : item.getLatestPrice().getAmount()));
         return auctionitemRepository.save(new InstantAuctionitem(item, price)).getId();
     }
     /**
@@ -79,6 +79,8 @@ public class AuctionItemService {
         auctionitem.updateStatus(AuctionitemStatus.경매취소);
     }
 
+
+    @Transactional
     private void updateItemLowestPrice(Item item, Money price) {
         if (item.getLowestPrice() == null || price.isLessThan(item.getLowestPrice())) {
             item.updateLowestPrice(price);

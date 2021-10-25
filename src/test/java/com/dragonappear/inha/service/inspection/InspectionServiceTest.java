@@ -4,7 +4,6 @@ import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
-import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
@@ -25,9 +24,6 @@ import com.dragonappear.inha.repository.payment.PaymentRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
-import com.dragonappear.inha.service.deal.DealService;
-import org.assertj.core.api.Assertions;
-import org.hibernate.boot.TempTableDdlTransactionHandling;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +39,6 @@ import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.*;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

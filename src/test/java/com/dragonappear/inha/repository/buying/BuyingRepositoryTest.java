@@ -1,16 +1,13 @@
 package com.dragonappear.inha.repository.buying;
 
 import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
-import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.payment.Payment;
-import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;

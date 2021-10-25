@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public interface SellingRepository extends JpaRepository<Selling,Long>{
+public interface SellingRepository extends JpaRepository<Selling,Long> , SellingRepositoryCustom {
     @Query("select min(a.price) from Selling s join s.auctionitem a on a.id=:itemId")
     Optional<BigDecimal> findLowestPriceByItemId(@Param("itemId") Long itemId);
 

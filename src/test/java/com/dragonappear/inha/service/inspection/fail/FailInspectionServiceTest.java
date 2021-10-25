@@ -24,7 +24,6 @@ import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
 import com.dragonappear.inha.repository.inspection.fail.FailInspectionRepository;
-import com.dragonappear.inha.repository.inspection.pass.PassInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -46,7 +45,6 @@ import java.util.Random;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

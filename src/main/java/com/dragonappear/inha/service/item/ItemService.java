@@ -4,12 +4,13 @@ import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
+import com.dragonappear.inha.repository.selling.SellingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -17,6 +18,13 @@ import java.util.List;
 @Service
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final BuyingRepository buyingRepository;
+    private final SellingRepository sellingRepository;
+
+
+    /**
+     * CREATE
+     */
 
     // 아이템 등록
     @Transactional
@@ -30,15 +38,63 @@ public class ItemService {
                 .orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
     }
 
+    /**
+     * READ
+     */
+
     // 모든 아이템 조회
     public List<Item> findAll() {
         return itemRepository.findAll();
+    }
+    // 아이템 조회 by 아이템 이름
+    public  List<Item> findByItemName(String itemName) {
+        return itemRepository.findByItemName(itemName);
+    }
+
+    // 아이템 조회 by 모델명
+    public Item findByModelNumber(String modelNumber) {
+        return itemRepository.findByModelNumber(modelNumber)
+                .orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
+    }
+
+    // 아이템 조회 by 제조사 이름
+    public List<Item> findByManufacturerName(ManufacturerName manufacturerName) {
+        return itemRepository.findByManufacturerName(manufacturerName);
+    }
+
+    // 아이템 조회 by 카테고리 이름
+    public List<Item> findByCategoryName(CategoryName categoryName) {
+        return itemRepository.findByCategoryName(categoryName);
     }
 
     // 카테고리와 제조사명으로 아이템 조회
     public List<Item> findByCategoryAndManufacturer(CategoryName categoryName,ManufacturerName manufacturerName) {
         return itemRepository.findByCategoryAndManufacturer(categoryName,manufacturerName);
     }
+
+    // 즉시 구매가 조회
+    public Money findInstantBuyingPrice(Long itemId) {
+        try {
+            Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
+            return sellingRepository.findLowestSellingPrice(itemId);
+        } catch (Exception e) {
+            return Money.wons(0L);
+        }
+    }
+
+    // 즉시 판매가 조회
+    public Money findInstantSellingPrice(Long itemId) {
+        try {
+            Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
+            return buyingRepository.findLargestBuyingPrice(itemId);
+        } catch (Exception e) {
+            return Money.wons(0L);
+        }
+    }
+
+    /**
+     * UPDATE
+     */
 
     // 아이템 좋아요 카운트
     @Transactional
@@ -69,27 +125,6 @@ public class ItemService {
                 .orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"))
                 .g
     }*/
-
-    // 아이템 조회 by 아이템 이름
-    public  List<Item> findByItemName(String itemName) {
-        return itemRepository.findByItemName(itemName);
-    }
-
-    // 아이템 조회 by 모델명
-    public Item findByModelNumber(String modelNumber) {
-        return itemRepository.findByModelNumber(modelNumber)
-                .orElseThrow(()->new IllegalStateException("아이템이 존재하지 않습니다"));
-    }
-
-    // 아이템 조회 by 제조사 이름
-    public List<Item> findByManufacturerName(ManufacturerName manufacturerName) {
-        return itemRepository.findByManufacturerName(manufacturerName);
-    }
-
-    // 아이템 조회 by 카테고리 이름
-    public List<Item> findByCategoryName(CategoryName categoryName) {
-        return itemRepository.findByCategoryName(categoryName);
-    }
 
 
 }

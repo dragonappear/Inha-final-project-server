@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.item;
+package com.dragonappear.inha.api.controller.item.shoppage;
 
 import com.dragonappear.inha.api.controller.auctionitem.dto.ItemDto;
 import com.dragonappear.inha.api.controller.auctionitem.dto.SimpleItemDto;
@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Api(tags = {"아이템 정보 조회 API"})
@@ -44,7 +47,7 @@ public class ItemApiController {
                                 , item.getManufacturer().getManufacturerName()
                                 , item.getItemName()
                                 , item.getLikeCount()
-                                , item.getLatestPrice().getAmount())).
+                                , (item.getLowestPrice()==null) ? null : item.getLowestPrice().getAmount())).
                 collect(Collectors.toList());
 
         return Results.builder()
@@ -63,7 +66,7 @@ public class ItemApiController {
                                 , item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
-                                , item.getLatestPrice().getAmount()))
+                                , (item.getLowestPrice()==null) ? null : item.getLowestPrice().getAmount()))
                 .collect(Collectors.toList());
 
         return Results.builder()
@@ -83,7 +86,7 @@ public class ItemApiController {
                                 , item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
-                                , item.getLatestPrice().getAmount()))
+                                , (item.getLowestPrice()==null) ? null : item.getLowestPrice().getAmount()))
                 .collect(Collectors.toList());
 
         return Results.builder()
@@ -92,7 +95,7 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "아이템 상세 조회", notes = "상품을 상세 조회합니다.")
+    @ApiOperation(value = "아이템 상세 조회", notes = "아이템을 상세 조회합니다.")
     @GetMapping("/items/details/{itemId}")
     public Detail detailItem(@PathVariable("itemId") Long itemId) {
         NotebookDto dto = notebookQueryRepository.findById(itemId);
@@ -103,18 +106,19 @@ public class ItemApiController {
                     .build();
     }
 
-    @ApiOperation(value = "아이템 대표정보 조회", notes = "상품 모델번호, 모델이름")
+    @ApiOperation(value = "판매전, 구매전 아이템 대표정보 조회", notes = "아이템 이미지, 제조사, 모델번호, 모델이름")
     @GetMapping("/items/simple/{itemId}")
     public SimpleItemDto simpleItemDto(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
         return SimpleItemDto.builder()
                 .itemName(item.getItemName())
+                .manufacturerName(item.getManufacturer().getManufacturerName())
                 .modelNumber(item.getModelNumber())
                 .fileOriName(item.getItemImages().get(0).getItemImage().getFileName())
                 .build();
     }
 
-    @ApiOperation(value = "아이템 시세 조회", notes = "상품 시세를 조회합니다.")
+    @ApiOperation(value = "아이템 시세 조회", notes = "아이템 시세를 조회합니다.")
     @GetMapping("/items/details/recent/{itemId}")
     public Results recentPrice(@PathVariable("itemId") Long itemId,
                                @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam(name = "limit", defaultValue = "5") int limit) {
@@ -127,6 +131,7 @@ public class ItemApiController {
                 }).collect(Collectors.toList()))
                 .build();
     }
+
 
     /**
      * DTO
