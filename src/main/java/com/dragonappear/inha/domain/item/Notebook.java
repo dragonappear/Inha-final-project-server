@@ -29,9 +29,9 @@ public class Notebook extends Item{
 
     @Builder
     public Notebook(String itemName, String modelNumber, LocalDate releaseDay, String color
-            , Money releasePrice, Money latestPrice, Category category, Manufacturer manufacturer
+            , Money releasePrice,  Category category, Manufacturer manufacturer
             , String inch, String cpu, String core, String os, String memory, String storage, String gpu, String weight) {
-        super(itemName, modelNumber, releaseDay, color, releasePrice, latestPrice, category, manufacturer);
+        super(itemName, modelNumber, releaseDay, color, releasePrice, category, manufacturer);
         this.inch = inch;
         this.cpu = cpu;
         this.core = core;

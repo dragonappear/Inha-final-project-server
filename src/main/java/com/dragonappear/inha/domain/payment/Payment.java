@@ -57,7 +57,6 @@ public class Payment extends JpaBaseEntity {
     @Embedded
     private Money point;
 
-
     @Column(nullable = false)
     @Enumerated(STRING)
     private PaymentStatus paymentStatus;

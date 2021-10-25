@@ -78,7 +78,7 @@ class PaymentServiceTest {
         Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(10000L),
-                Money.wons(20000L),category,manufacturer);
+                category,manufacturer);
         itemRepository.save(item);
 
         BidAuctionitem bidAuctionitem = new BidAuctionitem(item, Money.wons(4_000_000L), LocalDateTime.now().plusHours(1));

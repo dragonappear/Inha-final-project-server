@@ -48,9 +48,13 @@ public  class Item extends JpaBaseTimeEntity {
     @Embedded
     private Money releasePrice;
 
-    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "marketPrice"))})
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "latestPrice"))})
     @Embedded
     private Money latestPrice;
+
+    @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "lowestPrice"))})
+    @Embedded
+    private Money lowestPrice;
 
     @Column(nullable = false)
     private Long likeCount;
@@ -99,14 +103,15 @@ public  class Item extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
-    public Item(String itemName, String modelNumber,LocalDate releaseDay,String color,Money releasePrice, Money latestPrice, Category category, Manufacturer manufacturer) {
+    public Item(String itemName, String modelNumber,LocalDate releaseDay,String color,Money releasePrice,Category category, Manufacturer manufacturer) {
         this.itemName = itemName;
         this.modelNumber = modelNumber;
         this.releasePrice = releasePrice;
         this.releaseDay = releaseDay;
         this.color = color;
         this.likeCount = 0L;
-        this.latestPrice = latestPrice;
+        this.latestPrice = null;
+        this.lowestPrice = null;
         if(category!=null){
             updateCategory(category);
         }
@@ -134,5 +139,7 @@ public  class Item extends JpaBaseTimeEntity {
     public void updateLatestPrice(Money amount) {
         this.latestPrice = amount;
     }
+
+    public void updateLowestPrice(Money amount){this.lowestPrice = amount;}
 
 }

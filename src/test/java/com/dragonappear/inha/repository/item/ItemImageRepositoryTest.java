@@ -38,7 +38,7 @@ class ItemImageRepositoryTest {
         manufacturerRepository.save(newManufacturer);
         Item newItem = new Item("맥북", "serial1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
-                ,  Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
+                ,  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
         Image image = new Image("file1", "origin1", "url1");
         ItemImage newImage = new ItemImage(newItem, image);

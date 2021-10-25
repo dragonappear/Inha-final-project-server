@@ -51,19 +51,19 @@ class ItemServiceTest {
         Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(10000L),
-                 Money.wons(20000L),category,manufacturer);
+                category,manufacturer);
         Item item1 = new Item("맥북1", "modelNumber2",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(20000L),
-                 Money.wons(20000L),category,manufacturer);
+                 category,manufacturer);
         Item item2 = new Item("맥북2", "modelNumber3",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(30000L),
-                 Money.wons(20000L),category1,manufacturer1);
+                category1,manufacturer1);
         Item item3 = new Item("맥북2", "modelNumber4",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(40000L),
-                 Money.wons(20000L),category1,manufacturer1);
+                 category1,manufacturer1);
 
         itemRepository.save(item);
         itemRepository.save(item1);
@@ -79,7 +79,7 @@ class ItemServiceTest {
         Item item = new Item("맥북1", "modelNumber10",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(10000L),
-                 Money.wons(20000L), category, manufacturer);
+                 category, manufacturer);
         //when
         Long save = itemService.save(item);
         Item find = itemRepository.findById(save).get();
@@ -147,7 +147,6 @@ class ItemServiceTest {
         //then
         assertThat(all.size()).isEqualTo(2);
         assertThat(all).extracting("releasePrice").containsOnly(Money.wons(10000L), Money.wons(20000L));
-        assertThat(all).extracting("latestPrice").containsOnly(Money.wons(20000L));
     }
 
     @Test

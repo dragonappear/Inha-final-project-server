@@ -22,24 +22,24 @@ public class AuctionItemService {
     private final AuctionitemRepository auctionitemRepository;
     private final SellingRepository sellingRepository;
 
-
     /**
      * CREATE
      */
     // 입찰경매아이템 등록
     @Transactional
     public Long bidSave(Item item, Money price, LocalDateTime endDate) {
+        updateItemLowestPrice(item, price);
         return auctionitemRepository.save(new BidAuctionitem(item, price, endDate)).getId();
     }
 
     // 즉시경매아이템 등록
+
     @Transactional
     public Long instantSave(Item item) {
         Money price = new Money(sellingRepository.findLowestPriceByItemId(item.getId()).
                 orElse(item.getLatestPrice().getAmount()));
         return auctionitemRepository.save(new InstantAuctionitem(item, price)).getId();
     }
-
     /**
      * READ
      */
@@ -59,24 +59,32 @@ public class AuctionItemService {
     }
 
     // 경매아이템 판매기한만료시 status 변경
+
     @Transactional
     public void overdue(Auctionitem auctionitem) {
         validateOverdue(auctionitem.getEndDate());
         auctionitem.updateStatus(AuctionitemStatus.경매기한만료);
     }
-
     // 판매가완료되었을때 status 변경
+
     @Transactional
     public void complete(Auctionitem auctionitem) {
         auctionitem.updateStatus(AuctionitemStatus.경매완료);
     }
 
-
     // 판매가취소되었을때 status 변경
+
     @Transactional
     public void cancel(Auctionitem auctionitem) {
         auctionitem.updateStatus(AuctionitemStatus.경매취소);
     }
+
+    private void updateItemLowestPrice(Item item, Money price) {
+        if (item.getLowestPrice() == null || price.isLessThan(item.getLowestPrice())) {
+            item.updateLowestPrice(price);
+        }
+    }
+
 
     /**
      * 검증로직

@@ -43,7 +43,7 @@ class UserLikeItemRepositoryTest {
         manufacturerRepository.save(newManufacturer);
         Item newItem = new Item("맥북", "serial1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
-                , Money.wons(1_000_000L),  Money.wons(1_000_000L), newCategory,newManufacturer);
+                , Money.wons(1_000_000L),   newCategory,newManufacturer);
         itemRepository.save(newItem);
         UserLikeItem newLike = new UserLikeItem(newItem, newUser);
         userLikeItemRepository.save(newLike);

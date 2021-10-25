@@ -16,6 +16,7 @@ public class DealService {
     // 거래 생성
     @Transactional
     public Long save(Deal deal) {
+
         return dealRepository.save(deal).getId();
     }
 
