@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.payment;
+package com.dragonappear.inha.api.controller.buying;
 
 import com.dragonappear.inha.service.user.UserPointService;
 import io.swagger.annotations.Api;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
-@Api(tags = {"결제 전 유저 포인트 조회 API"})
+@Api(tags = {"구매전 유저 포인트 조회 API"})
 @RestController
 @RequiredArgsConstructor
 public class PointCheckApiController {

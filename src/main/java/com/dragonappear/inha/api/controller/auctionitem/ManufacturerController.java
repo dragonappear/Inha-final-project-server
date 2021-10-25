@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = {"제조사 API"})
+@Api(tags = {"아이템 제조사 API"})
 @RestController
 @RequiredArgsConstructor
 public class ManufacturerController {

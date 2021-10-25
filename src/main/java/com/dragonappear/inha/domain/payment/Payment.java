@@ -8,6 +8,7 @@ import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,14 +58,17 @@ public class Payment extends JpaBaseEntity {
      * 연관관계
      */
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "auctionitem_id")
     private Auctionitem auctionitem;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY, mappedBy = "payment")
     private Buying buying;
 

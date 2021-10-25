@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(tags = {"카테고리 API"})
+@Api(tags = {"아이템 카테고리 API"})
 @RestController
 @RequiredArgsConstructor
 public class CategoryController {

@@ -1,7 +1,6 @@
-package com.dragonappear.inha.api.controller.payment;
+package com.dragonappear.inha.api.controller.buying;
 
 
-import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.service.payment.PaymentService;
 import io.swagger.annotations.Api;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
-@Api(tags = {"결제 정보 저장 API"})
+@Api(tags = {"구매 결제 정보 저장 API"})
 @RestController
 @RequiredArgsConstructor
 public class PaymentApiController {
