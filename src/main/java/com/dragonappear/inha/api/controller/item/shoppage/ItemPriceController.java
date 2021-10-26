@@ -44,12 +44,10 @@ public class ItemPriceController {
 
     @ApiOperation(value = "아이템 즉시 가격 조회", notes = "아이템 가격정보 조회")
     @GetMapping("/items/prices/instant/{itemId}")
-    public Map<String,BigDecimal> getInstantPrice(@PathVariable("itemId") Long itemId) {
-        Map<String, BigDecimal> map = new HashMap<>();
-        BigDecimal instantSellingPrice = itemService.findInstantSellingPrice(itemId).getAmount();
-        BigDecimal instantBuyingPrice = itemService.findInstantBuyingPrice(itemId).getAmount();
-        map.put("즉시구매가", instantBuyingPrice);
-        map.put("즉시판매가", instantSellingPrice);
+    public Map<Object,Object> getInstantPrice(@PathVariable("itemId") Long itemId) {
+        Map<Object, Object> map = new HashMap<>();
+        map.put("즉시구매가", itemService.findInstantSellingPrice(itemId));
+        map.put("즉시판매가", itemService.findInstantBuyingPrice(itemId));
         return map;
     }
 

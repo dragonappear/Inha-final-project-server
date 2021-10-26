@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -73,22 +75,28 @@ public class ItemService {
     }
 
     // 즉시 구매가 조회
-    public Money findInstantBuyingPrice(Long itemId) {
+    public Map<Object,Object> findInstantBuyingPrice(Long itemId) {
         try {
             Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
             return sellingRepository.findLowestSellingPrice(itemId);
         } catch (Exception e) {
-            return Money.wons(0L);
+            Map<Object, Object> map = new HashMap<>();
+            map.put("auctionitemId", "해당 아이템 판매입찰이 존재하지 않습니다");
+            map.put("amount", Money.wons(0L));
+            return map;
         }
     }
 
     // 즉시 판매가 조회
-    public Money findInstantSellingPrice(Long itemId) {
+    public Map<Object,Object> findInstantSellingPrice(Long itemId) {
         try {
             Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
             return buyingRepository.findLargestBuyingPrice(itemId);
         } catch (Exception e) {
-            return Money.wons(0L);
+            Map<Object, Object> map = new HashMap<>();
+            map.put("auctionitemId", "해당 아이템 구매입찰이 존재하지 않습니다");
+            map.put("amount", Money.wons(0L));
+            return map;
         }
     }
 

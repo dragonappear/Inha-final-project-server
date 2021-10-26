@@ -1,5 +1,6 @@
 package com.dragonappear.inha.api.controller.auctionitem;
 
+import com.dragonappear.inha.api.repository.auctionitem.AuctionitemApiRepository;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
@@ -19,23 +20,30 @@ import java.util.List;
 import java.util.Map;
 
 
-@Api(tags = {"아이템 경매상품 조회 API"})
+@Api(tags = {"경매아이템 조회 API"})
 @RestController
 @RequiredArgsConstructor
 public class AuctionitemApiController {
     private final AuctionItemService auctionItemService;
     private final SellingRepository sellingRepository;
+    private final AuctionitemApiRepository auctionitemApiRepository;
 
-    @ApiOperation(value = "경매상품 가격 조회", notes = "경매상품 가격 조회")
+    @ApiOperation(value = "경매아이템아이디로 가격 조회", notes = "경매아이템아이디로 가격 조회")
     @GetMapping("/auctionitems/{auctionitemId}")
-    public Map<Object, Object> auctionItemPrice(@PathVariable("auctionitemId") Long auctionitemId) {
+    public Map<Object, Object> auctionitemPrice(@PathVariable("auctionitemId") Long auctionitemId) {
         return getResult( auctionItemService.findPriceById(auctionitemId));
     }
 
-    @ApiOperation(value = "해당상품 최저경매가격 조회", notes = "경매소에 올라온 상품 최저가 조회")
-    @GetMapping("/auctionitems/lowest/{itemsId}")
-    public Map<Object, Object> auctionItemEntirePrice(@PathVariable("itemsId") Long itemsId) {
-        return getResult(sellingRepository.findLowestSellingPrice(itemsId));
+    @ApiOperation(value = "경매아이템아이디로 최저판매입찰금 조회", notes = "경매아이템아이디로 최저경매가격 조회")
+    @GetMapping("/auctionitems/lowest/{itemId}")
+    public Map<Object, Object> auctionitemLowestPrice(@PathVariable("itemId") Long itemId) {
+        return sellingRepository.findLowestSellingPrice(itemId);
+    }
+
+    @ApiOperation(value = "아이템아이디로 판매입찰금 모두 조회", notes = "아이템 판매입찰금 모두 조회")
+    @GetMapping("/auctionitems/all/{itemId}")
+    public Map<Object, Object> auctionItemEntirePrice(@PathVariable("itemId") Long itemId) {
+        return auctionitemApiRepository.findBidAuctionitems(itemId);
     }
 
     /**

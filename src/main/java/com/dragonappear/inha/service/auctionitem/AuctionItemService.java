@@ -38,6 +38,7 @@ public class AuctionItemService {
     public Long instantSave(Item item) {
         Money price = new Money(sellingRepository.findLowestPriceByItemId(item.getId()).
                 orElse( (item.getLatestPrice()==null) ? item.getReleasePrice().getAmount() : item.getLatestPrice().getAmount()));
+        updateItemLowestPrice(item, price);
         return auctionitemRepository.save(new InstantAuctionitem(item, price)).getId();
     }
     /**
@@ -97,7 +98,6 @@ public class AuctionItemService {
             item.updateLowestPrice(price);
         }
     }
-
 
     /**
      * 검증로직

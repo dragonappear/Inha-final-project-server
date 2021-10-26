@@ -117,22 +117,7 @@ public class ItemApiController {
                 .fileOriName(item.getItemImages().get(0).getItemImage().getFileName())
                 .build();
     }
-
-    @ApiOperation(value = "아이템 시세 조회", notes = "아이템 시세를 조회합니다.")
-    @GetMapping("/items/details/recent/{itemId}")
-    public Results recentPrice(@PathVariable("itemId") Long itemId,
-                               @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam(name = "limit", defaultValue = "5") int limit) {
-        PageRequest request = PageRequest.of(offset, limit, Sort.by(Sort.Direction.ASC, "createdDate"));
-        List<MarketPriceInfoDto> infos = dealQueryRepository.findRecentPrice(itemId, request);
-        return Results.builder()
-                .count(infos.size())
-                .items(infos.stream().map(info -> {
-                    return (Object) info;
-                }).collect(Collectors.toList()))
-                .build();
-    }
-
-
+    
     /**
      * DTO
      */
