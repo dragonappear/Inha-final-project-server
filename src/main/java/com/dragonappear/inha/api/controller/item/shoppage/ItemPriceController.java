@@ -42,7 +42,7 @@ public class ItemPriceController {
     }
 
 
-    @ApiOperation(value = "아이템 가격 조회", notes = "아이템 가격정보 조회")
+    @ApiOperation(value = "아이템 즉시 가격 조회", notes = "아이템 가격정보 조회")
     @GetMapping("/items/prices/instant/{itemId}")
     public Map<String,BigDecimal> getInstantPrice(@PathVariable("itemId") Long itemId) {
         Map<String, BigDecimal> map = new HashMap<>();

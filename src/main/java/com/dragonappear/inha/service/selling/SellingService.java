@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 
@@ -20,11 +21,24 @@ import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*
 public class SellingService {
     @Autowired SellingRepository sellingRepository;
 
+
+    /**
+     * CREATE
+     */
     // 경매상품 판매 등록
     @Transactional
     public Long save(User user,Auctionitem auctionitem) {
         validateAuctionItem(auctionitem); // 경매상품 중복등록 검증
         return sellingRepository.save(new Selling(user, auctionitem)).getId();
+    }
+
+    /**
+     * READ
+     */
+
+    // 판매조회 by 판매아이디
+    public Selling findBySellingId(Long sellingId) {
+            return sellingRepository.findById(sellingId).orElseThrow(()-> new IllegalStateException("판매가 조회되지않습니다"));
     }
 
     // 판매내역리스트 조회 by 유저아이디

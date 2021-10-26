@@ -43,8 +43,19 @@ public class AuctionItemService {
     /**
      * READ
      */
+    // 경매품아이디로 조회
     public Auctionitem findById(Long auctionitemId) {
-        return auctionitemRepository.findById(auctionitemId).orElseThrow(()-> new IllegalStateException("존재하지 않는 경매품입니다."));
+      return auctionitemRepository.findById(auctionitemId).orElseThrow(() -> new IllegalStateException("존재하지 않는 경매품입니다."));
+
+    }
+
+    // 경매품아이디로 가격 조회
+    public Money findPriceById(Long auctionitemId) {
+        try {
+            return auctionitemRepository.findById(auctionitemId).orElseThrow(()-> new IllegalStateException("존재하지 않는 경매품입니다.")).getPrice();
+        } catch (Exception e) {
+            return Money.wons(0L);
+        }
     }
 
 
