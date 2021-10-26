@@ -83,7 +83,7 @@ class DealServiceTest {
                 ,bidAuctionitem.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem);
+                , bidAuctionitem,1L);
         paymentRepository.save(payment1);
 
         Buying buying = new Buying(payment1);

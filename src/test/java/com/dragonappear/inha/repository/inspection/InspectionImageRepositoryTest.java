@@ -82,7 +82,7 @@ class InspectionImageRepositoryTest {
                 ,newBid.getPrice()
                 ,Money.wons(0L)
                 ,newUser
-                , newBid );
+                , newBid ,1L);
         paymentRepository.save(newPayment);
         Buying newBuying = new Buying(newPayment);
         buyingRepository.save(newBuying);

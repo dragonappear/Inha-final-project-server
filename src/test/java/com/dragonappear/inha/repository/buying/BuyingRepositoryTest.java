@@ -74,7 +74,7 @@ class BuyingRepositoryTest {
                 ,"merchant_"+new Random().nextLong()
                 ,newBid.getPrice()
                 ,Money.wons(0L)
-                ,newUser, newBid );
+                ,newUser, newBid ,1L);
         paymentRepository.save(newPayment);
 
         Buying newBuying = new Buying(newPayment);

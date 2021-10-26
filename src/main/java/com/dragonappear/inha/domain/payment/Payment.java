@@ -61,6 +61,9 @@ public class Payment extends JpaBaseEntity {
     @Enumerated(STRING)
     private PaymentStatus paymentStatus;
 
+    @Column(nullable = false)
+    private Long addressId;
+
     /**
      * 연관관계
      */
@@ -104,7 +107,7 @@ public class Payment extends JpaBaseEntity {
      */
 
     @Builder
-    public Payment(String pgName, String impId, String merchantId, Money paymentPrice,Money point, User user, Auctionitem auctionitem) {
+    public Payment(String pgName, String impId, String merchantId, Money paymentPrice,Money point, User user, Auctionitem auctionitem,Long addressId) {
         this.pgName = pgName;
         this.impId = impId;
         this.merchantId = merchantId;
@@ -112,6 +115,7 @@ public class Payment extends JpaBaseEntity {
         this.cancelPrice = Money.wons(0);
         this.point = point;
         this.paymentStatus = 결제완료;
+        this.addressId = addressId;
         if(user!=null){
             updatePaymentUser(user);
         }

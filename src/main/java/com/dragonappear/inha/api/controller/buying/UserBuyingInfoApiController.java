@@ -29,7 +29,7 @@ public class UserBuyingInfoApiController {
     private final UserService userService;
     private final UserAddressService userAddressService;
 
-    @ApiOperation(value = "유저 포인트 조회 API", notes = "유저 포인트 조회")
+    @ApiOperation(value = "유저 포인트조회 API by 유저아이디", notes = "유저 포인트 조회")
     @GetMapping("/payments/points/{userId}")
     public PointDto getUserPoint(@PathVariable("userId") Long userId) {
         return PointDto.builder()

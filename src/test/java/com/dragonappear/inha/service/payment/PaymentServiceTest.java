@@ -96,7 +96,7 @@ class PaymentServiceTest {
                 ,bidAuctionitem.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem);
+                , bidAuctionitem,1L);
         Payment save1 = paymentRepository.save(payment1);
         Payment payment2 = new Payment("카카오페이"
                 , "imp_"+ new Random().nextLong()
@@ -104,7 +104,7 @@ class PaymentServiceTest {
                 ,bidAuctionitem1.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem1);
+                , bidAuctionitem1,1L);
         Payment save2 = paymentRepository.save(payment2);
     }
 
@@ -119,7 +119,7 @@ class PaymentServiceTest {
                 ,auctionitem.getPrice()
                 ,Money.wons(0L)
                 , user
-                , auctionitem);
+                , auctionitem,1L);
         //when
         Long save = paymentService.save(payment);
         Payment findPayment = paymentRepository.findById(save).get();
@@ -144,7 +144,7 @@ class PaymentServiceTest {
                 ,auctionitem.getPrice()
                 ,Money.wons(0L)
                 , user
-                , auctionitem);
+                , auctionitem,1L);
         Payment save = paymentRepository.save(payment);
         //when
         Payment findPayment = paymentService.findById(save.getId());

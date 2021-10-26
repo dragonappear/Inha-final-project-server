@@ -88,7 +88,7 @@ class BuyingServiceTest {
                 , bidAuctionitem.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem);
+                , bidAuctionitem,1L);
         Payment save1 = paymentRepository.save(payment1);
         Payment payment2 = new Payment("카카오페이"
                 , "imp_"+ new Random().nextLong()
@@ -96,7 +96,7 @@ class BuyingServiceTest {
                 ,bidAuctionitem1.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem1);
+                , bidAuctionitem1,1L);
         Payment save2 = paymentRepository.save(payment2);
     }
 
