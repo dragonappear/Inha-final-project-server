@@ -18,7 +18,7 @@ public class CreateUserInfoController {
     private final UserAddressService userAddressService;
     private final UserService userService;
 
-    @ApiOperation(value = "유저 주소 추가 API", notes = "유저 주소를 추가합니다.")
+    @ApiOperation(value = "유저 주소 저장 API", notes = "유저 주소 저장")
     @PostMapping("/users/update/addresses/{userId}")
     public Address createUserAddress(@PathVariable("userId") Long userId, @RequestBody Address userAddress) {
         userAddressService.save(userId, userAddress);

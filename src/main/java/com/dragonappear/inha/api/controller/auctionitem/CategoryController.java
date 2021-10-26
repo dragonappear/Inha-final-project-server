@@ -21,7 +21,7 @@ public class CategoryController {
     private final CategoryRepository categoryRepository;
     private final CategoryManufacturerRepository categoryManufacturerRepository;
 
-    @ApiOperation(value = "모든 카테고리 조회", notes = "모든 카테고리를 조회합니다.")
+    @ApiOperation(value = "모든 카테고리 조회 API", notes = "모든 카테고리를 조회")
     @GetMapping("/items/categories")
     public List<CategoryName> categoryNames() {
         return categoryRepository.findAll()
@@ -30,7 +30,7 @@ public class CategoryController {
                 .collect(Collectors.toList());
     }
 
-    @ApiOperation(value = "카테고리 내 모든 제조사 조회", notes = "카테고리 내 모든 제조사를 조회합니다.")
+    @ApiOperation(value = "카테고리 내 모든 제조사 조회 API", notes = "카테고리 내 모든 제조사 조회")
     @GetMapping("/items/{categoryName}/manufacturers")
     public List<ManufacturerName> manufacturerNames(@PathVariable(name = "categoryName") CategoryName categoryName) {
         return categoryManufacturerRepository.findByCategoryName(categoryName)

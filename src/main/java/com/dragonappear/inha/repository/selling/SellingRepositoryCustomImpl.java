@@ -38,12 +38,12 @@ public class SellingRepositoryCustomImpl implements SellingRepositoryCustom{
             }
             Auctionitem auctionitem = list.get(0).getAuctionitem();
             map.put("auctionitemId", auctionitem.getId());
-            map.put("amount",auctionitem.getPrice());
+            map.put("amount",auctionitem.getPrice().getAmount().toString());
+            return map;
         }catch (Exception e){
             map.put("auctionitemId", "해당 아이템 판매입찰이 존재하지 않습니다");
-            map.put("amount", Money.wons(0L));
+            map.put("amount", "0");
             return map;
         }
-        return map;
     }
 }

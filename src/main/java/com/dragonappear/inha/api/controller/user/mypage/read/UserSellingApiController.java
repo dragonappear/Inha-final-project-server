@@ -23,19 +23,19 @@ import java.util.stream.Collectors;
 public class UserSellingApiController {
     private final SellingQueryRepository sellingQueryRepository;
 
-    @ApiOperation(value = "유저 판매입찰 상세 내역 API", notes = "리턴값 : imageUrl,itemName, amount,endDate")
+    @ApiOperation(value = "유저 판매입찰 상세 내역 조회 API", notes = "유저 판매입찰 상세 내역 조회")
     @GetMapping("/users/mypage/selling/bid/{userId}")
     public Results getMyPageUserSellingBidDto(@PathVariable("userId") Long userId) {
         return returnResults(sellingQueryRepository.getMyPageUserSellingBidDto(userId));
     }
 
-    @ApiOperation(value = "유저 판매진행 상세 내역 API", notes = "리턴값: dealId ,imageUrl,itemName,dealStatus")
+    @ApiOperation(value = "유저 판매진행 상세 내역 조회 API", notes = "유저 판매진행 상세 내역 조회")
     @GetMapping("/users/mypage/selling/ongoing/{userId}")
     public Results getMyPageUserSellingOngoingDto(@PathVariable("userId") Long userId) {
         return returnResults(sellingQueryRepository.getMyPageUserSellingOngoingDto(userId));
     }
 
-    @ApiOperation(value = "유저 판매종료 상세 내역 API", notes = " 리턴값 : sellingId, imageUrl ,itemName, purchaseTime ,sellingStatus")
+    @ApiOperation(value = "유저 판매종료 상세 내역 조회 API", notes = "유저 판매종료 상세 내역 조회")
     @GetMapping("/users/mypage/selling/end/{userId}")
     public Results getMyPageUserSellingEndDto(@PathVariable("userId") Long userId) {
         return returnResults(sellingQueryRepository.getMyPageUserSellingEndDto(userId));

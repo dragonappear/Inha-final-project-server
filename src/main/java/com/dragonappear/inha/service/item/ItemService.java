@@ -76,26 +76,26 @@ public class ItemService {
 
     // 즉시 구매가 조회
     public Map<Object,Object> findInstantBuyingPrice(Long itemId) {
+        Map<Object, Object> map = new HashMap<>();
         try {
-            Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
+            itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
             return sellingRepository.findLowestSellingPrice(itemId);
         } catch (Exception e) {
-            Map<Object, Object> map = new HashMap<>();
             map.put("auctionitemId", "해당 아이템 판매입찰이 존재하지 않습니다");
-            map.put("amount", Money.wons(0L));
+            map.put("amount", Money.wons(0L).getAmount());
             return map;
         }
     }
 
     // 즉시 판매가 조회
     public Map<Object,Object> findInstantSellingPrice(Long itemId) {
+        Map<Object, Object> map = new HashMap<>();
         try {
-            Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
+            itemRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("아이템이 존재하지 않습니다"));
             return buyingRepository.findLargestBuyingPrice(itemId);
         } catch (Exception e) {
-            Map<Object, Object> map = new HashMap<>();
             map.put("auctionitemId", "해당 아이템 구매입찰이 존재하지 않습니다");
-            map.put("amount", Money.wons(0L));
+            map.put("price", Money.wons(0L).getAmount());
             return map;
         }
     }

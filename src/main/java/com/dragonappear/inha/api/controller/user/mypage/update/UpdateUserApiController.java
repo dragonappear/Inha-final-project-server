@@ -31,28 +31,28 @@ public class UpdateUserApiController {
     private final UserAddressService userAddressService;
     private final UserAccountService userAccountService;
 
-    @ApiOperation(value = "유저 닉네임 수정", notes = "유저 닉네임을 수정합니다.")
+    @ApiOperation(value = "유저 닉네임 수정 API", notes = "유저 닉네임을 수정")
     @PostMapping("/users/update/nicknames/{userId} ")
     public String updateUserNickname(@PathVariable("userId") Long userId,@RequestParam("nickname") String nickname) {
         userService.updateNickname(userId, nickname);
         return nickname;
     }
 
-    @ApiOperation(value = "유저 이름 수정", notes = "유저 이름를 수정합니다.")
+    @ApiOperation(value = "유저 이름 수정 API", notes = "유저 이름를 수정")
     @PostMapping("/users/update/usernames/{userId}")
     public String updateUsername(@PathVariable("userId") Long userId,@RequestParam("username") String username) {
         userService.updateUsername(userId, username);
         return username;
     }
 
-    @ApiOperation(value = "유저 전화번호 수정", notes = "유저 전화번호를 수정합니다.")
+    @ApiOperation(value = "유저 전화번호 수정 API", notes = "유저 전화번호를 수정")
     @PostMapping("/users/update/userTels/{userId}")
     public String updateUserTel(@PathVariable("userId") Long userId, @RequestParam("userTel") String userTel) throws  Exception {
         userService.updateUserTel(userId, userTel);
         return userService.findOneById(userId).getUserTel();
     }
 
-    @ApiOperation(value = "유저 프로필이미지 수정", notes = "유저 프로필을 수정합니다.")
+    @ApiOperation(value = "유저 프로필이미지 수정 API", notes = "유저 프로필을 수정")
     @PostMapping("/users/update/images/{userId}")
     public Map<String, Object> updateUserProfile(@PathVariable("userId") Long userId, HttpServletRequest request, @RequestBody MultipartFile file)  {
         Result result = updateProfile(file);
@@ -63,13 +63,13 @@ public class UpdateUserApiController {
         return result.getMap();
     }
 
-    @ApiOperation(value = "유저 정산 계좌 수정", notes = "유저 정산 계좌를 수정합니다.")
+    @ApiOperation(value = "유저 정산 계좌 수정 API", notes = "유저 정산 계좌를 수정")
     @PostMapping("/users/update/accounts/{userId}")
     public Account updateUserAccount(@PathVariable("userId") Long userId, @RequestBody Account account) throws  Exception {
         return userAccountService.update(userService.findOneById(userId), account);
     }
 
-    @ApiOperation(value = "유저 주소 수정", notes = "유저 주소를 수정합니다.")
+    @ApiOperation(value = "유저 주소 수정 API", notes = "유저 주소를 수정")
     @PostMapping("/users/update/address/{userId}/{addressId}")
     public Address updateUserAddress(@PathVariable("userId") Long userId, @PathVariable("addressId") Long addressId,@RequestBody Address address) throws  Exception {
         return userAddressService.updateUserAddress(userId,addressId, address);

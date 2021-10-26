@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 public class PointCheckApiController {
     private final UserPointService userPointService;
 
-    @ApiOperation(value = "유저 포인트 조회", notes = "유저 포인트, 검수비, 배송비")
+    @ApiOperation(value = "유저 포인트 조회 API", notes = "유저 포인트 조회")
     @GetMapping("/payments/points/{userId}")
     public Result getUserPoint(@PathVariable("userId") Long userId) {
         return Result.builder()

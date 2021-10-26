@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class ManufacturerController {
     private final ManufacturerRepository manufacturerRepository;
 
-    @ApiOperation(value = "모든 제조사 조회", notes = "모든 제조사를 조회합니다.")
+    @ApiOperation(value = "모든 제조사 조회소 API", notes = "모든 제조사 조회")
     @GetMapping("/items/manufacturers")
     public List<ManufacturerName> manufacturerNames() {
         return manufacturerRepository.findAll()

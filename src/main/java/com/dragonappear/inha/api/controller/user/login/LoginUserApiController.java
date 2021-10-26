@@ -29,7 +29,7 @@ public class LoginUserApiController {
     private final UserPointService userPointService;
     private final UserAccountService userAccountService;
     
-    @ApiOperation(value = "유저 정보 조회", notes = "유저 이름, 번호, 주소 조회")
+    @ApiOperation(value = "유저 정보 조회 API", notes = "유저 정보 조회")
     @GetMapping(value = "/users/{email}")
     public Result loginUserInfoDto(@PathVariable("email") String email) {
         Long id=0L;
@@ -41,14 +41,13 @@ public class LoginUserApiController {
             return Result.builder()
                     .result(putResult("isRegistered", false, "id", null,"role",e.getMessage()))
                     .build();
-
         }
         return Result.builder()
-                .result(putResult("isRegistered", true, "id", id.toString(),"role",role))
+                .result(putResult("isRegistered", true, "id", id,"role",role))
                 .build();
     }
     
-    @ApiOperation(value = "유저 정보 저장", notes = "유저 휴대폰 정보, 주소 저장")
+    @ApiOperation(value = "유저 정보 저장 API", notes = "유저 정보 저장")
     @PostMapping(value = "/users/new")
     public SaveUserInfoDto saveUserInfo(@RequestBody SaveUserInfoDto userInfoDto) {
         return saveUserInfoDto(userInfoDto);
@@ -100,7 +99,7 @@ public class LoginUserApiController {
     }
 
 
-    public Map<String, Object> putResult(String insert, Boolean bool, String status, String content,String role, String grade) {
+    public Map<String, Object> putResult(String insert, Boolean bool, String status, Object content,String role, String grade) {
         Map<String, Object> result = new HashMap<>();
         result.put(insert, bool);
         result.put(status, content);

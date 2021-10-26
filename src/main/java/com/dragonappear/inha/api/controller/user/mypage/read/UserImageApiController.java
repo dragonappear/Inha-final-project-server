@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 public class UserImageApiController {
     private final UserImageService userImageService;
 
-    @ApiOperation(value = "유저 이미지 조회 by 이미지이름으로", notes = "이미지를 반환합니다.")
+    @ApiOperation(value = "유저 이미지 조회 API by 이미지이름으로", notes = "이미지 조회")
     @GetMapping(value = "/users/images/{fileOriginName}")
     public ResponseEntity<Resource> getItemImagesByFileName(@PathVariable("fileOriginName") String fileOriginName) {
         String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/users/";
@@ -44,7 +44,7 @@ public class UserImageApiController {
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "유저 이미지 조회 by 이미지이름으로", notes = "이미지를 반환합니다.")
+    @ApiOperation(value = "유저 이미지 조회 API by 유저아이디로", notes = "이미지 조회")
     @GetMapping(value = "/users/images/find/{userId}")
     public ResponseEntity<Resource> getItemImagesByUserId(@PathVariable("userId") Long userId) {
         String fileOriginName = userImageService.findByUserId(userId).getImage().getFileName();

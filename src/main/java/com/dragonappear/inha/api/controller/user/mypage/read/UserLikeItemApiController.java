@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class UserLikeItemApiController {
     private final UserLikeItemQueryRepository userLikeItemQueryRepository;
 
-    @ApiOperation(value = "관심상품 상세내역 조회", notes = " 리턴값: itemUrl,manufacturerName,itemName,latestPrice")
+    @ApiOperation(value = "관심상품 상세내역 조회 API", notes = " 관심상품 상세내역 조회")
     @GetMapping("/users/mypage/likeitems/{userId}")
     public Results getUserLikeItemDto(@PathVariable("userId") Long userID) {
         return getResults(userLikeItemQueryRepository.getMyPageUserLikeItemDtos(userID));

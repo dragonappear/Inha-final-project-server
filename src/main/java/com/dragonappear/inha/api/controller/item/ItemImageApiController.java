@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 @RestController
 public class ItemImageApiController {
 
-    @ApiOperation(value = "아이템 이미지 조회", notes = "아이템 이미지를 반환합니다.")
+    @ApiOperation(value = "아이템 이미지 조회 API", notes = "아이템 이미지 조회")
     @GetMapping(value = "/items/images/{fileOriginName}")
     public ResponseEntity<Resource> itemImages(@PathVariable("fileOriginName") String fileName) {
         String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";

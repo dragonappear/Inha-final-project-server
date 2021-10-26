@@ -50,7 +50,7 @@ public class PaymentApiController {
     public static final String KEY = "5132626560989602";
     public static final String SECRET = "76b263a820b4d8645755eb3f51f7afb500027545cbe027a24bdf8751e53ba34a9190b36a12508e46";
 
-    @ApiOperation(value = "결제 정보 저장 API", notes = "결제 정보 저장하기")
+    @ApiOperation(value = "결제 정보 저장 API", notes = "결제 정보 저장")
     @PostMapping("/payments/new")
     public Result savePayment(@RequestBody PaymentDto dto) {
 
@@ -103,7 +103,7 @@ public class PaymentApiController {
     }
 
 
-    @ApiOperation(value = "결제 취소 API", notes = "결제 취소하기")
+    @ApiOperation(value = "결제 취소 API", notes = "결제 취소")
     @GetMapping("/payments/cancel/{paymentId}")
     public Result cancelTest(@PathVariable("paymentId") Long paymentId) {
         try {

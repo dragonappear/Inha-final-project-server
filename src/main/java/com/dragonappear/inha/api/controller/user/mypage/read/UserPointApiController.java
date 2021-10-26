@@ -22,7 +22,7 @@ public class UserPointApiController {
     private final UserPointQueryRepository userPointQueryRepository;
     private final UserPointService userPointService;
 
-    @ApiOperation(value = "마이페이지 유저포인트 내역 상세 조회", notes = "")
+    @ApiOperation(value = "마이페이지 유저포인트 내역 상세 조회 API", notes = "마이페이지 유저포인트 내역 상세 조회")
     @GetMapping("/users/mypage/points/{userId}")
     public Results getMyPageUserPointDtos(@PathVariable("userId") Long userId) {
         return getResults(userPointService.findLatestPoint(userId).getTotal().getAmount(),

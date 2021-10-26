@@ -38,7 +38,7 @@ public class ItemApiController {
     private final NotebookQueryRepository notebookQueryRepository;
     private final ItemImageService itemImageService;
 
-    @ApiOperation(value = "전체 아이템 조회", notes = "모든 아이템을 조회합니다.")
+    @ApiOperation(value = "전체 아이템 조회 API", notes = "모든 아이템을 조회")
     @GetMapping("/items")
     public Results allItems() {
         List<ItemDto> items = itemService.findAll().stream()
@@ -56,7 +56,7 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "카테고리 내 전체 아이템 조회", notes = "카테고리 내 전체 아이템을 조회합니다.")
+    @ApiOperation(value = "카테고리 내 전체 아이템 조회 API", notes = "카테고리 내 전체 아이템을 조회")
     @GetMapping("/items/{categoryName}")
     public Results categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName) {
         List<ItemDto> items = itemService.findByCategoryName(categoryName)
@@ -75,7 +75,7 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "카테고리+제조사 내 전체 아이템 조회", notes = "카테고리+제조사 내 전체 아이템을 조회합니다.")
+    @ApiOperation(value = "카테고리+제조사 내 전체 아이템 조회 API", notes = "카테고리+제조사 내 전체 아이템을 조회")
     @GetMapping("/items/{categoryName}/{manufacturerName}")
     public Results categoryManufacturerItems(@PathVariable(name = "categoryName") CategoryName categoryName
             , @PathVariable(name = "manufacturerName") ManufacturerName manufacturerName) {
@@ -95,7 +95,7 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "아이템 상세 조회", notes = "아이템을 상세 조회합니다.")
+    @ApiOperation(value = "아이템 상세 조회 API", notes = "아이템을 상세 조회")
     @GetMapping("/items/details/{itemId}")
     public Detail detailItem(@PathVariable("itemId") Long itemId) {
         NotebookDto dto = notebookQueryRepository.findById(itemId);
@@ -106,7 +106,7 @@ public class ItemApiController {
                     .build();
     }
 
-    @ApiOperation(value = "판매전, 구매전 아이템 대표정보 조회", notes = "아이템 이미지, 제조사, 모델번호, 모델이름")
+    @ApiOperation(value = "판매전, 구매전 아이템 대표정보 조회 API", notes = "판매전, 구매전 아이템 대표정보 조회")
     @GetMapping("/items/simple/{itemId}")
     public SimpleItemDto simpleItemDto(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);

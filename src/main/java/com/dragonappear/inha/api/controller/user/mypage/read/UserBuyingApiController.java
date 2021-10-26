@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
 public class UserBuyingApiController {
     private final BuyingQueryRepository buyingQueryRepository;
 
-    @ApiOperation(value = "유저 구매입찰 상세 내역 API", notes = "아이템 URL,구매희망가,상품이름,만료일")
+    @ApiOperation(value = "유저 구매입찰 상세 내역 조회 API", notes = "유저 구매입찰 상세 내역")
     @GetMapping("/users/mypage/buying/bid/{userId}")
     public Results getUserBidItems(@PathVariable("userId") Long userId) {
         return getResults(buyingQueryRepository.getMyPageUserBuyingBidDto(userId));
     }
 
-    @ApiOperation(value = "유저 구매진행중 상세 내역 API", notes = "거래아이디,아이템 URL,상품이름,상태")
+    @ApiOperation(value = "유저 구매진행중 상세 내역 조회 API", notes = "유저 구매진행중 상세 내역 조회")
     @GetMapping("/users/mypage/buying/ongoing/{userId}")
     public Results getUserOngoingItems(@PathVariable("userId") Long userId) {
         return getResults(buyingQueryRepository.getMyPageUserBuyingOngoingDto(userId));
     }
 
-    @ApiOperation(value = "유저 구매완료 상세 내역 API", notes = "거래아이디, 아이템 URL,상품이름,상태")
+    @ApiOperation(value = "유저 구매완료 상세 내역 조회 API", notes = "유저 구매완료 상세 내역 조회")
     @GetMapping("/users/mypage/buying/end/{userId}")
     public Results getUserEndItems(@PathVariable("userId") Long userId) {
         return getResults(buyingQueryRepository.getMyPageUserBuyingEndDto(userId));
