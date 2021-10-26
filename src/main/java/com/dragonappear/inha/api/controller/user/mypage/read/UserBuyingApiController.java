@@ -1,16 +1,15 @@
 package com.dragonappear.inha.api.controller.user.mypage.read;
 
+import com.dragonappear.inha.api.returndto.ResultDto;
 import com.dragonappear.inha.api.repository.buying.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
 
 @Api(tags = {"마이페이지 유저 구매내역 상세 조회 API"})
 @RequiredArgsConstructor
@@ -20,41 +19,20 @@ public class UserBuyingApiController {
 
     @ApiOperation(value = "유저 구매입찰 상세 내역 조회 API", notes = "유저 구매입찰 상세 내역")
     @GetMapping("/users/mypage/buying/bid/{userId}")
-    public Results getUserBidItems(@PathVariable("userId") Long userId) {
-        return getResults(buyingQueryRepository.getMyPageUserBuyingBidDto(userId));
+    public ResultDto getUserBidItems(@PathVariable("userId") Long userId) {
+        return returnResults(buyingQueryRepository.getMyPageUserBuyingBidDto(userId));
     }
 
     @ApiOperation(value = "유저 구매진행중 상세 내역 조회 API", notes = "유저 구매진행중 상세 내역 조회")
     @GetMapping("/users/mypage/buying/ongoing/{userId}")
-    public Results getUserOngoingItems(@PathVariable("userId") Long userId) {
-        return getResults(buyingQueryRepository.getMyPageUserBuyingOngoingDto(userId));
+    public ResultDto getUserOngoingItems(@PathVariable("userId") Long userId) {
+        return returnResults(buyingQueryRepository.getMyPageUserBuyingOngoingDto(userId));
     }
 
     @ApiOperation(value = "유저 구매완료 상세 내역 조회 API", notes = "유저 구매완료 상세 내역 조회")
     @GetMapping("/users/mypage/buying/end/{userId}")
-    public Results getUserEndItems(@PathVariable("userId") Long userId) {
-        return getResults(buyingQueryRepository.getMyPageUserBuyingEndDto(userId));
+    public ResultDto getUserEndItems(@PathVariable("userId") Long userId) {
+        return returnResults(buyingQueryRepository.getMyPageUserBuyingEndDto(userId));
     }
 
-    /**
-     * DTO
-     */
-    @Data
-    static class Results<T>{
-        private int count;
-        private List<T> items;
-
-        @Builder
-        public Results(int count, List<T> items) {
-            this.count = count;
-            this.items = items;
-        }
-    }
-
-    private <K> Results getResults (List<K> dtos) {
-        return Results.builder()
-                .count(dtos.size())
-                .items( dtos.stream().map(dto -> (Object) dto).collect(Collectors.toList()))
-                .build();
-    }
 }

@@ -1,23 +1,17 @@
 package com.dragonappear.inha.api.controller.user.login;
 
+import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.controller.user.login.dto.SaveUserInfoDto;
 import com.dragonappear.inha.domain.user.User;
-import com.dragonappear.inha.domain.user.value.UserRole;
 import com.dragonappear.inha.domain.value.Account;
-import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.service.user.*;
-import com.dragonappear.inha.api.controller.user.login.dto.LoginUserInfoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Api(tags = {"로그인 유저 정보 API"})
 @RequiredArgsConstructor
@@ -31,19 +25,19 @@ public class LoginUserApiController {
     
     @ApiOperation(value = "유저 정보 조회 API", notes = "유저 정보 조회")
     @GetMapping(value = "/users/{email}")
-    public Result loginUserInfoDto(@PathVariable("email") String email) {
+    public MessageDto loginUserInfoDto(@PathVariable("email") String email) {
         Long id=0L;
         String role = "";
         try {
             id = userService.findOneByEmail(email).getId();
             role = userService.findOneById(id).getUserRole().toString();
         } catch (Exception e) {
-            return Result.builder()
-                    .result(putResult("isRegistered", false, "id", null,"role",e.getMessage()))
+            return MessageDto.builder()
+                    .message(getMessage("isRegistered", false, "id", null,"role",e.getMessage()))
                     .build();
         }
-        return Result.builder()
-                .result(putResult("isRegistered", true, "id", id,"role",role))
+        return MessageDto.builder()
+                .message(getMessage("isRegistered", true, "id", id,"role",role))
                 .build();
     }
     
@@ -88,23 +82,6 @@ public class LoginUserApiController {
 
         return userInfoDto;
     }
-    @NoArgsConstructor
-    @Data
-    static class Result {
-        private Map<String, Object> result;
-        @Builder
-        public Result(Map<String, Object> result) {
-            this.result = result;
-        }
-    }
 
-
-    public Map<String, Object> putResult(String insert, Boolean bool, String status, Object content,String role, String grade) {
-        Map<String, Object> result = new HashMap<>();
-        result.put(insert, bool);
-        result.put(status, content);
-        result.put(role, grade);
-        return result;
-    }
 
 }

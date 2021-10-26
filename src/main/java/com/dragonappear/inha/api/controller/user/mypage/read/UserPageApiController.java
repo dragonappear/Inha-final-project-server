@@ -1,5 +1,6 @@
 package com.dragonappear.inha.api.controller.user.mypage.read;
 
+import com.dragonappear.inha.api.returndto.ResultDto;
 import com.dragonappear.inha.api.controller.user.mypage.dto.*;
 import com.dragonappear.inha.api.repository.buying.BuyingQueryRepository;
 import com.dragonappear.inha.api.repository.buying.dto.MyPageUserBuyingSimpleDto;
@@ -11,8 +12,6 @@ import com.dragonappear.inha.service.user.UserAddressService;
 import com.dragonappear.inha.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Builder;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
 
 
 @Api(tags = {"마이페이지 유저 정보 조회 API"})
@@ -59,40 +60,28 @@ public class UserPageApiController {
 
     @ApiOperation(value = "유저 주소 조회 API", notes = "유저 주소 조회")
     @GetMapping("/users/mypage/addresses/{userId}")
-    public Results userAddressApiDto(@PathVariable("userId") Long userId) {
+    public ResultDto userAddressApiDto(@PathVariable("userId") Long userId) {
         List<UserAddressApiDto> dtos = userAddressService.findByUserId(userId).stream()
                 .map(userAddress -> UserAddressApiDto.builder()
                         .addressId(userAddress.getId())
                         .address(userAddress.getUserAddress())
                         .build())
                 .collect(Collectors.toList());
+        return returnResults(dtos);
 
-        return Results.builder()
-                .count(dtos.size())
-                .items(dtos.stream().map(dto-> (Object) dto).collect(Collectors.toList()))
-                .build();
     }
 
     @ApiOperation(value = "유저 계좌 조회 API", notes = "유저 계좌 조회")
     @GetMapping("/users/mypage/accounts/{userId}")
     public UserAccountApiDto userAccountDto(@PathVariable("userId") Long userId) {
-        return UserAccountApiDto.builder()
-                .account(userAccountService.findByUserId(userId))
-                .build();
-    }
-
-    /**
-     * DTO
-     */
-    @Data
-    static class Results<T> {
-        private int count;
-        private List<T> items;
-
-        @Builder
-        public Results(int count, List<T> items) {
-            this.count = count;
-            this.items = items;
+        try {
+            return UserAccountApiDto.builder()
+                    .account(userAccountService.findByUserId(userId))
+                    .build();
+        }catch (Exception e){
+            return UserAccountApiDto.builder()
+                    .account(null)
+                    .build();
         }
     }
 }

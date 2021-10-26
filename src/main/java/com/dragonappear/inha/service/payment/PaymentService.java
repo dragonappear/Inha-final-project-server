@@ -4,6 +4,7 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,16 @@ public class PaymentService {
     public List<Payment> findByCompletedItemName(String itemName,PaymentStatus paymentStatus) {
         return paymentRepository.findByCompletedItemName(itemName,paymentStatus);
     }
+
+    // 모든 결제내역 조회
+    public List<Payment> findAll() {
+        return paymentRepository.findAll(Sort.by(Sort.Direction.DESC,"updatedDate"));
+    }
+
+
+    /**
+     * UPDATE
+     */
 
 
     // 거래취소 시 결제내역 상태 변경

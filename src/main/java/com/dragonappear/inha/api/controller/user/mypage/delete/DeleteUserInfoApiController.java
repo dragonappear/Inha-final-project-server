@@ -10,6 +10,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
+import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Api(tags = {"마이페이지 유저 정보 삭제 API"})
 @RequiredArgsConstructor
@@ -19,8 +22,8 @@ public class DeleteUserInfoApiController {
 
     @ApiOperation(value = "유저 주소 삭제 API", notes = "유저 주소 삭제")
     @DeleteMapping(value = "users/delete/addresses/{userId}")
-    public Address deleteUserAddress(@PathVariable("userId") Long userId, @RequestBody Address address) {
+    public Map<String, Object> deleteUserAddress(@PathVariable("userId") Long userId, @RequestBody Address address) {
         userAddressService.deleteAddress(userId, address);
-        return address;
+        return getMessage("isDeleted", true, "Status", "주소가 삭제되었습니다.");
     }
 }

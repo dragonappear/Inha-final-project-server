@@ -14,7 +14,9 @@ public class UserAccountApiDto {
 
     @Builder
     public UserAccountApiDto(UserAccount account) {
-        this.userAccountId = account.getId();
-        this.account = account.getUserAccount();
+        if(account!=null){
+            this.userAccountId = account.getId();
+            this.account = account.getUserAccount();
+        }
     }
 }

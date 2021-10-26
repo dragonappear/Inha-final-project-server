@@ -29,10 +29,9 @@ public class UserAddressService {
     public Long save(Long userId, Address address) {
         validateUserAddress(userId, address);
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
+                    .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."));
         return userAddressRepository.save(new UserAddress(user, address)).getId();
     }
-
 
     /**
      * READ
@@ -100,7 +99,4 @@ public class UserAddressService {
             }
         }
     }
-
-
-
 }

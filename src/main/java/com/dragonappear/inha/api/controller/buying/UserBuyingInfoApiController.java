@@ -1,5 +1,8 @@
 package com.dragonappear.inha.api.controller.buying;
 
+import com.dragonappear.inha.api.controller.buying.dto.AddressDto;
+import com.dragonappear.inha.api.controller.buying.dto.PointDto;
+import com.dragonappear.inha.api.returndto.ResultDto;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
+
 @Api(tags = {"구매전 유저 정보 조회 API"})
 @RestController
 @RequiredArgsConstructor
@@ -39,83 +44,56 @@ public class UserBuyingInfoApiController {
                 .build();
     }
 
-    @ApiOperation(value = "유저 주소조회 API by 유저아이디", notes = "유저 주소 조회")
+    @ApiOperation(value = "유저 대표주소조회 API by 유저아이디", notes = "유저 주소 조회")
     @GetMapping("/payments/addresses/find/{userId}")
     public AddressDto getUserAddressInfoByUserId(@PathVariable("userId") Long userId) {
         try {
-            UserAddress userAddress = userAddressService.findByUserId(userService.findOneById(userId).getId())
-                    .get(0);
+            UserAddress userAddress = userAddressService.findByUserId(userId).get(0);
             return AddressDto.builder()
-                    .id(userAddress.getId())
+                    .addressId(userAddress.getId())
                     .address(userAddress.getUserAddress())
                     .build();
         } catch (Exception e) {
             return AddressDto.builder()
-                    .id(null)
+                    .addressId(null)
                     .address(null)
                     .build();
         }
     }
 
-    @ApiOperation(value = "유저 주소조회 API by 유저주소아이디", notes = "유저 주소 조회")
+    @ApiOperation(value = "유저 주소조회 API by 주소아이디", notes = "유저 주소 조회")
     @GetMapping("/payments/addresses/{userAddressId}")
     public AddressDto getUserAddressInfoByAddressId(@PathVariable("userAddressId") Long userAddressId) {
         try {
             UserAddress userAddress = userAddressService.findByUserAddressId(userAddressId);
             return AddressDto.builder()
-                    .id(userAddress.getId())
+                    .addressId(userAddress.getId())
                     .address(userAddress.getUserAddress())
                     .build();
         } catch (Exception e) {
             return AddressDto.builder()
-                    .id(null)
+                    .addressId(null)
                     .address(null)
                     .build();
         }
     }
 
-    @ApiOperation(value = "유저 주소모두조회 API", notes = "유저 주소모두 조회")
+    @ApiOperation(value = "유저 주소모두조회 API by 유저아이디로", notes = "유저 주소모두 조회")
     @GetMapping("/payments/addresses/all/{userId}")
-    public List<AddressDto> getUserAllAddressInfo(@PathVariable("userId") Long userId) {
+    public ResultDto getUserAllAddressInfo(@PathVariable("userId") Long userId) {
         try {
-            return userAddressService.findByUserId(userService.findOneById(userId).getId()).stream()
+            List<AddressDto> dtos = userAddressService.findByUserId(userId).stream()
                     .map(userAddress -> {
                         return AddressDto.builder()
-                                .id(userAddress.getId())
+                                .addressId(userAddress.getId())
                                 .address((userAddress.getUserAddress()))
                                 .build();
                     }).collect(Collectors.toList());
+            return returnResults(dtos);
         } catch (Exception e) {
-            return new ArrayList<AddressDto>();
+            return returnResults(new ArrayList<AddressDto>());
         }
     }
 
-    @NoArgsConstructor
-    @Data
-    static class PointDto {
-        private BigDecimal total;
-        private String inspectionFee;
-        private String deliveryFee;
-
-        @Builder
-        public PointDto(BigDecimal total, String inspectionFee, String deliveryFee) {
-            this.total = total;
-            this.inspectionFee = inspectionFee;
-            this.deliveryFee = deliveryFee;
-        }
-    }
-
-    @NoArgsConstructor
-    @Data
-    static class AddressDto {
-        private Long id;
-        private Address address;
-
-        @Builder
-        public AddressDto(Long id,Address address) {
-            this.id = id;
-            this.address = address;
-        }
-    }
 }
 
