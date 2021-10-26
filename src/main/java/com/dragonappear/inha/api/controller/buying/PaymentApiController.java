@@ -55,10 +55,16 @@ public class PaymentApiController {
     @ApiOperation(value = "결제 정보 저장 API", notes = "결제 정보 저장")
     @PostMapping("/payments/new")
     public Result savePayment(@RequestBody PaymentDto dto) {
-        String validate = validate(dto);
-        if (validate != null) {
-            Result.builder()
-                    .result(putResult("isPaySuccess", false, "Status", validate))
+        try {
+            String validate = validate(dto);
+            if (validate != null) {
+                return Result.builder()
+                        .result(putResult("isPaySuccess", false, "Status", validate))
+                        .build();
+            }
+        } catch (Exception e) {
+            return Result.builder()
+                    .result(putResult("isPaySuccess", false, "Status", e.getMessage()))
                     .build();
         }
         Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
@@ -101,7 +107,7 @@ public class PaymentApiController {
      *  검증로직
      */
     // dto 검증
-    private String validate(PaymentDto dto) {
+    private String validate(PaymentDto dto) throws Exception{
         if (validateAuctionitemAndUser(dto)) {
             if (validateCancel(dto)){
                 return  "유저 혹은 해당 상품이 존재하지 않아서, 결제취소를 시도하였으나 실패하였습니다.";
