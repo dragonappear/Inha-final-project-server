@@ -51,9 +51,11 @@ public class PaymentApiController {
         Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
         User user = userService.findOneById(dto.getBuyerId());
         paymentService.save(dto.toEntity(user, auctionitem,new Money(dto.getPoint())));
-        userPointService.subtract(user.getId(), new Money(dto.getPoint())); //포인트 차감
+        if(!dto.getPoint().equals(BigDecimal.ZERO)){
+            userPointService.subtract(user.getId(), new Money(dto.getPoint())); //포인트 차감
+        }
         return MessageDto.builder()
-                .message(getMessage("isPaySuccess", true, "Status", "결제가 완료하였습니다."))
+                .message(getMessage("isPaySuccess", true, "Status", "결제가 완료되었습니다."))
                 .build();
     }
 
@@ -66,7 +68,9 @@ public class PaymentApiController {
                 .auctionItemService(auctionItemService)
                 .userPointService(userPointService)
                 .userService(userService)
+                .paymentService(paymentService)
                 .build();
+        validation.validateImpIdAndMId(dto);
         validation.validatePoint(dto);
         validation.validatePrice(dto);
         validation.validateAuctionitemStatus(dto);
