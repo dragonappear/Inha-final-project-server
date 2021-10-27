@@ -12,15 +12,8 @@ import com.dragonappear.inha.service.auctionitem.AuctionItemService;
 import com.dragonappear.inha.service.payment.PaymentService;
 import com.dragonappear.inha.service.user.UserPointService;
 import com.dragonappear.inha.service.user.UserService;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -42,13 +35,8 @@ public class PaymentValidation {
         this.paymentService = paymentService;
     }
 
-    // 경매아이템 상태 검증
-    public void validateImpIdAndMId(PaymentDto dto) throws IllegalStateException{
-        /*paymentService.findAll().stream().forEach(payment -> {
-            if (payment.getImpId() == dto.getImpId() || payment.getMerchantId() == dto.getMerchantId()) {
-                throw new IllegalStateException("중복된 impId와 merchantId가 입력되었습니다.");
-            }
-        });*/
+    // 결제정보 검증
+    public void validateImpIdAndMid(PaymentDto dto) throws IllegalStateException{
         List<Payment> all = paymentService.findAll();
         for (Payment payment : all) {
             if (payment.getMerchantId() == dto.getMerchantId()) {
@@ -61,15 +49,21 @@ public class PaymentValidation {
     }
 
     // 경매아이템 상태 검증
-    public void validateAuctionitemStatus(PaymentDto dto) throws IllegalStateException{
-        Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
+    public void validateAuctionitemStatus(PaymentDto dto,Auctionitem auctionitem) throws IllegalStateException{
         if(auctionitem.getAuctionitemStatus()!= 경매중){
             throw new IllegalStateException("해당 상품은 이미 판매되었습니다.");
         }
     }
+
+    // 경매아이템 구매자 검증
+    public void validateBuyer(PaymentDto dto,User user,Auctionitem auctionitem) throws IllegalStateException{
+        if (auctionitem.getSelling().getSeller().getId().equals(user.getId())) {
+            throw new IllegalStateException("판매자의 상품을 판매자가 구매할 수 없습니다.");
+        }
+    }
+
     // 포인트 검증
-    public void validatePoint(PaymentDto dto) throws IllegalStateException {
-        User user = userService.findOneById(dto.getBuyerId());
+    public void validatePoint(PaymentDto dto,User user) throws IllegalStateException {
         Money amount = new Money(dto.getPoint());
         UserPoint point = userPointService.findLatestPoint(user.getId());
         if (amount.isLessThan(Money.wons(0L)) || point.getTotal().isLessThan(amount)) {
@@ -78,8 +72,7 @@ public class PaymentValidation {
     }
 
     // 경매아이템 금액 검증
-    public void validatePrice(PaymentDto dto) throws IllegalStateException {
-        Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
+    public void validatePrice(PaymentDto dto,Auctionitem auctionitem) throws IllegalStateException {
         BigDecimal price = auctionitem.getPrice().getAmount().setScale(0, RoundingMode.FLOOR);
         BigDecimal amount = dto.getPaymentPrice().add(dto.getPoint()).setScale(0, RoundingMode.FLOOR);
         if (!price.equals(amount)) {

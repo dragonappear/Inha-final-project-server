@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BuyingBidApiController {
 
-   /* @ApiOperation(value = "구매 입찰 저장 API", notes = "구매 입찰 저장")
+    /*@ApiOperation(value = "구매 입찰 저장 API", notes = "구매 입찰 저장")
     @PostMapping("/payments/new/bid")
-    public MessageDto get*/
+    public MessageDto postBidPayment() {
+
+    }*/
 }

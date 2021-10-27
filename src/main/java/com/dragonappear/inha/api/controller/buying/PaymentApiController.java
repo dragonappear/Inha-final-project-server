@@ -35,16 +35,23 @@ public class PaymentApiController {
     public MessageDto savePayment(@RequestBody PaymentDto dto) {
         // 결제내역 검증
         try {
-            validatePayment(dto);
-        } catch (IllegalStateException e1) {
+            Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
+            User user = userService.findOneById(dto.getBuyerId());
+            validatePayment(dto,user,auctionitem);
+        } catch (Exception e1) {
             try {
-                IamportConfig.cancelPayment(CancelDto.getCancelDto(dto));
+                if(IamportConfig.cancelPayment(CancelDto.getCancelDto(dto))==1){
+                    return MessageDto.builder()
+                            .message(getMessage("isPaySuccess", false, "Status", e1.getMessage()+ " 결제취소가 완료되었습니다.")).build();
+                }
+                else{
+                    return MessageDto.builder()
+                            .message(getMessage("isPaySuccess", false, "Status", e1.getMessage()+ " 결제취소가 완료되지않았습니다.")).build();
+                }
             } catch (Exception e2) {
                 return MessageDto.builder()
                         .message(getMessage("isPaySuccess", false, "Status",e1.getMessage()+ e2.getMessage())).build();
             }
-            return MessageDto.builder()
-                    .message(getMessage("isPaySuccess", false, "Status", e1.getMessage())).build();
         }
 
         // 결제 생성
@@ -63,17 +70,18 @@ public class PaymentApiController {
      *  검증로직
      */
     // dto 검증
-    private void validatePayment(PaymentDto dto) throws IllegalStateException{
+    private void validatePayment(PaymentDto dto,User user,Auctionitem auctionitem) throws IllegalStateException{
         PaymentValidation validation = PaymentValidation.builder()
                 .auctionItemService(auctionItemService)
                 .userPointService(userPointService)
                 .userService(userService)
                 .paymentService(paymentService)
                 .build();
-        validation.validateImpIdAndMId(dto);
-        validation.validatePoint(dto);
-        validation.validatePrice(dto);
-        validation.validateAuctionitemStatus(dto);
+        validation.validateImpIdAndMid(dto);
+        validation.validatePoint(dto,user);
+        validation.validateBuyer(dto, user, auctionitem);
+        validation.validatePrice(dto,auctionitem);
+        validation.validateAuctionitemStatus(dto,auctionitem);
     }
 
 }

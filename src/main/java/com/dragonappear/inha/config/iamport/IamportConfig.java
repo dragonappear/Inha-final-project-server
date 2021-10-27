@@ -38,13 +38,40 @@ public class IamportConfig {
             JsonNode rootNode = mapper.readTree(body);
             JsonNode resNode = rootNode.get("response");
             result = resNode.get("access_token").asText();
-        } catch (Exception e) {
-            throw new IllegalStateException("아임포트 토큰을 받아올 수 없습니다."); }
-        return result;
+        } catch (Exception e){
+            throw new IllegalStateException("아임포트 토큰을 받아올 수 없습니다.");
+        } return result;
     }
 
     // 아임포트로 취소요청 메서드
-    public static String cancelPayment(CancelDto dto) throws IllegalStateException{
+    public static int cancelPayment(CancelDto dto) throws Exception {
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
+        Map<String, String> map = new HashMap<String, String>();
+        post.setHeader("Authorization", dto.getToken());
+        map.put("imp_uid", dto.getImpId());
+        map.put("merchant_uid", dto.getMerchantId());
+        map.put("amount", dto.getAmount());
+        map.put("checksum", dto.getChecksum());
+        String asd = "";
+        try { post.setEntity(new UrlEncodedFormEntity(convertParameter(map)));
+            HttpResponse res = client.execute(post);
+            ObjectMapper mapper = new ObjectMapper();
+            String enty = EntityUtils.toString(res.getEntity());
+            JsonNode rootNode = mapper.readTree(enty);
+            asd = rootNode.get("response").asText();
+        } catch (Exception e) {
+            throw e;
+        }
+        if (asd.equals("null")) {
+            return -1;
+        } else {
+            return 1; 
+        } 
+    }
+
+
+   /* public static String cancelPayment(CancelDto dto) throws IllegalStateException{
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
         Map<String, String> map = new HashMap<String, String>();
@@ -61,12 +88,14 @@ public class IamportConfig {
             String entry = EntityUtils.toString(res.getEntity());
             JsonNode rootNode = mapper.readTree(entry);
             result = rootNode.get("response").asText(); }
-        catch (Exception e) {throw new IllegalStateException("결제 취소가 완료되지 않았습니다."); }
+        catch (Exception e) {
+            throw new IllegalStateException("결제 취소가 완료되지 않았습니다.");
+        }
         if (result.equals("null")) {
             throw new IllegalStateException("결제 취소가 완료되지 않았습니다.");
         }
         return result;
-    }
+    }*/
 
     //  Http요청 파라미터를 만들어 주는 메서드
     public static List<NameValuePair> convertParameter(Map<String,String> paramMap){
