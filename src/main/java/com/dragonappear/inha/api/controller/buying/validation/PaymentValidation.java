@@ -19,6 +19,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.경매중;
 
 @NoArgsConstructor
@@ -54,9 +57,9 @@ public class PaymentValidation {
     // 경매아이템 금액 검증
     public void validatePrice(PaymentDto dto) throws IllegalStateException {
         Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
-        Money price = auctionitem.getPrice();
-        Money validate = new Money(dto.getPaymentPrice()).plus(new Money(dto.getPoint()));
-        if (!price.equals(validate)) {
+        BigDecimal price = auctionitem.getPrice().getAmount().setScale(0, RoundingMode.FLOOR);
+        BigDecimal amount = dto.getPaymentPrice().add(dto.getPoint()).setScale(0, RoundingMode.FLOOR);
+        if (!price.equals(amount)) {
             throw new IllegalStateException("잘못된 경매품 가격입니다.");
         }
     }

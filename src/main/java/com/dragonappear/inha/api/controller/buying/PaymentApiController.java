@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Api(tags = {"구매 결제 정보 저장 API"})
@@ -39,7 +41,7 @@ public class PaymentApiController {
                 IamportConfig.cancelPayment(CancelDto.getCancelDto(dto));
             } catch (Exception e2) {
                 return MessageDto.builder()
-                        .message(getMessage("isPaySuccess", false, "Status",e2.getMessage())).build();
+                        .message(getMessage("isPaySuccess", false, "Status",e1.getMessage()+ e2.getMessage())).build();
             }
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e1.getMessage())).build();

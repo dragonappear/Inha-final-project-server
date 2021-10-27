@@ -22,7 +22,7 @@ public class IamportConfig {
     public static final String KEY = "5132626560989602";
     public static final String SECRET = "76b263a820b4d8645755eb3f51f7afb500027545cbe027a24bdf8751e53ba34a9190b36a12508e46";
 
-    // 아임포트 인증(토큰)을 받아주는 함수
+    // 아임포트에서 인증(토큰)을 받아오는 메서드
     public static String getImportToken() throws IllegalStateException {
         String result = "";
         HttpClient client = HttpClientBuilder.create().build();
@@ -43,6 +43,7 @@ public class IamportConfig {
         return result;
     }
 
+    // 아임포트로 취소요청 메서드
     public static String cancelPayment(CancelDto dto) throws IllegalStateException{
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
@@ -60,9 +61,9 @@ public class IamportConfig {
             String entry = EntityUtils.toString(res.getEntity());
             JsonNode rootNode = mapper.readTree(entry);
             result = rootNode.get("response").asText(); }
-        catch (Exception e) {throw new IllegalStateException("결제 취소가 실패하였습니다."); }
+        catch (Exception e) {throw new IllegalStateException("결제 취소가 완료되지 않았습니다."); }
         if (result.equals("null")) {
-            throw new IllegalStateException("결제 취소가 실패하였습니다.");
+            throw new IllegalStateException("결제 취소가 완료되지 않았습니다.");
         }
         return result;
     }
