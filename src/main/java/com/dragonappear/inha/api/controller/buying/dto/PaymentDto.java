@@ -7,7 +7,6 @@ import com.dragonappear.inha.domain.value.Money;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 
 @NoArgsConstructor

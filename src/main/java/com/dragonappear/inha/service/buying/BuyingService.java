@@ -19,7 +19,7 @@ public class BuyingService {
      * CREATE
      */
 
-    // 구매내역 생성
+    // 구매 생성
     @Transactional
     public Long save(Buying buying) {
         return buyingRepository.save(buying).getId();

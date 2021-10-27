@@ -14,8 +14,11 @@ import static com.dragonappear.inha.domain.buying.value.BuyingStatus.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.InheritanceType.*;
 import static lombok.AccessLevel.PROTECTED;
 
+@DiscriminatorColumn(name = "dtype")
+@Inheritance(strategy = SINGLE_TABLE)
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
@@ -69,6 +72,4 @@ public class Buying extends JpaBaseTimeEntity {
             this.payment.cancel();
         }
     }
-
-
 }
