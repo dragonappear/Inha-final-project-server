@@ -23,6 +23,10 @@ public class InspectionImageService {
 
     // 검수이미지리스트 조회 by 검수이미지아이디
     public List<InspectionImage> findByInspectionId(Long inspectionId) {
-        return inspectionImageRepository.findByInspectionId(inspectionId);
+        List<InspectionImage> list = inspectionImageRepository.findByInspectionId(inspectionId);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("아이템이 존재하지 않습니다");
+        }
+        return list;
     }
 }

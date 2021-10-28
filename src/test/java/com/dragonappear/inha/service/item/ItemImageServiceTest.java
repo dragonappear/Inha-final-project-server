@@ -96,7 +96,7 @@ class ItemImageServiceTest {
         itemImageService.update(itemImage1);
         //then
         org.junit.jupiter.api.Assertions.assertThrows(
-                IllegalStateException.class
+                IllegalArgumentException.class
                 , () -> {
                     itemImageService.update(itemImage2);
                 }

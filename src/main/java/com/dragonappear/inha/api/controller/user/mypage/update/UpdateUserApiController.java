@@ -58,7 +58,7 @@ public class UpdateUserApiController {
 
     @ApiOperation(value = "유저 프로필이미지 수정 API", notes = "유저 프로필을 수정")
     @PostMapping("/users/update/images/{userId}")
-    public Map<String, Object> updateUserProfile(@PathVariable("userId") Long userId, HttpServletRequest request, @RequestBody MultipartFile file)  {
+    public Map<String, Object> updateUserProfile(@PathVariable("userId") Long userId, @RequestBody MultipartFile file)  {
         ImageDto imageDto = updateProfile(file);
         if(imageDto.getContent()==null) {
             return imageDto.getMap();

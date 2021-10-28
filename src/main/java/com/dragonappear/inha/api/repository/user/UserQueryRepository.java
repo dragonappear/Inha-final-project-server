@@ -19,6 +19,9 @@ public class UserQueryRepository {
         User find = jpaQueryFactory.selectFrom(user)
                 .where(user.id.eq(userId))
                 .fetchOne();
+        if (find == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
         return MyPageUserInfoDto.builder()
                 .nickname(find.getNickname())
                 .username(find.getUsername())

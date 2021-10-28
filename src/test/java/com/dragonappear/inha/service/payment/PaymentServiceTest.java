@@ -178,11 +178,10 @@ class PaymentServiceTest {
         User user = userRepository.findAll().get(0);
         Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
         //when
-        List<Payment> all = paymentService.findByAuctionItemId(auctionitem.getId());
+        Payment payment=  paymentService.findByAuctionItemId(auctionitem.getId());
         //then
-        assertThat(all.size()).isEqualTo(1);
-        assertThat(all).extracting("auctionitem").containsOnly(auctionitem);
-        assertThat(all).extracting("user").containsOnly(user);
+        assertThat(payment.getAuctionitem()).isEqualTo(auctionitem);
+        assertThat(payment.getUser()).isEqualTo(user);
     }
 
     //결제 조회 by 상품이름

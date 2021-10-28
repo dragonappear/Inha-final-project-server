@@ -74,14 +74,8 @@ public class UserPageApiController {
     @ApiOperation(value = "유저 계좌 조회 API", notes = "유저 계좌 조회")
     @GetMapping("/users/mypage/accounts/{userId}")
     public UserAccountApiDto userAccountDto(@PathVariable("userId") Long userId) {
-        try {
-            return UserAccountApiDto.builder()
-                    .account(userAccountService.findByUserId(userId))
-                    .build();
-        }catch (Exception e){
-            return UserAccountApiDto.builder()
-                    .account(null)
-                    .build();
-        }
+        return UserAccountApiDto.builder()
+                .account(userAccountService.findByUserId(userId))
+                .build();
     }
 }

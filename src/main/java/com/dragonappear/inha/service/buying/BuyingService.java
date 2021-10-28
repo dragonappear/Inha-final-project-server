@@ -31,13 +31,17 @@ public class BuyingService {
 
     // 구매내역리스트 조회 by 유저아이디
     public List<Buying> findByUserId(Long userId) {
-        return buyingRepository.findByUserId(userId);
+        List<Buying> list = buyingRepository.findByUserId(userId);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("아이템이 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 구매내역 조회 by 구매아이디
     public Buying findById(Long id) {
         return buyingRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("구매내역이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("구매내역이 존재하지 않습니다."));
     }
 
 

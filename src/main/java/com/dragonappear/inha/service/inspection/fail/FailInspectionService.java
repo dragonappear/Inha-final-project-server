@@ -21,6 +21,6 @@ public class FailInspectionService {
     // 탈락검수 조회 by 탈락검수 아이디
     public FailInspection findById(Long failInspectionId) {
         return failInspectionRepository.findById(failInspectionId)
-                .orElseThrow(() -> new IllegalStateException("탈락검수 내역이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("탈락검수 내역이 존재하지 않습니다."));
     }
 }

@@ -3,6 +3,8 @@ package com.dragonappear.inha.domain.item;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.payment.BidPayment;
+import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -85,6 +87,9 @@ public  class Item extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "item")
     private List<Auctionitem> auctionitems = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "item")
+    private List<BidPayment> bidPayments = new ArrayList<>();
 
     /**
      * 연관관계편의메서드

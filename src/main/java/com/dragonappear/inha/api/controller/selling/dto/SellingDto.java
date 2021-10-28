@@ -12,12 +12,14 @@ import java.time.LocalDateTime;
 public class SellingDto {
     private Long userId;
     private Long itemId;
+    private Long buyingId;
     private BigDecimal price;
 
-    @Builder
-    public SellingDto(Long userId, Long itemId, BigDecimal price) {
+
+    public SellingDto(Long userId, Long itemId, Long buyingId, BigDecimal price) {
         this.userId = userId;
         this.itemId = itemId;
+        this.buyingId = buyingId;
         this.price = price;
     }
 }

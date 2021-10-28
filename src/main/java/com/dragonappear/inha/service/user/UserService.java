@@ -2,6 +2,8 @@ package com.dragonappear.inha.service.user;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.exception.user.NotFoundUserEmailException;
+import com.dragonappear.inha.exception.user.NotFoundUserIdException;
 import com.dragonappear.inha.repository.user.UserRepository;
 import com.querydsl.core.QueryResults;
 import lombok.RequiredArgsConstructor;
@@ -36,12 +38,12 @@ public class UserService {
     //  회원 단건조회 by 유저아이디
     public User findOneById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원입니다."));
+                .orElseThrow(()->new NotFoundUserIdException("존재하지 않는 회원입니다."));
     }
 
     // 회원 단건조회 by 유저이메일
     public User findOneByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(()->new IllegalStateException("존재하지 않는 회원입니다."));
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundUserEmailException("존재하지 않는 회원입니다."));
     }
 
     //  모든 회원 조회
@@ -52,21 +54,21 @@ public class UserService {
     // 유저 닉네임 조회
     public String getNickname(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."))
                 .getNickname();
     }
 
     // 유저 이름 조회
     public String getUsername(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."))
                 .getUsername();
     }
 
     // 유저 Role 조회
     public String getUserRole(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다."))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."))
                 .getUserRole().getTitle();
     }
 
@@ -79,14 +81,14 @@ public class UserService {
     @Transactional
     public void updateNickname(Long userId, String nickname) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다.")).updateNickname(nickname);
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")).updateNickname(nickname);
     }
 
     // 유저 이름 업데이트
     @Transactional
     public void updateUsername(Long userId, String username) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다.")).updateUsername(username);
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")).updateUsername(username);
     }
 
     // 유저 연락처 업데이트
@@ -94,7 +96,7 @@ public class UserService {
     public void updateUserTel(Long userId, String userTel) {
         validateUserTel(userTel);
         userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다.")).updateUserTel(userTel);
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다.")).updateUserTel(userTel);
     }
 
     /**
@@ -103,14 +105,14 @@ public class UserService {
     private void validateUser(String email,String userTel) {
         List<User> users = userRepository.findByEmailOrUserTel(email, userTel);
         if (!users.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다");
+            throw new IllegalArgumentException("이미 존재하는 회원입니다");
         }
     }
 
     private void validateUserTel(String userTel) {
         List<User> users = userRepository.findByUserTel(userTel);
         if (!users.isEmpty()) {
-            throw new IllegalStateException("이미 등록된 휴대폰 번호입니다.");
+            throw new IllegalArgumentException("이미 등록된 휴대폰 번호입니다.");
         }
     }
 

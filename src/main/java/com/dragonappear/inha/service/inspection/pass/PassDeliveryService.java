@@ -21,7 +21,7 @@ public class PassDeliveryService {
     // 합격검수배송 조회 by 배송아이디
     public PassDelivery findById(Long passDeliveryId) {
         return passDeliveryRepository.findById(passDeliveryId)
-                .orElseThrow(() -> new IllegalStateException("해당 배송정보가 조회되지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 배송정보가 조회되지 않습니다"));
     }
 
     // 배송완료체크 서비스

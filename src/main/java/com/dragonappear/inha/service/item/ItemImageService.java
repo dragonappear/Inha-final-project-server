@@ -26,7 +26,11 @@ public class ItemImageService {
 
     // 아이템이미지 전체조회 by 아이템아이디
     public List<ItemImage> findByItemId(Long itemId) {
-        return itemImageRepository.findByItemId(itemId);
+        List<ItemImage> list = itemImageRepository.findByItemId(itemId);
+        if (list.size()==0) {
+            throw new IllegalArgumentException("아이템 이미지가 존재하지 않습니다.");
+        }
+        return list;
     }
 
     // 아이템이미지 단건 삭제
@@ -36,7 +40,7 @@ public class ItemImageService {
             item.getItemImages().remove(image);
             itemImageRepository.delete(image.getId());
         }else{
-            throw new IllegalStateException("이미지에 어떠한 아이템과 연결되어있지 않습니다.");
+            throw new IllegalArgumentException("이미지에 어떠한 아이템과 연결되어있지 않습니다.");
         }
     }
 
@@ -48,10 +52,8 @@ public class ItemImageService {
         List<ItemImage> images = itemImageRepository.findByItemId(image.getItem().getId());
         for (ItemImage itemImage : images) {
             if (itemImage.getItemImage().getFileOriName() == image.getItemImage().getFileOriName()) {
-                throw new IllegalStateException("이미 등록된 이미지입니다.");
+                throw new IllegalArgumentException("이미 등록된 이미지입니다.");
             }
         }
     }
-
-
 }

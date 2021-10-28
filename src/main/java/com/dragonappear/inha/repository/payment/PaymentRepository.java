@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
@@ -14,7 +15,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     List<Payment> findByUserId( @Param("userId") Long userId);
 
     @Query("select p from Payment p where p.auctionitem.id=:auctionItemId")
-    List<Payment> findByAuctionItemId(@Param("auctionItemId") Long auctionItemId);
+    Optional<Payment> findByAuctionItemId(@Param("auctionItemId") Long auctionItemId);
 
     @Query("select p from Payment p where p.auctionitem.item.itemName=:itemName")
     List<Payment> findByItemName(@Param("itemName") String itemName);

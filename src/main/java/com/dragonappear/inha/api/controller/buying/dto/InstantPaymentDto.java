@@ -1,41 +1,35 @@
 package com.dragonappear.inha.api.controller.buying.dto;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.payment.BidPayment;
+import com.dragonappear.inha.domain.payment.InstantPayment;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-public class BidPaymentDto extends PaymentDto {
-    private Long itemId;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime endDate;
+public class InstantPaymentDto extends PaymentDto{
+    private Long sellingId;
 
     @Builder
-    public BidPaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point, Long buyerId, Long addressId, Long itemId, LocalDateTime endDate) {
+    public InstantPaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point, Long buyerId, Long addressId, Long sellingId) {
         super(pgName, impId, merchantId, paymentPrice, point, buyerId, addressId);
-        this.itemId = itemId;
-        this.endDate = endDate;
+        this.sellingId = sellingId;
     }
 
-    public Payment toEntity(User user, Item item, Money money) {
-        return BidPayment.builder()
+    public Payment toEntity(User user, Auctionitem auctionitem, Money point) {
+        return InstantPayment.builder()
                 .paymentPrice(new Money(this.getPaymentPrice()))
                 .user(user)
+                .auctionitem(auctionitem)
                 .impId(this.getImpId())
                 .merchantId(this.getMerchantId())
-                .point(new Money(this.getPoint()))
-                .item(item)
+                .point(point)
                 .pgName(this.getPgName())
                 .addressId(this.getAddressId())
                 .build();

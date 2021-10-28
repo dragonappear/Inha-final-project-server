@@ -33,7 +33,6 @@ public class UserLikeItemService {
         userLikeItemRepository.delete(userLikeItem.getId());
     }
     // 아이템 찜 조회 by 유저아이디
-
     public List<Item> findByUserId(Long userId) {
         List<UserLikeItem> all = userLikeItemRepository.findByUserId(userId);
         List<Item> items = new ArrayList<>();
@@ -41,12 +40,7 @@ public class UserLikeItemService {
         return items;
     }
     // 유저가 누른 아이템 좋아요 개수 조회
-
     public int getLikeNumber(Long userId) {
         return userLikeItemRepository.findByUserId(userId).size();
     }
-
-    /**
-     *  검증로직
-     */
 }

@@ -36,13 +36,13 @@ public class UserImageService {
     // 유저이미지 조회 by 이미지아이디
     public UserImage findByImageId(Long imageId) {
         return userImageRepository.findById(imageId)
-                .orElseThrow(() -> new IllegalStateException("이미지가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
     }
 
     // 유저이미지 조회 by 유저 아이디
     public UserImage findByUserId(Long userId) {
         return userImageRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalStateException("이미지가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이미지입니다."));
     }
 
     // 유저 이미지 Url 조회

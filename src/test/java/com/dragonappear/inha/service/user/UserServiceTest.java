@@ -56,7 +56,7 @@ class UserServiceTest {
         //when
         User errorUser = new User("name1", "nickname1", "email1", "userTel1");
         //then
-        assertThrows(IllegalStateException.class, ()-> {userService.join(errorUser);});
+        assertThrows(IllegalArgumentException.class, ()-> {userService.join(errorUser);});
     }
 
     @Test

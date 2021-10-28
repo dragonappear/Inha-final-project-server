@@ -65,7 +65,7 @@ class UserAddressServiceTest {
         //when
         userAddressService.save(findUser.getId(), address);
         //then
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
             userAddressService.save(findUser.getId(), address1);
         });
     }

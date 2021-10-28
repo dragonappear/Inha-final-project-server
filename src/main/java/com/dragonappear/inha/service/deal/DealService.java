@@ -23,7 +23,7 @@ public class DealService {
     // 거래 조회 by 거래 아이디
     public Deal findById(Long dealId) {
         return dealRepository.findById(dealId)
-                .orElseThrow(() -> new IllegalStateException("해당 거래가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 거래가 존재하지 않습니다."));
     }
 
     // 거래 조회 by 아이템 아이디

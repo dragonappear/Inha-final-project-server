@@ -1,9 +1,8 @@
 package com.dragonappear.inha.api.controller.buying;
 
 import com.dragonappear.inha.api.returndto.MessageDto;
-import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
-import com.dragonappear.inha.config.iamport.CancelDto;
-import com.dragonappear.inha.config.iamport.IamportConfig;
+import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
+import com.dragonappear.inha.api.controller.buying.iamport.CancelDto;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.InstantBuying;
@@ -12,9 +11,11 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.exception.deal.DealException;
 import com.dragonappear.inha.service.auctionitem.AuctionItemService;
 import com.dragonappear.inha.service.buying.BuyingService;
 import com.dragonappear.inha.service.deal.DealService;
+import com.dragonappear.inha.service.item.ItemService;
 import com.dragonappear.inha.service.payment.PaymentService;
 import com.dragonappear.inha.service.selling.SellingService;
 import com.dragonappear.inha.service.user.UserPointService;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-import static com.dragonappear.inha.api.controller.buying.validation.PaymentValidation.validationPayment;
+import static com.dragonappear.inha.api.controller.buying.ValidatePayment.validate;
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Api(tags = {"즉시구매 API"})
@@ -40,52 +41,41 @@ public class BuyingInstantApiController {
     private final BuyingService buyingService;
     private final SellingService sellingService;
     private final DealService dealService;
+    private final ItemService itemService;
+
 
     @ApiOperation(value = "즉시구매 결제 저장 API", notes = "즉시구매 결제 저장")
     @PostMapping("/payments/new/instant")
-    public MessageDto savePayment(@RequestBody PaymentDto dto) {
+    public MessageDto postInstantPayment(@RequestBody InstantPaymentDto dto) {
         // 결제내역 검증
-        MessageDto result = validationPayment(dto, auctionItemService, userService, userPointService, paymentService);
-        if (result.getMessage().get("isValidateSuccess").equals(false)) {
-            return MessageDto.builder()
-                    .message(getMessage("isPaySuccess", false, "Status", result.getMessage().get("Status").toString()))
-                    .build();
-        }
-        // 1:1 거래 생성
-        try {
-            if(createDeal(dto)){
-                return MessageDto.builder()
-                        .message(getMessage("isPaySuccess", true, "Status", "결제가 완료되었습니다."))
-                        .build();
-            } else{
-                if (IamportConfig.cancelPayment(CancelDto.getCancelDto(dto)) == 1) {
-                    return MessageDto.builder()
-                            .message(getMessage("isPaySuccess", false, "Status", "결제를 취소하였습니다.")).build();
-                } else {
-                    return MessageDto.builder()
-                            .message(getMessage("isPaySuccess", false, "Status", "결제취소가 완료되지 않았습니다.")).build();
-                }
-            }
-        } catch (Exception e) {
-            return MessageDto.builder()
-                    .message(getMessage("isPaySuccess", false, "Status", e.getMessage())).build();
-        }
+        validate(dto,itemService,auctionItemService,userService,userPointService,paymentService,sellingService);
+        createDeal(dto);
+        return MessageDto.builder()
+                .message(getMessage("isPaySuccess", true, "Status", "결제가 완료되었습니다."))
+                .build();
     }
 
-    private boolean createDeal(PaymentDto dto) throws Exception {
-        Auctionitem auctionitem = auctionItemService.findById(dto.getAuctionitemId());
-        User user = userService.findOneById(dto.getBuyerId());
-        Payment payment = dto.toEntity(user, auctionitem, new Money(dto.getPoint())); // 결제 생성
-        paymentService.save(payment);  // 결제 저장
-        if(!dto.getPoint().equals(BigDecimal.ZERO)){ //포인트 차감
-            userPointService.subtract(user.getId(), new Money(dto.getPoint()));
+    private void createDeal(InstantPaymentDto dto) throws DealException {
+        try {
+            Selling selling = sellingService.findBySellingId(dto.getSellingId());
+            Auctionitem auctionitem = selling.getAuctionitem();
+            User user = userService.findOneById(dto.getBuyerId());
+            if(!dto.getPoint().equals(BigDecimal.ZERO)){ //포인트 차감
+                userPointService.subtract(user.getId(), new Money(dto.getPoint()));
+            }
+            Payment payment = dto.toEntity(user, auctionitem, new Money(dto.getPoint())); // 결제 생성
+            paymentService.save(payment);
+            Buying buying = new InstantBuying(payment); // 구매 생성
+            buyingService.save(buying);
+            Deal deal = new Deal(buying, selling); // 거래 생성
+            dealService.save(deal);
+        } catch (Exception e) {
+            throw DealException.builder()
+                    .message(e.getMessage())
+                    .paymentDto(dto)
+                    .cancelDto(CancelDto.getCancelDto(dto))
+                    .build();
         }
-        Buying buying = new InstantBuying(payment); // 구매 생성
-        buyingService.save(buying); // 구매 저장
-        Selling selling = sellingService.findByAuctionitemId(dto.getAuctionitemId()); // 판매 조회
-        Deal deal = new Deal(buying, selling); // 거래 생성
-        dealService.save(deal);  // 거래 저장
-        return true;
     }
 }
 

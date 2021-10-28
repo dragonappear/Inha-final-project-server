@@ -17,7 +17,7 @@ public class NotebookQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public NotebookDto findById(Long itemId) {
-        return queryFactory.select(
+        NotebookDto dto = queryFactory.select(
                         new QNotebookDto(item.id
                                 , item.manufacturer.manufacturerName.stringValue()
                                 , item.itemName
@@ -40,5 +40,9 @@ public class NotebookQueryRepository {
                 .join(notebook).on(notebook.id.eq(item.id))
                 .where(item.id.eq(itemId))
                 .fetchOne();
+        if (dto == null) {
+            throw new IllegalArgumentException("존재하지 않는 아이템입니다.");
+        }
+        return dto;
     }
 }

@@ -39,17 +39,25 @@ public class UserInquiryAnswerService {
 
     // 모든답변조회
     public List<UserInquiryAnswer> findAll() {
-        return userInquiryAnswerRepository.findAll();
+        List<UserInquiryAnswer> list = userInquiryAnswerRepository.findAll();
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("답변이 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 답변조회 리스트 조회 by 유저
     public List<UserInquiryAnswer> findByUserId(User user) {
-        return userInquiryAnswerRepository.findByUserId(user.getId());
+        List<UserInquiryAnswer> list = userInquiryAnswerRepository.findByUserId(user.getId());
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("답변이 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 답변조회 by 답변아이디
     public UserInquiryAnswer findByAnswerId(UserInquiryAnswer answer) {
         return userInquiryAnswerRepository.findById(answer.getId())
-                .orElseThrow(() -> new IllegalStateException("답변이 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("답변이 존재하지 않습니다"));
     }
 }

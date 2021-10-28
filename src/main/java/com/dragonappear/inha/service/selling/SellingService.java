@@ -38,25 +38,37 @@ public class SellingService {
 
     // 판매조회 by 판매아이디
     public Selling findBySellingId(Long sellingId) {
-            return sellingRepository.findById(sellingId).orElseThrow(()-> new IllegalStateException("판매가 조회되지않습니다"));
+            return sellingRepository.findById(sellingId).orElseThrow(()-> new IllegalArgumentException("판매가 조회되지않습니다"));
     }
 
     // 판매조회 by 경매아이템 아이디
     public Selling findByAuctionitemId(Long auctionitemId) {
-        return sellingRepository.findByAuctionitemId(auctionitemId).orElseThrow(()-> new IllegalStateException("판매가 조회되지않습니다"));
+        return sellingRepository.findByAuctionitemId(auctionitemId).orElseThrow(()-> new IllegalArgumentException("판매가 조회되지않습니다"));
     }
 
 
     // 판매내역리스트 조회 by 유저아이디
     public List<Selling> findByUserId(Long userId) {
-        return sellingRepository.findByUserId(userId);
+        List<Selling> list = sellingRepository.findByUserId(userId);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("판매가 조회되지않습니다");
+        }
+        return list;
     }
 
     // 판매내역리스트 조회 by 상품명
     public List<Selling> findByItemName(String itemName) {
-        return sellingRepository.findByItemName(itemName);
+        List<Selling> list = sellingRepository.findByItemName(itemName);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("판매가 조회되지않습니다");
+        }
+        return list;
     }
 
+    // 판매중인 판매 조회
+    public List<Selling> findOnSale(SellingStatus sellingStatus) {
+        return sellingRepository.findByStatus(sellingStatus);
+    }
 
     /**
      * UPDATE
@@ -80,10 +92,6 @@ public class SellingService {
         selling.updateStatus(SellingStatus.판매취소);
     }
 
-    // 판매중인 판매 조회
-    public List<Selling> findOnSale(SellingStatus sellingStatus) {
-        return sellingRepository.findByStatus(sellingStatus);
-    }
 
     // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
     @Transactional
@@ -99,4 +107,5 @@ public class SellingService {
             throw new IllegalStateException("해당 경매상품은 경매로 올릴 수 없습니다.");
         }
     }
+
 }

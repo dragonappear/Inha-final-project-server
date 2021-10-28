@@ -26,37 +26,18 @@ public class UserApiController {
     @ApiOperation(value = "유저 등록 조회 API By 유저이메일", notes = "유저 정보 조회")
     @GetMapping(value = "/users/{email}")
     public MessageDto checkRegistered(@PathVariable("email") String email) {
-        Long id=0L;
-        String role = "";
-        try {
-            id = userService.findOneByEmail(email).getId();
-            role = userService.findOneById(id).getUserRole().toString();
-        } catch (Exception e) {
-            return MessageDto.builder()
-                    .message(getMessage("isRegistered", false, "id", null,"role",e.getMessage()))
-                    .build();
-        }
+        User user = userService.findOneByEmail(email);
         return MessageDto.builder()
-                .message(getMessage("isRegistered", true, "id", id,"role",role))
+                .message(getMessage("isRegistered", true, "id", user.getId(),"role",user.getUserRole().toString()))
                 .build();
     }
 
     @ApiOperation(value = "유저 정보 조회 API By 유저아이디", notes = "유저 정보 조회")
     @GetMapping(value = "/users/find/{userId}")
     public UserDto getUserInfo(@PathVariable("userId") Long userId) {
-        try {
-            User user = userService.findOneById(userId);
-            return new UserDto(user);
-        } catch (Exception e) {
-            return UserDto.builder()
-                    .email(null)
-                    .address(null)
-                    .account(null)
-                    .userTel(null)
-                    .username(null)
-                    .nickname(null)
-                    .build();
-        }
+        User user = userService.findOneById(userId);
+        return new UserDto(user);
+
     }
 
     @ApiOperation(value = "유저 정보 저장 API", notes = "유저 정보 저장")

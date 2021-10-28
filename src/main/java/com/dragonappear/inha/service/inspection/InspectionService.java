@@ -21,6 +21,6 @@ public class InspectionService {
     // 검수 조회
     public Inspection findById(Long inspectionId) {
         return inspectionRepository.findById(inspectionId)
-                .orElseThrow(() -> new IllegalStateException("해당 검수가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 검수가 존재하지 않습니다"));
     }
 }

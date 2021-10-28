@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class SellingDeliveryService {
-    @Autowired SellingRepository sellingRepository;
     @Autowired SellingDeliveryRepository sellingDeliveryRepository;
 
     // 판매자배송 등록
@@ -28,7 +27,7 @@ public class SellingDeliveryService {
     @Transactional
     public void update(Selling selling, Delivery delivery) {
         SellingDelivery sellingDelivery = sellingDeliveryRepository.findBySellingId(selling.getId())
-                .orElseThrow(() -> new IllegalStateException("판매자 배송이 조회되지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("판매자 배송이 조회되지 않습니다"));
         updateSellingDelivery(selling, delivery, sellingDelivery);
     }
 
@@ -46,7 +45,7 @@ public class SellingDeliveryService {
      */
     private void validateSellingDelivery(Selling selling) {
         if (selling.getSellingDelivery()!=null) {
-            throw new IllegalStateException("택배 등록이 이미 완료되었습니다.");
+            throw new IllegalArgumentException("택배 등록이 이미 완료되었습니다.");
         }
     }
 

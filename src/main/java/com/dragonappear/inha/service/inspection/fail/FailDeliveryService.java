@@ -22,7 +22,7 @@ public class FailDeliveryService {
 
     public FailDelivery findById(Long failDeliveryId) {
         return failDeliveryRepository.findById(failDeliveryId)
-                .orElseThrow(() -> new IllegalStateException("해당 배송정보가 조회되지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 배송정보가 조회되지 않습니다"));
     }
 
     // 배송완료체크 서비스

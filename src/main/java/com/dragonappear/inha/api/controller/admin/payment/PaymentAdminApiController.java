@@ -3,8 +3,8 @@ package com.dragonappear.inha.api.controller.admin.payment;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.controller.admin.payment.dto.PaymentCancelDto;
 import com.dragonappear.inha.api.returndto.ResultDto;
-import com.dragonappear.inha.config.iamport.CancelDto;
-import com.dragonappear.inha.config.iamport.IamportConfig;
+import com.dragonappear.inha.api.controller.buying.iamport.CancelDto;
+import com.dragonappear.inha.api.controller.buying.iamport.IamportController;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.payment.PaymentService;
@@ -52,24 +52,19 @@ public class PaymentAdminApiController {
     @ApiOperation(value = "결제 취소 API", notes = "결제 취소")
     @GetMapping("/payments/cancel/{paymentId}")
     public MessageDto cancelPayment(@PathVariable("paymentId") Long paymentId) {
-        try {
-            Payment payment = paymentService.findById(paymentId);
-            userPointService.accumulate(payment.getUser().getId(), new Money(payment.getPoint().getAmount())); // 유저 포인트 복구
+        Payment payment = paymentService.findById(paymentId);
+        userPointService.accumulate(payment.getUser().getId(), new Money(payment.getPoint().getAmount())); // 유저 포인트 복구
             /**
              * 결제테이블수정 로직 필요
              */
-            IamportConfig.cancelPayment(CancelDto.builder()
-                    .token(IamportConfig.getImportToken())
+
+            IamportController.cancelPayment(CancelDto.builder()
+                    .token(IamportController.getImportToken())
                     .impId(payment.getImpId())
                     .merchantId(payment.getMerchantId())
                     .amount(payment.getPaymentPrice().getAmount().toString())
                     .checksum(payment.getPaymentPrice().getAmount().toString())
                     .build());
-        } catch (Exception e) {
-            return MessageDto.builder()
-                    .message(getMessage("isCancelSuccess", false, "Status", e.getMessage()))
-                    .build();
-        }
         return MessageDto.builder()
                 .message(getMessage("isCancelSuccess", true, "Status", "결제가 취소되었습니다"))
                 .build();

@@ -19,39 +19,55 @@ public class PaymentService {
     // 결제내역 생성
     @Transactional
     public Long save(Payment payment) {
-        // 검증 로직 필요
         return paymentRepository.save(payment).getId();
     }
 
     // 결제 조회 by 결제아이디
     public Payment findById(Long paymentId) {
         return paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new IllegalStateException("해당 결제내역이 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 결제내역이 존재하지 않습니다"));
     }
 
     // 결제 조회 by 유저아이디
     public List<Payment> findByUserId(Long userId) {
-        return paymentRepository.findByUserId(userId);
+        List<Payment> list = paymentRepository.findByUserId(userId);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("결제내역이 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 결제 조회 by 경매상품아이디
-    public List<Payment> findByAuctionItemId(Long auctionItemId) {
-        return paymentRepository.findByAuctionItemId(auctionItemId);
+    public Payment findByAuctionItemId(Long auctionItemId) {
+        return paymentRepository.findByAuctionItemId(auctionItemId)
+                .orElseThrow(()-> new IllegalArgumentException("해당 결제내역이 존재하지 않습니다"));
     }
 
     // 결제 조회 by 상품이름
     public List<Payment> findByItemName(String itemName) {
-        return paymentRepository.findByItemName(itemName);
+        List<Payment> list = paymentRepository.findByItemName(itemName);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("결제내역이 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 결제완료된 결제 조회 by 경매상품이름
     public List<Payment> findByCompletedItemName(String itemName,PaymentStatus paymentStatus) {
-        return paymentRepository.findByCompletedItemName(itemName,paymentStatus);
+        List<Payment> list = paymentRepository.findByCompletedItemName(itemName, paymentStatus);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("해당 결제내역이 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 모든 결제내역 조회
     public List<Payment> findAll() {
-        return paymentRepository.findAll(Sort.by(Sort.Direction.DESC,"updatedDate"));
+        List<Payment> list = paymentRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedDate"));
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("결제내역이 존재하지 않습니다");
+        }
+        return list;
     }
 
 

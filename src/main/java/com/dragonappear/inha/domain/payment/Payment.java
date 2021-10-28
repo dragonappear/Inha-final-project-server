@@ -6,7 +6,6 @@ import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
-import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
@@ -16,13 +15,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.math.BigDecimal;
 
 import static com.dragonappear.inha.domain.payment.value.PaymentStatus.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
+import static javax.persistence.InheritanceType.*;
 
+@DiscriminatorColumn(name = "dtype")
+@Inheritance(strategy = SINGLE_TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -106,7 +107,6 @@ public class Payment extends JpaBaseEntity {
      * 생성자메서드
      */
 
-    @Builder
     public Payment(String pgName, String impId, String merchantId, Money paymentPrice,Money point, User user, Auctionitem auctionitem,Long addressId) {
         this.pgName = pgName;
         this.impId = impId;

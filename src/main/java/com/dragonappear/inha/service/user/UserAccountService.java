@@ -3,16 +3,12 @@ package com.dragonappear.inha.service.user;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAccount;
-import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Account;
+import com.dragonappear.inha.exception.user.NotFoundUserAccountException;
 import com.dragonappear.inha.repository.user.UserAccountRepository;
-import com.dragonappear.inha.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.Id;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -32,14 +28,14 @@ public class UserAccountService {
     }
 
     //  유저 계좌 조회 by 유저아이디
-    public UserAccount findByUserId(Long userId) {
+    public UserAccount findByUserId(Long userId) throws NotFoundUserAccountException{
         return userAccountRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalStateException("해당 계좌가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserAccountException("해당 계좌가 존재하지 않습니다."));
     }
 
     // 유저 계좌 조회 by 계좌아이디
-    public UserAccount findByAccountId(Long addressId) {
+    public UserAccount findByAccountId(Long addressId) throws NotFoundUserAccountException{
         return userAccountRepository.findById(addressId)
-                .orElseThrow(() -> new IllegalStateException("해당 계좌가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserAccountException("해당 계좌가 존재하지 않습니다."));
     }
 }

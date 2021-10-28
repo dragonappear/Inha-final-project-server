@@ -19,7 +19,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class UserInquiryImageService {
-    private final UserInquiryRepository userInquiryRepository;
     private final UserInquiryImageRepository userInquiryImageRepository;
 
     // 유저질문이미지 단건 추가
@@ -27,7 +26,7 @@ public class UserInquiryImageService {
     public void save(UserInquiryImage image) {
         UserInquiry inquiry = image.getUserInquiry();
         if (inquiry.getUserInquiryImages().size()>=6) {
-            throw new IllegalStateException("이미지는 5개까지 저장가능합니다");
+            throw new IllegalArgumentException("이미지는 5개까지 저장가능합니다");
         }
         userInquiryImageRepository.save(image);
     }
@@ -37,9 +36,9 @@ public class UserInquiryImageService {
     public void save(List<UserInquiryImage> images) {
         UserInquiry inquiry = images.get(0).getUserInquiry();
         if (images.size()>=6) {
-            throw new IllegalStateException("이미지는 5개까지 저장가능합니다");
+            throw new IllegalArgumentException("이미지는 5개까지 저장가능합니다");
         } else if (inquiry.getUserInquiryImages().size()>= 6) {
-            throw new IllegalStateException("이미지는 5개까지 저장가능합니다");
+            throw new IllegalArgumentException("이미지는 5개까지 저장가능합니다");
         }
         for (UserInquiryImage image : images) {
             userInquiryImageRepository.save(image);
@@ -55,13 +54,17 @@ public class UserInquiryImageService {
 
     // 유저질문이미지 조회 by 질문아이디
     public List<UserInquiryImage> findByInquiryId(Long inquiryId) {
-        return userInquiryImageRepository.findByInquiryId(inquiryId);
+        List<UserInquiryImage> list = userInquiryImageRepository.findByInquiryId(inquiryId);
+        if (list.size() == 0) {
+            throw new IllegalArgumentException("해당 이미지가 존재하지 않습니다");
+        }
+        return list;
     }
 
     // 유저질문이미지 조회 by 이미지아이디
     public UserInquiryImage findByImageId(Long imageId) {
         return userInquiryImageRepository.findById(imageId)
-                .orElseThrow(() -> new IllegalStateException("해당 이미지가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다"));
     }
 
 }
