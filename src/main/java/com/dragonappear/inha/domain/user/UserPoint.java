@@ -91,7 +91,6 @@ public class UserPoint extends JpaBaseTimeEntity {
         return new UserPoint(this.total.plus(money)
                     , this.used
                     , this.earned.plus(money));
-
     }
 
     public UserPoint minus(BigDecimal amount)  {

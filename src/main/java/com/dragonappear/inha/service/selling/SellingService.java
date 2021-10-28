@@ -41,6 +41,12 @@ public class SellingService {
             return sellingRepository.findById(sellingId).orElseThrow(()-> new IllegalStateException("판매가 조회되지않습니다"));
     }
 
+    // 판매조회 by 경매아이템 아이디
+    public Selling findByAuctionitemId(Long auctionitemId) {
+        return sellingRepository.findByAuctionitemId(auctionitemId).orElseThrow(()-> new IllegalStateException("판매가 조회되지않습니다"));
+    }
+
+
     // 판매내역리스트 조회 by 유저아이디
     public List<Selling> findByUserId(Long userId) {
         return sellingRepository.findByUserId(userId);
@@ -50,6 +56,11 @@ public class SellingService {
     public List<Selling> findByItemName(String itemName) {
         return sellingRepository.findByItemName(itemName);
     }
+
+
+    /**
+     * UPDATE
+     */
 
     // 경매상품판매가 거래중일때 status 변경( Deal이 생성된 경우)
     @Transactional

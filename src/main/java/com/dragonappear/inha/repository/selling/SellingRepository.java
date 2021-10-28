@@ -22,4 +22,7 @@ public interface SellingRepository extends JpaRepository<Selling,Long> , Selling
 
     @Query("select s from Selling s where s.sellingStatus =:sellingStatus")
     List<Selling> findByStatus(@Param("sellingStatus") SellingStatus sellingStatus);
+
+    @Query("select s from Selling s where s.auctionitem.id =:auctionitemId")
+    Optional<Selling> findByAuctionitemId(@Param("auctionitemId") Long auctionitemId);
 }

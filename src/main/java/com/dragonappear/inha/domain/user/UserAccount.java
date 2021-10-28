@@ -4,6 +4,7 @@ import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -27,9 +28,11 @@ public class UserAccount extends JpaBaseTimeEntity {
     /**
      * 연관관계
      */
+    @JsonIgnore
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
 
     /**
      * 생성자 메서드

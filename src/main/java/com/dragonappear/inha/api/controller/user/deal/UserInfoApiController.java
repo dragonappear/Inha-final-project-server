@@ -1,38 +1,35 @@
-package com.dragonappear.inha.api.controller.buying;
+package com.dragonappear.inha.api.controller.user.deal;
 
-import com.dragonappear.inha.api.controller.buying.dto.AddressDto;
-import com.dragonappear.inha.api.controller.buying.dto.PointDto;
+import com.dragonappear.inha.api.controller.user.deal.dto.AddressDto;
+import com.dragonappear.inha.api.controller.user.deal.dto.PointDto;
+import com.dragonappear.inha.api.controller.user.mypage.dto.UserAccountApiDto;
 import com.dragonappear.inha.api.returndto.ResultDto;
-import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserAccount;
 import com.dragonappear.inha.domain.user.UserAddress;
-import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.service.user.UserAccountService;
 import com.dragonappear.inha.service.user.UserAddressService;
 import com.dragonappear.inha.service.user.UserPointService;
-import com.dragonappear.inha.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
 
-@Api(tags = {"구매전 유저 정보 조회 API"})
+@Api(tags = {"구매/판매 전 유저 정보 조회 API"})
 @RestController
 @RequiredArgsConstructor
-public class UserBuyingInfoApiController {
+public class UserInfoApiController {
     private final UserPointService userPointService;
-    private final UserService userService;
     private final UserAddressService userAddressService;
+    private final UserAccountService userAccountService;
 
     @ApiOperation(value = "유저 포인트조회 API by 유저아이디", notes = "유저 포인트 조회")
     @GetMapping("/payments/points/{userId}")
@@ -95,5 +92,18 @@ public class UserBuyingInfoApiController {
         }
     }
 
+    @ApiOperation(value = "유저 계좌조회 API by 유저아이디로", notes = "유저 계좌조회 조회")
+    @GetMapping("/payments/accounts/{userId}")
+    public UserAccountApiDto getUserAccountInfo(@PathVariable("userId") Long userId) {
+        try {
+            return UserAccountApiDto.builder()
+                    .account(userAccountService.findByUserId(userId))
+                    .build();
+        } catch (Exception e) {
+            return UserAccountApiDto.builder()
+                    .account(null)
+                    .build();
+        }
+    }
 }
 

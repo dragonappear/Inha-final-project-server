@@ -28,7 +28,7 @@ public class AuctionitemApiController {
     private final SellingRepository sellingRepository;
     private final AuctionitemApiRepository auctionitemApiRepository;
 
-    @ApiOperation(value = "가격 조회 API by 경매아이템아이디", notes = "경매아이템아이디로 가격 조회")
+    @ApiOperation(value = "경매아이템 가격 조회 API by 경매아이템아이디", notes = "경매아이템아이디로 가격 조회")
     @GetMapping("/auctionitems/{auctionitemId}")
     public Map<Object, Object> auctionitemPrice(@PathVariable("auctionitemId") Long auctionitemId) {
         return getResult( auctionItemService.findPriceById(auctionitemId));

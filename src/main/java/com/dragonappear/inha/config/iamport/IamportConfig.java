@@ -70,33 +70,6 @@ public class IamportConfig {
         } 
     }
 
-
-   /* public static String cancelPayment(CancelDto dto) throws IllegalStateException{
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
-        Map<String, String> map = new HashMap<String, String>();
-        post.setHeader("Authorization", dto.getToken());
-        map.put("imp_uid", dto.getImpId());
-        map.put("merchant_uid", dto.getMerchantId());
-        map.put("amount", dto.getAmount());
-        map.put("checksum", dto.getChecksum());
-        String result = "";
-        try {
-            post.setEntity(new UrlEncodedFormEntity(convertParameter(map)));
-            HttpResponse res = client.execute(post);
-            ObjectMapper mapper = new ObjectMapper();
-            String entry = EntityUtils.toString(res.getEntity());
-            JsonNode rootNode = mapper.readTree(entry);
-            result = rootNode.get("response").asText(); }
-        catch (Exception e) {
-            throw new IllegalStateException("결제 취소가 완료되지 않았습니다.");
-        }
-        if (result.equals("null")) {
-            throw new IllegalStateException("결제 취소가 완료되지 않았습니다.");
-        }
-        return result;
-    }*/
-
     //  Http요청 파라미터를 만들어 주는 메서드
     public static List<NameValuePair> convertParameter(Map<String,String> paramMap){
         List<NameValuePair> paramList = new ArrayList<NameValuePair>();

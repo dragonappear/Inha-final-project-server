@@ -1,6 +1,6 @@
 package com.dragonappear.inha.config.iamport;
 
-import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
+import com.dragonappear.inha.api.controller.user.deal.dto.PaymentDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

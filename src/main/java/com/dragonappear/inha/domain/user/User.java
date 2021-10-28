@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -51,30 +52,39 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 연관관계
      */
+    @JsonIgnore
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "user")
     private List<UserPoint> userPoints = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserCardInfo> userCardInfos = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAddress> userAddresses = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY,cascade = ALL,mappedBy = "user")
     private UserAccount userAccount;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserInquiry> userInquiries = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY,mappedBy = "user",cascade = ALL)
     private UserImage userImage;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = ALL)
     private List<UserLikeItem> userLikeItems = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = ALL)
     private List<Payment> payments = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "seller",cascade = ALL)
     private List<Selling> sellings = new ArrayList<>();
 

@@ -1,12 +1,10 @@
-package com.dragonappear.inha.api.controller.buying.dto;
+package com.dragonappear.inha.api.controller.user.deal.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
