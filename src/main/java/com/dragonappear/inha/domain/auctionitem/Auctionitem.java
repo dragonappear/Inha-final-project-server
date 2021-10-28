@@ -10,6 +10,7 @@ import com.dragonappear.inha.domain.value.Money;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -48,13 +49,16 @@ public abstract class Auctionitem extends JpaBaseEntity {
     /**
      * 연관관계
      */
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY,mappedBy = "auctionitem")
     private Payment payment;
 
+    @JsonIgnore
     @OneToOne(fetch = LAZY, mappedBy = "auctionitem")
     private Selling selling;
 

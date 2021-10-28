@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.user.deal.dto;
+package com.dragonappear.inha.api.controller.buying.dto;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.payment.Payment;

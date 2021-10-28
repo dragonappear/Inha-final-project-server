@@ -1,6 +1,6 @@
 package com.dragonappear.inha.api.controller.buying;
 
-import com.dragonappear.inha.api.controller.user.deal.dto.BidPaymentDto;
+import com.dragonappear.inha.api.controller.buying.dto.BidPaymentDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.config.iamport.CancelDto;
 import com.dragonappear.inha.config.iamport.IamportConfig;
