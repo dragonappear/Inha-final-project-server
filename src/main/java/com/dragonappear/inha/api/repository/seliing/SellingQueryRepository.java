@@ -1,6 +1,8 @@
 package com.dragonappear.inha.api.repository.seliing;
 
 import com.dragonappear.inha.api.repository.seliing.dto.*;
+import com.dragonappear.inha.domain.selling.QBidSelling;
+import com.dragonappear.inha.domain.selling.QSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import java.util.List;
 import static com.dragonappear.inha.domain.auctionitem.QAuctionitem.auctionitem;
 import static com.dragonappear.inha.domain.deal.QDeal.deal;
 import static com.dragonappear.inha.domain.item.QItemImage.itemImage1;
+import static com.dragonappear.inha.domain.selling.QBidSelling.*;
 import static com.dragonappear.inha.domain.selling.QSelling.selling;
 import static com.dragonappear.inha.domain.selling.value.SellingStatus.*;
 
@@ -45,12 +48,12 @@ public class SellingQueryRepository {
                         new QMyPageUserSellingBidDto(itemImage1.itemImage.fileOriName
                                 , auctionitem.item.itemName
                                 , auctionitem.price.amount
-                                , auctionitem.endDate)
+                                , bidSelling.endDate)
                 )
-                .from(selling)
-                .join(selling.auctionitem, auctionitem).on(auctionitem.id.eq(selling.auctionitem.id))
-                .join(itemImage1).on(itemImage1.item.id.eq(selling.auctionitem.item.id))
-                .where(selling.sellingStatus.in(판매입찰중).and(selling.seller.id.eq(userId)))
+                .from(bidSelling)
+                .join(bidSelling.auctionitem, auctionitem).on(auctionitem.id.eq(bidSelling.auctionitem.id))
+                .join(itemImage1).on(itemImage1.item.id.eq(bidSelling.auctionitem.item.id))
+                .where(bidSelling.sellingStatus.in(판매입찰중).and(bidSelling.seller.id.eq(userId)))
                 .fetch();
     }
 

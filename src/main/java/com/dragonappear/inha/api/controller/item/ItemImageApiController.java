@@ -1,6 +1,7 @@
 package com.dragonappear.inha.api.controller.item;
 
 import com.dragonappear.inha.domain.item.ItemImage;
+import com.dragonappear.inha.exception.NotFoundImageException;
 import com.dragonappear.inha.service.item.ItemImageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,39 +30,40 @@ public class ItemImageApiController {
     @ApiOperation(value = "아이템 대표 이미지 조회 API by 파일이름으로", notes = "아이템 이미지 조회")
     @GetMapping(value = "/items/images/{fileOriginName}")
     public ResponseEntity<Resource> getItemImageByName(@PathVariable("fileOriginName") String fileName) {
-        String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";
-        FileSystemResource resource = new FileSystemResource(path+fileName);
-        if (!resource.exists()) {
-            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
-        }
-        HttpHeaders header = new HttpHeaders();
-        Path filePath = null;
         try {
+            String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";
+            FileSystemResource resource = new FileSystemResource(path+fileName);
+            if (!resource.exists()) {
+                throw new NotFoundImageException();
+            }
+            HttpHeaders header = new HttpHeaders();
+            Path filePath = null;
             filePath = Paths.get(path+fileName);
             header.add("Content-Type", Files.probeContentType(filePath));
-        } catch (IOException e) {
-            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new NotFoundImageException();
         }
-        return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }
 
     @ApiOperation(value = "아이템 대표 이미지 조회 API by 아이템아이디로", notes = "아이템 이미지 조회")
     @GetMapping(value = "/items/images/find/{itemId}")
-    public ResponseEntity<Resource> getItemImageById(@PathVariable("fileOriginName") Long itemId) {
-        String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";
-        String fileName = itemImageService.findByItemId(itemId).get(0).getItemImage().getFileName();
-        FileSystemResource resource = new FileSystemResource(path+fileName);
-        if (!resource.exists()) {
-            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
-        }
-        HttpHeaders header = new HttpHeaders();
-        Path filePath = null;
+    public ResponseEntity<Resource> getItemImageById(@PathVariable("itemId") Long itemId) {
         try {
+            String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";
+            String fileName = itemImageService.findByItemId(itemId).get(0).getItemImage().getFileName();
+            FileSystemResource resource = new FileSystemResource(path+fileName);
+            if (!resource.exists()) {
+                throw new NotFoundImageException();
+            }
+            HttpHeaders header = new HttpHeaders();
+            Path filePath = null;
             filePath = Paths.get(path+fileName);
             header.add("Content-Type", Files.probeContentType(filePath));
-        } catch (IOException e) {
-            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new NotFoundImageException();
         }
-        return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+
     }
 }

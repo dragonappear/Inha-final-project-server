@@ -102,9 +102,9 @@ public class CreateDealService {
             BigDecimal price = dto.getPrice();
             LocalDateTime endDate = dto.getEndDate();
 
-            Long bidSave = auctionItemService.bidSave(item, new Money(price), endDate);
+            Long bidSave = auctionItemService.save(item, new Money(price));
             Auctionitem auctionitem = auctionItemService.findById(bidSave);
-            sellingService.save(user, auctionitem);
+            sellingService.bidSave(user, auctionitem,dto.getEndDate());
         } catch (Exception e) {
             throw new SellingException(e.getMessage());
         }
@@ -121,9 +121,10 @@ public class CreateDealService {
             Item item = itemService.findByItemId(dto.getItemId());
             BigDecimal price = dto.getPrice();
 
-            Long instantSave = auctionItemService.instantSave(item, new Money(price));
+            Long instantSave = auctionItemService.save(item, new Money(price));
             Auctionitem auctionitem = auctionItemService.findById(instantSave);
-            Long auctionitemId = sellingService.save(user, auctionitem);
+            buying.getPayment().updateAuctionitem(auctionitem);
+            Long auctionitemId = sellingService.instantSave(user, auctionitem);
             Selling selling = sellingService.findBySellingId(auctionitemId);
             dealService.save(new Deal(buying, selling));
         } catch (Exception e) {

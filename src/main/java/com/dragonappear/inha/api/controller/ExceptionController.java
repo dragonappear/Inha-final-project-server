@@ -8,6 +8,7 @@ import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.exception.NotFoundCustomException;
+import com.dragonappear.inha.exception.NotFoundImageException;
 import com.dragonappear.inha.exception.buying.IamportException;
 import com.dragonappear.inha.exception.deal.DealException;
 import com.dragonappear.inha.exception.buying.PaymentException;
@@ -99,8 +100,8 @@ public class ExceptionController {
         log.info(String.valueOf(messageDto));
     }
 
-    @ExceptionHandler({IOException.class})
-    public MessageDto ioException(final IOException e) {
+    @ExceptionHandler({NotFoundImageException.class})
+    public MessageDto ioException(final NotFoundImageException e) {
         return MessageDto.builder()
                 .message(getMessage("isFoundSuccess", false, "Status", "경로에 없는 파일입니다.")).build();
     }

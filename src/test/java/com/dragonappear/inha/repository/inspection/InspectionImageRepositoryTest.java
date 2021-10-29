@@ -1,6 +1,7 @@
 package com.dragonappear.inha.repository.inspection;
 
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
@@ -11,6 +12,7 @@ import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
@@ -35,6 +37,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -70,9 +73,9 @@ class InspectionImageRepositoryTest {
                 ,"미스틱 실버"
                 , Money.wons(1_000_000L),   newCategory,newManufacturer);
         itemRepository.save(newItem);
-        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
+        Auctionitem newBid = new Auctionitem(newItem,Money.wons(10_000_000_000L));
         auctionitemRepository.save(newBid);
-        Selling newSelling = new Selling(newUser, newBid);
+        Selling newSelling = new InstantSelling(newUser, newBid);
         sellingRepository.save(newSelling);
         UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
@@ -81,10 +84,9 @@ class InspectionImageRepositoryTest {
                 ,"merchant_"+new Random().nextLong()
                 ,newBid.getPrice()
                 ,Money.wons(0L)
-                ,newUser
-                , newBid ,1L);
+                ,newUser, 1L,newItem);
         paymentRepository.save(newPayment);
-        Buying newBuying = new Buying(newPayment);
+        Buying newBuying = new BidBuying(newPayment, LocalDateTime.now());
         buyingRepository.save(newBuying);
         Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);

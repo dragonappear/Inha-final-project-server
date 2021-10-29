@@ -1,6 +1,7 @@
 package com.dragonappear.inha.service.buying;
 
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.item.Category;
@@ -73,13 +74,13 @@ class BuyingServiceTest {
                 ,category,manufacturer);
         itemRepository.save(item);
 
-        BidAuctionitem bidAuctionitem = new BidAuctionitem(item, Money.wons(4_000_000L), LocalDateTime.now().plusHours(1));
+        Auctionitem bidAuctionitem = new Auctionitem(item, Money.wons(4_000_000L));
         auctionitemRepository.save(bidAuctionitem);
 
-        BidAuctionitem bidAuctionitem1 = new BidAuctionitem(item, Money.wons(5_000_000L), LocalDateTime.now().plusHours(1));
+        Auctionitem bidAuctionitem1 = new Auctionitem(item, Money.wons(5_000_000L));
         auctionitemRepository.save(bidAuctionitem1);
 
-        BidAuctionitem bidAuctionitem2 = new BidAuctionitem(item, Money.wons(6_000_000L), LocalDateTime.now().plusHours(1));
+        Auctionitem bidAuctionitem2 = new Auctionitem(item, Money.wons(6_000_000L));
         auctionitemRepository.save(bidAuctionitem2);
 
         Payment payment1 = new Payment("카카오페이"
@@ -88,15 +89,15 @@ class BuyingServiceTest {
                 , bidAuctionitem.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem,1L);
+                , 1L,item);
         Payment save1 = paymentRepository.save(payment1);
         Payment payment2 = new Payment("카카오페이"
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
-                ,bidAuctionitem1.getPrice()
+                , bidAuctionitem.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem1,1L);
+                , 1L,item);
         Payment save2 = paymentRepository.save(payment2);
     }
 
@@ -105,7 +106,7 @@ class BuyingServiceTest {
     public void 구매내역_생성_테스트() throws Exception{
         //given
         Payment payment = paymentRepository.findAll().get(0);
-        Buying buying = new Buying(payment);
+        Buying buying = new BidBuying(payment,LocalDateTime.now());
         //when
         Long save = buyingService.save(buying);
         Buying findBuying = buyingRepository.findById(save).get();
@@ -121,8 +122,8 @@ class BuyingServiceTest {
         User user = userRepository.findAll().get(0);
         Payment payment = paymentRepository.findAll().get(0);
         Payment payment1 = paymentRepository.findAll().get(1);
-        Buying buying = new Buying(payment);
-        Buying buying1 = new Buying(payment1);
+        Buying buying = new BidBuying(payment,LocalDateTime.now());
+        Buying buying1 =new BidBuying(payment1,LocalDateTime.now());
         buyingRepository.save(buying);
         buyingRepository.save(buying1);
         //when
@@ -137,7 +138,7 @@ class BuyingServiceTest {
     public void 구매내역조회_구매아이디로_테스트() throws Exception{
         //given
         Payment payment = paymentRepository.findAll().get(0);
-        Buying buying = new Buying(payment);
+        Buying buying = new BidBuying(payment,LocalDateTime.now());
         buyingRepository.save(buying);
         //when
         Buying find = buyingService.findById(buying.getId());

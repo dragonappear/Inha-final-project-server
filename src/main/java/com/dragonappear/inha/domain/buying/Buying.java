@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class Buying extends JpaBaseTimeEntity {
+public abstract class Buying extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "buying_id")

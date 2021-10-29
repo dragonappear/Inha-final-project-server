@@ -43,29 +43,29 @@ public class BuyingQueryRepository{
     }
 
     public List<MyPageUserBuyingBidDto> getMyPageUserBuyingBidDto(Long userId) {
+
         return jpaQueryFactory.select(new QMyPageUserBuyingBidDto(itemImage1.itemImage.fileOriName
-                        , payment.auctionitem.item.itemName
+                        , payment.item.itemName
                         , payment.paymentPrice.amount
                         , payment.createdDate))
                 .from(buying)
-                .join(buying.payment, payment).on(buying.payment.id.eq(payment.id).and(payment.user.id.eq(userId)))
-                .join(itemImage1).on(itemImage1.item.id.eq(payment.auctionitem.item.id))
-                .where(buying.buyingStatus.eq(구매입찰중))
+                .join(payment).on(buying.payment.id.eq(payment.id))
+                .join(itemImage1).on(itemImage1.item.id.eq(payment.item.id))
+                .where(buying.buyingStatus.eq(구매입찰중).and(payment.user.id.eq(userId)))
                 .fetch();
     }
 
-   public List<MyPageUserBuyingOngoingDto> getMyPageUserBuyingOngoingDto(Long userId) {
-        return jpaQueryFactory.select(new QMyPageUserBuyingOngoingDto(buying.id
-                        ,itemImage1.itemImage.fileOriName
-                        , payment.auctionitem.item.itemName
-                        ,deal.dealStatus))
-                .from(buying)
-                .join(buying.deal,deal).on(deal.buying.id.eq(buying.id))
-                .join(buying.payment, payment).on(buying.payment.id.eq(payment.id).and(payment.user.id.eq(userId)))
-                .join(itemImage1).on(itemImage1.item.id.eq(payment.auctionitem.item.id))
-                .where(buying.buyingStatus.in(거래중, 구매완료))
-                .fetch();
-    }
+   public  List<MyPageUserBuyingOngoingDto> getMyPageUserBuyingOngoingDto(Long userId) {
+       return jpaQueryFactory.select(new QMyPageUserBuyingOngoingDto(buying.id
+                       , itemImage1.itemImage.fileOriName
+                       , payment.auctionitem.item.itemName
+                       , buying.buyingStatus))
+               .from(buying)
+               .join(buying.payment, payment).on(payment.user.id.eq(userId))
+               .join(itemImage1).on(itemImage1.item.id.eq(payment.item.id))
+               .where(buying.buyingStatus.in(거래중, 구매완료))
+               .fetch();
+   }
 
     public List<MyPageUserBuyingEndDto> getMyPageUserBuyingEndDto(Long userId) {
         return jpaQueryFactory.select(new QMyPageUserBuyingEndDto(buying.id

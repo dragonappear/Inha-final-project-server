@@ -1,11 +1,10 @@
 package com.dragonappear.inha.service.selling;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
@@ -24,7 +23,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
@@ -63,13 +61,13 @@ class SellingServiceTest {
                category,manufacturer);
         itemRepository.save(item);
 
-        BidAuctionitem bidAuctionitem = new BidAuctionitem(item, Money.wons(4_000_000L), LocalDateTime.now().plusHours(1));
-        auctionitemRepository.save(bidAuctionitem);
+        Auctionitem auctionitem = new Auctionitem(item, Money.wons(4_000_000L));
+        auctionitemRepository.save(auctionitem);
 
-        BidAuctionitem bidAuctionitem1 = new BidAuctionitem(item, Money.wons(5_000_000L), LocalDateTime.now().plusHours(1));
-        auctionitemRepository.save(bidAuctionitem1);
+        Auctionitem auctionitem1 = new Auctionitem(item, Money.wons(5_000_000L));
+        auctionitemRepository.save(auctionitem1);
 
-        Selling selling = new Selling(newUser1, bidAuctionitem);
+        Selling selling = new InstantSelling(newUser1, auctionitem);
         sellingRepository.save(selling);
     }
 
@@ -79,7 +77,7 @@ class SellingServiceTest {
         User user = userRepository.findAll().get(0);
         Auctionitem auctionitem = auctionitemRepository.findAll().get(1);
         //when
-        Long save = sellingService.save(user, auctionitem);
+        Long save = sellingService.instantSave(user, auctionitem);
         Selling selling = sellingRepository.findById(save).get();
         //then
         assertThat(selling.getId()).isEqualTo(save);
@@ -95,8 +93,8 @@ class SellingServiceTest {
         User user = userRepository.findAll().get(0);
         Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
         Auctionitem auctionitem1 = auctionitemRepository.findAll().get(1);
-        Selling selling = new Selling(user, auctionitem);
-        Selling selling1 = new Selling(user, auctionitem1);
+        Selling selling = new InstantSelling(user, auctionitem);
+        Selling selling1 = new InstantSelling(user, auctionitem1);
         sellingRepository.save(selling);
         sellingRepository.save(selling1);
         //when
@@ -113,8 +111,8 @@ class SellingServiceTest {
         User user = userRepository.findAll().get(0);
         Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
         Auctionitem auctionitem1 = auctionitemRepository.findAll().get(1);
-        Selling selling = new Selling(user, auctionitem);
-        Selling selling1 = new Selling(user, auctionitem1);
+        Selling selling = new InstantSelling(user, auctionitem);
+        Selling selling1 = new InstantSelling(user, auctionitem1);
         sellingRepository.save(selling);
         sellingRepository.save(selling1);
         //when
@@ -123,20 +121,6 @@ class SellingServiceTest {
         Assertions.assertThat(all.size()).isEqualTo(3);
         Assertions.assertThat(all).extracting("auctionitem").containsOnly(auctionitem, auctionitem1);
         Assertions.assertThat(all).extracting("seller").containsOnly(user);
-    }
-    
-    @Test
-    public void 판매_중복등록_테스트() throws Exception{
-        //given
-        User user = userRepository.findAll().get(0);
-        Auctionitem auctionitem = auctionitemRepository.findAll().get(0);
-        auctionitem.updateStatus(AuctionitemStatus.거래중);
-        //when
-        //then
-        org.junit.jupiter.api.Assertions.assertThrows(
-                IllegalStateException.class, () ->
-                {Long save = sellingService.save(user, auctionitem);}
-                );
     }
 
 }

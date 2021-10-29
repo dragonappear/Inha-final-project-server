@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
-@Api(tags = {"입찰판매 API"})
+@Api(tags = {"아이템 판매 API"})
 @RestController
 @RequiredArgsConstructor
-public class SellingBidInstantApiController {
+public class SellingApiController {
     private final ValidateSellingService validateSellingService;
     private final CreateDealService createDealService;
 
@@ -28,6 +28,16 @@ public class SellingBidInstantApiController {
     public MessageDto postInstantSelling(@RequestBody BidSellingDto dto) {
         validateSellingService.validateBidSelling(dto);
         createDealService.createBidSelling(dto);
+        return MessageDto.builder()
+                .message(getMessage("isCreatedSuccess", true, "Status", "판매신청이 완료되었습니다."))
+                .build();
+    }
+
+    @ApiOperation(value = "즉시판매 저장 API", notes = "즉시판매 저장")
+    @PostMapping("/sellings/new/instant")
+    public MessageDto createInstantSelling(@RequestBody InstantSellingDto dto) {
+        validateSellingService.validateInstantSelling(dto);
+        createDealService.createInstantSelling(dto);
         return MessageDto.builder()
                 .message(getMessage("isCreatedSuccess", true, "Status", "판매신청이 완료되었습니다."))
                 .build();

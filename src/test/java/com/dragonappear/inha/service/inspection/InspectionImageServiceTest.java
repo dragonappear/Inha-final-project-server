@@ -1,6 +1,7 @@
 package com.dragonappear.inha.service.inspection;
 
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
@@ -9,6 +10,7 @@ import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
@@ -79,10 +81,10 @@ class InspectionImageServiceTest {
                 category,manufacturer);
         itemRepository.save(item);
 
-        BidAuctionitem bidAuctionitem = new BidAuctionitem(item, Money.wons(4_000_000L), LocalDateTime.now().plusHours(1));
+        Auctionitem bidAuctionitem = new Auctionitem(item, Money.wons(4_000_000L));
         auctionitemRepository.save(bidAuctionitem);
 
-        Selling selling = new Selling(user1, bidAuctionitem);
+        Selling selling = new InstantSelling(user1, bidAuctionitem);
         sellingRepository.save(selling);
 
         Payment payment1 = new Payment("카카오페이"
@@ -91,11 +93,10 @@ class InspectionImageServiceTest {
                 ,bidAuctionitem.getPrice()
                 ,Money.wons(0L)
                 , user1
-                , bidAuctionitem
-                ,1L);
+                ,1L, item);
         paymentRepository.save(payment1);
 
-        Buying buying = new Buying(payment1);
+        Buying buying = new BidBuying(payment1 ,LocalDateTime.now());
         buyingRepository.save(buying);
 
         Deal deal = new Deal(buying, selling);

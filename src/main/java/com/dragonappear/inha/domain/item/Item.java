@@ -3,7 +3,6 @@ package com.dragonappear.inha.domain.item;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.payment.BidPayment;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +12,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +87,7 @@ public  class Item extends JpaBaseTimeEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "item")
-    private List<BidPayment> bidPayments = new ArrayList<>();
+    private List<Payment> payments = new ArrayList<>();
 
     /**
      * 연관관계편의메서드

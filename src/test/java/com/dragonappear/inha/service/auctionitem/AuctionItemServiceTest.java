@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static java.time.LocalDateTime.*;
@@ -29,8 +28,7 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 @Rollback
 class AuctionItemServiceTest {
-    @Autowired
-    AuctionItemService auctionItemService;
+    @Autowired AuctionItemService auctionItemService;
     @Autowired AuctionitemRepository auctionitemRepository;
     @Autowired CategoryRepository categoryRepository;
     @Autowired ManufacturerRepository manufacturerRepository;
@@ -55,25 +53,12 @@ class AuctionItemServiceTest {
         Item item = itemRepository.findAll().get(0);
         LocalDateTime now = now();
         //when
-        Long save = auctionItemService.bidSave(item, Money.wons(4_000_000L), now.plusHours(1));
+        Long save = auctionItemService.save(item, Money.wons(4_000_000L));
         Auctionitem auctionitem = auctionitemRepository.findById(save).get();
         //then
         assertThat(auctionitem.getId()).isEqualTo(save);
         assertThat(auctionitem.getPrice()).isEqualTo(Money.wons(4_000_000L));
-        assertThat(auctionitem.getEndDate()).isEqualTo(now.plusHours(1));
-        assertThat(auctionitem.getAuctionitemStatus()).isEqualTo(경매중);
         assertThat(auctionitem.getItem()).isEqualTo(item);
     }
 
-    @Test
-    public void 입찰판매경품_등록오류_테스트() throws Exception{
-        //given
-        Item newItem = itemRepository.findAll().get(0);
-        //when
-        //then
-        org.junit.jupiter.api.Assertions.assertThrows(
-                IllegalStateException.class, () -> {
-                    auctionItemService.bidSave(newItem, Money.wons(4_000_000L), now().minusDays(1));}
-        );
-    }
 }

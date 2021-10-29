@@ -1,6 +1,8 @@
 package com.dragonappear.inha.service.selling;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.selling.BidSelling;
+import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
@@ -10,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -20,15 +22,19 @@ import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*
 public class SellingService {
     @Autowired SellingRepository sellingRepository;
 
-
     /**
      * CREATE
      */
-    // 경매상품 판매 등록
+    // 입찰판매 등록
     @Transactional
-    public Long save(User user,Auctionitem auctionitem) {
-        validateAuctionItem(auctionitem); // 경매상품 중복등록 검증
-        return sellingRepository.save(new Selling(user, auctionitem)).getId();
+    public Long bidSave(User user, Auctionitem auctionitem, LocalDateTime endDate) {
+        return sellingRepository.save(new BidSelling(user, auctionitem,endDate)).getId();
+    }
+
+    // 즉시판매 등록
+    @Transactional
+    public Long instantSave(User user, Auctionitem auctionitem) {
+        return sellingRepository.save(new InstantSelling(user, auctionitem)).getId();
     }
 
     /**
@@ -66,7 +72,9 @@ public class SellingService {
 
     // 판매중인 판매 조회
     public List<Selling> findOnGoing(SellingStatus sellingStatus) {
-        return sellingRepository.findByStatus(sellingStatus);
+        return sellingRepository
+                .findByStatus(sellingStatus);
+
     }
 
     /**
@@ -95,18 +103,7 @@ public class SellingService {
     // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
     @Transactional
     public void overdue() {
-        System.out.println("SellingService.overdue");
         Long aLong = sellingRepository.endBidSelling();
-        System.out.println("aLong = " + aLong);
-    }
-
-    /**
-     * 검증로직
-     */
-    private void validateAuctionItem(Auctionitem auctionitem) {
-        if(auctionitem.getAuctionitemStatus()!= 경매중){
-            throw new IllegalStateException("해당 경매상품은 경매로 올릴 수 없습니다.");
-        }
     }
 
 }

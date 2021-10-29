@@ -1,7 +1,6 @@
 package com.dragonappear.inha.api.controller.buying.dto;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.payment.InstantPayment;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
@@ -9,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
@@ -23,15 +21,7 @@ public class InstantPaymentDto extends PaymentDto{
     }
 
     public Payment toEntity(User user, Auctionitem auctionitem, Money point) {
-        return InstantPayment.builder()
-                .paymentPrice(new Money(this.getPaymentPrice()))
-                .user(user)
-                .auctionitem(auctionitem)
-                .impId(this.getImpId())
-                .merchantId(this.getMerchantId())
-                .point(point)
-                .pgName(this.getPgName())
-                .addressId(this.getAddressId())
-                .build();
+        return new Payment(this.getPgName(), this.getImpId(), this.getMerchantId()
+                , new Money(this.getPaymentPrice()), point, user, auctionitem, this.getAddressId());
     }
 }

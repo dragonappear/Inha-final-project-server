@@ -27,7 +27,6 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.경매중;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -45,7 +44,6 @@ public class ValidatePaymentService {
             Selling selling = sellingService.findBySellingId(dto.getSellingId());
             validateSelling(selling);
             Auctionitem auctionitem = selling.getAuctionitem();
-            validateAuctionitemStatus(dto,auctionitem);
             validateBuyer(dto, user, auctionitem);
             validatePrice(dto,auctionitem);
             validateAddress(dto,user);
@@ -108,14 +106,6 @@ public class ValidatePaymentService {
                         throw new PaymentException("중복된 impId가 입력되었습니다.");
                     }
                 });
-    }
-
-    // 경매아이템 상태 검증
-
-    public void validateAuctionitemStatus(PaymentDto dto, Auctionitem auctionitem) throws PaymentException {
-        if(auctionitem.getAuctionitemStatus()!= 경매중){
-            throw new PaymentException("해당 상품은 이미 판매되었습니다.");
-        }
     }
 
     // 경매아이템 구매자 검증

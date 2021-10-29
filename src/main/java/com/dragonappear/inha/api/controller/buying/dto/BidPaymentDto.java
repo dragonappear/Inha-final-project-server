@@ -1,8 +1,6 @@
 package com.dragonappear.inha.api.controller.buying.dto;
 
-import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.payment.BidPayment;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
@@ -29,15 +27,15 @@ public class BidPaymentDto extends PaymentDto {
     }
 
     public Payment toEntity(User user, Item item, Money money) {
-        return BidPayment.builder()
+        return Payment.builder()
                 .paymentPrice(new Money(this.getPaymentPrice()))
                 .user(user)
                 .impId(this.getImpId())
                 .merchantId(this.getMerchantId())
                 .point(new Money(this.getPoint()))
-                .item(item)
                 .pgName(this.getPgName())
                 .addressId(this.getAddressId())
+                .item(item)
                 .build();
     }
 }

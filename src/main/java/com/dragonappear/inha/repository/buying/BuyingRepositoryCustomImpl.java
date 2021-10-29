@@ -5,6 +5,7 @@ package com.dragonappear.inha.repository.buying;
 import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.payment.QPayment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.dragonappear.inha.domain.buying.QBidBuying.*;
-import static com.dragonappear.inha.domain.payment.QBidPayment.*;
+import static com.dragonappear.inha.domain.payment.QPayment.*;
 
 
 @RequiredArgsConstructor
@@ -26,10 +27,10 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
     public Map<Object,Object> findLargestBuyingPrice(Long itemId) {
         Map<Object, Object> map = new HashMap<>();
         List<BidBuying> list = jpaQueryFactory.selectFrom(bidBuying)
-                .join(bidPayment).on(bidBuying.payment.id.eq(bidPayment.id))
+                .join(payment).on(bidBuying.payment.id.eq(payment.id))
                 .where(bidBuying.buyingStatus.eq(BuyingStatus.구매입찰중)
-                        .and(bidPayment.item.id.eq(itemId)))
-                .orderBy(bidPayment.paymentPrice.amount.desc())
+                        .and(payment.item.id.eq(itemId)))
+                .orderBy(payment.paymentPrice.amount.desc())
                 .fetch();
 
         System.out.println("list = " + list);

@@ -1,8 +1,6 @@
 package com.dragonappear.inha.api.repository.auctionitem;
 
-import com.dragonappear.inha.domain.auctionitem.QAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
-import com.dragonappear.inha.domain.item.QItem;
+import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,8 +11,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.dragonappear.inha.domain.auctionitem.QAuctionitem.*;
-import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static com.dragonappear.inha.domain.item.QItem.*;
+import static com.dragonappear.inha.domain.selling.QSelling.*;
 
 @RequiredArgsConstructor
 @Repository
@@ -29,7 +27,8 @@ public class AuctionitemApiRepository {
                 ))
                 .from(auctionitem)
                 .join(auctionitem.item, item)
-                .where(auctionitem.auctionitemStatus.eq(경매중).and(item.id.eq(itemId)))
+                .join(auctionitem.selling, selling)
+                .where(selling.sellingStatus.eq(SellingStatus.판매입찰중).and(item.id.eq(itemId)))
                 .orderBy(auctionitem.price.amount.asc())
                 .fetch();
 

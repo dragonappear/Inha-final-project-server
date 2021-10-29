@@ -2,7 +2,6 @@ package com.dragonappear.inha.domain.selling;
 
 import com.dragonappear.inha.domain.JpaBaseEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
@@ -12,17 +11,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 import static com.dragonappear.inha.domain.selling.value.SellingStatus.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
+import static javax.persistence.InheritanceType.*;
 
+@DiscriminatorColumn(name = "dtype")
+@Inheritance(strategy = SINGLE_TABLE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Selling extends JpaBaseEntity {
+public abstract class Selling extends JpaBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "selling_id")
@@ -78,6 +78,7 @@ public class Selling extends JpaBaseEntity {
         this.sellingStatus = 판매입찰중;
         if (seller != null) {
             updateSellingSeller(seller);
+
         }
         if (auctionitem != null) {
             updateSellingAuctionitem(auctionitem);
@@ -90,14 +91,5 @@ public class Selling extends JpaBaseEntity {
      */
     public void updateStatus(SellingStatus sellingStatus) {
         this.sellingStatus = sellingStatus;
-        if (sellingStatus == 판매취소) {
-            this.auctionitem.updateStatus(경매취소);
-        } else if (sellingStatus == 판매완료) {
-            this.auctionitem.updateStatus(경매완료);
-        } else if (sellingStatus == 판매입찰종료) {
-            this.auctionitem.updateStatus(경매기한만료);
-        } else if (sellingStatus == SellingStatus.거래중) {
-            this.auctionitem.updateStatus(AuctionitemStatus.거래중);
-        }
     }
 }

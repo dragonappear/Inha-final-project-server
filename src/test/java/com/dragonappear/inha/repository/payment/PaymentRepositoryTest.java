@@ -1,14 +1,12 @@
 package com.dragonappear.inha.repository.payment;
 
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
-import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.payment.Payment;
-import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -57,8 +55,8 @@ class PaymentRepositoryTest {
                 ,"미스틱 실버"
                 ,  Money.wons(1_000_000L), newCategory,newManufacturer);
         itemRepository.save(newItem);
-        
-        BidAuctionitem newBid = new BidAuctionitem(newItem,Money.wons(10_000_000_000L), of(now().getYear(), now().getMonth(), now().getDayOfMonth() + 1, now().getHour(), now().getMinute()));
+
+        Auctionitem newBid = new Auctionitem(newItem,Money.wons(10_000_000_000L));
         auctionitemRepository.save(newBid);
         
         User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
@@ -66,14 +64,13 @@ class PaymentRepositoryTest {
         
         UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));
         userAddressRepository.save(newAddress);
-        
+
         Payment newPayment = new Payment("카카오페이"
                 , "imp_"+ new Random().nextLong()
                 ,"merchant_"+new Random().nextLong()
                 ,newBid.getPrice()
                 ,Money.wons(0L)
-                ,newUser
-                , newBid,1L );
+                ,newUser, 1L,newItem);
         paymentRepository.save(newPayment);
         
         //when

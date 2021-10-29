@@ -1,9 +1,10 @@
 package com.dragonappear.inha.service.selling;
 
-import com.dragonappear.inha.domain.auctionitem.BidAuctionitem;
+import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.SellingDelivery;
 import com.dragonappear.inha.domain.user.User;
@@ -60,10 +61,10 @@ class SellingDeliveryServiceTest {
                 category,manufacturer);
         itemRepository.save(item);
 
-        BidAuctionitem bidAuctionitem = new BidAuctionitem(item, Money.wons(4_000_000L), LocalDateTime.now().plusHours(1));
+        Auctionitem bidAuctionitem = new Auctionitem(item, Money.wons(4_000_000L));
         auctionitemRepository.save(bidAuctionitem);
 
-        Selling selling = new Selling(newUser1, bidAuctionitem);
+        Selling selling = new InstantSelling(newUser1, bidAuctionitem);
         sellingRepository.save(selling);
     }
 
