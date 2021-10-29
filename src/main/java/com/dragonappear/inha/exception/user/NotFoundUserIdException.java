@@ -1,6 +1,8 @@
 package com.dragonappear.inha.exception.user;
 
-public class NotFoundUserIdException extends RuntimeException {
+import com.dragonappear.inha.exception.NotFoundCustomException;
+
+public class NotFoundUserIdException extends NotFoundCustomException {
     public NotFoundUserIdException() {
         super();
     }

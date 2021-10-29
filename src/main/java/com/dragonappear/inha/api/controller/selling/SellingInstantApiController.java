@@ -1,8 +1,12 @@
 package com.dragonappear.inha.api.controller.selling;
 
 
+import com.dragonappear.inha.api.controller.selling.dto.BidSellingDto;
+import com.dragonappear.inha.api.controller.selling.dto.InstantSellingDto;
 import com.dragonappear.inha.api.controller.selling.dto.SellingDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
+import com.dragonappear.inha.api.service.deal.CreateDealService;
+import com.dragonappear.inha.api.service.selling.ValidateSellingService;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.auctionitem.InstantAuctionitem;
 import com.dragonappear.inha.domain.buying.Buying;
@@ -29,27 +33,16 @@ import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 @RestController
 @RequiredArgsConstructor
 public class SellingInstantApiController {
-    private final SellingService sellingService;
-    private final ItemService itemService;
-    private final UserService userService;
-    private final BuyingService buyingService;
-    private final DealService dealService;
+    private final ValidateSellingService validateSellingService;
+    private final CreateDealService createDealService;
 
     @ApiOperation(value = "즉시판매 저장 API", notes = "즉시판매 저장")
     @PostMapping("/sellings/new/instant")
-    public MessageDto createInstantSelling(@RequestBody SellingDto dto) {
-        User user = userService.findOneById(dto.getUserId());
-        Item item = itemService.findByItemId(dto.getItemId());
-        Buying buying = buyingService.findById(dto.getBuyingId());
-        Auctionitem auctionitem = new InstantAuctionitem(item, new Money(dto.getPrice()));
-        Long save = sellingService.save(user, auctionitem);
-
-        Selling selling = sellingService.findBySellingId(save);
-        Long save1 = dealService.save(new Deal(buying, selling));
-
+    public MessageDto createInstantSelling(@RequestBody InstantSellingDto dto) {
+        validateSellingService.validateInstantSelling(dto);
+        createDealService.createInstantSelling(dto);
         return MessageDto.builder()
-                .message(getMessage("isPaySuccess", true, "Status", "결제가 완료되었습니다."))
+                .message(getMessage("isCreatedSuccess", true, "Status", "판매신청이 완료되었습니다."))
                 .build();
-
     }
 }

@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.auctionitem;
+package com.dragonappear.inha.api.controller.item;
 
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class ManufacturerController {
     private final ManufacturerRepository manufacturerRepository;
 
-    @ApiOperation(value = "모든 제조사 조회소 API", notes = "모든 제조사 조회")
+    @ApiOperation(value = "모든 제조사 조회 API", notes = "모든 제조사 조회")
     @GetMapping("/items/manufacturers")
     public List<ManufacturerName> manufacturerNames() {
         return manufacturerRepository.findAll()

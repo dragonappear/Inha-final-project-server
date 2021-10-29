@@ -66,7 +66,7 @@ public class SellingService {
     }
 
     // 판매중인 판매 조회
-    public List<Selling> findOnSale(SellingStatus sellingStatus) {
+    public List<Selling> findOnGoing(SellingStatus sellingStatus) {
         return sellingRepository.findByStatus(sellingStatus);
     }
 

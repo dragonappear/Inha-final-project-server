@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.auctionitem;
+package com.dragonappear.inha.api.controller.item;
 
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;

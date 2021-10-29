@@ -34,6 +34,6 @@ public class InstantAuctionitem extends Auctionitem{
      */
     private void updateStartDateAndEndDate() {
         this.startDate = now();
-        this.endDate = now().plusDays(7);
+        this.endDate = now().plusDays(14);
     }
 }

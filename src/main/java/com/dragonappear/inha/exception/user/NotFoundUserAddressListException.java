@@ -1,6 +1,8 @@
 package com.dragonappear.inha.exception.user;
 
-public class NotFoundUserAddressListException extends RuntimeException{
+import com.dragonappear.inha.exception.NotFoundCustomException;
+
+public class NotFoundUserAddressListException extends NotFoundCustomException {
     public NotFoundUserAddressListException() {
         super();
     }

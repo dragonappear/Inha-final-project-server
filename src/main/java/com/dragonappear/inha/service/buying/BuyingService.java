@@ -1,7 +1,9 @@
 package com.dragonappear.inha.service.buying;
 
+import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
+import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,11 @@ public class BuyingService {
     // 구매내역 조회 by 구매아이디
     public Buying findById(Long id) {
         return buyingRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("구매내역이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCustomException("구매내역이 존재하지 않습니다."));
+    }
+
+    public List<BidBuying> findOnGoing(BuyingStatus buyingStatus) {
+            return buyingRepository.findByStatus(buyingStatus);
     }
 
 
@@ -62,4 +68,9 @@ public class BuyingService {
     }
 
 
+    // 입찰기간 만료시 status 변경
+    @Transactional
+    public void overdue(BidBuying buying) {
+        buying.updateStatus(BuyingStatus.구매입찰종료);
+    }
 }

@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.auctionitem.InstantAuctionitem;
 import com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +36,7 @@ public class AuctionItemService {
     // 즉시경매아이템 등록
 
     @Transactional
-    public Long instantSave(Item item) {
-        Money price = new Money(sellingRepository.findLowestPriceByItemId(item.getId()).
-                orElse( (item.getLatestPrice()==null) ? item.getReleasePrice().getAmount() : item.getLatestPrice().getAmount()));
+    public Long instantSave(Item item, Money price) {
         updateItemLowestPrice(item, price);
         return auctionitemRepository.save(new InstantAuctionitem(item, price)).getId();
     }
@@ -46,7 +45,7 @@ public class AuctionItemService {
      */
     // 경매품아이디로 조회
     public Auctionitem findById(Long auctionitemId) {
-      return auctionitemRepository.findById(auctionitemId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 경매품입니다."));
+      return auctionitemRepository.findById(auctionitemId).orElseThrow(() -> new NotFoundCustomException("존재하지 않는 경매품입니다."));
 
     }
 

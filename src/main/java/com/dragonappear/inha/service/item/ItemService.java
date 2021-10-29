@@ -4,6 +4,7 @@ import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
@@ -37,7 +38,7 @@ public class ItemService {
     //  아이템 조회 by 아이템 아이디
     public Item findByItemId(Long itemId) {
         return itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지않는 아이템입니다."));
+                .orElseThrow(() -> new NotFoundCustomException("존재하지않는 아이템입니다."));
     }
 
     /**

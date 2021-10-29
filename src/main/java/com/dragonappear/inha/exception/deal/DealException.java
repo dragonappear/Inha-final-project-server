@@ -1,8 +1,7 @@
 package com.dragonappear.inha.exception.deal;
 
-import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
 import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
-import com.dragonappear.inha.api.controller.buying.iamport.CancelDto;
+import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import lombok.Builder;
 import lombok.Getter;
 

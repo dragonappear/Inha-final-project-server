@@ -1,5 +1,6 @@
-package com.dragonappear.inha.api.controller.buying.iamport;
+package com.dragonappear.inha.api.service.buying.iamport;
 
+import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.exception.buying.IamportException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,11 +12,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-public class IamportController {
+@Service
+public class IamportService {
     public static final String IMPORT_TOKEN_URL = "https://api.iamport.kr/users/getToken";
     public static final String IMPORT_CANCEL_URL = "https://api.iamport.kr/payments/cancel";
     public static final String KEY = "5132626560989602";
@@ -43,7 +45,6 @@ public class IamportController {
     }
 
     // 아임포트로 취소요청 메서드
-    @GetMapping("/cancelPayment")
     public static void cancelPayment(CancelDto dto)  {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(IMPORT_CANCEL_URL);

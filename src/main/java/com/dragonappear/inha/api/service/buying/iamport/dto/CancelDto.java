@@ -1,7 +1,9 @@
-package com.dragonappear.inha.api.controller.buying.iamport;
+package com.dragonappear.inha.api.service.buying.iamport.dto;
 
-import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
 import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
+import com.dragonappear.inha.api.service.buying.iamport.IamportService;
+import com.dragonappear.inha.domain.buying.Buying;
+import com.dragonappear.inha.domain.payment.Payment;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,9 +28,21 @@ public class CancelDto {
         this.checksum = checksum;
     }
 
+    public static CancelDto getCancelDto(Payment payment) {
+        return CancelDto.builder()
+                .token(IamportService.getImportToken())
+                .impId(payment.getImpId())
+                .merchantId(payment.getMerchantId())
+                .amount(payment.getPaymentPrice().toString())
+                .checksum(payment.getPaymentPrice().toString())
+                .build();
+    }
+
+
+
     public static CancelDto getCancelDto(PaymentDto dto) {
         return CancelDto.builder()
-                .token(IamportController.getImportToken())
+                .token(IamportService.getImportToken())
                 .impId(dto.getImpId())
                 .merchantId(dto.getMerchantId())
                 .amount(dto.getPaymentPrice().toString())

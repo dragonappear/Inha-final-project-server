@@ -25,6 +25,14 @@ public class SellingRepositoryCustomImpl implements SellingRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
+    public List<Selling> findByStatus(SellingStatus sellingStatus) {
+        return jpaQueryFactory.selectFrom(selling)
+                .where(selling.sellingStatus.eq(SellingStatus.판매입찰중))
+                .orderBy(selling.auctionitem.endDate.asc())
+                .fetch();
+    }
+
+    @Override
     public Map<Object,Object> findLowestSellingPrice(Long itemId) {
         Map<Object, Object> map = new HashMap<>();
 
@@ -33,7 +41,6 @@ public class SellingRepositoryCustomImpl implements SellingRepositoryCustom{
                 .where(selling.sellingStatus.eq(SellingStatus.판매입찰중).and(auctionitem.item.id.eq(itemId)))
                 .orderBy(auctionitem.price.amount.asc())
                 .fetch();
-
 
         try{
             if(list.size()==0){

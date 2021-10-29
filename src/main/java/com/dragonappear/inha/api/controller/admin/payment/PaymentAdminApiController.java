@@ -3,8 +3,8 @@ package com.dragonappear.inha.api.controller.admin.payment;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.controller.admin.payment.dto.PaymentCancelDto;
 import com.dragonappear.inha.api.returndto.ResultDto;
-import com.dragonappear.inha.api.controller.buying.iamport.CancelDto;
-import com.dragonappear.inha.api.controller.buying.iamport.IamportController;
+import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
+import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.payment.PaymentService;
@@ -58,8 +58,8 @@ public class PaymentAdminApiController {
              * 결제테이블수정 로직 필요
              */
 
-            IamportController.cancelPayment(CancelDto.builder()
-                    .token(IamportController.getImportToken())
+            IamportService.cancelPayment(CancelDto.builder()
+                    .token(IamportService.getImportToken())
                     .impId(payment.getImpId())
                     .merchantId(payment.getMerchantId())
                     .amount(payment.getPaymentPrice().getAmount().toString())

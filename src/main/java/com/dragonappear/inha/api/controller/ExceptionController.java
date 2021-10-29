@@ -1,15 +1,17 @@
-package com.dragonappear.inha.api;
+package com.dragonappear.inha.api.controller;
 
-import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
 import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
 import com.dragonappear.inha.api.controller.user.deal.dto.AddressDto;
 import com.dragonappear.inha.api.controller.user.deal.dto.PointDto;
 import com.dragonappear.inha.api.controller.user.mypage.dto.UserAccountApiDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
-import com.dragonappear.inha.api.controller.buying.iamport.IamportController;
+import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.exception.NotFoundCustomException;
+import com.dragonappear.inha.exception.buying.IamportException;
 import com.dragonappear.inha.exception.deal.DealException;
 import com.dragonappear.inha.exception.buying.PaymentException;
+import com.dragonappear.inha.exception.selling.SellingException;
 import com.dragonappear.inha.exception.user.*;
 import com.dragonappear.inha.service.buying.BuyingService;
 import com.dragonappear.inha.service.deal.DealService;
@@ -34,10 +36,7 @@ import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 @Slf4j
 public class ExceptionController {
     private final UserPointService userPointService;
-    private final SellingService sellingService;
-    private final DealService dealService;
-    private final BuyingService buyingService;
-    private final PaymentService paymentService;
+    private final IamportService iamportService;
 
     //400
     @ExceptionHandler({IllegalArgumentException.class,IllegalArgumentException.class})
@@ -51,14 +50,27 @@ public class ExceptionController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
+
+    @ExceptionHandler({NotFoundCustomException.class})
+    public ResponseEntity<Object> notFoundCustomException(final NotFoundCustomException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler({SellingException.class})
+    public MessageDto sellingException(final SellingException e) {
+        return MessageDto.builder()
+                .message(getMessage("isCreatedSuccess", false, "Status", e.getMessage()+ "판매신청이 거절되었습니다."))
+                .build();
+    }
+
     // 거래생성 예외처리
     @ExceptionHandler({PaymentException.class})
     public MessageDto paymentException(final PaymentException e) {
-        try{
-            IamportController.cancelPayment(e.getCancelDto());
+        try {
+            iamportService.cancelPayment(e.getCancelDto());
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e.getMessage() + "결제를 취소하였습니다.")).build();
-        }catch (Exception e1){
+        } catch (Exception e1) {
             return MessageDto.builder()
                     .message(getMessage("isCancelSuccess", false, "Status", e.getMessage() + "결제취소가 완료되지 않았습니다.")).build();
         }
@@ -78,6 +90,13 @@ public class ExceptionController {
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e.getMessage() +"결제취소가 완료되지 않았습니다.")).build();
         }
+    }
+
+    @ExceptionHandler({IamportException.class})
+    public void iamportException(final IamportException e) {
+        MessageDto messageDto = MessageDto.builder()
+                .message(getMessage("isCanceledSuccess", false, "Status", e.getMessage() + "결제취소가 완료되지 않았습니다.")).build();
+        log.info(String.valueOf(messageDto));
     }
 
     @ExceptionHandler({IOException.class})
