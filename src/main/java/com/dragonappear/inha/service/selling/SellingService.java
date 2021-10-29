@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.dragonappear.inha.domain.auctionitem.value.AuctionitemStatus.*;
 
@@ -95,8 +94,10 @@ public class SellingService {
 
     // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
     @Transactional
-    public void overdue(Selling selling) {
-        selling.updateStatus(SellingStatus.판매입찰종료);
+    public void overdue() {
+        System.out.println("SellingService.overdue");
+        Long aLong = sellingRepository.endBidSelling();
+        System.out.println("aLong = " + aLong);
     }
 
     /**

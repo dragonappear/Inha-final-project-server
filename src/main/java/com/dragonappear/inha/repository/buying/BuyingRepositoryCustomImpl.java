@@ -8,6 +8,8 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,5 +56,12 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public Long endBidBuying() {
+        return jpaQueryFactory.update(bidBuying)
+                .where(bidBuying.buyingStatus.eq(BuyingStatus.구매입찰중).and(bidBuying.endDate.before(LocalDateTime.now())))
+                .set(bidBuying.buyingStatus, BuyingStatus.구매입찰종료)
+                .execute();
+    }
 }
 

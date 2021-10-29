@@ -70,7 +70,7 @@ public class BuyingService {
 
     // 입찰기간 만료시 status 변경
     @Transactional
-    public void overdue(BidBuying buying) {
-        buying.updateStatus(BuyingStatus.구매입찰종료);
+    public void overdue() {
+        buyingRepository.endBidBuying();
     }
 }

@@ -12,4 +12,6 @@ public interface BuyingRepositoryCustom {
     Map<Object,Object> findLargestBuyingPrice(Long itemId);
 
     List<BidBuying> findByStatus(BuyingStatus buyingStatus);
+
+    Long endBidBuying();
 }

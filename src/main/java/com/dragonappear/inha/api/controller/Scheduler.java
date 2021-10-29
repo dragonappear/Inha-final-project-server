@@ -3,17 +3,14 @@ package com.dragonappear.inha.api.controller;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
-import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
-import com.dragonappear.inha.exception.buying.IamportException;
 import com.dragonappear.inha.service.buying.BuyingService;
 import com.dragonappear.inha.service.selling.SellingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,23 +32,13 @@ public class Scheduler {
     @Transactional
     @Scheduled(fixedDelay = 1000*60  ,zone = "Asia/Seoul")
     public void checkSellingDate() {
-        List<Selling> list = new ArrayList<>();
-        sellingService.findOnGoing(SellingStatus.판매입찰중).stream().forEach(selling -> {
-            if (selling.getAuctionitem().getEndDate().isBefore(LocalDateTime.now(ZoneId.of("Asia/Seoul")))) {
-                sellingService.overdue(selling);
-            }
-        });
+        sellingService.overdue();
     }
 
     @Transactional
     @Scheduled(fixedDelay = 1000*60  ,zone = "Asia/Seoul")
     public void checkBuyingDate() {
-        List<Selling> list = new ArrayList<>();
-        buyingService.findOnGoing(BuyingStatus.구매입찰중).stream().forEach(buying -> {
-            if (buying.getEndDate().isBefore(LocalDateTime.now(ZoneId.of("Asia/Seoul")))) {
-                buyingService.overdue(buying);
-            }
-        });
+        buyingService.overdue();
     }
 
     @Transactional

@@ -13,4 +13,6 @@ public interface SellingRepositoryCustom {
     Map<Object,Object> findLowestSellingPrice(Long itemId);
 
     List<Selling> findByStatus(SellingStatus sellingStatus);
+
+    Long endBidSelling();
 }
