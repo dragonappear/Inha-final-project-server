@@ -44,8 +44,8 @@ public class ItemPriceController {
     @GetMapping("/items/prices/instant/{itemId}")
     public Map<Object,Object> getInstantPrice(@PathVariable("itemId") Long itemId) {
         Map<Object, Object> map = new HashMap<>();
-        map.put("즉시구매가", itemService.findInstantSellingPrice(itemId));
-        map.put("즉시판매가", itemService.findInstantBuyingPrice(itemId));
+        map.put("즉시판매가", itemService.findInstantSellingPrice(itemId));
+        map.put("즉시구매가", itemService.findInstantBuyingPrice(itemId));
         return map;
     }
 }
