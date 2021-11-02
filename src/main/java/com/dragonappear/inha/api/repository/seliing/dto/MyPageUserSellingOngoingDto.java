@@ -11,15 +11,15 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class MyPageUserSellingOngoingDto {
-    private Long dealId;
+    private Long sellingId;
     private String imageUrl;
     private String itemName;
     private DealStatus dealStatus;
 
     @Builder
     @QueryProjection
-    public MyPageUserSellingOngoingDto(Long dealId, String imageUrl, String itemName, DealStatus dealStatus) {
-        this.dealId = dealId;
+    public MyPageUserSellingOngoingDto(Long sellingId, String imageUrl, String itemName, DealStatus dealStatus) {
+        this.sellingId = sellingId;
         this.imageUrl=imageUrl;
         this.itemName = itemName;
         this.dealStatus = dealStatus;

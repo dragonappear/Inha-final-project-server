@@ -31,13 +31,7 @@ public class ItemPriceController {
     public ResultDto recentPrice(@PathVariable("itemId") Long itemId,
                                  @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam(name = "limit", defaultValue = "5") int limit) {
         PageRequest request = PageRequest.of(offset, limit, Sort.by(Sort.Direction.ASC, "createdDate"));
-        List<MarketPriceInfoDto> infos = dealQueryRepository.findRecentPrice(itemId, request);
-        return ResultDto.builder()
-                .count(infos.size())
-                .content(infos.stream().map(info -> {
-                    return (Object) info;
-                }).collect(Collectors.toList()))
-                .build();
+        return ResultDto.returnResults( dealQueryRepository.findRecentPrice(itemId, request));
     }
     
     @ApiOperation(value = "아이템 즉시 가격 조회 API", notes = "아이템 가격정보 조회")

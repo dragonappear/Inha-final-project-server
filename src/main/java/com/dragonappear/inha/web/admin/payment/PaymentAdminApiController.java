@@ -1,7 +1,7 @@
-package com.dragonappear.inha.api.controller.admin.payment;
+package com.dragonappear.inha.web.admin.payment;
 
 import com.dragonappear.inha.api.returndto.MessageDto;
-import com.dragonappear.inha.api.controller.admin.payment.dto.PaymentCancelDto;
+import com.dragonappear.inha.web.admin.payment.dto.PaymentCancelDto;
 import com.dragonappear.inha.api.returndto.ResultDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
@@ -9,8 +9,6 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.payment.PaymentService;
 import com.dragonappear.inha.service.user.UserPointService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +21,13 @@ import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
 
 
-@Api(tags = {"관리자 결제내역 조회 API"})
 @RequiredArgsConstructor
 @RestController
 public class PaymentAdminApiController {
     private final PaymentService paymentService;
     private final UserPointService userPointService;
+    private final IamportService iamportService;
 
-    @ApiOperation(value = "모든 결제 내역 조회 API", notes = "모든 결제 내역 조회 API")
     @GetMapping("/payments/history")
     public ResultDto getAllPayments() {
         List<Payment> payments = paymentService.findAll();
@@ -49,7 +46,7 @@ public class PaymentAdminApiController {
         return returnResults(dtos);
     }
 
-    @ApiOperation(value = "결제 취소 API", notes = "결제 취소")
+
     @GetMapping("/payments/cancel/{paymentId}")
     public MessageDto cancelPayment(@PathVariable("paymentId") Long paymentId) {
         Payment payment = paymentService.findById(paymentId);
@@ -57,8 +54,7 @@ public class PaymentAdminApiController {
             /**
              * 결제테이블수정 로직 필요
              */
-
-            IamportService.cancelPayment(CancelDto.builder()
+        iamportService.cancelPayment(CancelDto.builder()
                     .token(IamportService.getImportToken())
                     .impId(payment.getImpId())
                     .merchantId(payment.getMerchantId())

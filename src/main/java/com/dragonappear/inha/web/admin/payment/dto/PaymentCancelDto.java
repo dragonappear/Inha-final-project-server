@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.admin.payment.dto;
+package com.dragonappear.inha.web.admin.payment.dto;
 
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import lombok.Builder;

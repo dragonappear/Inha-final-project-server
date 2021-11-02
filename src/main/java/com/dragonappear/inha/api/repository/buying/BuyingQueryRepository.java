@@ -2,12 +2,15 @@ package com.dragonappear.inha.api.repository.buying;
 
 import com.dragonappear.inha.api.repository.buying.dto.*;
 import com.dragonappear.inha.domain.buying.Buying;
+import com.dragonappear.inha.domain.buying.QBidBuying;
+import com.dragonappear.inha.domain.buying.QBuying;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.dragonappear.inha.domain.buying.QBidBuying.*;
 import static com.dragonappear.inha.domain.buying.QBuying.buying;
 import static com.dragonappear.inha.domain.buying.value.BuyingStatus.*;
 import static com.dragonappear.inha.domain.deal.QDeal.deal;
@@ -47,11 +50,11 @@ public class BuyingQueryRepository{
         return jpaQueryFactory.select(new QMyPageUserBuyingBidDto(itemImage1.itemImage.fileOriName
                         , payment.item.itemName
                         , payment.paymentPrice.amount
-                        , payment.createdDate))
-                .from(buying)
-                .join(payment).on(buying.payment.id.eq(payment.id))
+                        , bidBuying.endDate))
+                .from(bidBuying)
+                .join(payment).on(bidBuying.payment.id.eq(payment.id))
                 .join(itemImage1).on(itemImage1.item.id.eq(payment.item.id))
-                .where(buying.buyingStatus.eq(구매입찰중).and(payment.user.id.eq(userId)))
+                .where(bidBuying.buyingStatus.eq(구매입찰중).and(payment.user.id.eq(userId)))
                 .fetch();
     }
 

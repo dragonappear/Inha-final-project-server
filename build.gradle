@@ -45,6 +45,9 @@ repositories {
 		// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
 		implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
+		// https://mvnrepository.com/artifact/javax.validation/validation-api
+		implementation("javax.validation:validation-api:2.0.1.Final")
+
 
 
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -76,4 +79,8 @@ configurations {
 
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.20'
 }

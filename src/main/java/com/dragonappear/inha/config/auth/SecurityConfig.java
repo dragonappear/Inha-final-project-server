@@ -19,16 +19,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                    .authorizeRequests()
-                    .antMatchers("/", "/**" ,"/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                    .antMatchers("/api/v1/**").hasRole(UserRole.USER.name())
-                    .anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/", "/**", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
+                .antMatchers("/api/v1/**").hasRole(UserRole.USER.name())
+                .anyRequest().authenticated()
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
+                .logout()
+                .logoutSuccessUrl("/")
                 .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(customOAuth2UserService);
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
     }
 }

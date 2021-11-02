@@ -28,7 +28,7 @@ public class UserPointQueryRepository {
                 .otherwise("사용");
 
         Expression<BigDecimal> point = new CaseBuilder()
-                .when(userPoint.earned.amount.goe(Money.wons(0).getAmount())).then(userPoint.earned.amount)
+                .when(userPoint.used.amount.gt(Money.wons(0).getAmount())).then(userPoint.earned.amount)
                 .otherwise(userPoint.used.amount);
 
         return jpaQueryFactory.select(new QMyPageUserPointDto(pointType, userPoint.createdDate, point))
@@ -38,4 +38,6 @@ public class UserPointQueryRepository {
                 .orderBy(userPoint.createdDate.desc())
                 .fetch();
     }
+
+
 }

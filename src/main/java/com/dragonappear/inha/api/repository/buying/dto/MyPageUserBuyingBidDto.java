@@ -14,15 +14,15 @@ import java.time.LocalDateTime;
 public class MyPageUserBuyingBidDto  {
     private String imageUrl;
     private String itemName;
-    private BigDecimal bigDecimal;
+    private BigDecimal amount;
     private LocalDateTime endDate;
 
     @Builder
     @QueryProjection
-    public MyPageUserBuyingBidDto(String imageUrl, String itemName, BigDecimal bigDecimal, LocalDateTime endDate) {
+    public MyPageUserBuyingBidDto(String imageUrl, String itemName, BigDecimal amount, LocalDateTime endDate) {
         this.imageUrl = imageUrl;
         this.itemName = itemName;
-        this.bigDecimal = bigDecimal;
+        this.amount = amount;
         this.endDate = endDate;
     }
 }

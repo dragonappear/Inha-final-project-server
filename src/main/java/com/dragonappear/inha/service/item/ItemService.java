@@ -102,7 +102,7 @@ public class ItemService {
             itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("아이템이 존재하지 않습니다"));
             return sellingRepository.findLowestSellingPrice(itemId);
         } catch (Exception e) {
-            map.put("auctionitemId", "해당 아이템 판매입찰이 존재하지 않습니다");
+            map.put("buyingId", "해당 아이템 판매입찰이 존재하지 않습니다");
             map.put("amount", Money.wons(0L).getAmount());
             return map;
         }
@@ -115,7 +115,7 @@ public class ItemService {
             itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("아이템이 존재하지 않습니다"));
             return buyingRepository.findLargestBuyingPrice(itemId);
         } catch (Exception e) {
-            map.put("auctionitemId", "해당 아이템 구매입찰이 존재하지 않습니다");
+            map.put("sellingId", "해당 아이템 구매입찰이 존재하지 않습니다");
             map.put("price", Money.wons(0L).getAmount());
             return map;
         }
