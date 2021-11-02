@@ -43,7 +43,7 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
             map.put("amount",payment.getPaymentPrice().getAmount());
             return map;
         } catch (Exception e) {
-            map.put("auctionitemId", "해당 아이템 구매입찰이 존재하지 않습니다");
+            map.put("buyingId", "해당 아이템 구매입찰이 존재하지 않습니다");
             map.put("amount", 0);
             return map;
         }
