@@ -29,7 +29,6 @@ public class SellingRepositoryCustomImpl implements SellingRepositoryCustom{
                 .where(selling.sellingStatus.eq(판매입찰중).and(auctionitem.item.id.eq(itemId)))
                 .orderBy(auctionitem.price.amount.asc())
                 .fetch();
-
         try{
             if(list.size()==0){
                 throw new Exception();

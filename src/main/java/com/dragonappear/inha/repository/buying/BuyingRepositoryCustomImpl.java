@@ -32,8 +32,6 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
                         .and(payment.item.id.eq(itemId)))
                 .orderBy(payment.paymentPrice.amount.desc())
                 .fetch();
-
-        System.out.println("list = " + list);
         try {
             if(list.size()==0){
                 throw new Exception();
