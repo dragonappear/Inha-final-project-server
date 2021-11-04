@@ -28,14 +28,12 @@ public class InhaApplication {
 	public AuditorAware<String> auditorProvider() {
 		return () -> Optional.of(UUID.randomUUID().toString());
 	}
-
-
+	
 	@Bean
 	JPAQueryFactory jpaQueryFactory(EntityManager em) {
 		return new JPAQueryFactory(em);
 	}
 
-	
 	//PutMapping,DeleteMapping을 사용하기 위해 Bean 주입
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
