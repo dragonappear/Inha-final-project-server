@@ -81,6 +81,5 @@ compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
 
-dependencies {
-    implementation 'org.projectlombok:lombok:1.18.20'
-}
+
+
