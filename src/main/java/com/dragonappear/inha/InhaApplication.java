@@ -28,7 +28,7 @@ public class InhaApplication {
 	public AuditorAware<String> auditorProvider() {
 		return () -> Optional.of(UUID.randomUUID().toString());
 	}
-	
+
 	@Bean
 	JPAQueryFactory jpaQueryFactory(EntityManager em) {
 		return new JPAQueryFactory(em);
