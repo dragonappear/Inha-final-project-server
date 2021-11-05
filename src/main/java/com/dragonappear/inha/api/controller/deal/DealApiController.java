@@ -19,7 +19,7 @@ public class DealApiController {
 
     @ApiOperation(value = "거래 조회 API by 거래아이디로", notes = "거래 조회")
     @GetMapping("/deals/{dealId}")
-    public MessageDto getDeliveryStatusBySe(@PathVariable("dealId") Long dealId) {
+    public MessageDto getDealStatus(@PathVariable("dealId") Long dealId) {
         Deal deal = dealService.findById(dealId);
         DealApiDto dto = DealApiDto
                 .builder()
