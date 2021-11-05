@@ -1,5 +1,7 @@
 spring:
-  profiles: real
+  config:
+    activate:
+      on-profile: real
 
   jpa:
     hibernate:
@@ -7,5 +9,3 @@ spring:
     properties:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
-logging.level:
-  org.hibernate.SQL: info

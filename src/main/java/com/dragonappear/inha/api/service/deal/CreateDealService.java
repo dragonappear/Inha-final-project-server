@@ -17,7 +17,6 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
-import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.exception.selling.SellingException;
 import com.dragonappear.inha.exception.deal.DealException;
 import com.dragonappear.inha.service.auctionitem.AuctionItemService;

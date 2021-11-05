@@ -68,8 +68,5 @@ public abstract class Buying extends JpaBaseTimeEntity {
      */
     public void updateStatus(BuyingStatus buyingStatus) {
         this.buyingStatus = buyingStatus;
-        if (buyingStatus == 구매취소) {
-            this.payment.cancel();
-        }
     }
 }

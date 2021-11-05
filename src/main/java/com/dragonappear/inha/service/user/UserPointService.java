@@ -2,6 +2,7 @@ package com.dragonappear.inha.service.user;
 
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserPoint;
+import com.dragonappear.inha.domain.user.value.PointStatus;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.exception.user.NotFoundUserIdException;
 import com.dragonappear.inha.exception.user.NotFoundUserPointListException;
@@ -78,7 +79,7 @@ public class UserPointService {
             throw new IllegalStateException("유저 포인트 내역이 조회되지 않습니다");
         }
         UserPoint point = lists.get(lists.size() - 1).plus(amount.getAmount());
-        return userPointRepository.save(new UserPoint(findUser,point));
+        return userPointRepository.save(new UserPoint(findUser,point, PointStatus.적립));
     }
 
     //  포인트 차감
@@ -93,6 +94,6 @@ public class UserPointService {
         if (point.getTotal().isLessThan(Money.wons(0L))) {
             throw new IllegalStateException("포인트 사용이 올바르지 않습니다.");
         }
-        return userPointRepository.save(new UserPoint(findUser, point));
+        return userPointRepository.save(new UserPoint(findUser, point, PointStatus.사용));
     }
 }

@@ -1,6 +1,7 @@
 package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.user.value.PointStatus;
 import com.dragonappear.inha.domain.value.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.*;
 
 //@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
@@ -35,6 +37,10 @@ public class UserPoint extends JpaBaseTimeEntity {
     @AttributeOverrides({ @AttributeOverride(name = "amount", column = @Column(name = "earned"))})
     @Embedded
     private Money earned;
+
+    @Enumerated(STRING)
+    @Column(nullable = false)
+    private PointStatus pointStatus;
 
     /**
      * 연관관계
@@ -65,15 +71,17 @@ public class UserPoint extends JpaBaseTimeEntity {
         if (user != null) {
             updateUserPoint(user);
         }
+        this.pointStatus=PointStatus.적립;
     }
 
-    public UserPoint(User user, UserPoint userPoint) {
+    public UserPoint(User user, UserPoint userPoint,PointStatus pointStatus) {
         this.total = userPoint.getTotal();
         this.used = userPoint.getUsed();
         this.earned = userPoint.getEarned();
         if (user != null) {
             updateUserPoint(user);
         }
+        this.pointStatus = pointStatus;
     }
 
     public UserPoint( Money total,Money used,Money earned) {
@@ -81,6 +89,7 @@ public class UserPoint extends JpaBaseTimeEntity {
         this.used = used;
         this.earned = earned;
     }
+
 
 
     /**
@@ -98,6 +107,5 @@ public class UserPoint extends JpaBaseTimeEntity {
         return new UserPoint(this.total.minus(money)
                     , this.used.plus(money)
                     , this.earned);
-
     }
 }

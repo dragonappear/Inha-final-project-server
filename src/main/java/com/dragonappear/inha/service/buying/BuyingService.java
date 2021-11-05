@@ -50,6 +50,11 @@ public class BuyingService {
             return buyingRepository.findByStatus(buyingStatus);
     }
 
+    // 구매입찰이 지났지만 결제취소처리가 안된 구매 조회
+    public List<BidBuying> findOverdueAndNotCanceled() {
+        return buyingRepository.findOverdueAndNotCanceled();
+    }
+
 
     /**
      * UPDATE

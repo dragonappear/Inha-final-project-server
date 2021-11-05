@@ -1,6 +1,7 @@
 package com.dragonappear.inha.repository.buying;
 
 import com.dragonappear.inha.domain.buying.BidBuying;
+import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.value.Money;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,6 @@ public interface BuyingRepositoryCustom {
     List<BidBuying> findByStatus(BuyingStatus buyingStatus);
 
     Long endBidBuying();
+
+    List<BidBuying> findOverdueAndNotCanceled();
 }

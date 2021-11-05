@@ -23,4 +23,6 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
     @Query("select p from Payment p where p.auctionitem.item.itemName=:itemName and p.paymentStatus=:status")
     List<Payment> findByCompletedItemName(@Param("itemName") String itemName, @Param("status") PaymentStatus status);
 
+    Optional<Payment> findByImpId(String impId);
+
 }

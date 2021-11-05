@@ -155,7 +155,10 @@ public class Payment extends JpaBaseEntity {
      */
 
     public void cancel() {
-        this.paymentStatus = 결제취소;
+        this.paymentStatus = 결제취소완료;
     }
 
+    public void updateStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 }

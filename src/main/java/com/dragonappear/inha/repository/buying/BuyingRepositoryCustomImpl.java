@@ -3,9 +3,11 @@ package com.dragonappear.inha.repository.buying;
 
 
 import com.dragonappear.inha.domain.buying.BidBuying;
+import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.payment.QPayment;
+import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.dragonappear.inha.domain.buying.QBidBuying.*;
+import static com.dragonappear.inha.domain.buying.value.BuyingStatus.*;
 import static com.dragonappear.inha.domain.payment.QPayment.*;
+import static com.dragonappear.inha.domain.payment.value.PaymentStatus.*;
 
 
 @RequiredArgsConstructor
@@ -28,7 +32,7 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
         Map<Object, Object> map = new HashMap<>();
         List<BidBuying> list = jpaQueryFactory.selectFrom(bidBuying)
                 .join(payment).on(bidBuying.payment.id.eq(payment.id))
-                .where(bidBuying.buyingStatus.eq(BuyingStatus.구매입찰중)
+                .where(bidBuying.buyingStatus.eq(구매입찰중)
                         .and(payment.item.id.eq(itemId)))
                 .orderBy(payment.paymentPrice.amount.desc())
                 .fetch();
@@ -58,9 +62,17 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
     @Override
     public Long endBidBuying() {
         return jpaQueryFactory.update(bidBuying)
-                .where(bidBuying.buyingStatus.eq(BuyingStatus.구매입찰중).and(bidBuying.endDate.before(LocalDateTime.now())))
-                .set(bidBuying.buyingStatus, BuyingStatus.구매입찰종료)
+                .where(bidBuying.buyingStatus.eq(구매입찰중).and(bidBuying.endDate.before(LocalDateTime.now())))
+                .set(bidBuying.buyingStatus, 구매입찰종료)
                 .execute();
+    }
+
+    @Override
+    public List<BidBuying> findOverdueAndNotCanceled() {
+        return  jpaQueryFactory.selectFrom(bidBuying)
+                .join(bidBuying.payment, payment)
+                .where(bidBuying.buyingStatus.eq(구매입찰종료).and(payment.paymentStatus.eq(결제완료)))
+                .fetch();
     }
 }
 

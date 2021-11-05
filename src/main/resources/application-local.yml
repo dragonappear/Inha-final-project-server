@@ -1,12 +1,11 @@
 spring:
-  profiles: local
+  config:
+    activate:
+      on-profile: local
 
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-
-logging.level:
-  org.hibernate.SQL: debug
 

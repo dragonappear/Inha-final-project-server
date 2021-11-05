@@ -23,17 +23,17 @@ public class UserPointQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public List<MyPageUserPointDto> getMyPageUserPointDto(Long userId) {
-        StringExpression pointType = new CaseBuilder()
+        /*StringExpression pointType = new CaseBuilder()
                 .when(userPoint.earned.amount.gt(Money.wons(0).getAmount()))
                 .then("적립")
-                .otherwise("사용");
+                .otherwise("사용");*/
 
         Expression<BigDecimal> point = new CaseBuilder()
                 .when(userPoint.earned.amount.gt(Money.wons(0).getAmount()))
                 .then(userPoint.earned.amount)
                 .otherwise(userPoint.used.amount.multiply(-1));
 
-        return jpaQueryFactory.select(new QMyPageUserPointDto(pointType, userPoint.createdDate, point))
+        return jpaQueryFactory.select(new QMyPageUserPointDto(userPoint.pointStatus, userPoint.createdDate, point))
                 .from(userPoint)
                 .join(userPoint.user, user)
                 .where(userPoint.user.id.eq(userId))

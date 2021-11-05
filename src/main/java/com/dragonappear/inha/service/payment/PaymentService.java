@@ -70,6 +70,11 @@ public class PaymentService {
         return list;
     }
 
+    // ImpId로 조회
+    public Payment findByImpId(String impId) {
+        return paymentRepository.findByImpId(impId) .orElseThrow(()-> new IllegalArgumentException("해당 결제내역이 존재하지 않습니다"));
+    }
+
 
     /**
      * UPDATE

@@ -6,6 +6,8 @@ import com.dragonappear.inha.api.controller.user.deal.dto.PointDto;
 import com.dragonappear.inha.api.controller.user.mypage.dto.UserAccountApiDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
+import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.exception.NotFoundImageException;
@@ -38,6 +40,7 @@ import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 public class ExceptionController {
     private final UserPointService userPointService;
     private final IamportService iamportService;
+    private final PaymentService paymentService;
 
     //400
     @ExceptionHandler({IllegalArgumentException.class,IllegalArgumentException.class})
@@ -64,32 +67,37 @@ public class ExceptionController {
                 .build();
     }
 
-    // 거래생성 예외처리
+    // 결제생성 예외처리
     @ExceptionHandler({PaymentException.class})
     public MessageDto paymentException(final PaymentException e) {
         try {
             iamportService.cancelPayment(e.getCancelDto());
+            log.info("ImpId :{} 결제취소가 완료되었습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e.getMessage() + "결제를 취소하였습니다.")).build();
         } catch (Exception e1) {
+            log.error("ImpId :{} 결제취소가 실패하였습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isCancelSuccess", false, "Status", e.getMessage() + "결제취소가 완료되지 않았습니다.")).build();
         }
     }
 
-    // 결제생성 예외처리
+    // 거래생성 예외처리
     @ExceptionHandler({DealException.class})
     public MessageDto dealException(final DealException e) {
         try{
             PaymentDto paymentDto = e.getPaymentDto();
-            if ( e.getPaymentDto().getPoint().equals(BigDecimal.ZERO)) {
+            if (!e.getPaymentDto().getPoint().equals(BigDecimal.ZERO)) {
                 userPointService.accumulate(paymentDto.getBuyerId(), new Money(paymentDto.getPoint())); //포인트 재적립
             }
+            iamportService.cancelPayment(e.getCancelDto());
+            log.info("ImpId :{} 결제취소가 완료되었습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e.getMessage() + "결제를 취소하였습니다.")).build();
         }catch (Exception e1) {
+            log.error("ImpId :{} 결제취소가 실패하였습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
-                    .message(getMessage("isPaySuccess", false, "Status", e.getMessage() +"결제취소가 완료되지 않았습니다.")).build();
+                    .message(getMessage("isPaySuccess", false, "Status", e1.getMessage() +"결제취소가 완료되지 않았습니다.")).build();
         }
     }
 

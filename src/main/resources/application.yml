@@ -5,9 +5,12 @@ spring:
   jpa:
     properties:
       hibernate:
-        #format_sql: true
         default_batch_fetch_size: 1000
 
-logging.level:
-  org.hibernate.SQL: info
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: info
+  file:
+    path: logs
 
