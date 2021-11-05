@@ -3,6 +3,7 @@ package com.dragonappear.inha.domain.value;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,6 +15,7 @@ import java.util.Objects;
 import static javax.persistence.EnumType.*;
 import static lombok.AccessLevel.*;
 
+@ToString
 @NoArgsConstructor(access = PROTECTED)
 @Embeddable
 @Getter

@@ -35,9 +35,9 @@ public class BuyingApiController {
     @PostMapping("/payments/new/instant")
     public MessageDto postInstantPayment(@RequestBody InstantPaymentApiDto dto) {
         validatePaymentService.validateInstantPayment(dto);
-        createDealService.createInstantBuying(dto);
+        Long dealId = createDealService.createInstantBuying(dto);
         return MessageDto.builder()
-                .message(getMessage("isPaySuccess", true, "Status", "결제가 완료되었습니다."))
+                .message(getMessage("isDealSuccess", true, "dealId", dealId))
                 .build();
     }
 

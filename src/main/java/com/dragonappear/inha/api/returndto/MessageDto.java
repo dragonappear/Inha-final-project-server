@@ -18,13 +18,13 @@ public class MessageDto {
     }
 
 
-    public static Map<String, Object> getMessage(String status, String content) {
+    public static Map<String, Object> getMessage(String status, Object content) {
         Map<String, Object> result = new HashMap<>();
         result.put(status, content);
         return result;
     }
 
-    public static Map<String, Object> getMessage(String insert, Boolean bool, String status, String content) {
+    public static Map<String, Object> getMessage(String insert, Boolean bool, String status, Object content) {
         Map<String, Object> result = new HashMap<>();
         result.put(insert, bool);
         result.put(status, content);

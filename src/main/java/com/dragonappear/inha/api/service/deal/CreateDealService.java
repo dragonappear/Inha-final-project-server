@@ -48,7 +48,7 @@ public class CreateDealService {
     private final AuctionItemService auctionItemService;
 
     @Transactional
-    public void createInstantBuying(InstantPaymentApiDto dto) throws DealException {
+    public Long createInstantBuying(InstantPaymentApiDto dto) throws DealException {
         try {
             Selling selling = sellingService.findBySellingId(dto.getSellingId());
             Auctionitem auctionitem = selling.getAuctionitem();
@@ -61,7 +61,7 @@ public class CreateDealService {
             Buying buying = new InstantBuying(payment); // 구매 생성
             buyingService.save(buying);
             Deal deal = new Deal(buying, selling); // 거래 생성
-            dealService.save(deal);
+            return dealService.save(deal);
         } catch (Exception e) {
             throw DealException.builder()
                     .message(e.getMessage())
@@ -110,7 +110,7 @@ public class CreateDealService {
     }
 
     @Transactional
-    public void createInstantSelling(InstantSellingDto dto) {
+    public Long createInstantSelling(InstantSellingDto dto) {
         try {
             User user = userService.findOneById(dto.getUserId());
             Buying buying = buyingService.findById(dto.getBuyingId());
@@ -125,7 +125,7 @@ public class CreateDealService {
             buying.getPayment().updateAuctionitem(auctionitem);
             Long auctionitemId = sellingService.instantSave(user, auctionitem);
             Selling selling = sellingService.findBySellingId(auctionitemId);
-            dealService.save(new Deal(buying, selling));
+            return dealService.save(new Deal(buying, selling));
         } catch (Exception e) {
             throw new SellingException(e.getMessage());
         }

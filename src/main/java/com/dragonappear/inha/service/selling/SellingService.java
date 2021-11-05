@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,12 @@ public class SellingService {
 
     // 판매조회 by 판매아이디
     public Selling findBySellingId(Long sellingId) {
-            return sellingRepository.findById(sellingId).orElseThrow(()-> new IllegalArgumentException("판매가 조회되지않습니다"));
+        return  sellingRepository.findById(sellingId).orElseThrow(() -> new NotFoundCustomException("판매가 조회되지않습니다"));
     }
 
     // 판매조회 by 경매아이템 아이디
     public Selling findByAuctionitemId(Long auctionitemId) {
-        return sellingRepository.findByAuctionitemId(auctionitemId).orElseThrow(()-> new IllegalArgumentException("판매가 조회되지않습니다"));
+        return sellingRepository.findByAuctionitemId(auctionitemId).orElseThrow(()-> new NotFoundCustomException("판매가 조회되지않습니다"));
     }
 
 

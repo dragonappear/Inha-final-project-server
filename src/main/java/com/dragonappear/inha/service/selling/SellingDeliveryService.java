@@ -3,6 +3,7 @@ package com.dragonappear.inha.service.selling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.SellingDelivery;
 import com.dragonappear.inha.domain.value.Delivery;
+import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.repository.selling.SellingDeliveryRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class SellingDeliveryService {
     @Transactional
     public void update(Selling selling, Delivery delivery) {
         SellingDelivery sellingDelivery = sellingDeliveryRepository.findBySellingId(selling.getId())
-                .orElseThrow(() -> new IllegalArgumentException("판매자 배송이 조회되지 않습니다"));
+                .orElseThrow(() -> new NotFoundCustomException("판매자 배송이 조회되지 않습니다"));
         updateSellingDelivery(selling, delivery, sellingDelivery);
     }
 

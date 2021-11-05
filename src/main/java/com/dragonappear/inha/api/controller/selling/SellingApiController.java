@@ -36,9 +36,9 @@ public class SellingApiController {
     @PostMapping("/sellings/new/instant")
     public MessageDto createInstantSelling(@RequestBody InstantSellingDto dto) {
         validateSellingService.validateInstantSelling(dto);
-        createDealService.createInstantSelling(dto);
+        Long dealId = createDealService.createInstantSelling(dto);
         return MessageDto.builder()
-                .message(getMessage("isCreatedSuccess", true, "Status", "판매신청이 완료되었습니다."))
+                .message(getMessage("isDealSuccess", true, "dealId", dealId))
                 .build();
     }
 }
