@@ -1,8 +1,7 @@
 package com.dragonappear.inha.web.admin.payment;
 
 import com.dragonappear.inha.api.returndto.MessageDto;
-import com.dragonappear.inha.web.admin.payment.dto.PaymentCancelDto;
-import com.dragonappear.inha.api.returndto.ResultDto;
+import com.dragonappear.inha.web.admin.payment.dto.PaymentWebDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.domain.payment.Payment;
@@ -10,44 +9,45 @@ import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.payment.PaymentService;
 import com.dragonappear.inha.service.user.UserPointService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
-import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
 
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class PaymentAdminApiController {
     private final PaymentService paymentService;
     private final UserPointService userPointService;
     private final IamportService iamportService;
 
-    @GetMapping("/payments/history")
-    public ResultDto getAllPayments() {
+    @GetMapping("/admin/payments")
+    public String getAllPayments(Model model) {
         List<Payment> payments = paymentService.findAll();
-        List<PaymentCancelDto> dtos = payments.stream().map(payment -> {
-            return PaymentCancelDto.builder()
+        List<PaymentWebDto> dtos = payments.stream().map(payment -> {
+            return PaymentWebDto.builder()
                     .paymentId(payment.getId())
                     .price(payment.getPaymentPrice().getAmount())
                     .updateDate(payment.getUpdatedDate())
                     .pgName(payment.getPgName())
-                    .merchantId(payment.getMerchantId())
                     .status(payment.getPaymentStatus())
                     .point(payment.getPoint().getAmount())
+                    .impId(payment.getImpId())
+                    .merchantId(payment.getMerchantId())
                     .build();
         }).collect(Collectors.toList());
-
-        return returnResults(dtos);
+        model.addAttribute("payments", dtos);
+        return "payments/paymentList";
     }
 
 
-    @GetMapping("/payments/cancel/{paymentId}")
+    @GetMapping("/admin/payments/cancel/{paymentId}")
     public MessageDto cancelPayment(@PathVariable("paymentId") Long paymentId) {
         Payment payment = paymentService.findById(paymentId);
         userPointService.accumulate(payment.getUser().getId(), new Money(payment.getPoint().getAmount())); // 유저 포인트 복구

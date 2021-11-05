@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Data
-public class PaymentDto {
+public class PaymentApiDto {
     private String pgName;
     private String impId;
     private String merchantId;
@@ -18,7 +18,7 @@ public class PaymentDto {
     private Long addressId;
 
 
-    public PaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice
+    public PaymentApiDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice
             , BigDecimal point, Long buyerId, Long addressId) {
         this.pgName = pgName;
         this.impId = impId;

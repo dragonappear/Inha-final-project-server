@@ -1,7 +1,7 @@
 package com.dragonappear.inha.api.controller.buying;
 
-import com.dragonappear.inha.api.controller.buying.dto.BidPaymentDto;
-import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
+import com.dragonappear.inha.api.controller.buying.dto.BidPaymentApiDto;
+import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentApiDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.service.deal.CreateDealService;
 import com.dragonappear.inha.api.service.buying.ValidatePaymentService;
@@ -23,7 +23,7 @@ public class BuyingApiController {
 
     @ApiOperation(value = "입찰구매 결제저장 API", notes = "입찰구매 결제저장")
     @PostMapping("/payments/new/bid")
-    public MessageDto postBidPayment(@RequestBody BidPaymentDto dto) {
+    public MessageDto postBidPayment(@RequestBody BidPaymentApiDto dto) {
         validatePaymentService.validateBidPayment(dto);
         createDealService.createBidBuying(dto);
         return MessageDto.builder()
@@ -33,7 +33,7 @@ public class BuyingApiController {
 
     @ApiOperation(value = "즉시구매 결제저장 API", notes = "즉시구매 결제저장")
     @PostMapping("/payments/new/instant")
-    public MessageDto postInstantPayment(@RequestBody InstantPaymentDto dto) {
+    public MessageDto postInstantPayment(@RequestBody InstantPaymentApiDto dto) {
         validatePaymentService.validateInstantPayment(dto);
         createDealService.createInstantBuying(dto);
         return MessageDto.builder()

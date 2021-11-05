@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="py-5 text-center">
+        <h2>결제 내역</h2> </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th> <th>날짜</th> <th>상태</th> <th>가격</th><th>포인트</th><th>pg사</th><th>impId</th><th>merchantId</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="payment : ${payments}">
+                <td th:text="${payment.paymentId}"></td>
+                <td th:text="${payment.updateDate}"></td>
+                <td th:text="${payment.status}"}></td>
+                <td th:text="${payment.price}"}></td>
+                <td th:text="${payment.point}"}></td>
+                <td th:text="${payment.pgName}"}></td>
+                <td th:text="${payment.impId}"}></td>
+                <td th:text="${payment.merchantId}"}></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

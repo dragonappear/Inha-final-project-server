@@ -1,8 +1,8 @@
 package com.dragonappear.inha.api.service.deal;
 
 
-import com.dragonappear.inha.api.controller.buying.dto.BidPaymentDto;
-import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
+import com.dragonappear.inha.api.controller.buying.dto.BidPaymentApiDto;
+import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentApiDto;
 import com.dragonappear.inha.api.controller.selling.dto.InstantSellingDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.api.controller.selling.dto.BidSellingDto;
@@ -48,7 +48,7 @@ public class CreateDealService {
     private final AuctionItemService auctionItemService;
 
     @Transactional
-    public void createInstantBuying(InstantPaymentDto dto) throws DealException {
+    public void createInstantBuying(InstantPaymentApiDto dto) throws DealException {
         try {
             Selling selling = sellingService.findBySellingId(dto.getSellingId());
             Auctionitem auctionitem = selling.getAuctionitem();
@@ -65,7 +65,7 @@ public class CreateDealService {
         } catch (Exception e) {
             throw DealException.builder()
                     .message(e.getMessage())
-                    .paymentDto(dto)
+                    .paymentApiDto(dto)
                     .cancelDto(CancelDto.getCancelDto(dto))
                     .build();
         }
@@ -73,7 +73,7 @@ public class CreateDealService {
 
 
     @Transactional
-    public void createBidBuying(BidPaymentDto dto) throws DealException{
+    public void createBidBuying(BidPaymentApiDto dto) throws DealException{
         try {
             User user = userService.findOneById(dto.getBuyerId());
             Item item = itemService.findByItemId(dto.getItemId());
@@ -87,7 +87,7 @@ public class CreateDealService {
         } catch (Exception e) {
             throw DealException.builder()
                     .message(e.getMessage())
-                    .paymentDto(dto)
+                    .paymentApiDto(dto)
                     .cancelDto(CancelDto.getCancelDto(dto))
                     .build();
         }

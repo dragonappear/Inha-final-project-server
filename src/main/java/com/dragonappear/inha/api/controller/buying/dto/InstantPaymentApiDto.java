@@ -11,11 +11,11 @@ import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Data
-public class InstantPaymentDto extends PaymentDto{
+public class InstantPaymentApiDto extends PaymentApiDto {
     private Long sellingId;
 
     @Builder
-    public InstantPaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point, Long buyerId, Long addressId, Long sellingId) {
+    public InstantPaymentApiDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point, Long buyerId, Long addressId, Long sellingId) {
         super(pgName, impId, merchantId, paymentPrice, point, buyerId, addressId);
         this.sellingId = sellingId;
     }

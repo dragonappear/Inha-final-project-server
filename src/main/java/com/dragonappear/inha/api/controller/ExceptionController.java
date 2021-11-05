@@ -1,13 +1,11 @@
 package com.dragonappear.inha.api.controller;
 
-import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
+import com.dragonappear.inha.api.controller.buying.dto.PaymentApiDto;
 import com.dragonappear.inha.api.controller.user.deal.dto.AddressDto;
 import com.dragonappear.inha.api.controller.user.deal.dto.PointDto;
 import com.dragonappear.inha.api.controller.user.mypage.dto.UserAccountApiDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
-import com.dragonappear.inha.domain.payment.Payment;
-import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.exception.NotFoundImageException;
@@ -16,10 +14,7 @@ import com.dragonappear.inha.exception.deal.DealException;
 import com.dragonappear.inha.exception.buying.PaymentException;
 import com.dragonappear.inha.exception.selling.SellingException;
 import com.dragonappear.inha.exception.user.*;
-import com.dragonappear.inha.service.buying.BuyingService;
-import com.dragonappear.inha.service.deal.DealService;
 import com.dragonappear.inha.service.payment.PaymentService;
-import com.dragonappear.inha.service.selling.SellingService;
 import com.dragonappear.inha.service.user.UserPointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +24,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
@@ -72,11 +66,11 @@ public class ExceptionController {
     public MessageDto paymentException(final PaymentException e) {
         try {
             iamportService.cancelPayment(e.getCancelDto());
-            log.info("ImpId :{} 결제취소가 완료되었습니다.", e.getCancelDto().getImpId());
+            log.info("ImpId:{} 결제취소가 완료되었습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e.getMessage() + "결제를 취소하였습니다.")).build();
         } catch (Exception e1) {
-            log.error("ImpId :{} 결제취소가 실패하였습니다.", e.getCancelDto().getImpId());
+            log.error("ImpId:{} 결제취소가 실패하였습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isCancelSuccess", false, "Status", e.getMessage() + "결제취소가 완료되지 않았습니다.")).build();
         }
@@ -86,16 +80,16 @@ public class ExceptionController {
     @ExceptionHandler({DealException.class})
     public MessageDto dealException(final DealException e) {
         try{
-            PaymentDto paymentDto = e.getPaymentDto();
-            if (!e.getPaymentDto().getPoint().equals(BigDecimal.ZERO)) {
-                userPointService.accumulate(paymentDto.getBuyerId(), new Money(paymentDto.getPoint())); //포인트 재적립
+            PaymentApiDto paymentApiDto = e.getPaymentApiDto();
+            if (!e.getPaymentApiDto().getPoint().equals(BigDecimal.ZERO)) {
+                userPointService.accumulate(paymentApiDto.getBuyerId(), new Money(paymentApiDto.getPoint())); //포인트 재적립
             }
             iamportService.cancelPayment(e.getCancelDto());
-            log.info("ImpId :{} 결제취소가 완료되었습니다.", e.getCancelDto().getImpId());
+            log.info("ImpId:{} 결제취소가 완료되었습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e.getMessage() + "결제를 취소하였습니다.")).build();
         }catch (Exception e1) {
-            log.error("ImpId :{} 결제취소가 실패하였습니다.", e.getCancelDto().getImpId());
+            log.error("ImpId:{} 결제취소가 실패하였습니다.", e.getCancelDto().getImpId());
             return MessageDto.builder()
                     .message(getMessage("isPaySuccess", false, "Status", e1.getMessage() +"결제취소가 완료되지 않았습니다.")).build();
         }

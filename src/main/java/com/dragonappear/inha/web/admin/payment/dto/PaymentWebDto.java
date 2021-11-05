@@ -10,23 +10,25 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-public class PaymentCancelDto {
+public class PaymentWebDto {
     private Long paymentId;
     private LocalDateTime updateDate;
     private PaymentStatus status;
     private BigDecimal price;
     private BigDecimal point;
     private String pgName;
+    private String impId;
     private String merchantId;
 
     @Builder
-    public PaymentCancelDto(Long paymentId, LocalDateTime updateDate, PaymentStatus status, BigDecimal price, BigDecimal point, String pgName, String merchantId) {
+    public PaymentWebDto(Long paymentId, LocalDateTime updateDate, PaymentStatus status, BigDecimal price, BigDecimal point, String pgName, String impId, String merchantId) {
         this.paymentId = paymentId;
         this.updateDate = updateDate;
         this.status = status;
         this.price = price;
         this.point = point;
         this.pgName = pgName;
+        this.impId = impId;
         this.merchantId = merchantId;
     }
 }

@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-public class BidPaymentDto extends PaymentDto {
+public class BidPaymentApiDto extends PaymentApiDto {
     private Long itemId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
 
     @Builder
-    public BidPaymentDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point, Long buyerId, Long addressId, Long itemId, LocalDateTime endDate) {
+    public BidPaymentApiDto(String pgName, String impId, String merchantId, BigDecimal paymentPrice, BigDecimal point, Long buyerId, Long addressId, Long itemId, LocalDateTime endDate) {
         super(pgName, impId, merchantId, paymentPrice, point, buyerId, addressId);
         this.itemId = itemId;
         this.endDate = endDate;

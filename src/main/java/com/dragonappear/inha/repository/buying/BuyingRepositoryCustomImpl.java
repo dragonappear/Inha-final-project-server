@@ -1,13 +1,9 @@
 package com.dragonappear.inha.repository.buying;
 
-
-
 import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.payment.Payment;
-import com.dragonappear.inha.domain.payment.QPayment;
-import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.dragonappear.inha.domain.buying.QBidBuying.*;
+import static com.dragonappear.inha.domain.buying.QBuying.*;
 import static com.dragonappear.inha.domain.buying.value.BuyingStatus.*;
 import static com.dragonappear.inha.domain.payment.QPayment.*;
 import static com.dragonappear.inha.domain.payment.value.PaymentStatus.*;
@@ -68,10 +65,10 @@ public class BuyingRepositoryCustomImpl implements BuyingRepositoryCustom {
     }
 
     @Override
-    public List<BidBuying> findOverdueAndNotCanceled() {
-        return  jpaQueryFactory.selectFrom(bidBuying)
-                .join(bidBuying.payment, payment)
-                .where(bidBuying.buyingStatus.eq(구매입찰종료).and(payment.paymentStatus.eq(결제완료)))
+    public List<Buying> findOverdueAndNotCanceled() {
+        return  jpaQueryFactory.selectFrom(buying)
+                .join(buying.payment, payment)
+                .where(buying.buyingStatus.eq(구매입찰종료).and(payment.paymentStatus.eq(결제완료)))
                 .fetch();
     }
 }

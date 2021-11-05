@@ -1,8 +1,8 @@
 package com.dragonappear.inha.api.service.buying;
 
-import com.dragonappear.inha.api.controller.buying.dto.BidPaymentDto;
-import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentDto;
-import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
+import com.dragonappear.inha.api.controller.buying.dto.BidPaymentApiDto;
+import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentApiDto;
+import com.dragonappear.inha.api.controller.buying.dto.PaymentApiDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.item.Item;
@@ -38,7 +38,7 @@ public class ValidatePaymentService {
     private final PaymentService paymentService;
     private final SellingService sellingService;
 
-    public void validateInstantPayment(InstantPaymentDto dto) {
+    public void validateInstantPayment(InstantPaymentApiDto dto) {
         try {
             User user = userService.findOneById(dto.getBuyerId());
             Selling selling = sellingService.findBySellingId(dto.getSellingId());
@@ -55,7 +55,7 @@ public class ValidatePaymentService {
 
     }
 
-    public void validateBidPayment(BidPaymentDto dto) {
+    public void validateBidPayment(BidPaymentApiDto dto) {
         try {
             User user = userService.findOneById(dto.getBuyerId());
             Item item = itemService.findByItemId(dto.getItemId());
@@ -82,7 +82,7 @@ public class ValidatePaymentService {
     }
 
     // 결제주소 검증
-    public void validateAddress(PaymentDto dto, User user) throws PaymentException {
+    public void validateAddress(PaymentApiDto dto, User user) throws PaymentException {
         boolean result = false;
         List<UserAddress> userAddresses = user.getUserAddresses();
         for (UserAddress userAddress : userAddresses) {
@@ -96,7 +96,7 @@ public class ValidatePaymentService {
     }
 
     // 결제정보 검증
-    public void validateImpIdAndMid(PaymentDto dto, PaymentService paymentService) throws PaymentException {
+    public void validateImpIdAndMid(PaymentApiDto dto, PaymentService paymentService) throws PaymentException {
         paymentService.findAll().stream()
                 .forEach(payment -> {
                     if (payment.getMerchantId() == dto.getMerchantId()) {
@@ -109,14 +109,14 @@ public class ValidatePaymentService {
     }
 
     // 경매아이템 구매자 검증
-    public void validateBuyer(PaymentDto dto, User user, Auctionitem auctionitem) throws PaymentException {
+    public void validateBuyer(PaymentApiDto dto, User user, Auctionitem auctionitem) throws PaymentException {
         if (auctionitem.getSelling().getSeller().getId().equals(user.getId())) {
             throw new PaymentException("판매자의 상품을 판매자가 구매할 수 없습니다.");
         }
     }
     // 포인트 검증
 
-    public void validatePoint(PaymentDto dto, User user, UserPointService userPointService) throws PaymentException {
+    public void validatePoint(PaymentApiDto dto, User user, UserPointService userPointService) throws PaymentException {
         Money amount = new Money(dto.getPoint());
         UserPoint point = userPointService.findLatestPoint(user.getId());
         if (amount.isLessThan(Money.wons(0L)) || point.getTotal().isLessThan(amount)) {
@@ -125,7 +125,7 @@ public class ValidatePaymentService {
     }
     // 경매아이템 금액 검증
 
-    public void validatePrice(PaymentDto dto, Auctionitem auctionitem) throws PaymentException {
+    public void validatePrice(PaymentApiDto dto, Auctionitem auctionitem) throws PaymentException {
         BigDecimal price = auctionitem.getPrice().getAmount().setScale(0, RoundingMode.FLOOR);
         BigDecimal amount = dto.getPaymentPrice().add(dto.getPoint()).setScale(0, RoundingMode.FLOOR);
         if (!price.equals(amount)) {
@@ -134,7 +134,7 @@ public class ValidatePaymentService {
     }
 
     // 입찰구매 기한일 검증
-    private void validateEndDate(BidPaymentDto dto)  throws PaymentException {
+    private void validateEndDate(BidPaymentApiDto dto)  throws PaymentException {
         if (!dto.getEndDate().isAfter(LocalDateTime.now())) {
             throw new PaymentException("구매 입찰기간 입력이 잘못되었습니다.");
         }

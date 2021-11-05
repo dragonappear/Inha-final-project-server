@@ -46,7 +46,7 @@ public class Scheduler {
     @Transactional
     @Scheduled(fixedDelay = 1000 * 60, zone = "Asia/Seoul")
     public void cancelPayment() {
-        buyingService.findOverdueAndNotCanceled().stream().forEach(bidBuying -> {
+    buyingService.findOverdueAndNotCanceled().stream().forEach(bidBuying -> {
             cancelPayment(bidBuying.getPayment());
         });
     }

@@ -16,5 +16,5 @@ public interface BuyingRepositoryCustom {
 
     Long endBidBuying();
 
-    List<BidBuying> findOverdueAndNotCanceled();
+    List<Buying> findOverdueAndNotCanceled();
 }

@@ -1,8 +1,7 @@
 package com.dragonappear.inha.api.service.buying.iamport.dto;
 
-import com.dragonappear.inha.api.controller.buying.dto.PaymentDto;
+import com.dragonappear.inha.api.controller.buying.dto.PaymentApiDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
-import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.payment.Payment;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +39,7 @@ public class CancelDto {
 
 
 
-    public static CancelDto getCancelDto(PaymentDto dto) {
+    public static CancelDto getCancelDto(PaymentApiDto dto) {
         return CancelDto.builder()
                 .token(IamportService.getImportToken())
                 .impId(dto.getImpId())
