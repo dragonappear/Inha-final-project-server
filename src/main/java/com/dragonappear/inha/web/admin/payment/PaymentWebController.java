@@ -19,10 +19,9 @@ import java.util.stream.Collectors;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
-
 @RequiredArgsConstructor
 @Controller
-public class PaymentAdminApiController {
+public class PaymentWebController {
     private final PaymentService paymentService;
     private final UserPointService userPointService;
     private final IamportService iamportService;
@@ -43,7 +42,7 @@ public class PaymentAdminApiController {
                     .build();
         }).collect(Collectors.toList());
         model.addAttribute("payments", dtos);
-        return "payments/paymentList";
+        return "payment/paymentList";
     }
 
 

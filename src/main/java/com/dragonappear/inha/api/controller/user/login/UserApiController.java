@@ -1,8 +1,10 @@
 package com.dragonappear.inha.api.controller.user.login;
 
+import com.dragonappear.inha.api.controller.user.login.dto.UserSaveDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.controller.user.login.dto.UserDto;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.user.UserToken;
 import com.dragonappear.inha.domain.value.Account;
 import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.service.user.*;
@@ -22,6 +24,7 @@ public class UserApiController {
     private final UserImageService userImageService;
     private final UserPointService userPointService;
     private final UserAccountService userAccountService;
+    private final UserTokenService userTokenService;
     
     @ApiOperation(value = "유저 등록 조회 API By 유저이메일", notes = "유저 정보 조회")
     @GetMapping(value = "/users/{email}")
@@ -42,22 +45,23 @@ public class UserApiController {
 
     @ApiOperation(value = "유저 정보 저장 API", notes = "유저 정보 저장")
     @PostMapping(value = "/users/new")
-    public UserDto save(@RequestBody UserDto userDto) {
-        return createUser(userDto);
+    public UserDto save(@RequestBody UserSaveDto dto) {
+        return createUser(dto);
     }
 
     /**
      *  유저 DB 저장 로직
      */
-    private UserDto createUser(UserDto userDto) {
-        User user = userDto.toEntity();
+    private UserDto createUser(UserSaveDto dto) {
+        User user = dto.toEntity();
         userService.join(user);
-        userAddressService.save(user.getId(), userDto.getAddress()); // 유저 주소 저장
+        userAddressService.save(user.getId(), dto.getAddress()); // 유저 주소 저장
         userImageService.update(user // 유저 이미지 저장
-                , new Image("basic icon","NequEEEQWEeqweZXCZXCZASDsitas.png", "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/user"));
+                , new Image("NequEEEQWEeqweZXCZXCZASDsitas.png","NequEEEQWEeqweZXCZXCZASDsitas.png", "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/user"));
         userPointService.create(user.getId()); // 유저 포인트 초기 생성
         userAccountService.update(user, // 유저 주소 저장
-                new Account(userDto.getAccount().getBankName(), userDto.getAccount().getAccountNumber(), userDto.getAccount().getAccountHolder()));
-        return userDto;
+                new Account(dto.getAccount().getBankName(), dto.getAccount().getAccountNumber(), dto.getAccount().getAccountHolder()));
+        userTokenService.save(new UserToken("FSM", dto.getMessageToken(), user));
+        return new UserDto(user);
     }
 }

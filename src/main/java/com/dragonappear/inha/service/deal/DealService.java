@@ -24,7 +24,6 @@ public class DealService {
     // 거래 생성
     @Transactional
     public Long save(Deal deal) {
-
         return dealRepository.save(deal).getId();
     }
 
@@ -42,6 +41,12 @@ public class DealService {
     public List<Deal> findUnregisteredSellingDelivery() {
         return dealRepository.findUnregisteredSellingDelivery();
     }
+
+    // 거래 전체 조회
+    public List<Deal> findAll() {
+        return dealRepository.findAll();
+    }
+
 
     /**
      * UPDATE

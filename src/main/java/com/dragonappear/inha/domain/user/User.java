@@ -86,6 +86,9 @@ public class User extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "seller",cascade = ALL)
     private List<Selling> sellings = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = ALL)
+    private List<UserToken> userTokens = new ArrayList<>();
 
 
     /**
