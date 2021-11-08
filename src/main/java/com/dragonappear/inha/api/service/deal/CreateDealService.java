@@ -65,6 +65,10 @@ public class CreateDealService {
             Buying buying = new InstantBuying(payment); // 구매 생성
             buyingService.save(buying);
             Deal deal = new Deal(buying, selling); // 거래 생성
+            String token = userTokenService.findTokenByUserIdAndType(selling.getSeller().getId(), "fcm");
+            String title = "입찰구매하신 "+ auctionitem.getItem().getItemName() +" 의 거래가 성사되었습니다.";
+            String body = "판매자가 검수지역으로 미배송시 자동결제취소됨을 미리 알려드립니다.";
+            firebaseCloudMessageService.sendMessageTo(token,title,body);
             return dealService.save(deal);
         } catch (Exception e) {
             throw DealException.builder()
@@ -88,10 +92,6 @@ public class CreateDealService {
             paymentService.save(payment);
             Buying buying = new BidBuying(payment, dto.getEndDate()); // 구매 생성
             buyingService.save(buying);
-            String token = userTokenService.findTokenByUserIdAndType(user.getId(), "fcm");
-            String title = "입찰구매하신 "+ item.getItemName() +" 의 거래가 성사되었습니다.";
-            String body = "판매자가 검수지역으로 미배송시 자동결제취소됨을 미리 알려드립니다.";
-            firebaseCloudMessageService.sendMessageTo(token,title,body);
         } catch (Exception e) {
             throw DealException.builder()
                     .message(e.getMessage())
@@ -110,10 +110,6 @@ public class CreateDealService {
             Long bidSave = auctionItemService.save(item, new Money(price));
             Auctionitem auctionitem = auctionItemService.findById(bidSave);
             sellingService.bidSave(user, auctionitem,dto.getEndDate());
-            String token = userTokenService.findTokenByUserIdAndType(user.getId(), "fcm");
-            String title = "입찰판매하신 "+ item.getItemName() +" 의 거래가 성사되었습니다.";
-            String body = "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 판매내역에서 송장번호를 등록하시기 바랍니다.";
-            firebaseCloudMessageService.sendMessageTo(token,title,body);
         } catch (Exception e) {
             throw new SellingException(e.getMessage());
         }
@@ -134,6 +130,10 @@ public class CreateDealService {
             buying.getPayment().updateAuctionitem(auctionitem);
             Long auctionitemId = sellingService.instantSave(user, auctionitem);
             Selling selling = sellingService.findBySellingId(auctionitemId);
+            String token = userTokenService.findTokenByUserIdAndType(buying.getPayment().getUser().getId(), "fcm");
+            String title = "입찰판매하신 "+ item.getItemName() +" 의 거래가 성사되었습니다.";
+            String body = "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 판매내역에서 송장번호를 등록하시기 바랍니다.";
+            firebaseCloudMessageService.sendMessageTo(token,title,body);
             return dealService.save(new Deal(buying, selling));
         } catch (Exception e) {
             throw new SellingException(e.getMessage());
