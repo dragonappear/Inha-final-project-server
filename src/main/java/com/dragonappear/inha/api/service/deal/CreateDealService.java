@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -65,10 +66,7 @@ public class CreateDealService {
             Buying buying = new InstantBuying(payment); // 구매 생성
             buyingService.save(buying);
             Deal deal = new Deal(buying, selling); // 거래 생성
-            String token = userTokenService.findTokenByUserIdAndType(selling.getSeller().getId(), "fcm");
-            String title = "입찰구매하신 "+ auctionitem.getItem().getItemName() +" 의 거래가 성사되었습니다.";
-            String body = "판매자가 검수지역으로 미배송시 자동결제취소됨을 미리 알려드립니다.";
-            firebaseCloudMessageService.sendMessageTo(token,title,body);
+            fcmToSeller(selling, auctionitem);
             return dealService.save(deal);
         } catch (Exception e) {
             throw DealException.builder()
@@ -130,13 +128,27 @@ public class CreateDealService {
             buying.getPayment().updateAuctionitem(auctionitem);
             Long auctionitemId = sellingService.instantSave(user, auctionitem);
             Selling selling = sellingService.findBySellingId(auctionitemId);
-            String token = userTokenService.findTokenByUserIdAndType(buying.getPayment().getUser().getId(), "fcm");
-            String title = "입찰판매하신 "+ item.getItemName() +" 의 거래가 성사되었습니다.";
-            String body = "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 판매내역에서 송장번호를 등록하시기 바랍니다.";
-            firebaseCloudMessageService.sendMessageTo(token,title,body);
+            fcmToBuyer(buying, item);
             return dealService.save(new Deal(buying, selling));
         } catch (Exception e) {
             throw new SellingException(e.getMessage());
         }
+    }
+
+    private void fcmToBuyer(Buying buying, Item item) throws IOException {
+        String token = userTokenService.findTokenByUserIdAndType(buying.getPayment().getUser().getId(), "fcm");
+        String title = "입찰판매하신 아이템의 거래가 성사되었습니다.";
+        String body = item.getItemName() + " 거래가 성사되었습니다.\n" +
+                "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 진행중인 판매내역에서 송장번호를 등록하시기 바랍니다.\n" +
+                "파손된 상태로 제품이 배송될 시에 거래가 취소될 수 있음을 미리 알려드립니다.\n";
+        firebaseCloudMessageService.sendMessageTo(token,title,body);
+    }
+
+    private void fcmToSeller(Selling selling, Auctionitem auctionitem) throws IOException {
+        String token = userTokenService.findTokenByUserIdAndType(selling.getSeller().getId(), "fcm");
+        String title = "입찰구매하신 아이템의 거래가 성사되었습니다.";
+        String body = auctionitem.getItem().getItemName() + " 거래가 성사되었습니다.\n"+
+                "판매자가 검수지역으로 미배송시 자동결제 취소됨을 미리 알려드립니다.";
+        firebaseCloudMessageService.sendMessageTo(token,title,body);
     }
 }
