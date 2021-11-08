@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemApiController {
     private final ItemService itemService;
-    private final DealQueryRepository dealQueryRepository;
     private final NotebookQueryRepository notebookQueryRepository;
     private final ItemImageService itemImageService;
 
@@ -35,7 +34,7 @@ public class ItemApiController {
     public ResultDto allItems() {
         List<ItemDto> items = itemService.findAll().stream()
                 .map(item -> new ItemDto(item.getId()
-                                , item.getItemImages().get(0).getItemImage().getFileName()
+                                , (item.getItemImages().size()==0)? null : item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName()
                                 , item.getItemName()
                                 , item.getLikeCount()

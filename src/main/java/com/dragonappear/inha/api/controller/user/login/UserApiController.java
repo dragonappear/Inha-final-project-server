@@ -61,7 +61,7 @@ public class UserApiController {
         userPointService.create(user.getId()); // 유저 포인트 초기 생성
         userAccountService.update(user, // 유저 주소 저장
                 new Account(dto.getAccount().getBankName(), dto.getAccount().getAccountNumber(), dto.getAccount().getAccountHolder()));
-        userTokenService.save(new UserToken("FSM", dto.getMessageToken(), user));
+        userTokenService.save(new UserToken("fcm", dto.getMessageToken(), user));
         return new UserDto(user);
     }
 }

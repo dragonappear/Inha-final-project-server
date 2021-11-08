@@ -48,6 +48,12 @@ repositories {
 		// https://mvnrepository.com/artifact/javax.validation/validation-api
 		implementation("javax.validation:validation-api:2.0.1.Final")
 
+		// https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
+		implementation 'com.google.firebase:firebase-admin:8.1.0'
+
+		// https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+		implementation 'com.squareup.okhttp3:okhttp'
+
 
 
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {

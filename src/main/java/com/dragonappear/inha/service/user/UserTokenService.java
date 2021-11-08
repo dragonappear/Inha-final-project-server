@@ -19,4 +19,11 @@ public class UserTokenService {
         UserToken token = userTokenRepository.save(userToken);
         return token.getId();
     }
+
+    /**
+     * READ
+     */
+    public String findTokenByUserIdAndType(Long userId,String type) {
+        return userTokenRepository.findTokenByUserIdAndType(userId, type);
+    }
 }

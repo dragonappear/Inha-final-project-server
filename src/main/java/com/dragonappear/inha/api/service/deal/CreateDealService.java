@@ -6,6 +6,7 @@ import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentApiDto;
 import com.dragonappear.inha.api.controller.selling.dto.InstantSellingDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.api.controller.selling.dto.BidSellingDto;
+import com.dragonappear.inha.api.service.firebase.FirebaseCloudMessageService;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
@@ -27,6 +28,7 @@ import com.dragonappear.inha.service.payment.PaymentService;
 import com.dragonappear.inha.service.selling.SellingService;
 import com.dragonappear.inha.service.user.UserPointService;
 import com.dragonappear.inha.service.user.UserService;
+import com.dragonappear.inha.service.user.UserTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,8 @@ public class CreateDealService {
     private final DealService dealService;
     private final ItemService itemService;
     private final AuctionItemService auctionItemService;
+    private final FirebaseCloudMessageService firebaseCloudMessageService;
+    private final UserTokenService userTokenService;
 
     @Transactional
     public Long createInstantBuying(InstantPaymentApiDto dto) throws DealException {
@@ -84,6 +88,10 @@ public class CreateDealService {
             paymentService.save(payment);
             Buying buying = new BidBuying(payment, dto.getEndDate()); // 구매 생성
             buyingService.save(buying);
+            String token = userTokenService.findTokenByUserIdAndType(user.getId(), "fcm");
+            String title = "입찰구매하신 "+ item.getItemName() +" 의 거래가 성사되었습니다.";
+            String body = "판매자가 검수지역으로 미배송시 자동결제취소됨을 미리 알려드립니다.";
+            firebaseCloudMessageService.sendMessageTo(token,title,body);
         } catch (Exception e) {
             throw DealException.builder()
                     .message(e.getMessage())
@@ -99,11 +107,13 @@ public class CreateDealService {
             User user = userService.findOneById(dto.getUserId());
             Item item = itemService.findByItemId(dto.getItemId());
             BigDecimal price = dto.getPrice();
-            LocalDateTime endDate = dto.getEndDate();
-
             Long bidSave = auctionItemService.save(item, new Money(price));
             Auctionitem auctionitem = auctionItemService.findById(bidSave);
             sellingService.bidSave(user, auctionitem,dto.getEndDate());
+            String token = userTokenService.findTokenByUserIdAndType(user.getId(), "fcm");
+            String title = "입찰판매하신 "+ item.getItemName() +" 의 거래가 성사되었습니다.";
+            String body = "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 판매내역에서 송장번호를 등록하시기 바랍니다.";
+            firebaseCloudMessageService.sendMessageTo(token,title,body);
         } catch (Exception e) {
             throw new SellingException(e.getMessage());
         }
@@ -119,7 +129,6 @@ public class CreateDealService {
             }
             Item item = itemService.findByItemId(dto.getItemId());
             BigDecimal price = dto.getPrice();
-
             Long instantSave = auctionItemService.save(item, new Money(price));
             Auctionitem auctionitem = auctionItemService.findById(instantSave);
             buying.getPayment().updateAuctionitem(auctionitem);
