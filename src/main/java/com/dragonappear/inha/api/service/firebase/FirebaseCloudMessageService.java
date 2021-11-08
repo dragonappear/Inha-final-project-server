@@ -23,7 +23,8 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/m1no-test/messages:send";
 
     public String getAccessToken() throws IOException {
-        FileInputStream inputStream = new FileInputStream("src/main/resources/firebase/firebaseAccountKey.json");
+        //FileInputStream inputStream = new FileInputStream("src/main/resources/firebase/firebaseAccountKey.json");
+        FileInputStream inputStream = new FileInputStream("/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/firebase/firebaseAccountKey.json");
         GoogleCredentials googleCredentials = GoogleCredentials
                 .fromStream(inputStream)
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
