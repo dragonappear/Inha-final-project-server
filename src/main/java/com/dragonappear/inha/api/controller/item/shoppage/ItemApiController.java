@@ -76,7 +76,7 @@ public class ItemApiController {
                                 , item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
-                                , (item.getLowestPrice()==null) ? null : item.getLowestPrice().getAmount()))
+                                , (item.getLatestPrice()==null) ? null : item.getLatestPrice().getAmount()))
                 .collect(Collectors.toList());
 
         return ResultDto.builder()
