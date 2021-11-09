@@ -24,7 +24,7 @@ public class DealQueryRepository {
         List<Tuple> result = queryFactory.select(selling.auctionitem.price, deal.createdDate)
                 .from(deal)
                 .leftJoin(deal.selling, selling)
-                .where(selling.auctionitem.item.id.eq(itemId).and(selling.sellingStatus.eq(판매완료)))
+                .where(selling.auctionitem.item.id.eq(itemId).and(selling.sellingStatus.eq(거래중)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
