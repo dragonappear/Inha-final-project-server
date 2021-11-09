@@ -27,8 +27,9 @@ public class DealQueryRepository {
                 .where(selling.auctionitem.item.id.eq(itemId).and(selling.sellingStatus.eq(거래중)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(deal.createdDate.desc())
                 .fetch();
-
+        
         return result.stream().map(tuple -> {
             return MarketPriceInfoDto.builder()
                     .amount(tuple.get(selling.auctionitem.price).getAmount())
