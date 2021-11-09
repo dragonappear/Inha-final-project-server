@@ -42,7 +42,7 @@ public class SellingDeliveryApiController {
         Selling selling = sellingService.findBySellingId(sellingId);
         SellingDelivery delivery = selling.getSellingDelivery();
         return MessageDto.builder()
-                .message(getMessage("delivery info:",
+                .message(getMessage("info",
                         (delivery==null) ? "송장번호가 등록되지 않았습니다.": delivery.getDelivery()))
                 .build();
     }

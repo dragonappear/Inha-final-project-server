@@ -67,6 +67,7 @@ public class CreateDealService {
             buyingService.save(buying);
             Deal deal = new Deal(buying, selling); // 거래 생성
             fcmToSeller(selling, auctionitem);
+            auctionItemService.updateItemLowestPrice(auctionitem.getItem(),auctionitem.getPrice());
             return dealService.save(deal);
         } catch (Exception e) {
             throw DealException.builder()
@@ -129,6 +130,7 @@ public class CreateDealService {
             Long auctionitemId = sellingService.instantSave(user, auctionitem);
             Selling selling = sellingService.findBySellingId(auctionitemId);
             fcmToBuyer(buying, item);
+            auctionItemService.updateItemLowestPrice(item, new Money(price));
             return dealService.save(new Deal(buying, selling));
         } catch (Exception e) {
             throw new SellingException(e.getMessage());

@@ -15,14 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuctionItemService {
     private final AuctionitemRepository auctionitemRepository;
-    private final SellingRepository sellingRepository;
 
     /**
      * CREATE
      */
     @Transactional
     public Long save(Item item, Money price) {
-        updateItemLowestPrice(item, price);
         return auctionitemRepository.save(new Auctionitem(item, price)).getId();
     }
 
@@ -48,12 +46,10 @@ public class AuctionItemService {
     /**
      * UPDATE
      */
-
     @Transactional
-    private void updateItemLowestPrice(Item item, Money price) {
+    public void updateItemLowestPrice(Item item, Money price) {
         if (item.getLowestPrice() == null || price.isLessThan(item.getLowestPrice())) {
             item.updateLowestPrice(price);
         }
     }
-
 }
