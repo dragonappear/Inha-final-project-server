@@ -47,9 +47,7 @@ public class AuctionItemService {
      * UPDATE
      */
     @Transactional
-    public void updateItemLowestPrice(Item item, Money price) {
-        if (item.getLowestPrice() == null || price.isLessThan(item.getLowestPrice())) {
-            item.updateLowestPrice(price);
-        }
+    public void updateItemLatestPrice(Item item, Money price) {
+        item.updateLatestPrice(price);
     }
 }
