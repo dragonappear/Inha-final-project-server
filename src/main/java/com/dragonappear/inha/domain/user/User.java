@@ -6,10 +6,11 @@ import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import com.dragonappear.inha.domain.user.value.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;

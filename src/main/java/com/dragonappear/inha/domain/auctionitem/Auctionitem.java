@@ -6,10 +6,10 @@ import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.value.Money;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import static javax.persistence.FetchType.*;

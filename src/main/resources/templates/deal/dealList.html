@@ -1,19 +1,18 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-</head>
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header::userHead"></head>
 <body>
+<div th:replace="layout/top::header"></div>
 
 <div class="py-5 text-center">
-    <h2>거래 내역</h2> </div>
+    <h2>거래 내역</h2>
+</div>
 <hr class="my-4">
 <div>
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th> <th>날짜</th> <th>상태</th> <th>구매 ID</th><th>판매 ID</th><th>검수 ID</th>
+            <th>ID</th> <th>날짜</th> <th>상태</th> <th>구매 ID</th><th>판매 ID</th> <th>검수 ID</th> <th>검수등록</th>
         </tr>
         </thead>
         <tbody>
@@ -23,11 +22,12 @@
             <td th:text="${deal.status}"></td>
             <td th:text="${deal.buyingId}"></td>
             <td th:text="${deal.sellingId}"></td>
-            <td th:text="${deal.inspectionId}">null</td>
+            <td th:text="${deal.inspectionId}"></td>
+            <td><a th:href="|@{/admin/inspections/{dealId}(dealId=${deal.dealId})}|">등록</a></td>
         </tr>
         </tbody>
     </table>
 </div>
-
+<div th:replace="layout/footer::footer"></div>
 </body>
 </html>

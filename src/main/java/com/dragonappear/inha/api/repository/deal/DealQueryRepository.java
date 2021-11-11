@@ -29,7 +29,7 @@ public class DealQueryRepository {
                 .limit(pageable.getPageSize())
                 .orderBy(deal.createdDate.desc())
                 .fetch();
-        
+
         return result.stream().map(tuple -> {
             return MarketPriceInfoDto.builder()
                     .amount(tuple.get(selling.auctionitem.price).getAmount())

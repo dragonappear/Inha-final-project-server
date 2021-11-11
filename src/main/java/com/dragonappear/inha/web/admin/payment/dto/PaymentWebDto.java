@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class PaymentWebDto {
     private Long paymentId;
+    private Long userId;
     private LocalDateTime updateDate;
     private PaymentStatus status;
     private BigDecimal price;
@@ -21,8 +22,9 @@ public class PaymentWebDto {
     private String merchantId;
 
     @Builder
-    public PaymentWebDto(Long paymentId, LocalDateTime updateDate, PaymentStatus status, BigDecimal price, BigDecimal point, String pgName, String impId, String merchantId) {
+    public PaymentWebDto(Long paymentId, Long userId, LocalDateTime updateDate, PaymentStatus status, BigDecimal price, BigDecimal point, String pgName, String impId, String merchantId) {
         this.paymentId = paymentId;
+        this.userId = userId;
         this.updateDate = updateDate;
         this.status = status;
         this.price = price;

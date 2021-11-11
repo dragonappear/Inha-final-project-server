@@ -20,16 +20,23 @@ repositories {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
-		implementation 'com.querydsl:querydsl-jpa'
-		compileOnly 'org.projectlombok:lombok'
-		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+		implementation 'org.springframework.boot:spring-boot-starter-security'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
-		implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 		implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+		implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+		implementation 'com.querydsl:querydsl-jpa'
+
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
 		runtimeOnly 'com.h2database:h2'
+		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 
+		// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+		implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0'
+
+		// https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+		implementation 'commons-fileupload:commons-fileupload:1.4'
 		implementation 'org.apache.commons:commons-lang3:3.12.0'
 		implementation 'commons-io:commons-io:2.11.0'
 
@@ -54,6 +61,12 @@ repositories {
 		// https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
 		implementation 'com.squareup.okhttp3:okhttp'
 
+		// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+		implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+		// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
+		runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+		// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
+		runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
 
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {

@@ -33,6 +33,7 @@ public class PaymentWebController {
             return PaymentWebDto.builder()
                     .paymentId(payment.getId())
                     .price(payment.getPaymentPrice().getAmount())
+                    .userId(payment.getUser().getId())
                     .updateDate(payment.getUpdatedDate())
                     .pgName(payment.getPgName())
                     .status(payment.getPaymentStatus())

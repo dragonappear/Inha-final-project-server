@@ -2,9 +2,9 @@ package com.dragonappear.inha.domain.user;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Account;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 

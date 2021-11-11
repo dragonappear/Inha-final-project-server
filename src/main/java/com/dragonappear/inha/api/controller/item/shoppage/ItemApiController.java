@@ -7,6 +7,7 @@ import com.dragonappear.inha.api.controller.auctionitem.dto.SimpleItemDto;
 import com.dragonappear.inha.api.repository.deal.DealQueryRepository;
 import com.dragonappear.inha.api.repository.item.dto.NotebookDto;
 import com.dragonappear.inha.domain.item.Item;
+import com.dragonappear.inha.domain.item.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.api.repository.item.NotebookQueryRepository;
@@ -85,15 +86,20 @@ public class ItemApiController {
                 .build();
     }
 
-    @ApiOperation(value = "아이템 상세 조회 API", notes = "아이템을 상세 조회")
+    @ApiOperation(value = "아이템 상세 조회 API", notes = "아이템 상세 조회")
     @GetMapping("/items/details/{itemId}")
     public DetailDto detailItem(@PathVariable("itemId") Long itemId) {
-        NotebookDto dto = notebookQueryRepository.findById(itemId);
-        List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileName()).collect(Collectors.toList());
+        Item item = itemService.findByItemId(itemId);
+        if (item instanceof Notebook) {
+            NotebookDto dto = notebookQueryRepository.findById(itemId);
+            List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileName()).collect(Collectors.toList());
             return DetailDto.builder()
                     .fileNames(names)
                     .detail(dto)
                     .build();
+        }
+        return null;
+
     }
 
     @ApiOperation(value = "판매전, 구매전 아이템 대표정보 조회 API", notes = "판매전, 구매전 아이템 대표정보 조회")
