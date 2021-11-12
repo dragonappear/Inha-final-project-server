@@ -36,7 +36,7 @@
             </td>
 
             <td>
-                <form name="inspectionForm" th:action="|@{/web/inspections/{dealId}(dealId=${deal.dealId})}|">
+                <form name="inspectionForm" th:action="@{/web/inspections/deals/{dealId}(dealId=${deal.dealId})}" method="get">
                     <input type="submit" value="등록"/>
                 </form>
             </td>

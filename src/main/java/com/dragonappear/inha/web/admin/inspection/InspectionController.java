@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -39,10 +39,25 @@ public class InspectionController {
     private final FcmSendService fcmSendService;
 
 
-    @GetMapping("/{dealId}")
-    public String dealInspection(@PathVariable("dealId") Long dealId, Model model) {
+    @GetMapping("/deals/{dealId}")
+    public String registerPage(@PathVariable("dealId") Long dealId, Model model) {
         model.addAttribute("dealId", dealId);
         return "inspection/inspectionRegister";
+    }
+
+    @GetMapping("/{inspectionId}")
+    public String getInspectionResult(@PathVariable("inspectionId") Long inspectionId, Model model) {
+        Inspection inspection = inspectionService.findById(inspectionId);
+        String result;
+        if (inspection instanceof PassInspection) {
+            result = "합격";
+        }  else{
+            result = "탈락";
+        }
+        List<InspectionImage> fileNames = inspectionImageService.findByInspectionId(inspectionId);
+        model.addAttribute("result", result);
+        model.addAttribute("fileNames", fileNames);
+        return "inspection/result";
     }
 
     @PostMapping("/{dealId}/register")
@@ -52,7 +67,7 @@ public class InspectionController {
             Inspection inspection = deal.getInspection();
             inspectionService.delete(inspection.getId());
         }
-        updateInspection(request, deal);
+        Long inspectionId = updateInspection(request, deal);
 
         String result;
         if (request.getParameter("result").equals("pass")) {
@@ -60,7 +75,6 @@ public class InspectionController {
         } else {
             result = "탈락";
         }
-
 
         User seller = deal.getSelling().getSeller();
         User buyer = deal.getBuying().getPayment().getUser();
@@ -73,15 +87,16 @@ public class InspectionController {
         } catch (IOException e) {
             log.error("dealId:{} 검수결과 FCM 메시지가 전송되지 않았습니다.",deal.getId());
         }
-        return "redirect:/web/deals";
+        return "redirect:/web/inspections/"+ String.valueOf(inspectionId);
     }
 
-    private void updateInspection(MultipartHttpServletRequest request, Deal deal) throws IOException {
+    private Long updateInspection(MultipartHttpServletRequest request, Deal deal) throws IOException {
         List<MultipartFile> files = request.getFiles("file");
         String result = request.getParameter("result");
         Inspection inspection = getInspection(deal, result);
-        inspectionService.save(inspection);
+        Long id = inspectionService.save(inspection);
         updateInspectionImages(files,inspection);
+        return id;
     }
 
     private Inspection getInspection(Deal deal, String result) {
@@ -101,8 +116,8 @@ public class InspectionController {
             for (MultipartFile file : files) {
                 String sourceFileName = file.getOriginalFilename();
                 String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
-                String fileUrl = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/inspections/";
-                //String fileUrl = "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/inspections/";
+                //String fileUrl = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/inspections/";
+                String fileUrl = "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/inspections/";
                 String destinationFileName = RandomStringUtils.randomAlphabetic(32) + "." + sourceFileNameExtension;
                 File destinationFile = new File(fileUrl + destinationFileName);
                 destinationFile.getParentFile().mkdirs();

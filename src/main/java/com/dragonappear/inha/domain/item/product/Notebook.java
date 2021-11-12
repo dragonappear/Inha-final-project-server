@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @DiscriminatorValue("notebook")
 @NoArgsConstructor(access = PROTECTED)
-@Data
+@Getter
 @Entity
 public class Notebook extends Item {
     private String inch;

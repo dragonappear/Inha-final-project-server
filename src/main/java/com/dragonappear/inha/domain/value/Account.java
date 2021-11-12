@@ -19,7 +19,7 @@ public class Account {
     @Enumerated(STRING)
     private BankName bankName;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String accountNumber;
 
     @Column(nullable = false)

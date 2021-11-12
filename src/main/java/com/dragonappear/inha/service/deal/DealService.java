@@ -1,6 +1,7 @@
 package com.dragonappear.inha.service.deal;
 
 import com.dragonappear.inha.domain.deal.Deal;
+import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,13 @@ public class DealService {
     }
 
 
+
     /**
      * UPDATE
      */
+    @Transactional
+    public void updateDealStatus(Deal deal, DealStatus status) {
+        deal.updateDealStatus(status);
+    }
 
 }
