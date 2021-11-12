@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: real,oauth,real-db
+    active: real,real-db
 
   jpa:
     properties:
@@ -9,7 +9,7 @@ spring:
   servlet:
     multipart:
       maxFileSize : 10MB
-      maxRequestSize : 10MB
+      maxRequestSize : 20MB
 
 logging:
   level:
