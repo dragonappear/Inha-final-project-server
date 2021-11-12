@@ -5,6 +5,7 @@ import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.selling.InstantSelling;
@@ -54,7 +55,7 @@ class SellingDeliveryRepositoryTest {
         categoryRepository.save(newCategory);
         Manufacturer newManufacturer = new Manufacturer(ManufacturerName.삼성);
         manufacturerRepository.save(newManufacturer);
-        Item newItem = new Item("맥북", "serial1", LocalDate.of(2021, 5, 21)
+        Item newItem = new Notebook("맥북", "serial1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 ,  Money.wons(1_000_000L),   newCategory,newManufacturer);
         itemRepository.save(newItem);

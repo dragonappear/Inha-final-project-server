@@ -30,6 +30,10 @@ public class Notebook extends Item {
     private String gpu;
     private String weight;
 
+    public Notebook(String itemName, String modelNumber, LocalDate releaseDay, String color, Money releasePrice, Category category, Manufacturer manufacturer) {
+        super(itemName, modelNumber, releaseDay, color, releasePrice, category, manufacturer);
+    }
+
     @Builder
     public Notebook(String itemName, String modelNumber, LocalDate releaseDay, String color
             , Money releasePrice, Category category, Manufacturer manufacturer

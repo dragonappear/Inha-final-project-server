@@ -7,7 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import static com.dragonappear.inha.domain.item.QItem.*;
-import static com.dragonappear.inha.domain.item.QNotebook.*;
+import static com.dragonappear.inha.domain.item.product.QNotebook.notebook;
 
 
 @RequiredArgsConstructor

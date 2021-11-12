@@ -7,6 +7,7 @@ import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
@@ -68,7 +69,7 @@ class BuyingServiceTest {
         categoryRepository.save(category);
         manufacturerRepository.save(manufacturer);
 
-        Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
+        Item item = new Notebook("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(10000L)
                 ,category,manufacturer);

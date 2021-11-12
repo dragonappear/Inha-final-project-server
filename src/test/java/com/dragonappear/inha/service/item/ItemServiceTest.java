@@ -3,6 +3,7 @@ package com.dragonappear.inha.service.item;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.value.Money;
@@ -48,19 +49,19 @@ class ItemServiceTest {
         manufacturerRepository.save(manufacturer);
         manufacturerRepository.save(manufacturer1);
 
-        Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
+        Item item = new Notebook("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(10000L),
                 category,manufacturer);
-        Item item1 = new Item("맥북1", "modelNumber2",LocalDate.of(2021, 5, 21)
+        Item item1 = new Notebook("맥북1", "modelNumber2",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(20000L),
                  category,manufacturer);
-        Item item2 = new Item("맥북2", "modelNumber3",LocalDate.of(2021, 5, 21)
+        Item item2 = new Notebook("맥북2", "modelNumber3",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(30000L),
                 category1,manufacturer1);
-        Item item3 = new Item("맥북2", "modelNumber4",LocalDate.of(2021, 5, 21)
+        Item item3 = new Notebook("맥북2", "modelNumber4",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(40000L),
                  category1,manufacturer1);
@@ -76,7 +77,7 @@ class ItemServiceTest {
         //given
         Category category = categoryRepository.findAll().get(0);
         Manufacturer manufacturer = manufacturerRepository.findAll().get(0);
-        Item item = new Item("맥북1", "modelNumber10",LocalDate.of(2021, 5, 21)
+        Item item = new Notebook("맥북1", "modelNumber10",LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버"
                 , Money.wons(10000L),
                  category, manufacturer);

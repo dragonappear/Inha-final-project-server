@@ -4,6 +4,7 @@ import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.item.UserLikeItem;
+import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.CategoryRepository;
@@ -49,10 +50,10 @@ class UserLikeItemServiceTest {
         Manufacturer manufacturer = new Manufacturer(삼성);
         categoryRepository.save(category);
         manufacturerRepository.save(manufacturer);
-        Item item = new Item("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
+        Item item = new Notebook("맥북1", "modelNumber1", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버", Money.wons(10000L),
                 category,manufacturer);
-        Item item1 = new Item("맥북1", "modelNumber2", LocalDate.of(2021, 5, 21)
+        Item item1 = new Notebook("맥북1", "modelNumber2", LocalDate.of(2021, 5, 21)
                 ,"미스틱 실버",Money.wons(10000L),
                category,manufacturer);
         itemRepository.save(item);
