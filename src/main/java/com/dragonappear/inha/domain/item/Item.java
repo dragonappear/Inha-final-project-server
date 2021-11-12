@@ -20,12 +20,12 @@ import static javax.persistence.GenerationType.*;
 import static javax.persistence.InheritanceType.*;
 import static lombok.AccessLevel.*;
 
-@DiscriminatorColumn(name = "dtype")
+@DiscriminatorColumn
 @Inheritance(strategy = JOINED)
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public  class Item extends JpaBaseTimeEntity {
+public abstract class Item extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "item_id")

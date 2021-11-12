@@ -16,6 +16,7 @@ import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
@@ -110,11 +111,14 @@ class InspectionImageServiceTest {
     @Test
     public void 검수이미지_생성_테스트() throws Exception{
         //given
+        Image i1 = new Image("name1", "oriName1", "url1");
+        Image i2 = new Image("name2", "oriName2", "url2");
+        Image i3 = new Image("name3", "oriName3", "url3");
         Inspection inspection = inspectionRepository.findAll().get(0);
         List<InspectionImage> list = Arrays.asList(
-                new InspectionImage("filename1", "fileoriname1", "fileurl1", inspection)
-                , new InspectionImage("filename2", "fileoriname2", "fileurl2", inspection)
-                , new InspectionImage("filename3", "fileoriname3", "fileurl3", inspection)
+                new InspectionImage( inspection,i1)
+                , new InspectionImage( inspection,i2)
+                , new InspectionImage(inspection,i3)
         );
         //when
         inspectionImageService.save(list);
@@ -129,11 +133,14 @@ class InspectionImageServiceTest {
     @Test
     public void 검수이미지조회_이미지아이디로_테스트() throws Exception{
         //given
+        Image i1 = new Image("name1", "oriName1", "url1");
+        Image i2 = new Image("name2", "oriName2", "url2");
+        Image i3 = new Image("name3", "oriName3", "url3");
         Inspection inspection = inspectionRepository.findAll().get(0);
         List<InspectionImage> list = Arrays.asList(
-                new InspectionImage("filename1", "fileoriname1", "fileurl1", inspection)
-                , new InspectionImage("filename2", "fileoriname2", "fileurl2", inspection)
-                , new InspectionImage("filename3", "fileoriname3", "fileurl3", inspection)
+                new InspectionImage( inspection,i1)
+                , new InspectionImage( inspection,i2)
+                , new InspectionImage(inspection,i3)
         );
         for (InspectionImage inspectionImage : list) {
             inspectionImageRepository.save(inspectionImage);

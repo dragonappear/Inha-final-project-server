@@ -13,7 +13,7 @@ import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
-@DiscriminatorColumn(name = "pass")
+@DiscriminatorValue("pass")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity

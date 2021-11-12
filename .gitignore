@@ -1,10 +1,8 @@
 HELP.md
 .gradle
 build/
-NotebookInitDB.java
-TabletInitDB.java
-UserInitDB.java
-application-oauth.yml
+
+### yml ###
 application-real-db.yml
 application-local-db.yml
 
@@ -12,6 +10,12 @@ application-local-db.yml
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+### java ###
+InitNotebook.java
+InitTablet.java
+InitUser.java
+InitManufacturer.java
 
 ### IntelliJ IDEA ###
 .idea

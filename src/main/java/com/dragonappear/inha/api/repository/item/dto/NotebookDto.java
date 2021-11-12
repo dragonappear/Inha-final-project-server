@@ -2,19 +2,13 @@ package com.dragonappear.inha.api.repository.item.dto;
 
 
 import com.dragonappear.inha.api.controller.auctionitem.dto.DetailItemDto;
-import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.Notebook;
-import com.dragonappear.inha.domain.value.Money;
+import com.dragonappear.inha.domain.item.product.Notebook;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-
-import static lombok.AccessLevel.PROTECTED;
 
 @NoArgsConstructor
 @Data

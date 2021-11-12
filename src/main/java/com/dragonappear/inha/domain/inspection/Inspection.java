@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.InheritanceType.*;
 import static lombok.AccessLevel.*;
 
-@DiscriminatorColumn(name = "dtype")
+@DiscriminatorColumn
 @Inheritance(strategy = JOINED)
 @NoArgsConstructor(access = PROTECTED)
 @Getter

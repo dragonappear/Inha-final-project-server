@@ -18,6 +18,7 @@ import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
+import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
@@ -99,9 +100,12 @@ class InspectionImageRepositoryTest {
     public void 검수이미지생성_테스트() throws Exception{
         //given
         Inspection findInspection = inspectionRepository.findAll().get(0);
-        InspectionImage image1 = new InspectionImage("name1", "oriName1", "url1", findInspection);
-        InspectionImage image2 = new InspectionImage("name2", "oriName2", "url2", findInspection);
-        InspectionImage image3 = new InspectionImage("name3", "oriName3", "url3", findInspection);
+        Image i1 = new Image("name1", "oriName1", "url1");
+        Image i2 = new Image("name2", "oriName2", "url2");
+        Image i3 = new Image("name3", "oriName3", "url3");
+        InspectionImage image1 = new InspectionImage(findInspection,i1);
+        InspectionImage image2 = new InspectionImage(findInspection,i2);
+        InspectionImage image3 = new InspectionImage( findInspection,i3);
         inspectionImageRepository.save(image1);
         inspectionImageRepository.save(image2);
         inspectionImageRepository.save(image3);

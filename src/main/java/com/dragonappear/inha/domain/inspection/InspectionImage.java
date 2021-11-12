@@ -1,6 +1,8 @@
 package com.dragonappear.inha.domain.inspection;
 
 
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.value.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,20 +15,15 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class InspectionImage {
+public class InspectionImage extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "inspection_image_id")
     private Long id;
 
     @Column(nullable = false)
-    private String fileName;
-
-    @Column(nullable = false)
-    private String fileOriName;
-
-    @Column(nullable = false)
-    private String fileUrl;
+    @Embedded
+    private Image inspectionImage;
 
     /**
      * 연관관계
@@ -49,10 +46,8 @@ public class InspectionImage {
      * 생성자메서드
      */
 
-    public InspectionImage(String fileName, String fileOriName, String fileUrl, Inspection inspection) {
-        this.fileName = fileName;
-        this.fileOriName = fileOriName;
-        this.fileUrl = fileUrl;
+    public InspectionImage(Inspection inspection, Image inspectionImage) {
+        this.inspectionImage = inspectionImage;
         if (inspection != null) {
             updateInspectionImage(inspection);
         }

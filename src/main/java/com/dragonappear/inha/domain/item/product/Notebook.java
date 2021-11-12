@@ -1,5 +1,8 @@
-package com.dragonappear.inha.domain.item;
+package com.dragonappear.inha.domain.item.product;
 
+import com.dragonappear.inha.domain.item.Category;
+import com.dragonappear.inha.domain.item.Item;
+import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.value.Money;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Data
 @Entity
-public class Notebook extends Item{
+public class Notebook extends Item {
     private String inch;
     private String cpu;
     private String core;
@@ -29,7 +32,7 @@ public class Notebook extends Item{
 
     @Builder
     public Notebook(String itemName, String modelNumber, LocalDate releaseDay, String color
-            , Money releasePrice,  Category category, Manufacturer manufacturer
+            , Money releasePrice, Category category, Manufacturer manufacturer
             , String inch, String cpu, String core, String os, String memory, String storage, String gpu, String weight) {
         super(itemName, modelNumber, releaseDay, color, releasePrice, category, manufacturer);
         this.inch = inch;
