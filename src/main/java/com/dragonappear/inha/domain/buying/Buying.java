@@ -51,6 +51,11 @@ public abstract class Buying extends JpaBaseTimeEntity {
         this.payment = payment;
         payment.updatePayment(this);
     }
+
+    public void updateDeal(Deal deal){
+        this.deal = deal;
+    }
+
     /**
      * 생성자메서드
      */
@@ -69,4 +74,6 @@ public abstract class Buying extends JpaBaseTimeEntity {
     public void updateStatus(BuyingStatus buyingStatus) {
         this.buyingStatus = buyingStatus;
     }
+
+
 }

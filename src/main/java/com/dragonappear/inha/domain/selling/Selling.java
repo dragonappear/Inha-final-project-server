@@ -71,6 +71,10 @@ public abstract class Selling extends JpaBaseTimeEntity {
         auctionitem.updateSellingAuctionitem(this);
     }
 
+    public void updateDeal(Deal deal){
+        this.deal = deal;
+    }
+
     /**
      * 생성자메서드
      */
@@ -92,4 +96,6 @@ public abstract class Selling extends JpaBaseTimeEntity {
     public void updateStatus(SellingStatus sellingStatus) {
         this.sellingStatus = sellingStatus;
     }
+
+
 }

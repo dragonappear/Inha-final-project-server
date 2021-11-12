@@ -2,8 +2,6 @@ package com.dragonappear.inha.api.repository.buying;
 
 import com.dragonappear.inha.api.repository.buying.dto.*;
 import com.dragonappear.inha.domain.buying.Buying;
-import com.dragonappear.inha.domain.buying.QBidBuying;
-import com.dragonappear.inha.domain.buying.QBuying;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -34,7 +32,11 @@ public class BuyingQueryRepository{
             if(r.getBuyingStatus()== 구매입찰중){
                 dto.countBidding();
             }
-            else if(r.getBuyingStatus()== 거래중 || r.getBuyingStatus()==구매완료){
+            else if(r.getBuyingStatus()== 거래진행 ||
+                    r.getBuyingStatus()== 입고완료 ||
+                    r.getBuyingStatus()== 검수진행 ||
+                    r.getBuyingStatus()== 검수합격 ||
+                    r.getBuyingStatus()== 검수탈락){
                 dto.countOngoing();
             }
             else{
@@ -66,7 +68,7 @@ public class BuyingQueryRepository{
                .from(buying)
                .join(buying.payment, payment).on(payment.user.id.eq(userId))
                .join(itemImage1).on(itemImage1.item.id.eq(payment.item.id))
-               .where(buying.buyingStatus.in(거래중, 구매완료))
+               .where(buying.buyingStatus.in(거래진행,입고완료,검수진행,검수합격,검수탈락))
                .fetch();
    }
 
@@ -80,7 +82,7 @@ public class BuyingQueryRepository{
                 .join(buying.deal,deal).on(deal.buying.id.eq(buying.id))
                 .join(buying.payment, payment).on(buying.payment.id.eq(payment.id).and(payment.user.id.eq(userId)))
                 .join(itemImage1).on(itemImage1.item.id.eq(payment.auctionitem.item.id))
-                .where(buying.buyingStatus.in(구매입찰종료, 구매취소, 배송완료))
+                .where(buying.buyingStatus.in(구매입찰종료, 미입고취소, 검수탈락취소, 발송완료))
                 .fetch();
     }
 }

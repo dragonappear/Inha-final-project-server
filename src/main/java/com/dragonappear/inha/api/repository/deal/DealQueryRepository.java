@@ -1,7 +1,6 @@
 package com.dragonappear.inha.api.repository.deal;
 
 import com.dragonappear.inha.api.repository.deal.dto.MarketPriceInfoDto;
-import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class DealQueryRepository {
         List<Tuple> result = queryFactory.select(selling.auctionitem.price, deal.createdDate)
                 .from(deal)
                 .leftJoin(deal.selling, selling)
-                .where(selling.auctionitem.item.id.eq(itemId).and(selling.sellingStatus.eq(거래중)))
+                .where(selling.auctionitem.item.id.eq(itemId).and(selling.sellingStatus.eq(거래진행)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(deal.createdDate.desc())

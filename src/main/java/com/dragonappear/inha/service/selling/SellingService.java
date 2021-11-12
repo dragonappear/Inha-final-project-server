@@ -82,25 +82,6 @@ public class SellingService {
      * UPDATE
      */
 
-    // 경매상품판매가 거래중일때 status 변경( Deal이 생성된 경우)
-    @Transactional
-    public void proceed(Selling selling) {
-        selling.updateStatus(SellingStatus.거래중);
-    }
-
-    // 경매상품판매가 완료되었을때 status 변경 (검수합격+정산까지 생성된 경우)
-    @Transactional
-    public void complete(Selling selling) {
-        selling.updateStatus(SellingStatus.판매완료);
-    }
-
-    // 경매상품판매가 취소되었을때 status 변경 (검수탈락했을경우)
-    @Transactional
-    public void cancel(Selling selling) {
-        selling.updateStatus(SellingStatus.판매취소);
-    }
-
-
     // 경매상품기한이 기간만료되었을때 status 변경 (경매상품아이템의 기한이 만료된경우)
     @Transactional
     public void overdue() {

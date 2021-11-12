@@ -1,14 +1,11 @@
 package com.dragonappear.inha.api.repository.seliing;
 
 import com.dragonappear.inha.api.repository.seliing.dto.*;
-import com.dragonappear.inha.domain.selling.QBidSelling;
-import com.dragonappear.inha.domain.selling.QSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.auctionitem.QAuctionitem.auctionitem;
@@ -32,7 +29,11 @@ public class SellingQueryRepository {
             if(result.getSellingStatus()== 판매입찰중){
                 dto.countBidding();
             }
-            else if(result.getSellingStatus()== 거래중){
+            else if(result.getSellingStatus()== 거래진행 ||
+                    result.getSellingStatus()== 입고완료 ||
+                    result.getSellingStatus()== 검수진행 ||
+                    result.getSellingStatus()== 검수합격 ||
+                    result.getSellingStatus()== 검수탈락){
                 dto.countOngoing();
             } else{
                 dto.countEnd();
@@ -69,7 +70,7 @@ public class SellingQueryRepository {
                 .join(deal).on(deal.selling.id.eq(selling.id))
                 .join(itemImage1).on(itemImage1.item.id.eq(selling.auctionitem.item.id))
                 .join(selling.auctionitem,auctionitem).on(auctionitem.id.eq(selling.auctionitem.id))
-                .where(selling.sellingStatus.in(판매완료,거래중).and(selling.seller.id.eq(userId)))
+                .where(selling.sellingStatus.in(거래진행,입고완료,검수진행,검수합격,검수탈락).and(selling.seller.id.eq(userId)))
                 .fetch();
     }
 
@@ -82,7 +83,7 @@ public class SellingQueryRepository {
                 .from(selling)
                 .join(selling.auctionitem,auctionitem).on(auctionitem.id.eq(selling.auctionitem.id))
                 .join(itemImage1).on(itemImage1.item.id.eq(selling.auctionitem.item.id))
-                .where(selling.sellingStatus.in(판매입찰종료,정산완료, 판매취소).and(selling.seller.id.eq(userId)))
+                .where(selling.sellingStatus.in(판매입찰종료, 정산완료, 미입고취소, 검수탈락취소,반송완료).and(selling.seller.id.eq(userId)))
                 .fetch();
     }
 }

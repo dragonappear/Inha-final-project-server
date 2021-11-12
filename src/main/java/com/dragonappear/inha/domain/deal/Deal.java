@@ -35,12 +35,13 @@ public class Deal extends JpaBaseTimeEntity {
      * 연관관계
      */
 
+
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "buying_id")
+    @JoinColumn(name = "buying_id", nullable = false)
     private Buying buying;
 
     @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "selling_id")
+    @JoinColumn(name = "selling_id", nullable = false)
     private Selling selling;
 
     @OneToOne(fetch = LAZY,mappedBy = "deal")
@@ -49,19 +50,24 @@ public class Deal extends JpaBaseTimeEntity {
     /**
      * 연관관계메서드
      */
+    private void updateBuying(Buying buying) {
+        buying.updateDeal(this);
+        buying.updateStatus(BuyingStatus.거래진행);
+    }
 
+    private void updateSelling(Selling selling) {
+        selling.updateDeal(this);
+        selling.getAuctionitem().getItem().updateLatestPrice(this.selling.getAuctionitem().getPrice());
+        selling.updateStatus(SellingStatus.거래진행);
+    }
 
     /**
      * 생성자메서드
      */
     public Deal(Buying buying, Selling selling) {
-        this.dealStatus = 거래진행;
-        if (buying != null) {
-            updateBuying(buying);
-        }
-        if (selling != null) {
-            updateSelling(selling);
-        }
+        this.buying = buying;
+        this.selling = selling;
+        updateDealStatus(거래진행);
     }
 
     /**
@@ -69,24 +75,32 @@ public class Deal extends JpaBaseTimeEntity {
      */
     public void updateDealStatus(DealStatus dealStatus) {
         this.dealStatus = dealStatus;
-        if(dealStatus== 거래취소){
-            this.buying.updateStatus(BuyingStatus.구매취소);
-            this.selling.updateStatus(SellingStatus.판매취소);
-        }
-        else if (dealStatus == 검수완료) {
-            this.buying.updateStatus(BuyingStatus.구매완료);
-            this.selling.updateStatus(SellingStatus.판매완료);
+        updateBuyingAndSellingStatus(dealStatus);
+    }
+
+    private void updateBuyingAndSellingStatus(DealStatus dealStatus) {
+        if (dealStatus == 거래진행) {
+            updateBuying(buying);
+            updateSelling(selling);
+        } else if (dealStatus == 입고완료) {
+            this.buying.updateStatus(BuyingStatus.입고완료);
+            this.selling.updateStatus(SellingStatus.입고완료);
+        } else if (dealStatus == 검수진행) {
+            this.buying.updateStatus(BuyingStatus.검수진행);
+            this.selling.updateStatus(SellingStatus.검수진행);
+        } else if (dealStatus == 검수합격) {
+            this.buying.updateStatus(BuyingStatus.검수합격);
+            this.selling.updateStatus(SellingStatus.검수합격);
+        } else if (dealStatus == 검수탈락) {
+            this.buying.updateStatus(BuyingStatus.검수탈락);
+            this.selling.updateStatus(SellingStatus.검수탈락);
+        } else if (dealStatus == 미입고취소) {
+            this.buying.updateStatus(BuyingStatus.미입고취소);
+            this.selling.updateStatus(SellingStatus.미입고취소);
+        } else if (dealStatus == 검수탈락취소) {
+            this.buying.updateStatus(BuyingStatus.검수탈락취소);
+            this.selling.updateStatus(SellingStatus.검수탈락취소);
         }
     }
 
-    private void updateBuying(Buying buying) {
-        this.buying = buying;
-        buying.updateStatus(BuyingStatus.거래중);
-    }
-
-    private void updateSelling(Selling selling) {
-        this.selling = selling;
-        this.selling.getAuctionitem().getItem().updateLatestPrice(this.selling.getAuctionitem().getPrice());
-        selling.updateStatus(SellingStatus.거래중);
-    }
 }

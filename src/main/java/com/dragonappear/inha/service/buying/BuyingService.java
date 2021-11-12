@@ -60,19 +60,6 @@ public class BuyingService {
      * UPDATE
      */
 
-    // 검수합격시 status 변경
-    @Transactional
-    public void complete(Buying buying) {
-        buying.updateStatus(BuyingStatus.거래중);
-    }
-
-    // 검수합격시 sttatus 변경
-    @Transactional
-    public void cancel(Buying buying) {
-        buying.updateStatus(BuyingStatus.구매취소);
-    }
-
-
     // 입찰기간 만료시 status 변경
     @Transactional
     public void overdue() {

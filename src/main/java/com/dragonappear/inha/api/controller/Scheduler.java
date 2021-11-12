@@ -2,10 +2,7 @@ package com.dragonappear.inha.api.controller;
 
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
-import com.dragonappear.inha.domain.buying.BidBuying;
-import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
 import com.dragonappear.inha.service.buying.BuyingService;
@@ -56,11 +53,15 @@ public class Scheduler {
     public void cancelDeal() {
         List<Deal> deals = dealService.findUnregisteredSellingDelivery();
         deals.stream().forEach(deal -> {
-            deal.updateDealStatus(거래취소);
+            deal.updateDealStatus(미입고취소);
             Payment payment = deal.getBuying().getPayment();
             cancelPayment(payment);
         });
     }
+
+    /**
+     * 7일동안 입고완료가 진행이 안되면 취소 추가 로직 필요
+     */
 
     private void cancelPayment(Payment payment) {
         try {
