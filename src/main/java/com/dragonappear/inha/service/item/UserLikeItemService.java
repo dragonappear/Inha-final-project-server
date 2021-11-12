@@ -20,18 +20,20 @@ import java.util.List;
 public class UserLikeItemService {
     private final UserLikeItemRepository userLikeItemRepository;
 
+    /**
+     * CREATE
+     */
+
     // 회원아이템 찜 저장
     @Transactional
     public Long save(UserLikeItem userLikeItem)  {
         return userLikeItemRepository.save(userLikeItem).getId();
     }
 
-    // 회원아이템 찜 취소
-    @Transactional
-    public void delete(UserLikeItem userLikeItem) {
-        userLikeItem.getItem().cancel();
-        userLikeItemRepository.delete(userLikeItem.getId());
-    }
+    /**
+     * READ
+     */
+
     // 아이템 찜 조회 by 유저아이디
     public List<Item> findByUserId(Long userId) {
         List<UserLikeItem> all = userLikeItemRepository.findByUserId(userId);
@@ -42,5 +44,21 @@ public class UserLikeItemService {
     // 유저가 누른 아이템 좋아요 개수 조회
     public int getLikeNumber(Long userId) {
         return userLikeItemRepository.findByUserId(userId).size();
+    }
+
+    // 좋아요아이템 조회 by 유저아이디와 아이템아이디
+    public UserLikeItem findByUserIdAndItemId(Long userId, Long itemId) {
+        return userLikeItemRepository.findByUserIdAndItemId(userId, itemId).orElse(null);
+    }
+
+    /**
+     * DELETE
+     */
+
+    // 회원아이템 찜 취소
+    @Transactional
+    public void delete(UserLikeItem userLikeItem) {
+        userLikeItem.getItem().cancel();
+        userLikeItemRepository.delete(userLikeItem.getId());
     }
 }

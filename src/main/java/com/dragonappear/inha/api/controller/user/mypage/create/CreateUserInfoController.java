@@ -21,7 +21,6 @@ import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 @RestController
 public class CreateUserInfoController {
     private final UserAddressService userAddressService;
-    private final UserService userService;
 
     @ApiOperation(value = "유저 주소 저장 API", notes = "유저 주소 저장")
     @PostMapping("/users/update/addresses/{userId}")

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static javax.persistence.InheritanceType.*;
@@ -78,7 +79,7 @@ public abstract class Item extends JpaBaseTimeEntity {
     private List<ItemImage> itemImages = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = ALL)
     private List<UserLikeItem> userLikeItems = new ArrayList<>();
 
     @JsonIgnore
@@ -142,7 +143,5 @@ public abstract class Item extends JpaBaseTimeEntity {
     public void updateLatestPrice(Money amount) {
         this.latestPrice = amount;
     }
-
-    public void updateLowestPrice(Money amount){this.lowestPrice = amount;}
 
 }
