@@ -24,7 +24,6 @@ import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
 import com.dragonappear.inha.repository.inspection.fail.FailDeliveryRepository;
-import com.dragonappear.inha.repository.inspection.fail.FailInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -63,7 +62,6 @@ class FailDeliveryServiceTest {
     @Autowired SellingRepository sellingRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired FailInspectionRepository failInspectionRepository;
     @Autowired FailDeliveryRepository failDeliveryRepository;
     @Autowired FailDeliveryService failDeliveryService;
 
@@ -106,20 +104,17 @@ class FailDeliveryServiceTest {
         Deal deal = new Deal(buying, selling);
         dealRepository.save(deal);
 
-        Inspection newInspection = new Inspection(deal);
+        Inspection newInspection = new FailInspection(deal);
         inspectionRepository.save(newInspection);
-
-        FailInspection failInspection = new FailInspection(newInspection);
-        failInspectionRepository.save(failInspection);
     }
     
     @Test
     public void 탈락검수배송_생성_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        FailInspection failInspection = failInspectionRepository.findAll().get(0);
+        FailInspection failInspection = (FailInspection) inspectionRepository.findAll().get(0);
         FailDelivery failDelivery = new FailDelivery(new Delivery(CJ대한통운, "1234-1234")
-                , failInspection.getInspection().getDeal().getSelling().getSeller().getUserAddresses().get(0).getUserAddress()
+                , failInspection.getDeal().getSelling().getSeller().getUserAddresses().get(0).getUserAddress()
                 , failInspection);
         //when
         failDeliveryService.save(failDelivery);
@@ -135,9 +130,9 @@ class FailDeliveryServiceTest {
     public void 탈락검수배송_조회_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        FailInspection failInspection = failInspectionRepository.findAll().get(0);
+        FailInspection failInspection = (FailInspection) inspectionRepository.findAll().get(0);
         FailDelivery failDelivery = new FailDelivery(new Delivery(CJ대한통운, "1234-1234")
-                , failInspection.getInspection().getDeal().getSelling().getSeller().getUserAddresses().get(0).getUserAddress()
+                , failInspection.getDeal().getSelling().getSeller().getUserAddresses().get(0).getUserAddress()
                 , failInspection);
         failDeliveryRepository.save(failDelivery);
         //when

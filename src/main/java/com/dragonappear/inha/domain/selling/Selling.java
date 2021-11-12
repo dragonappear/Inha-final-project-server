@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.selling;
 
-import com.dragonappear.inha.domain.JpaBaseEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
@@ -22,7 +22,7 @@ import static javax.persistence.InheritanceType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public abstract class Selling extends JpaBaseEntity {
+public abstract class Selling extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "selling_id")

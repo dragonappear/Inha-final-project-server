@@ -43,7 +43,7 @@ public class Deal extends JpaBaseTimeEntity {
     @JoinColumn(name = "selling_id")
     private Selling selling;
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY,mappedBy = "deal")
     private Inspection inspection;
 
     /**

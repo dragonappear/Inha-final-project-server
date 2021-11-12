@@ -1,6 +1,7 @@
 package com.dragonappear.inha.domain.inspection.pass;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
+import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,16 +13,15 @@ import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
+@DiscriminatorColumn(name = "pass")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @Entity
-public class PassInspection extends JpaBaseTimeEntity {
+public class PassInspection extends Inspection {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "pass_inspection_id")
-    private Long id;
-
+    public PassInspection(Deal deal) {
+        super(deal);
+    }
 
     /**
      * 연관관계
@@ -30,36 +30,12 @@ public class PassInspection extends JpaBaseTimeEntity {
     @OneToOne(fetch = LAZY,cascade = ALL,mappedBy = "passInspection")
     private PassDelivery passDelivery;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "inspection_id")
-    private Inspection inspection;
-
     /**
      * 연관관계편의메서드
      */
 
-
-    private void updatePassInspection(Inspection inspection) {
-        this.inspection = inspection;
-        inspection.updatePassInspection(this);
-    }
-
     public void updateDelivery(PassDelivery passDelivery) {
         this.passDelivery = passDelivery;
     }
-
-    /**
-     * 생성자메서드
-     */
-    public PassInspection(Inspection inspection) {
-        if (inspection != null) {
-            updatePassInspection(inspection);
-        }
-    }
-
-    /**
-     * 비즈니스로직
-     */
-
 
 }

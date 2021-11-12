@@ -3,16 +3,20 @@
 <head th:replace="layout/header::userHead"></head>
 <body>
 <div th:replace="layout/top::header"></div>
-
-<h2>파일업로드</h2>
-
-<div class="container">
-    <form action="/admin/inspections" method="post" enctype="multipart/form-data">
-        <input type="file" name="files">
-        <button type="submit" class="btn btn-dark">업로드</button>
+<div class="py-5 text-center">
+    <h2>검수사진 업로드</h2>
+</div>
+<hr class="my-4">
+<div class="py-5 text-center">
+    <form name="fileForm" th:action="|@{/web/inspections/{dealId}/register(dealId=${dealId})}|" method="post" enctype="multipart/form-data">
+        <input multiple="multiple" type="file" name="file" />
+        <select name="result">
+            <option value="pass">pass</option>
+            <option value="fail">fail</option>
+        </select>
+        <input type="submit" value="서버에 저장" />
     </form>
 </div>
-
 <div th:replace="layout/footer::footer"></div>
 </body>
 </html>

@@ -34,7 +34,11 @@ public class User extends JpaBaseTimeEntity {
     @Column(nullable = false)
     private String username;
 
+    @Column
     private String nickname;
+
+    @Column
+    private String password;
 
     @Column(nullable = false,unique = true)
     private String email;
@@ -45,8 +49,6 @@ public class User extends JpaBaseTimeEntity {
     @Enumerated(STRING)
     @Column(nullable = false)
     private UserRole userRole;
-
-    private String picture;
 
     /**
      * 연관관계
@@ -108,8 +110,8 @@ public class User extends JpaBaseTimeEntity {
      * 생성자 메서드
      */
     @Builder
-    public User(String username, String nickname, String email, String userTel,UserRole userRole,String picture) {
-        this(username, email, userRole, picture,userTel);
+    public User(String username, String nickname, String email, String userTel,UserRole userRole,String password) {
+        this(username, email, userRole, password,userTel);
         this.username = username;
         this.nickname = nickname;
         this.email = email;
@@ -120,11 +122,11 @@ public class User extends JpaBaseTimeEntity {
     }
 
     @Builder
-    public User(String username, String email,UserRole userRole, String picture,String userTel) {
+    public User(String username, String email, UserRole userRole, String password, String userTel) {
         this.username = username;
         this.email = email;
         this.userRole = userRole;
-        this.picture = picture;
+        this.password = password;
         this.userTel = userTel;
     }
 
@@ -144,7 +146,7 @@ public class User extends JpaBaseTimeEntity {
      */
     public User update(String username,String picture) {
         this.username = username;
-        this.picture = picture;
+        this.password = picture;
         return this;
     }
 

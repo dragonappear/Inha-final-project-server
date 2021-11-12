@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import com.dragonappear.inha.domain.inspection.InspectionImage;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
@@ -102,7 +103,7 @@ class InspectionImageServiceTest {
         Deal deal = new Deal(buying, selling);
         dealRepository.save(deal);
 
-        Inspection inspection = new Inspection(deal);
+        Inspection inspection = new PassInspection(deal);
         inspectionRepository.save(inspection);
     }
 

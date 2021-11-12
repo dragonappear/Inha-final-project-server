@@ -5,6 +5,7 @@ import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
@@ -37,7 +38,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-import static com.dragonappear.inha.domain.inspection.value.InspectionStatus.*;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static org.assertj.core.api.Assertions.*;
@@ -104,14 +104,11 @@ class InspectionServiceTest {
         //given
         Deal deal = dealRepository.findAll().get(0);
         //when
-        Inspection newInspection = new Inspection(deal);
+        Inspection newInspection = new PassInspection(deal);
         Long save = inspectionService.save(newInspection);
         Inspection findInspection = inspectionRepository.findById(save).get();
         //then
         assertThat(findInspection).isEqualTo(newInspection);
-        assertThat(findInspection.getInspectionStatus()).isEqualTo(검수진행);
-        assertThat(findInspection.getPassInspection()).isNull();
-        assertThat(findInspection.getFailInspection()).isNull();
     }
 
     @Test
@@ -119,13 +116,10 @@ class InspectionServiceTest {
         //given
         Deal deal = dealRepository.findAll().get(0);
         //when
-        Inspection newInspection = new Inspection(deal);
+        Inspection newInspection = new PassInspection(deal);
         inspectionRepository.save(newInspection);
         Inspection findInspection = inspectionService.findById(newInspection.getId());
         //then
         assertThat(findInspection).isEqualTo(newInspection);
-        assertThat(findInspection.getInspectionStatus()).isEqualTo(검수진행);
-        assertThat(findInspection.getPassInspection()).isNull();
-        assertThat(findInspection.getFailInspection()).isNull();
     }
 }

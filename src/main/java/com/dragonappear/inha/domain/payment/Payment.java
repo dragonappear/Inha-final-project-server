@@ -1,6 +1,6 @@
 package com.dragonappear.inha.domain.payment;
 
-import com.dragonappear.inha.domain.JpaBaseEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 
 import com.dragonappear.inha.domain.buying.Buying;
@@ -25,7 +25,7 @@ import static javax.persistence.GenerationType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Payment extends JpaBaseEntity {
+public class Payment extends JpaBaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

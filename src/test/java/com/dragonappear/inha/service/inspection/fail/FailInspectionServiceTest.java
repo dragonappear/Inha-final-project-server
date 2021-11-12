@@ -3,19 +3,15 @@ package com.dragonappear.inha.service.inspection.fail;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
-import com.dragonappear.inha.domain.buying.value.BuyingStatus;
 import com.dragonappear.inha.domain.deal.Deal;
-import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import com.dragonappear.inha.domain.inspection.fail.FailInspection;
-import com.dragonappear.inha.domain.inspection.value.InspectionStatus;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.BidSelling;
 import com.dragonappear.inha.domain.selling.Selling;
-import com.dragonappear.inha.domain.selling.value.SellingStatus;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -24,7 +20,6 @@ import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
-import com.dragonappear.inha.repository.inspection.fail.FailInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -32,6 +27,7 @@ import com.dragonappear.inha.repository.payment.PaymentRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import com.dragonappear.inha.repository.user.UserAddressRepository;
 import com.dragonappear.inha.repository.user.UserRepository;
+import com.dragonappear.inha.service.inspection.InspectionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +44,7 @@ import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @SpringBootTest
 @Transactional
 @Rollback
@@ -63,8 +60,8 @@ class FailInspectionServiceTest {
     @Autowired SellingRepository sellingRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired FailInspectionRepository failInspectionRepository;
-    @Autowired FailInspectionService failInspectionService;
+    @Autowired InspectionService inspectionService;
+
 
     @BeforeEach
     public void setUp() {
@@ -105,37 +102,30 @@ class FailInspectionServiceTest {
         Deal deal = new Deal(buying, selling);
         dealRepository.save(deal);
 
-        Inspection newInspection = new Inspection(deal);
-        inspectionRepository.save(newInspection);
     }
 
     @Test
     public void 탈락검수_생성_테스트() throws Exception{
         //given
-        Inspection inspection = inspectionRepository.findAll().get(0);
-        FailInspection failInspection = new FailInspection(inspection);
+        Deal deal = dealRepository.findAll().get(0);
+        Inspection inspection = new FailInspection(deal);
+        inspectionService.save(inspection);
         //when
-        failInspectionService.save(failInspection);
-        FailInspection find = failInspectionRepository.findById(failInspection.getId()).get();
+        FailInspection find = (FailInspection)inspectionRepository.findById(inspection.getId()).get();
         //then
-        assertThat(find).isEqualTo(failInspection);
-        assertThat(find.getId()).isEqualTo(failInspection.getId());
-        assertThat(find.getInspection()).isEqualTo(failInspection.getInspection());
-        assertThat(inspection.getInspectionStatus()).isEqualTo(InspectionStatus.검수탈락);
-        assertThat(inspection.getDeal().getDealStatus()).isEqualTo(DealStatus.거래취소);
-        assertThat(inspection.getDeal().getSelling().getSellingStatus()).isEqualTo(SellingStatus.판매취소);
-        assertThat(inspection.getDeal().getBuying().getBuyingStatus()).isEqualTo(BuyingStatus.구매취소);
+        assertThat(find).isEqualTo(inspection);
+        assertThat(find.getId()).isEqualTo(inspection.getId());
     }
 
     @Test
     public void 탈락검수_조회_테스트() throws Exception{
         //given
-        Inspection inspection = inspectionRepository.findAll().get(0);
-        FailInspection failInspection = new FailInspection(inspection);
-        failInspectionRepository.save(failInspection);
+        Deal deal = dealRepository.findAll().get(0);
+        Inspection inspection = new FailInspection(deal);
+        inspectionRepository.save(inspection);
         //when
-        FailInspection find = failInspectionService.findById(failInspection.getId());
+        FailInspection find = (FailInspection)inspectionService.findById(inspection.getId());
         //then
-        assertThat(find).isEqualTo(failInspection);
+        assertThat(find).isEqualTo(inspection);
     }
 }

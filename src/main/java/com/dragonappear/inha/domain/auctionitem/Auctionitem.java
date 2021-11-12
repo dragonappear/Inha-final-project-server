@@ -2,6 +2,7 @@ package com.dragonappear.inha.domain.auctionitem;
 
 
 import com.dragonappear.inha.domain.JpaBaseEntity;
+import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
@@ -20,7 +21,7 @@ import static javax.persistence.InheritanceType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Auctionitem extends JpaBaseEntity {
+public class Auctionitem extends JpaBaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "auctionitem_id")

@@ -21,7 +21,6 @@ import com.dragonappear.inha.repository.buying.BuyingRepository;
 import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.repository.inspection.InspectionRepository;
 import com.dragonappear.inha.repository.inspection.pass.PassDeliveryRepository;
-import com.dragonappear.inha.repository.inspection.pass.PassInspectionRepository;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
@@ -60,7 +59,6 @@ class PassDeliveryServiceTest {
     @Autowired SellingRepository sellingRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired PassInspectionRepository passInspectionRepository;
     @Autowired PassDeliveryRepository passDeliveryRepository;
     @Autowired PassDeliveryService passDeliveryService;
 
@@ -103,20 +101,17 @@ class PassDeliveryServiceTest {
         Deal deal = new Deal(buying, selling);
         dealRepository.save(deal);
 
-        Inspection newInspection = new Inspection(deal);
-        inspectionRepository.save(newInspection);
-
-        PassInspection passInspection = new PassInspection(newInspection);
-        passInspectionRepository.save(passInspection);
+        PassInspection passInspection = new PassInspection(deal);
+        inspectionRepository.save(passInspection);
     }
 
     @Test
     public void 합격검수배송_생성_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        PassInspection passInspection = passInspectionRepository.findAll().get(0);
+        PassInspection passInspection = (PassInspection) inspectionRepository.findAll().get(0);
         PassDelivery passDelivery = new PassDelivery(new Delivery(CJ대한통운, "1234-1234")
-                , passInspection.getInspection().getDeal().getBuying().getPayment().getUser().getUserAddresses().get(0).getUserAddress()
+                , passInspection.getDeal().getBuying().getPayment().getUser().getUserAddresses().get(0).getUserAddress()
                 , passInspection);
         //when
         passDeliveryService.save(passDelivery);
@@ -132,9 +127,9 @@ class PassDeliveryServiceTest {
     public void 합격검수배송_조회_테스트() throws Exception{
         //given
         User user = userRepository.findAll().get(0);
-        PassInspection passInspection = passInspectionRepository.findAll().get(0);
+        PassInspection passInspection = (PassInspection) inspectionRepository.findAll().get(0);
         PassDelivery passDelivery = new PassDelivery(new Delivery(CJ대한통운, "1234-1234")
-                , passInspection.getInspection().getDeal().getBuying().getPayment().getUser().getUserAddresses().get(0).getUserAddress()
+                , passInspection.getDeal().getBuying().getPayment().getUser().getUserAddresses().get(0).getUserAddress()
                 , passInspection);
         passDeliveryRepository.save(passDelivery);
         //when

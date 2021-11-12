@@ -12,7 +12,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th> <th>날짜</th> <th>상태</th> <th>구매 ID</th><th>판매 ID</th> <th>검수 ID</th> <th>검수등록</th>
+            <th>ID</th> <th>날짜</th> <th>상태</th> <th>구매 ID</th><th>판매 ID</th> <th>검수 ID</th> <th>입고</th> <th>검수</th>
         </tr>
         </thead>
         <tbody>
@@ -23,7 +23,16 @@
             <td th:text="${deal.buyingId}"></td>
             <td th:text="${deal.sellingId}"></td>
             <td th:text="${deal.inspectionId}"></td>
-            <td><a th:href="|@{/admin/inspections/{dealId}(dealId=${deal.dealId})}|">등록</a></td>
+            <td>
+                <form name="incomingForm" th:action>
+                    <input type="submit" value="완료"/>
+                </form>
+            </td>
+            <td>
+                <form name="inspectionForm" th:action="|@{/web/inspections/{dealId}(dealId=${deal.dealId})}|">
+                    <input type="submit" value="등록"/>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

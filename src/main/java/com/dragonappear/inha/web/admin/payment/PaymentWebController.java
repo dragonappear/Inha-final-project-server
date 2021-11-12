@@ -26,7 +26,7 @@ public class PaymentWebController {
     private final UserPointService userPointService;
     private final IamportService iamportService;
 
-    @GetMapping("/admin/payments")
+    @GetMapping("/web/payments")
     public String getAllPayments(Model model) {
         List<Payment> payments = paymentService.findAll();
         List<PaymentWebDto> dtos = payments.stream().map(payment -> {
@@ -47,7 +47,7 @@ public class PaymentWebController {
     }
 
 
-    @GetMapping("/admin/payments/cancel/{paymentId}")
+    @GetMapping("/web/payments/cancel/{paymentId}")
     public MessageDto cancelPayment(@PathVariable("paymentId") Long paymentId) {
         Payment payment = paymentService.findById(paymentId);
         userPointService.accumulate(payment.getUser().getId(), new Money(payment.getPoint().getAmount())); // 유저 포인트 복구

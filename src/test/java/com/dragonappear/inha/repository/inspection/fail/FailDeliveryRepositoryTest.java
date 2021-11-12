@@ -57,7 +57,6 @@ class FailDeliveryRepositoryTest {
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
     @Autowired FailDeliveryRepository failDeliveryRepository;
-    @Autowired FailInspectionRepository failInspectionRepository;
 
     @BeforeEach
     void setUp() {
@@ -88,17 +87,15 @@ class FailDeliveryRepositoryTest {
         buyingRepository.save(newBuying);
         Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);
-        Inspection newInspection = new Inspection(newDeal);
+        Inspection newInspection = new FailInspection(newDeal);
         inspectionRepository.save(newInspection);
-        FailInspection failInspection = new FailInspection(newInspection);
-        failInspectionRepository.save(failInspection);
 
     }
 
     @Test
     public void 탈락검수배송생성_테스트() throws Exception{
         //given
-        FailInspection failInspection = failInspectionRepository.findAll().get(0);
+        FailInspection failInspection = (FailInspection)inspectionRepository.findAll().get(0);
         FailDelivery newDelivery = new FailDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
                 new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"),
                 failInspection);

@@ -40,8 +40,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-import static java.time.LocalDateTime.now;
-import static java.time.LocalDateTime.of;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -60,7 +58,6 @@ class PassDeliveryRepositoryTest {
     @Autowired PaymentRepository paymentRepository;
     @Autowired DealRepository dealRepository;
     @Autowired InspectionRepository inspectionRepository;
-    @Autowired PassInspectionRepository passInspectionRepository;
     @Autowired PassDeliveryRepository passDeliveryRepository;
 
     @BeforeEach
@@ -92,16 +89,14 @@ class PassDeliveryRepositoryTest {
         buyingRepository.save(newBuying);
         Deal newDeal = new Deal( newBuying, newSelling);
         dealRepository.save(newDeal);
-        Inspection newInspection = new Inspection(newDeal);
+        Inspection newInspection = new PassInspection(newDeal);
         inspectionRepository.save(newInspection);
-        PassInspection passInspection = new PassInspection(newInspection);
-        passInspectionRepository.save(passInspection);
     }
 
     @Test
     public void 합격검수배송생성_테스트() throws Exception{
         //given
-        PassInspection passInspection = passInspectionRepository.findAll().get(0);
+        PassInspection passInspection = (PassInspection)inspectionRepository.findAll().get(0);
         PassDelivery newDelivery = new PassDelivery(new Delivery(CourierName.CJ대한통운, "123456789"),
                 new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"),
                 passInspection);

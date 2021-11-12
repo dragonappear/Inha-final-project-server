@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class DealWebController {
     private final DealService dealService;
 
-    @GetMapping("/admin/deals")
+    @GetMapping("/web/deals")
     public String getAllDeals(Model model) {
         List<DealWebDto> dtos = dealService.findAll().stream().map(deal -> {
             return DealWebDto.builder()

@@ -5,6 +5,7 @@ import com.dragonappear.inha.domain.buying.BidBuying;
 import com.dragonappear.inha.domain.buying.Buying;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
+import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.item.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.Manufacturer;
@@ -94,16 +95,13 @@ class InspectionRepositoryTest {
     public void 검수생성_테스트() throws Exception{
         //given
         Deal deal = dealRepository.findAll().get(0);
-        Inspection newInspection = new Inspection(deal);
+        Inspection newInspection = new PassInspection(deal);
         inspectionRepository.save(newInspection);
         //when
         Inspection findInspection = inspectionRepository.findById(newInspection.getId()).get();
         //then
         Assertions.assertThat(findInspection).isEqualTo(newInspection);
         Assertions.assertThat(findInspection.getId()).isEqualTo(newInspection.getId());
-        Assertions.assertThat(findInspection.getInspectionStatus()).isEqualTo(newInspection.getInspectionStatus());
         Assertions.assertThat(findInspection.getDeal()).isEqualTo(newInspection.getDeal());
-        Assertions.assertThat(findInspection.getPassInspection()).isNull();
-        Assertions.assertThat(findInspection.getFailInspection()).isNull();
     }
 }

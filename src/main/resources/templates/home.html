@@ -1,30 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/header::userHead"></head>
-<script>
-    let fileIdx = 0;
-    function addFile() {
-	fileIdx++;
-
-	const fileHtml = `
-		<div data-name="fileDiv" class="form-group filebox bs3-primary">
-			<label for="file_${fileIdx}" class="col-sm-2 control-label"></label>
-			<div class="col-sm-10">
-				<input type="text" class="upload-name" value="파일 찾기" readonly />
-				<label for="file_${fileIdx}" class="control-label">찾아보기</label>
-				<input type="file" name="files" id="file_${fileIdx}" class="upload-hidden" onchange="changeFilename(this)" />
-
-				<button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
-					<i class="fa fa-minus" aria-hidden="true"></i>
-				</button>
-			</div>
-		</div>
-	`;
-
-	$('#btnDiv').before(fileHtml);
-}
-
-</script>
 <body>
 <div th:replace="layout/top::header"></div>
 <div class="container">
@@ -34,11 +10,12 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <div style="padding-top:10px;" class="nav flex-column nav-pills" aria-orientation="vertical">
-                            <a th:href="@{/admin}" style="margin:5px;" class="nav-link active">대시보드</a>
-                            <a th:href="@{/admin/members}" style="margin:5px;" class="nav-link text-primary">회원관리</a>
-                            <a th:href="@{/admin/payments}" style="margin:5px;" class="nav-link text-primary">결제내역</a>
-                            <a th:href="@{/admin/deals}" style="margin:5px;" class="nav-link text-primary">거래내역</a>
-                            <a th:href="@{/admin/inspections}" style="margin:5px;" class="nav-link text-primary">검수관리</a>
+                            <a th:href="@{/}" style="margin:5px;" class="nav-link active">대시보드</a>
+                            <a th:href="@{/web/members}" style="margin:5px;" class="nav-link text-primary">회원관리</a>
+                            <a th:href="@{/web/members}" style="margin:5px;" class="nav-link text-primary">상품관리</a>
+                            <a th:href="@{/web/payments}" style="margin:5px;" class="nav-link text-primary">결제내역</a>
+                            <a th:href="@{/web/deals}" style="margin:5px;" class="nav-link text-primary">거래내역</a>
+                            <a th:href="@{/web/inspections}" style="margin:5px;" class="nav-link text-primary">검수관리</a>
                         </div>
                     </li>
                 </ul>
