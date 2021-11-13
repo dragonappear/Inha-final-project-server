@@ -116,8 +116,8 @@ public class InspectionController {
             for (MultipartFile file : files) {
                 String sourceFileName = file.getOriginalFilename();
                 String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
-                //String fileUrl = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/inspections/";
-                String fileUrl = "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/inspections/";
+                String fileUrl = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/inspections/";
+                //String fileUrl = "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/inspections/";
                 String destinationFileName = RandomStringUtils.randomAlphabetic(32) + "." + sourceFileNameExtension;
                 File destinationFile = new File(fileUrl + destinationFileName);
                 destinationFile.getParentFile().mkdirs();

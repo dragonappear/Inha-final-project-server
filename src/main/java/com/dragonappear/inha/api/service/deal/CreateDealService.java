@@ -140,18 +140,19 @@ public class CreateDealService {
 
     private void fcmToBuyer(Buying buying, Item item) throws IOException {
         String token = userTokenService.findTokenByUserIdAndType(buying.getPayment().getUser().getId(), "fcm");
-        String title = "입찰판매하신 아이템의 거래가 성사되었습니다.";
-        String body = item.getItemName() + " 거래가 성사되었습니다.\n" +
-                "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 진행중인 판매내역에서 송장번호를 등록하시기 바랍니다.\n" +
-                "파손된 상태로 제품이 배송될 시에 거래가 취소될 수 있음을 미리 알려드립니다.\n";
+        Auctionitem auctionitem = buying.getPayment().getAuctionitem();
+        String title = "입찰구매하신 아이템의 거래가 성사되었습니다.";
+        String body = auctionitem.getItem().getItemName() + " 거래가 성사되었습니다.\n"+
+                "판매자가 검수지역으로 미배송시 자동결제 취소됨을 미리 알려드립니다.";
         firebaseCloudMessageService.sendMessageTo(token,title,body);
     }
 
     private void fcmToSeller(Selling selling, Auctionitem auctionitem) throws IOException {
         String token = userTokenService.findTokenByUserIdAndType(selling.getSeller().getId(), "fcm");
-        String title = "입찰구매하신 아이템의 거래가 성사되었습니다.";
-        String body = auctionitem.getItem().getItemName() + " 거래가 성사되었습니다.\n"+
-                "판매자가 검수지역으로 미배송시 자동결제 취소됨을 미리 알려드립니다.";
+        String title = "입찰판매하신 아이템의 거래가 성사되었습니다.";
+        String body = auctionitem.getItem().getItemName() + " 거래가 성사되었습니다.\n" +
+                "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 진행중인 판매내역에서 송장번호를 등록하시기 바랍니다.\n" +
+                "파손된 상태로 제품이 배송될 시에 거래가 취소될 수 있음을 미리 알려드립니다.\n";
         firebaseCloudMessageService.sendMessageTo(token,title,body);
     }
 }
