@@ -2,9 +2,9 @@ package com.dragonappear.inha.repository.selling;
 
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.item.Category;
+import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
@@ -31,7 +31,6 @@ import java.time.LocalDate;
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.of;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

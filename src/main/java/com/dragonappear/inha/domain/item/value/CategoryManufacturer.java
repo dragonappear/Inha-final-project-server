@@ -1,4 +1,4 @@
-package com.dragonappear.inha.domain.item;
+package com.dragonappear.inha.domain.item.value;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import lombok.AccessLevel;

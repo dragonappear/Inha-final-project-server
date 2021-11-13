@@ -3,6 +3,8 @@ package com.dragonappear.inha.domain.item;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
+import com.dragonappear.inha.domain.item.value.Category;
+import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.value.Money;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -107,6 +109,8 @@ public abstract class Item extends JpaBaseTimeEntity {
     /**
      * 생성자메서드
      */
+
+
     public Item(String itemName, String modelNumber,LocalDate releaseDay,String color,Money releasePrice,Category category, Manufacturer manufacturer) {
         this.itemName = itemName;
         this.modelNumber = modelNumber;

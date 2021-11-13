@@ -1,9 +1,9 @@
 package com.dragonappear.inha.service.item;
 
-import com.dragonappear.inha.domain.item.Category;
+import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.ItemImage;
-import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.value.Image;
 import com.dragonappear.inha.domain.value.Money;
@@ -11,7 +11,6 @@ import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemImageRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import java.util.List;
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

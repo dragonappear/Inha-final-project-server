@@ -1,9 +1,9 @@
 package com.dragonappear.inha.repository.payment;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.item.Category;
+import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;

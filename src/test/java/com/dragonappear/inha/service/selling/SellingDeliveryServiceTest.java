@@ -1,9 +1,9 @@
 package com.dragonappear.inha.service.selling;
 
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
-import com.dragonappear.inha.domain.item.Category;
+import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
@@ -26,7 +26,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;

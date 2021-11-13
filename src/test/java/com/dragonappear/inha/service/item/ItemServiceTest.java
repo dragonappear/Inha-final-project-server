@@ -1,8 +1,8 @@
 package com.dragonappear.inha.service.item;
 
-import com.dragonappear.inha.domain.item.Category;
+import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.Manufacturer;
+import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
@@ -10,9 +10,6 @@ import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.repository.item.ItemRepository;
 import com.dragonappear.inha.repository.item.ManufacturerRepository;
-import com.dragonappear.inha.service.user.UserService;
-import com.mysema.commons.lang.Assert;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,6 @@ import java.util.List;
 import static com.dragonappear.inha.domain.item.value.CategoryName.*;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
