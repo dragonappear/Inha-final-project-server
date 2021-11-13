@@ -79,7 +79,7 @@ public class InspectionController {
         User seller = deal.getSelling().getSeller();
         User buyer = deal.getBuying().getPayment().getUser();
         String title = "검수 결과 알림";
-        String body = deal.getSelling().getAuctionitem().getItem() + "는 검수에서 " + result + "하였습니다.\n"
+        String body = deal.getSelling().getAuctionitem().getItem().getItemName() + "는 검수에서 " + result + "하였습니다.\n"
                 + "탈락한 거래는 마이페이지 거래내역에서 사유를 확인하실 수 있습니다.";
         try {
             fcmSendService.sendFCM(buyer, title, body);
