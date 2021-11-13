@@ -17,15 +17,6 @@ public class UserDto {
     private Address address;
     private Account account;
 
-    public UserDto(String email, String username, String userTel, String nickname, Address address, Account account) {
-        this.email = email;
-        this.username = username;
-        this.userTel = userTel;
-        this.nickname = nickname;
-        this.address = address;
-        this.account = account;
-    }
-
     @Builder
     public UserDto(User user) {
         this.email = user.getEmail();
