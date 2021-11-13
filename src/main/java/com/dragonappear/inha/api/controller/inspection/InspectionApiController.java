@@ -62,6 +62,7 @@ public class InspectionApiController {
     public ResponseEntity<Resource> getInspectionImageByName(@PathVariable("fileName") String fileName) {
         try {
             String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/inspections/";
+            //String path = "/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/inspections/";
             FileSystemResource resource = new FileSystemResource(path+fileName);
             if (!resource.exists()) {
                 throw new NotFoundImageException();
@@ -75,4 +76,6 @@ public class InspectionApiController {
             throw new NotFoundImageException();
         }
     }
+
+
 }
