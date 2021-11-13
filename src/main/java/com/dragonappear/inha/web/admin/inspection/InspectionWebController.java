@@ -2,6 +2,7 @@ package com.dragonappear.inha.web.admin.inspection;
 
 import com.dragonappear.inha.api.service.firebase.FcmSendService;
 import com.dragonappear.inha.domain.deal.Deal;
+import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.inspection.Inspection;
 import com.dragonappear.inha.domain.inspection.InspectionImage;
 import com.dragonappear.inha.domain.inspection.fail.FailInspection;
@@ -27,12 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
+
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/web/inspections")
-public class InspectionController {
+public class InspectionWebController {
     private final InspectionService inspectionService;
     private final InspectionImageService inspectionImageService;
     private final DealService dealService;
@@ -63,31 +66,34 @@ public class InspectionController {
     @PostMapping("/{dealId}/register")
     public String inspectionRegister(@PathVariable("dealId") Long dealId, MultipartHttpServletRequest request) throws IOException {
         Deal deal = dealService.findById(dealId);
-        if (deal.getInspection() != null) {
-            Inspection inspection = deal.getInspection();
-            inspectionService.delete(inspection.getId());
-        }
-        Long inspectionId = updateInspection(request, deal);
+        if (deal.getDealStatus() == 검수진행 || deal.getDealStatus() == 검수합격 || deal.getDealStatus() == 검수탈락) {
+            if (deal.getInspection() != null) {
+                Inspection inspection = deal.getInspection();
+                inspectionService.delete(inspection.getId());
+            }
+            Long inspectionId = updateInspection(request, deal);
 
-        String result;
-        if (request.getParameter("result").equals("pass")) {
-            result = "합격";
-        } else {
-            result = "탈락";
-        }
+            String result;
+            if (request.getParameter("result").equals("pass")) {
+                result = "합격";
+            } else {
+                result = "탈락";
+            }
 
-        User seller = deal.getSelling().getSeller();
-        User buyer = deal.getBuying().getPayment().getUser();
-        String title = "검수 결과 알림";
-        String body = deal.getSelling().getAuctionitem().getItem().getItemName() + "는 검수에서 " + result + "하였습니다.\n"
-                + "탈락한 거래는 마이페이지 거래내역에서 사유를 확인하실 수 있습니다.";
-        try {
-            fcmSendService.sendFCM(buyer, title, body);
-            fcmSendService.sendFCM(seller, title, body);
-        } catch (IOException e) {
-            log.error("dealId:{} 검수결과 FCM 메시지가 전송되지 않았습니다.",deal.getId());
+            User seller = deal.getSelling().getSeller();
+            User buyer = deal.getBuying().getPayment().getUser();
+            String title = "검수 결과 알림";
+            String body = deal.getSelling().getAuctionitem().getItem().getItemName() + "는 검수에서 " + result + "하였습니다.\n"
+                    + "탈락한 거래는 마이페이지 거래내역에서 사유를 확인하실 수 있습니다.";
+            try {
+                fcmSendService.sendFCM(buyer, title, body);
+                fcmSendService.sendFCM(seller, title, body);
+            } catch (IOException e) {
+                log.error("dealId:{} 검수결과 FCM 메시지가 전송되지 않았습니다.",deal.getId());
+            }
+            return "redirect:/web/inspections/"+ inspectionId;
         }
-        return "redirect:/web/inspections/"+ String.valueOf(inspectionId);
+        return "redirect:/web/deals";
     }
 
     private Long updateInspection(MultipartHttpServletRequest request, Deal deal) throws IOException {

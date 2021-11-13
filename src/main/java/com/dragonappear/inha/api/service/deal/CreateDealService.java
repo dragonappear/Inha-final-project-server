@@ -6,6 +6,7 @@ import com.dragonappear.inha.api.controller.buying.dto.InstantPaymentApiDto;
 import com.dragonappear.inha.api.controller.selling.dto.InstantSellingDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.api.controller.selling.dto.BidSellingDto;
+import com.dragonappear.inha.api.service.firebase.FcmSendService;
 import com.dragonappear.inha.api.service.firebase.FirebaseCloudMessageService;
 import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.buying.BidBuying;
@@ -48,8 +49,7 @@ public class CreateDealService {
     private final DealService dealService;
     private final ItemService itemService;
     private final AuctionItemService auctionItemService;
-    private final FirebaseCloudMessageService firebaseCloudMessageService;
-    private final UserTokenService userTokenService;
+    private final FcmSendService fcmSendService;
 
     @Transactional
     public Long createInstantBuying(InstantPaymentApiDto dto) throws DealException {
@@ -66,7 +66,7 @@ public class CreateDealService {
             buyingService.save(buying);
             Deal deal = new Deal(buying, selling); // 거래 생성
             Long dealId = dealService.save(deal);
-            fcmToSeller(selling, auctionitem);
+            fcmToSeller(selling);
             auctionItemService.updateItemLatestPrice(auctionitem.getItem(),auctionitem.getPrice());
             return dealId;
         } catch (Exception e) {
@@ -130,7 +130,7 @@ public class CreateDealService {
             Long auctionitemId = sellingService.instantSave(user, auctionitem);
             Selling selling = sellingService.findBySellingId(auctionitemId);
             Long dealId = dealService.save(new Deal(buying, selling));
-            fcmToBuyer(buying, item);
+            fcmToBuyer(buying);
             auctionItemService.updateItemLatestPrice(item, new Money(price));
             return dealId;
         } catch (Exception e) {
@@ -138,21 +138,20 @@ public class CreateDealService {
         }
     }
 
-    private void fcmToBuyer(Buying buying, Item item) throws IOException {
-        String token = userTokenService.findTokenByUserIdAndType(buying.getPayment().getUser().getId(), "fcm");
-        Auctionitem auctionitem = buying.getPayment().getAuctionitem();
+    private void fcmToBuyer(Buying buying) throws IOException {
+        User buyer = buying.getPayment().getUser();
         String title = "입찰구매하신 아이템의 거래가 성사되었습니다.";
-        String body = auctionitem.getItem().getItemName() + " 거래가 성사되었습니다.\n"+
+        String body = buying.getPayment().getAuctionitem().getItem().getItemName() + " 거래가 성사되었습니다.\n"+
                 "판매자가 검수지역으로 미배송시 자동결제 취소됨을 미리 알려드립니다.";
-        firebaseCloudMessageService.sendMessageTo(token,title,body);
+        fcmSendService.sendFCM(buyer, title,body);
     }
 
-    private void fcmToSeller(Selling selling, Auctionitem auctionitem) throws IOException {
-        String token = userTokenService.findTokenByUserIdAndType(selling.getSeller().getId(), "fcm");
+    private void fcmToSeller(Selling selling) throws IOException {
+        User seller = selling.getSeller();
         String title = "입찰판매하신 아이템의 거래가 성사되었습니다.";
-        String body = auctionitem.getItem().getItemName() + " 거래가 성사되었습니다.\n" +
+        String body = selling.getAuctionitem().getItem().getItemName() + " 거래가 성사되었습니다.\n" +
                 "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 진행중인 판매내역에서 송장번호를 등록하시기 바랍니다.\n" +
                 "파손된 상태로 제품이 배송될 시에 거래가 취소될 수 있음을 미리 알려드립니다.\n";
-        firebaseCloudMessageService.sendMessageTo(token,title,body);
+        fcmSendService.sendFCM(seller, title,body);
     }
 }

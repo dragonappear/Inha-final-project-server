@@ -51,7 +51,7 @@ public class DealWebController {
     @PostMapping("/{dealId}/receivingRegister")
     public String receivingRegister(@PathVariable("dealId") Long dealId) {
         Deal deal = dealService.findById(dealId);
-        if (deal.getDealStatus() == 거래진행) {
+        if (deal.getDealStatus() == 판매자발송완료) {
             dealService.updateDealStatus(deal,입고완료);
             String title = "아이템 입고 알림";
             String body = deal.getSelling().getAuctionitem().getItem().getItemName() + " 입고가 완료되었습니다.";

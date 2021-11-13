@@ -82,6 +82,9 @@ public class Deal extends JpaBaseTimeEntity {
         if (dealStatus == 거래진행) {
             updateBuying(buying);
             updateSelling(selling);
+        } else if (dealStatus == 판매자발송완료) {
+            this.buying.updateStatus(BuyingStatus.판매자발송완료);
+            this.selling.updateStatus(SellingStatus.판매자발송완료);
         } else if (dealStatus == 입고완료) {
             this.buying.updateStatus(BuyingStatus.입고완료);
             this.selling.updateStatus(SellingStatus.입고완료);
