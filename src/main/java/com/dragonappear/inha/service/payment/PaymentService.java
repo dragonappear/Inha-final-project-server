@@ -64,9 +64,6 @@ public class PaymentService {
     // 모든 결제내역 조회
     public List<Payment> findAll() {
         List<Payment> list = paymentRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedDate"));
-        if (list.size() == 0) {
-            throw new IllegalArgumentException("결제내역이 존재하지 않습니다");
-        }
         return list;
     }
 
