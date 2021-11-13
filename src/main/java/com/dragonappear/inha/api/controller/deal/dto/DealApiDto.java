@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+//@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @Data
 public class DealApiDto {
