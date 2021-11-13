@@ -36,7 +36,8 @@ public class BuyingQueryRepository{
                     r.getBuyingStatus()== 입고완료 ||
                     r.getBuyingStatus()== 검수진행 ||
                     r.getBuyingStatus()== 검수합격 ||
-                    r.getBuyingStatus()== 검수탈락){
+                    r.getBuyingStatus()== 검수탈락 ||
+                    r.getBuyingStatus()== 판매자발송완료){
                 dto.countOngoing();
             }
             else{
@@ -68,7 +69,7 @@ public class BuyingQueryRepository{
                .from(buying)
                .join(buying.payment, payment).on(payment.user.id.eq(userId))
                .join(itemImage1).on(itemImage1.item.id.eq(payment.item.id))
-               .where(buying.buyingStatus.in(거래진행,입고완료,검수진행,검수합격,검수탈락))
+               .where(buying.buyingStatus.in(거래진행,입고완료,검수진행,검수합격,검수탈락,판매자발송완료))
                .fetch();
    }
 

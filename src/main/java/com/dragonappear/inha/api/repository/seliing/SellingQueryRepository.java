@@ -33,7 +33,8 @@ public class SellingQueryRepository {
                     result.getSellingStatus()== 입고완료 ||
                     result.getSellingStatus()== 검수진행 ||
                     result.getSellingStatus()== 검수합격 ||
-                    result.getSellingStatus()== 검수탈락){
+                    result.getSellingStatus()== 검수탈락 ||
+                    result.getSellingStatus()== 판매자발송완료){
                 dto.countOngoing();
             } else{
                 dto.countEnd();
@@ -70,7 +71,8 @@ public class SellingQueryRepository {
                 .join(deal).on(deal.selling.id.eq(selling.id))
                 .join(itemImage1).on(itemImage1.item.id.eq(selling.auctionitem.item.id))
                 .join(selling.auctionitem,auctionitem).on(auctionitem.id.eq(selling.auctionitem.id))
-                .where(selling.sellingStatus.in(거래진행,입고완료,검수진행,검수합격,검수탈락).and(selling.seller.id.eq(userId)))
+                .where(selling.sellingStatus.in(거래진행,입고완료,검수진행,검수합격,검수탈락,판매자발송완료)
+                        .and(selling.seller.id.eq(userId)))
                 .fetch();
     }
 
