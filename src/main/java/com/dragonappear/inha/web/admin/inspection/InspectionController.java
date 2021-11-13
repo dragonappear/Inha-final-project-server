@@ -54,9 +54,9 @@ public class InspectionController {
         }  else{
             result = "탈락";
         }
-        List<InspectionImage> fileNames = inspectionImageService.findByInspectionId(inspectionId);
+        List<InspectionImage> images = inspectionImageService.findByInspectionId(inspectionId);
         model.addAttribute("result", result);
-        model.addAttribute("fileNames", fileNames);
+        model.addAttribute("images", images);
         return "inspection/result";
     }
 

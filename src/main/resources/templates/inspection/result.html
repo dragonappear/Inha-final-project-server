@@ -8,9 +8,17 @@
 </div>
 <hr class="my-4">
 <div class="py-5 text-center">
-    <tr th:each="fileName : ${fileNames}">
-        <img th:src="@{'/inspections/'+ ${fileName.inspectionImage.fileName}}">
-    </tr>
+
+
+        <img th:src="@{/inspections/qeMvyldThfhDZElXhlGuJwqvOkIubTWB.png}">
+        <span  th:each="image : ${images}" th:text="${image.getInspectionImage().getFileName()}"></span><br>
+        <img th:each="image : ${images}" th:src="@{/inspections/${image.getInspectionImage().getFileName()}}"><br>
+        <img  th:each="image : ${images}"th:src="|/inspections/${image.getInspectionImage().getFileName()}|"><br>
+        <!--<th:src="|/images/${imageFile.getStoreFileName()}|" width="300" height="300"/>-->
+        <img th:each="image : ${images}" th:src="|/inspections/${image.getInspectionImage().getFileName()}|" width="300" height="300"/><br>
+        <img th:each="image : ${images}" th:src="@{/inspections/} + ${image.getInspectionImage().getFileName()} " width="300" height="300"/><br>
+        <img th:each="image : ${images}" th:src="${image.getInspectionImage().getFileUrl()} + ${image.getInspectionImage().getFileName()}" width="300" height="300"/><br>
+
 </div>
 <div th:replace="layout/footer::footer"></div>
 </body>
