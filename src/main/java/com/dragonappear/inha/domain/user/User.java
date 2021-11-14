@@ -8,19 +8,24 @@ import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import com.dragonappear.inha.domain.user.value.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.dragonappear.inha.domain.user.value.UserRole.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.LAZY;
 
+
+@EqualsAndHashCode(of = "id")
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email","userTel"})})
 @NoArgsConstructor
 @Getter
@@ -47,7 +52,6 @@ public class User extends JpaBaseTimeEntity {
     private String userTel;
 
     @Enumerated(STRING)
-    @Column(nullable = false)
     private UserRole userRole;
 
     /**
@@ -93,6 +97,11 @@ public class User extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<UserToken> userTokens = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+    @JoinTable(name = "user_roles",joinColumns = { @JoinColumn(name = "user_id")}
+            , inverseJoinColumns = {@JoinColumn(name = "role_id") })
+    private Set<Role> userRoles = new HashSet<>();
+
 
     /**
      * 연관관계 메서드
@@ -109,25 +118,27 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 생성자 메서드
      */
+
     @Builder
-    public User(String username, String nickname, String email, String userTel,UserRole userRole,String password) {
-        this(username, email, userRole, password,userTel);
+    public User(String username, String nickname, String email, String userTel,String password,Set<Role> userRoles) {
         this.username = username;
         this.nickname = nickname;
         this.email = email;
-        this.userTel = userTel;
-        if (userRole == null) {
-            this.userRole = USER;
-        }
-    }
-
-    @Builder
-    public User(String username, String email, UserRole userRole, String password, String userTel) {
-        this.username = username;
-        this.email = email;
-        this.userRole = userRole;
         this.password = password;
         this.userTel = userTel;
+        this.userRoles = userRoles;
+    }
+
+
+
+    @Builder
+    public User(String username, String nickname, String email, String userTel,String password) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.userTel = userTel;
+        this.userRole = USER;
     }
 
     /**
@@ -144,15 +155,6 @@ public class User extends JpaBaseTimeEntity {
     /**
      * 비즈니스 로직
      */
-    public User update(String username,String picture) {
-        this.username = username;
-        this.password = picture;
-        return this;
-    }
-
-    public String getRoleKey() {
-        return this.userRole.getKey();
-    }
 
     public void updateUserTel(String userTel) {
         this.userTel = userTel;

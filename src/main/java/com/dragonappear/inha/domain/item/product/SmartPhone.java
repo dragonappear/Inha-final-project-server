@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 @DiscriminatorValue("smart_phone")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@Entity
+//@Entity
 public class SmartPhone extends Item {
     private String inch;
     private String cpu;

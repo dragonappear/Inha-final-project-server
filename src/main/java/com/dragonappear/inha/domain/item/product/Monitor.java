@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 @DiscriminatorValue("monitor")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@Entity
+//@Entity
 public class Monitor extends Item {
     private String inch;
     private String displayRate;
