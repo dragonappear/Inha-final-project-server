@@ -26,13 +26,4 @@ public class UserDto {
         this.address = (user.getUserAddresses().size()==0) ? null : user.getUserAddresses().get(0).getUserAddress();
         this.account = (user.getUserAccount()==null) ? null : user.getUserAccount().getUserAccount();
     }
-
-    public User toEntity() {
-        return User.builder()
-                .email(this.email)
-                .userTel(this.userTel)
-                .username(this.username)
-                .nickname(this.nickname)
-                .build();
-    }
 }

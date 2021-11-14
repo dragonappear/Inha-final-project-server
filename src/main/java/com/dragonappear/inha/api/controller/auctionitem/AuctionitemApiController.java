@@ -1,12 +1,9 @@
 package com.dragonappear.inha.api.controller.auctionitem;
 
 import com.dragonappear.inha.api.repository.auctionitem.AuctionitemApiRepository;
-import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.value.Money;
-import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.selling.SellingRepository;
 import com.dragonappear.inha.service.auctionitem.AuctionItemService;
-import com.dragonappear.inha.service.item.ItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

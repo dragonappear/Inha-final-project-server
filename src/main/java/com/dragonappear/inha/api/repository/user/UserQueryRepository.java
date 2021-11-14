@@ -8,6 +8,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.dragonappear.inha.domain.user.QUser.*;
 
 @RequiredArgsConstructor
@@ -22,10 +25,13 @@ public class UserQueryRepository {
         if (find == null) {
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
+        List<String> list = find.getUserRoles().stream().map(role -> {
+            return role.getRoleDesc().toString();
+        }).collect(Collectors.toList());
         return MyPageUserInfoDto.builder()
                 .nickname(find.getNickname())
                 .username(find.getUsername())
-                .userRole("USER")
+                .userRole(list.toString())
                 .userPoint(find.getUserPoints().get(find.getUserPoints().size()-1).getTotal().getAmount())
                 .imageUrl(find.getUserImage().getImage().getFileName())
                 .userLikeCount(find.getUserLikeItems().size())

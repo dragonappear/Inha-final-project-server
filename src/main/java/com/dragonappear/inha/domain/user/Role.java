@@ -1,10 +1,6 @@
 package com.dragonappear.inha.domain.user;
 
-import com.dragonappear.inha.domain.JpaBaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,14 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
 
+@ToString(exclude = {"users","id","roleName"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
-public class Role extends JpaBaseTimeEntity implements Serializable {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

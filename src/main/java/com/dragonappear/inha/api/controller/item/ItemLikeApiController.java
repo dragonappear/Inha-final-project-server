@@ -1,8 +1,6 @@
 package com.dragonappear.inha.api.controller.item;
 
 
-import com.dragonappear.inha.api.controller.user.login.dto.UserDto;
-import com.dragonappear.inha.api.controller.user.login.dto.UserSaveDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.UserLikeItem;
