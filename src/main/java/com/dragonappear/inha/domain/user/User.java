@@ -5,7 +5,6 @@ import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
-import com.dragonappear.inha.domain.user.value.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,9 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.dragonappear.inha.domain.user.value.UserRole.*;
 import static javax.persistence.CascadeType.*;
-import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.LAZY;
 
 
@@ -42,7 +39,7 @@ public class User extends JpaBaseTimeEntity {
     @Column
     private String nickname;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false,unique = true)
@@ -50,9 +47,6 @@ public class User extends JpaBaseTimeEntity {
 
     @Column(nullable = false,unique = true)
     private String userTel;
-
-    @Enumerated(STRING)
-    private UserRole userRole;
 
     /**
      * 연관관계
@@ -97,6 +91,7 @@ public class User extends JpaBaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<UserToken> userTokens = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
     @JoinTable(name = "user_roles",joinColumns = { @JoinColumn(name = "user_id")}
             , inverseJoinColumns = {@JoinColumn(name = "role_id") })
@@ -127,29 +122,6 @@ public class User extends JpaBaseTimeEntity {
         this.password = password;
         this.userTel = userTel;
         this.userRoles = userRoles;
-    }
-
-
-
-    @Builder
-    public User(String username, String nickname, String email, String userTel,String password) {
-        this.username = username;
-        this.nickname = nickname;
-        this.email = email;
-        this.password = password;
-        this.userTel = userTel;
-        this.userRole = USER;
-    }
-
-    /**
-     * 테스트용
-     */
-    public User(String username, String nickname, String email, String userTel) {
-        this.username = username;
-        this.nickname = nickname;
-        this.email = email;
-        this.userTel = userTel;
-        this.userRole = USER;
     }
 
     /**

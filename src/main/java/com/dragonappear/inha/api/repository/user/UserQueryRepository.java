@@ -25,7 +25,7 @@ public class UserQueryRepository {
         return MyPageUserInfoDto.builder()
                 .nickname(find.getNickname())
                 .username(find.getUsername())
-                .userRole(find.getUserRole().getTitle())
+                .userRole("USER")
                 .userPoint(find.getUserPoints().get(find.getUserPoints().size()-1).getTotal().getAmount())
                 .imageUrl(find.getUserImage().getImage().getFileName())
                 .userLikeCount(find.getUserLikeItems().size())

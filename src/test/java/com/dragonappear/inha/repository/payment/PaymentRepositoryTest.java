@@ -8,6 +8,7 @@ import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -25,6 +26,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 
 import static java.time.LocalDateTime.now;
@@ -60,7 +63,10 @@ class PaymentRepositoryTest {
         Auctionitem newBid = new Auctionitem(newItem,Money.wons(10_000_000_000L));
         auctionitemRepository.save(newBid);
         
-        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
+        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser);
         
         UserAddress newAddress = new UserAddress(newUser, new Address("yyh","010-1111-1111","incehon", "inharo", "127", "22207"));

@@ -1,5 +1,6 @@
 package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -10,6 +11,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,7 +26,10 @@ class UserAddressRepositoryTest {
     @Test
     public void 유저주소_테스트() throws Exception{
         //given
-        User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
+        User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user);
         UserAddress userAddress = new UserAddress(user, new Address("yyh","010-1111-1111","incheon", "inharo", "127", "1234"));
         userAddressRepository.save(userAddress);

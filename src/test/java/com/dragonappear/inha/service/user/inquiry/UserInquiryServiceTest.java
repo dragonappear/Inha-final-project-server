@@ -1,5 +1,6 @@
 package com.dragonappear.inha.service.user.inquiry;
 
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.inquiry.UserInquiry;
 import com.dragonappear.inha.domain.user.value.InquiryStatus;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.user.value.InquiryStatus.*;
@@ -31,7 +34,10 @@ class UserInquiryServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
+        User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user);
     }
     // 유저질문등록

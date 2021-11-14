@@ -7,6 +7,7 @@ import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
@@ -24,6 +25,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
@@ -45,10 +48,16 @@ class SellingServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User newUser1 = new User("name1", "nickname1", "email1@", "userTel11231");
+        User newUser1 = new User("name1", "nickname1", "email1@", "userTel11231","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser1);
 
-        User newUser2 = new User("name1", "nickname1", "email2@", "userTel11231231");
+        User newUser2 = new User("name1", "nickname1", "email2@", "userTel11231231","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser2);
 
         Category category = new Category(노트북);

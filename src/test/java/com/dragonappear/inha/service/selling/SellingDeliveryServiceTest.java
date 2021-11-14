@@ -8,6 +8,7 @@ import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.SellingDelivery;
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Delivery;
 import com.dragonappear.inha.domain.value.Money;
@@ -26,6 +27,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
 import static com.dragonappear.inha.domain.item.value.ManufacturerName.삼성;
@@ -47,7 +50,10 @@ class SellingDeliveryServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User newUser1 = new User("name1", "nickname1", "email1@", "userTel11");
+        User newUser1 = new User("name1", "nickname1", "email1@", "userTel11","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser1);
 
         Category category = new Category(노트북);

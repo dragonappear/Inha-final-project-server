@@ -6,6 +6,7 @@ import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.product.Notebook;
 import com.dragonappear.inha.domain.payment.Payment;
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -25,6 +26,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -48,12 +51,18 @@ class PaymentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User user1 = new User("name1", "nickname1", "email1", "userTel1");
+        User user1 = new User("name1", "nickname1", "email1", "userTel1","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user1);
         UserAddress userAddress = new UserAddress(user1, new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"));
         userAddressRepository.save(userAddress);
 
-        User user2 = new User("name2", "nickname2", "email2@", "userTel22");
+        User user2 = new User("name2", "nickname2", "email2@", "userTel22","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user2);
         UserAddress userAddress2 = new UserAddress(user2, new Address("yyh","010-1111-1111","city", "street", "detail", "zipcode"));
         userAddressRepository.save(userAddress2);

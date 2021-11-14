@@ -1,5 +1,6 @@
 package com.dragonappear.inha.service.user;
 
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserCardInfo;
 import com.dragonappear.inha.domain.value.Card;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -29,7 +32,10 @@ class UserCardInfoServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User newUser = new User("name1", "nickname1", "email1@", "userTel11");
+        User newUser = new User("name1", "nickname1", "email1@", "userTel11","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser);
         UserCardInfo info1 = new UserCardInfo( new Card(CardCompanyName.신한카드, "1234-1234"), newUser);
         UserCardInfo info2 = new UserCardInfo(new Card(CardCompanyName.신한카드, "1234-2345"), newUser);

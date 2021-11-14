@@ -13,6 +13,7 @@ import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.selling.InstantSelling;
 import com.dragonappear.inha.domain.selling.Selling;
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
@@ -35,6 +36,8 @@ import javax.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 import static org.assertj.core.api.Assertions.*;
 
@@ -56,7 +59,10 @@ class DealRepositoryTest {
     @Test
     public void 거래생성_테스트() throws Exception{
         //given
-        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
+        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser);
         Category newCategory = new Category(CategoryName.노트북);
         categoryRepository.save(newCategory);

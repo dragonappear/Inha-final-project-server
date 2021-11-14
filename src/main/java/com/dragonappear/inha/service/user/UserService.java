@@ -65,12 +65,7 @@ public class UserService {
                 .getUsername();
     }
 
-    // 유저 Role 조회
-    public String getUserRole(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."))
-                .getUserRole().getTitle();
-    }
+
 
     /**
      *  UPDATE

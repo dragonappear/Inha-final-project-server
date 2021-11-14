@@ -1,5 +1,6 @@
 package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserImage;
 import com.dragonappear.inha.domain.value.Image;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,7 +26,10 @@ class UserImageRepositoryTest {
     @Test
     public void 유저이미지생성_테스트() throws Exception{
         //given
-        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678");
+        User newUser = new User("사용자1", "yyh", "사용자1@naver.com","010-1234-5678","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(newUser);
         Image image = new Image("name1", "oriName1", "url1");
         UserImage newUserImage = new UserImage(newUser, image);

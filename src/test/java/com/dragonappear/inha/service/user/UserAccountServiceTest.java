@@ -1,5 +1,6 @@
 package com.dragonappear.inha.service.user;
 
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAccount;
 import com.dragonappear.inha.domain.value.Account;
@@ -13,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -25,7 +29,10 @@ class UserAccountServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678");
+        User user = new User("사용자1", "yyh", "사용자1@naver.com", "010-1234-5678","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user);
     }
 

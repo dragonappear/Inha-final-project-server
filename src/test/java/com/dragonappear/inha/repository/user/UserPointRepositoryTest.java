@@ -1,5 +1,6 @@
 package com.dragonappear.inha.repository.user;
 
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserPoint;
 import com.dragonappear.inha.domain.value.Money;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -30,7 +33,10 @@ class UserPointRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        User user = new User("username1", "nickname1", "email1", "userTel1");
+        User user = new User("username1", "nickname1", "email1", "userTel1","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user);
     }
 

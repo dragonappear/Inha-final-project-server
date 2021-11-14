@@ -5,6 +5,7 @@ import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.item.UserLikeItem;
 import com.dragonappear.inha.domain.item.product.Notebook;
+import com.dragonappear.inha.domain.user.Role;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.item.CategoryRepository;
@@ -20,6 +21,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.노트북;
@@ -39,9 +42,17 @@ class UserLikeItemServiceTest {
 
     @BeforeEach
     public void setUp() {
-        User user = new User("name1", "nickname1", "email1@", "userTel11");
+
+
+        User user = new User("name1", "nickname1", "email1@", "userTel11","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user);
-        User user1 = new User("name2", "nickname2", "email2@", "userTel22");
+        User user1 = new User("name2", "nickname2", "email2@", "userTel22","1234",new HashSet<>(Arrays.asList(Role.builder()
+                .roleName("ROLE_USER")
+                .roleDesc("사용자")
+                .build())));
         userRepository.save(user1);
 
         Category category = new Category(노트북);
