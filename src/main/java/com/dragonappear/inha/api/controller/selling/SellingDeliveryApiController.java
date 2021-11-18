@@ -102,7 +102,7 @@ public class SellingDeliveryApiController {
         //String t_code = delivery.getDelivery().getCourierName().getCode();
         //String t_invoice = delivery.getDelivery().getInvoiceNumber();
         String t_code = "04";
-        String t_invoice = "364106693935";
+        String t_invoice = "364106693835";
         model.addAttribute("t_key",t_key);
         model.addAttribute("t_code",t_code);
         model.addAttribute("t_invoice",t_invoice);
