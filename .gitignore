@@ -16,6 +16,8 @@ InitNotebook.java
 InitTablet.java
 InitUser.java
 InitManufacturer.java
+InitSmartPhone.java
+InitMonitor.java
 Test.java
 
 ### IntelliJ IDEA ###

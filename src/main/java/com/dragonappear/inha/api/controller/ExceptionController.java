@@ -111,7 +111,7 @@ public class ExceptionController {
     @ExceptionHandler({NotFoundUserIdException.class, NotFoundUserEmailException.class})
     public MessageDto notFoundUserException(final RuntimeException e) {
         return MessageDto.builder()
-                .message(getMessage("isRegistered", false, "id", null,"role",e.getMessage()))
+                .message(getMessage("isRegistered", false))
                 .build();
     }
 

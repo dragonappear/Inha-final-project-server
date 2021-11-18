@@ -67,12 +67,8 @@ public class UserApiController {
     @GetMapping(value = "/api/v1/users/{email}")
     public MessageDto checkRegistered(@PathVariable("email") String email) {
         User user = userService.findOneByEmail(email);
-        List<String> roles = user.getUserRoles().stream().map(role -> {
-            return role.getRoleDesc().toString();
-        }).collect(toList());
-
         return MessageDto.builder()
-                .message(getMessage("isRegistered", true, "id", user.getId(),"role",roles.toString()))
+                .message(getMessage("isRegistered", true))
                 .build();
     }
 
