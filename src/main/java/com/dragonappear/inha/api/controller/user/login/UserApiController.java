@@ -2,9 +2,8 @@ package com.dragonappear.inha.api.controller.user.login;
 
 import com.dragonappear.inha.api.controller.user.login.dto.LoginDto;
 import com.dragonappear.inha.api.controller.user.login.dto.TokenDto;
-import com.dragonappear.inha.api.controller.user.login.dto.registerDto;
+import com.dragonappear.inha.api.controller.user.login.dto.RegisterDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
-import com.dragonappear.inha.api.controller.user.login.dto.UserDto;
 import com.dragonappear.inha.config.jwt.JwtFilter;
 import com.dragonappear.inha.config.jwt.TokenProvider;
 import com.dragonappear.inha.domain.user.User;
@@ -27,10 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
-import static java.util.stream.Collectors.*;
 
 @Api(tags = {"유저 로그인 API"})
 @RequiredArgsConstructor
@@ -72,24 +69,19 @@ public class UserApiController {
                 .build();
     }
 
-    @ApiOperation(value = "유저 정보 조회 API By 유저아이디", notes = "유저 정보 조회")
-    @GetMapping(value = "/api/v1/users/find/{userId}")
-    public UserDto getUserInfo(@PathVariable("userId") Long userId) {
-        User user = userService.findOneById(userId);
-        return new UserDto(user);
-
-    }
-
     @ApiOperation(value = "유저 정보 저장 API", notes = "유저 정보 저장")
     @PostMapping(value = "/api/v1/users/new")
-    public UserDto save(@Valid @RequestBody registerDto dto) {
-        return createUser(dto);
+    public MessageDto save(@Valid @RequestBody RegisterDto dto) {
+        createUser(dto);
+        return MessageDto.builder()
+                    .message(getMessage("isRegistered", true))
+                    .build();
     }
 
     /**
      *  유저 DB 저장 로직
      */
-    private UserDto createUser(registerDto dto) {
+    private void createUser(RegisterDto dto) {
         String encodedPassword = passwordEncoder.encode(dto.getPassword()); // 유저 패스워드 암호화
         User user = dto.toEntity(roleRepository.findByRoleName("ROLE_USER"),encodedPassword);
         userService.join(user);
@@ -100,6 +92,5 @@ public class UserApiController {
         userAccountService.update(user, // 유저 주소 저장
                 new Account(dto.getAccount().getBankName(), dto.getAccount().getAccountNumber(), dto.getAccount().getAccountHolder()));
         userTokenService.save(new UserToken("fcm", dto.getMessageToken(), user));
-        return new UserDto(user);
     }
 }

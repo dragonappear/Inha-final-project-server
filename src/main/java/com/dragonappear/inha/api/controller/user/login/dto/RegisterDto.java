@@ -17,7 +17,7 @@ import java.util.HashSet;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class registerDto {
+public class RegisterDto {
     @NotNull
     private String email;
     @NotNull
