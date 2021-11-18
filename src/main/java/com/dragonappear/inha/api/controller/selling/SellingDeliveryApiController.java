@@ -8,8 +8,6 @@ import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.SellingDelivery;
 import com.dragonappear.inha.domain.user.User;
-import com.dragonappear.inha.domain.value.CourierName;
-import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.service.deal.DealService;
 import com.dragonappear.inha.service.selling.SellingDeliveryService;
 import com.dragonappear.inha.service.selling.SellingService;
@@ -17,6 +15,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,14 +26,16 @@ import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Slf4j
 @Api(tags = {"아이템 판매 택배 배송 API"})
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class SellingDeliveryApiController {
     private final SellingDeliveryService sellingDeliveryService;
     private final SellingService sellingService;
     private final FcmSendService fcmSendService;
     private final DealService dealService;
+    private static final String sweetTracker = "k5kVWOLhTjQ9TNSDpBM8iw";
 
+    @ResponseBody
     @ApiOperation(value = "택배 배송 등록 API", notes = "택배 배송 등록")
     @PostMapping("/api/v1/sellings/deliveries/new")
     public MessageDto postSellingDelivery(@Valid @RequestBody SellingDeliveryDto dto) {
@@ -62,6 +64,7 @@ public class SellingDeliveryApiController {
                 .build();
     }
 
+    @ResponseBody
     @ApiOperation(value = "택배 송장번호 조회 API by 판매 아이디", notes = "택배 송장번호 조회")
     @GetMapping("/api/v1/sellings/deliveries/{sellingId}")
     public MessageDto findSellingDelivery(@PathVariable("sellingId") Long sellingId) {
@@ -73,6 +76,7 @@ public class SellingDeliveryApiController {
                 .build();
     }
 
+    @ResponseBody
     @ApiOperation(value = "택배 배송 수정 API by 판매 아이디", notes = "택배 배송 수정")
     @PostMapping("/api/v1/sellings/deliveries/update")
     public MessageDto updateSellingDelivery(@RequestBody SellingDeliveryDto dto) {
@@ -88,24 +92,18 @@ public class SellingDeliveryApiController {
                 .build();
     }
 
-
-    @ApiOperation(value = "택배 현황 조회 API by 판매 아이디", notes = "택배 현황 수정")
-    @PostMapping("/api/v1/sellings/deliveries/now/{sellingId}")
-    public MessageDto findSellingDeliveryTest(@PathVariable("sellingId") Long sellingId) {
+    @ApiOperation(value = "택배 추적 조회 API by 판매 아이디", notes = "택배 추적 조회")
+    @GetMapping("/api/v1/sellings/deliveries/trace/{sellingId}")
+    public String findSellingDeliveryTest(@PathVariable("sellingId") Long sellingId, Model model) throws IOException {
         Selling selling = sellingService.findBySellingId(sellingId);
         SellingDelivery delivery = selling.getSellingDelivery();
-        if (delivery == null) {
 
-            return MessageDto.builder()
-                    .message(getMessage("info", "송장번호가 등록되지 않았습니다."))
-                    .build();
-        }
-
-
-        String t_key = "k5kVWOLhTjQ9TNSDpBM8iw";
-        String t_code  = delivery.getDelivery().getCourierName().getCode();
+        String t_key = sweetTracker;
+        String t_code = delivery.getDelivery().getCourierName().getCode();
         String t_invoice = delivery.getDelivery().getInvoiceNumber();
-
-        return null;
+        model.addAttribute("t_key",t_key);
+        model.addAttribute("t_code",t_code);
+        model.addAttribute("t_invoice",t_invoice);
+        return "delivery/deliveryResult";
     }
 }

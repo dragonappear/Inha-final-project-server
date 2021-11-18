@@ -65,7 +65,7 @@ public class UserApiController {
     public MessageDto checkRegistered(@PathVariable("email") String email) {
         User user = userService.findOneByEmail(email);
         return MessageDto.builder()
-                .message(getMessage("isRegistered", true))
+                .message(getMessage("userId", user.getId()))
                 .build();
     }
 
