@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -16,14 +17,22 @@ import java.util.HashSet;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserSaveDto {
+public class registerDto {
+    @NotNull
     private String email;
+    @NotNull
     private String username;
+    @NotNull
     private String userTel;
+    @NotNull
     private String nickname;
+    @NotNull
     private String password;
+    @NotNull
     private Address address;
+    @NotNull
     private Account account;
+    @NotNull
     private String messageToken;
 
     public User toEntity(Role role, String encodedPassword) {

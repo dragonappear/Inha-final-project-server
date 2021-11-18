@@ -18,19 +18,19 @@ public class UserBuyingApiController {
     private final BuyingQueryRepository buyingQueryRepository;
 
     @ApiOperation(value = "유저 구매입찰 상세 내역 조회 API", notes = "유저 구매입찰 상세 내역")
-    @GetMapping("/users/mypage/buying/bid/{userId}")
+    @GetMapping("/api/v1/users/mypage/buying/bid/{userId}")
     public ResultDto getUserBidItems(@PathVariable("userId") Long userId) {
         return returnResults(buyingQueryRepository.getMyPageUserBuyingBidDto(userId));
     }
 
     @ApiOperation(value = "유저 구매진행중 상세 내역 조회 API", notes = "유저 구매진행중 상세 내역 조회")
-    @GetMapping("/users/mypage/buying/ongoing/{userId}")
+    @GetMapping("/api/v1/users/mypage/buying/ongoing/{userId}")
     public ResultDto getUserOngoingItems(@PathVariable("userId") Long userId) {
         return returnResults(buyingQueryRepository.getMyPageUserBuyingOngoingDto(userId));
     }
 
     @ApiOperation(value = "유저 구매완료 상세 내역 조회 API", notes = "유저 구매완료 상세 내역 조회")
-    @GetMapping("/users/mypage/buying/end/{userId}")
+    @GetMapping("/api/v1/users/mypage/buying/end/{userId}")
     public ResultDto getUserEndItems(@PathVariable("userId") Long userId) {
         return returnResults(buyingQueryRepository.getMyPageUserBuyingEndDto(userId));
     }

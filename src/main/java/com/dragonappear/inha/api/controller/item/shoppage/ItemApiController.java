@@ -30,7 +30,7 @@ public class ItemApiController {
     private final ItemImageService itemImageService;
 
     @ApiOperation(value = "전체 아이템 조회 API", notes = "모든 아이템을 조회")
-    @GetMapping("/items")
+    @GetMapping("/api/v1/items")
     public ResultDto allItems() {
         List<ItemDto> items = itemService.findAll().stream()
                 .map(item -> new ItemDto(item.getId()
@@ -47,7 +47,7 @@ public class ItemApiController {
     }
 
     @ApiOperation(value = "카테고리 내 전체 아이템 조회 API", notes = "카테고리 내 전체 아이템을 조회")
-    @GetMapping("/items/{categoryName}")
+    @GetMapping("/api/v1/items/{categoryName}")
     public ResultDto categoryItems(@PathVariable(name = "categoryName") CategoryName categoryName) {
         List<ItemDto> items = itemService.findByCategoryName(categoryName)
                 .stream()
@@ -66,7 +66,7 @@ public class ItemApiController {
     }
 
     @ApiOperation(value = "카테고리+제조사 내 전체 아이템 조회 API", notes = "카테고리+제조사 내 전체 아이템을 조회")
-    @GetMapping("/items/{categoryName}/{manufacturerName}")
+    @GetMapping("/api/v1/items/{categoryName}/{manufacturerName}")
     public ResultDto categoryManufacturerItems(@PathVariable(name = "categoryName") CategoryName categoryName
             , @PathVariable(name = "manufacturerName") ManufacturerName manufacturerName) {
         List<ItemDto> items = itemService.findByCategoryAndManufacturer(categoryName,manufacturerName)
@@ -86,7 +86,7 @@ public class ItemApiController {
     }
 
     @ApiOperation(value = "아이템 상세 조회 API", notes = "아이템 상세 조회")
-    @GetMapping("/items/details/{itemId}")
+    @GetMapping("/api/v1/items/details/{itemId}")
     public DetailDto detailItem(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
         if (item instanceof Notebook) {
@@ -102,7 +102,7 @@ public class ItemApiController {
     }
 
     @ApiOperation(value = "판매전, 구매전 아이템 대표정보 조회 API", notes = "판매전, 구매전 아이템 대표정보 조회")
-    @GetMapping("/items/simple/{itemId}")
+    @GetMapping("/api/v1/items/simple/{itemId}")
     public SimpleItemDto simpleItemDto(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
         return SimpleItemDto.builder()

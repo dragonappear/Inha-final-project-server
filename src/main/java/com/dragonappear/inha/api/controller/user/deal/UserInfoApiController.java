@@ -35,7 +35,7 @@ public class UserInfoApiController {
     private final UserAccountService userAccountService;
 
     @ApiOperation(value = "유저 포인트조회 API by 유저아이디", notes = "유저 포인트 조회")
-    @GetMapping("/payments/points/{userId}")
+    @GetMapping("/api/v1/payments/points/{userId}")
     public PointDto getUserPoint(@PathVariable("userId") Long userId)  {
         BigDecimal amount = userPointService.getTotal(userId).getAmount();
         return PointDto.builder()
@@ -46,7 +46,7 @@ public class UserInfoApiController {
     }
 
     @ApiOperation(value = "유저 대표주소조회 API by 유저아이디", notes = "유저 주소 조회")
-    @GetMapping("/payments/addresses/find/{userId}")
+    @GetMapping("/api/v1/payments/addresses/find/{userId}")
     public AddressDto getUserAddressInfoByUserId(@PathVariable("userId") Long userId) {
         UserAddress userAddress = userAddressService.findByUserId(userId).get(0);
         return AddressDto.builder()
@@ -56,7 +56,7 @@ public class UserInfoApiController {
     }
 
     @ApiOperation(value = "유저 주소조회 API by 주소아이디", notes = "유저 주소 조회")
-    @GetMapping("/payments/addresses/{userAddressId}")
+    @GetMapping("/api/v1/payments/addresses/{userAddressId}")
     public AddressDto getUserAddressInfoByAddressId(@PathVariable("userAddressId") Long userAddressId) {
         try {
             UserAddress userAddress = userAddressService.findByUserAddressId(userAddressId);
@@ -73,7 +73,7 @@ public class UserInfoApiController {
     }
 
     @ApiOperation(value = "유저 주소모두조회 API by 유저아이디로", notes = "유저 주소모두 조회")
-    @GetMapping("/payments/addresses/all/{userId}")
+    @GetMapping("/api/v1/payments/addresses/all/{userId}")
     public ResultDto getUserAllAddressInfo(@PathVariable("userId") Long userId) {
         try {
             List<AddressDto> dtos = userAddressService.findByUserId(userId).stream()
@@ -90,7 +90,7 @@ public class UserInfoApiController {
     }
 
     @ApiOperation(value = "유저 계좌조회 API by 유저아이디로", notes = "유저 계좌조회 조회")
-    @GetMapping("/payments/accounts/{userId}")
+    @GetMapping("/api/v1/payments/accounts/{userId}")
     public UserAccountApiDto getUserAccountInfo(@PathVariable("userId") Long userId){
         UserAccount account = userAccountService.findByUserId(userId);
         return UserAccountApiDto.builder()

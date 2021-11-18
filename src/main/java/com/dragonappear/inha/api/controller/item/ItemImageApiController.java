@@ -25,7 +25,7 @@ public class ItemImageApiController {
     private final ItemImageService itemImageService;
 
     @ApiOperation(value = "아이템 대표 이미지 조회 API by 파일이름으로", notes = "아이템 이미지 조회")
-    @GetMapping(value = "/items/images/{fileOriginName}")
+    @GetMapping(value = "/api/v1/items/images/{fileOriginName}")
     public ResponseEntity<Resource> getItemImageByName(@PathVariable("fileOriginName") String fileName) {
         try {
             String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";
@@ -44,7 +44,7 @@ public class ItemImageApiController {
     }
 
     @ApiOperation(value = "아이템 대표 이미지 조회 API by 아이템아이디로", notes = "아이템 이미지 조회")
-    @GetMapping(value = "/items/images/find/{itemId}")
+    @GetMapping(value = "/api/v1/items/images/find/{itemId}")
     public ResponseEntity<Resource> getItemImageById(@PathVariable("itemId") Long itemId) {
         try {
             String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/items/";

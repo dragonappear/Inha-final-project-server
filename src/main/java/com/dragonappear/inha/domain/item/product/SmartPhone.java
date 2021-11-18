@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 @DiscriminatorValue("smart_phone")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-//@Entity
+@Entity
 public class SmartPhone extends Item {
     private String inch;
     private String cpu;
@@ -27,6 +27,7 @@ public class SmartPhone extends Item {
     private String storage;
     private String gpu;
     private String weight;
+    private String os;
     private String apType;
     private String ppi;
     private String maxInjectionRate;
@@ -35,7 +36,7 @@ public class SmartPhone extends Item {
     public SmartPhone(String itemName, String modelNumber, LocalDate releaseDay
             , String color, Money releasePrice, Category category
             , Manufacturer manufacturer, String inch, String cpu, String core
-            , String memory, String storage, String gpu, String weight, String apType
+            , String memory, String storage, String gpu, String weight, String os, String apType
             , String ppi, String maxInjectionRate) {
         super(itemName, modelNumber, releaseDay, color, releasePrice, category, manufacturer);
         this.inch = inch;
@@ -45,6 +46,7 @@ public class SmartPhone extends Item {
         this.storage = storage;
         this.gpu = gpu;
         this.weight = weight;
+        this.os = os;
         this.apType = apType;
         this.ppi = ppi;
         this.maxInjectionRate = maxInjectionRate;

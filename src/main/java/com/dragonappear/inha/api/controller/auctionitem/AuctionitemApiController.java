@@ -25,19 +25,19 @@ public class AuctionitemApiController {
     private final AuctionitemApiRepository auctionitemApiRepository;
 
     @ApiOperation(value = "경매아이템 가격 조회 API by 경매아이템아이디", notes = "경매아이템아이디로 가격 조회")
-    @GetMapping("/auctionitems/{auctionitemId}")
+    @GetMapping("/api/v1/auctionitems/{auctionitemId}")
     public Map<Object, Object> auctionitemPrice(@PathVariable("auctionitemId") Long auctionitemId) {
         return getResult( auctionItemService.findPriceById(auctionitemId));
     }
 
     @ApiOperation(value = "최저판매입찰금 조회 API by 경매아이템아이디", notes = "경매아이템아이디로 최저경매가격 조회")
-    @GetMapping("/auctionitems/lowest/{itemId}")
+    @GetMapping("/api/v1/auctionitems/lowest/{itemId}")
     public Map<Object, Object> auctionitemLowestPrice(@PathVariable("itemId") Long itemId) {
         return sellingRepository.findLowestSellingPrice(itemId);
     }
 
     @ApiOperation(value = " 판매입찰금 모두 조회 API by 아이템아이디", notes = "아이템 판매입찰금 모두 조회")
-    @GetMapping("/auctionitems/all/{itemId}")
+    @GetMapping("/api/v1/auctionitems/all/{itemId}")
     public Map<Object, Object> auctionItemEntirePrice(@PathVariable("itemId") Long itemId) {
         return auctionitemApiRepository.findBidAuctionitems(itemId);
     }

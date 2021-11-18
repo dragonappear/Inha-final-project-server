@@ -8,6 +8,7 @@ import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.selling.Selling;
 import com.dragonappear.inha.domain.selling.SellingDelivery;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.domain.value.CourierName;
 import com.dragonappear.inha.exception.NotFoundCustomException;
 import com.dragonappear.inha.service.deal.DealService;
 import com.dragonappear.inha.service.selling.SellingDeliveryService;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
@@ -33,8 +35,8 @@ public class SellingDeliveryApiController {
     private final DealService dealService;
 
     @ApiOperation(value = "택배 배송 등록 API", notes = "택배 배송 등록")
-    @PostMapping("/sellings/deliveries/new")
-    public MessageDto postSellingDelivery(@RequestBody SellingDeliveryDto dto) {
+    @PostMapping("/api/v1/sellings/deliveries/new")
+    public MessageDto postSellingDelivery(@Valid @RequestBody SellingDeliveryDto dto) {
         Selling selling = sellingService.findBySellingId(dto.getSellingId());
         Deal deal = selling.getDeal();
         if (selling.getSellingDelivery() != null) {
@@ -44,15 +46,15 @@ public class SellingDeliveryApiController {
         }
 
         Long deliveryId = sellingDeliveryService.save(selling, dto.getDelivery());
-        dealService.updateDealStatus(deal,DealStatus.판매자발송완료);
+        dealService.updateDealStatus(deal, DealStatus.판매자발송완료);
 
         try {
             User buyer = deal.getBuying().getPayment().getUser();
             String title = "판매자 아이템 발송완료 알림";
-            String body =  "판매자가 "+selling.getAuctionitem().getItem().getItemName() + "을 발송하였습니다.";
+            String body = "판매자가 " + selling.getAuctionitem().getItem().getItemName() + "을 발송하였습니다.";
             fcmSendService.sendFCM(buyer, title, body);
         } catch (IOException e) {
-            log.error("deliveryId:{} 발송완료 FCM 메시지가 전송되지 않았습니다.",deliveryId);
+            log.error("deliveryId:{} 발송완료 FCM 메시지가 전송되지 않았습니다.", deliveryId);
         }
 
         return MessageDto.builder()
@@ -60,19 +62,19 @@ public class SellingDeliveryApiController {
                 .build();
     }
 
-    @ApiOperation(value = "택배 배송 조회 API by 판매 아이디", notes = "택배 배송 조회")
-    @GetMapping("/sellings/deliveries/{sellingId}")
+    @ApiOperation(value = "택배 송장번호 조회 API by 판매 아이디", notes = "택배 송장번호 조회")
+    @GetMapping("/api/v1/sellings/deliveries/{sellingId}")
     public MessageDto findSellingDelivery(@PathVariable("sellingId") Long sellingId) {
         Selling selling = sellingService.findBySellingId(sellingId);
         SellingDelivery delivery = selling.getSellingDelivery();
         return MessageDto.builder()
                 .message(getMessage("info",
-                        (delivery==null) ? "송장번호가 등록되지 않았습니다.": delivery.getDelivery()))
+                        (delivery == null) ? "송장번호가 등록되지 않았습니다." : delivery.getDelivery()))
                 .build();
     }
 
     @ApiOperation(value = "택배 배송 수정 API by 판매 아이디", notes = "택배 배송 수정")
-    @PostMapping("/sellings/deliveries/update")
+    @PostMapping("/api/v1/sellings/deliveries/update")
     public MessageDto updateSellingDelivery(@RequestBody SellingDeliveryDto dto) {
         Selling selling = sellingService.findBySellingId(dto.getSellingId());
         if (selling.getSellingDelivery() == null) {
@@ -84,5 +86,26 @@ public class SellingDeliveryApiController {
         return MessageDto.builder()
                 .message(getMessage("isUploadedSuccess", true, "Status", "택배수정이 완료되었습니다."))
                 .build();
+    }
+
+
+    @ApiOperation(value = "택배 현황 조회 API by 판매 아이디", notes = "택배 현황 수정")
+    @PostMapping("/api/v1/sellings/deliveries/now/{sellingId}")
+    public MessageDto findSellingDeliveryTest(@PathVariable("sellingId") Long sellingId) {
+        Selling selling = sellingService.findBySellingId(sellingId);
+        SellingDelivery delivery = selling.getSellingDelivery();
+        if (delivery == null) {
+
+            return MessageDto.builder()
+                    .message(getMessage("info", "송장번호가 등록되지 않았습니다."))
+                    .build();
+        }
+
+
+        String t_key = "k5kVWOLhTjQ9TNSDpBM8iw";
+        String t_code  = delivery.getDelivery().getCourierName().getCode();
+        String t_invoice = delivery.getDelivery().getInvoiceNumber();
+
+        return null;
     }
 }

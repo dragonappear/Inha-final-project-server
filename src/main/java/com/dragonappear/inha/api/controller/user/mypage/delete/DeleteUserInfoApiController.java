@@ -21,7 +21,7 @@ public class DeleteUserInfoApiController {
     private final UserAddressService userAddressService;
 
     @ApiOperation(value = "유저 주소 삭제 API", notes = "유저 주소 삭제")
-    @DeleteMapping(value = "users/delete/addresses/{userId}")
+    @DeleteMapping(value = "/api/v1/users/delete/addresses/{userId}")
     public Map<String, Object> deleteUserAddress(@PathVariable("userId") Long userId, @RequestBody Address address) {
         userAddressService.deleteAddress(userId, address);
         return getMessage("isDeleted", true, "Status", "주소가 삭제되었습니다.");

@@ -35,31 +35,31 @@ public class UserPageApiController {
     private final UserAccountService userAccountService;
 
     @ApiOperation(value = "유저 기본 정보 조회 API", notes = "유저 기본 정보 조회")
-    @GetMapping("/users/mypage/{userId}")
+    @GetMapping("/api/v1/users/mypage/{userId}")
     public MyPageUserInfoDto myPageUserInfoDto(@PathVariable("userId") Long userId) {
         return userQueryRepository.myPageUserInfoDto(userId);
     }
 
     @ApiOperation(value = "유저 구매 개수 조회 API", notes = "유저 구매 개수 조회")
-    @GetMapping("/users/mypage/buying/{userId}")
+    @GetMapping("/api/v1/users/mypage/buying/{userId}")
     public MyPageUserBuyingSimpleDto myPageUserBuyingSimpleDto(@PathVariable("userId") Long userId) {
         return buyingQueryRepository.getMyPageUserBuyingSimpleDto(userId);
     }
 
     @ApiOperation(value = "유저 판매 개수 조회 API", notes = "유저 판매 개수 조회")
-    @GetMapping("/users/mypage/selling/{userId}")
+    @GetMapping("/api/v1/users/mypage/selling/{userId}")
     public MyPageUserSellingSimpleDto myPageUserSellingSimpleDto(@PathVariable("userId") Long userId) {
         return sellingQueryRepository.getMyPageUserSellingSimpleDto(userId);
     }
 
     @ApiOperation(value = "유저 로그인 정보 조회 API", notes = "유저 로그인 정보 조회")
-    @GetMapping("/users/mypage/loginInfo/{userId}")
+    @GetMapping("/api/v1/users/mypage/loginInfo/{userId}")
     public LoginInfoApiDto loginInfoApiDto(@PathVariable("userId") Long userId) {
         return new LoginInfoApiDto(userService.findOneById(userId));
     }
 
     @ApiOperation(value = "유저 주소 조회 API", notes = "유저 주소 조회")
-    @GetMapping("/users/mypage/addresses/{userId}")
+    @GetMapping("/api/v1/users/mypage/addresses/{userId}")
     public ResultDto userAddressApiDto(@PathVariable("userId") Long userId) {
         List<UserAddressApiDto> dtos = userAddressService.findByUserId(userId).stream()
                 .map(userAddress -> UserAddressApiDto.builder()
@@ -72,7 +72,7 @@ public class UserPageApiController {
     }
 
     @ApiOperation(value = "유저 계좌 조회 API", notes = "유저 계좌 조회")
-    @GetMapping("/users/mypage/accounts/{userId}")
+    @GetMapping("/api/v1/users/mypage/accounts/{userId}")
     public UserAccountApiDto userAccountDto(@PathVariable("userId") Long userId) {
         return UserAccountApiDto.builder()
                 .account(userAccountService.findByUserId(userId))

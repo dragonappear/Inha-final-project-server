@@ -23,7 +23,7 @@ public class CreateUserInfoController {
     private final UserAddressService userAddressService;
 
     @ApiOperation(value = "유저 주소 저장 API", notes = "유저 주소 저장")
-    @PostMapping("/users/update/addresses/{userId}")
+    @PostMapping("/api/v1/users/update/addresses/{userId}")
     public Map<String, Object> createUserAddress(@PathVariable("userId") Long userId, @RequestBody Address userAddress) {
         try{
             userAddressService.save(userId, userAddress);

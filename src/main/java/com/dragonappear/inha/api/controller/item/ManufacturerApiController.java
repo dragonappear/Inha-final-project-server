@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @Api(tags = {"아이템 제조사 API"})
 @RestController
 @RequiredArgsConstructor
-public class ManufacturerController {
+public class ManufacturerApiController {
     private final ManufacturerRepository manufacturerRepository;
 
     @ApiOperation(value = "모든 제조사 조회 API", notes = "모든 제조사 조회")
-    @GetMapping("/items/manufacturers")
+    @GetMapping("/api/v1/items/manufacturers")
     public List<ManufacturerName> manufacturerNames() {
         return manufacturerRepository.findAll()
                 .stream()

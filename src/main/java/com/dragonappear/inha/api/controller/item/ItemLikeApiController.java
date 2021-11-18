@@ -1,6 +1,7 @@
 package com.dragonappear.inha.api.controller.item;
 
 
+import com.dragonappear.inha.api.controller.item.dto.ItemLikeApiDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.UserLikeItem;
@@ -25,7 +26,7 @@ public class ItemLikeApiController {
     private final ItemService itemService;
 
     @ApiOperation(value = "아이템 좋아요 API", notes = "아이템 좋아요")
-    @PostMapping("/items/likes")
+    @PostMapping("/api/v1/items/likes")
     public MessageDto itemLike( @RequestBody ItemLikeApiDto dto) {
         Item item = itemService.findByItemId(dto.getItemId());
         User user = userService.findOneById(dto.getUserId());
@@ -44,7 +45,7 @@ public class ItemLikeApiController {
     }
 
     @ApiOperation(value = "아이템 좋아요 조회 API", notes = "아이템 좋아요 조회")
-    @PostMapping(value = "/items//isLiked")
+    @PostMapping(value = "/api/v1/items/isLiked")
     public MessageDto cancelItemLike( @RequestBody ItemLikeApiDto dto) {
         UserLikeItem userLikeItem = userLikeItemService.findByUserIdAndItemId(dto.getUserId(), dto.getItemId());
         if (userLikeItem == null) {

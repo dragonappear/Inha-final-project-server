@@ -11,6 +11,11 @@ spring:
       maxFileSize : 10MB
       maxRequestSize : 20MB
 
+jwt:
+  header: Authorization
+  secret: bWUtZHJhZ29uYXBwZWFyLXNwcmluZy1ib290LXNlY3VyaXR5LWp3dC1zZWNyZXQta2V5LW1lLWRyYWdvbmFwcGVhci1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3Qtc2VjcmV0LWtleQo=
+  token-validity-in-seconds: 86400
+
 logging:
   level:
     root: info

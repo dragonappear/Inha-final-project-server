@@ -17,18 +17,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any()) // 모든 RequestMapping URI 추출
-                .build()
-                .apiInfo(apiInfo());
+                .build();
+
     }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfo(
-                "Auction Rest API ", //title
-                "미개봉 전자제품 경매 서비스", //description
-                "v1", //version
-                "서비스 약관 URL", //termsOfServiceUrl
-                "contactName", //contactName
-                "License", //license
-                "localhost:8080"); //licenseUrl
-    }
 }

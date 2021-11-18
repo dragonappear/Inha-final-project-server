@@ -4,6 +4,7 @@ import com.dragonappear.inha.domain.item.Item;
 import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.domain.item.value.Manufacturer;
 import com.dragonappear.inha.domain.value.Money;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,11 @@ import java.time.LocalDate;
 
 import static lombok.AccessLevel.PROTECTED;
 
+
 @DiscriminatorValue("tablet")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-//@Entity
+@Entity
 public class Tablet extends Item {
     private String inch;
     private String cpu;

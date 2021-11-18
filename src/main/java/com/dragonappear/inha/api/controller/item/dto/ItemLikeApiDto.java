@@ -1,4 +1,4 @@
-package com.dragonappear.inha.api.controller.item;
+package com.dragonappear.inha.api.controller.item.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,4 @@ import lombok.NoArgsConstructor;
 public class ItemLikeApiDto {
     private Long itemId;
     private Long userId;
-
-
 }

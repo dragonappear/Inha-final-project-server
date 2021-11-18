@@ -1,22 +1,23 @@
 package com.dragonappear.inha.api.controller.selling.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class SellingDto {
+    @NotNull
     private Long userId;
+    @NotNull
     private Long itemId;
+    @NotNull
     private BigDecimal price;
 
-    public SellingDto(Long userId, Long itemId, BigDecimal price) {
-        this.userId = userId;
-        this.itemId = itemId;
-        this.price = price;
-    }
 }

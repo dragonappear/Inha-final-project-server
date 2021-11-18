@@ -36,7 +36,7 @@ public class InspectionApiController {
     private final BuyingService buyingService;
 
     @ApiOperation(value = "검수 조회 API by 거래아이디로", notes = "거래 조회")
-    @PostMapping("/inspections")
+    @PostMapping("/api/v1/inspections")
     public InspectionApiDto getInspectionResult(@RequestBody SearchDto dto) {
         Inspection inspection;
         if (dto.getBuyingId() == null) {
@@ -58,7 +58,7 @@ public class InspectionApiController {
     }
 
     @ApiOperation(value = "검수결과 이미지 조회 API by 파일이름으로", notes = "검수결과 이미지 조회")
-    @GetMapping(value = "/inspections/images/{fileName}")
+    @GetMapping(value = "/api/v1/inspections/images/{fileName}")
     public ResponseEntity<Resource> getInspectionImageByName(@PathVariable("fileName") String fileName) {
         try {
             String path = "/home/ec2-user/app/step1/Inha-final-project-server/src/main/resources/static/inspections/";

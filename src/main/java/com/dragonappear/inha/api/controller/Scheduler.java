@@ -2,6 +2,7 @@ package com.dragonappear.inha.api.controller;
 
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
+import com.dragonappear.inha.api.service.firebase.FcmSendService;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.payment.Payment;
 import com.dragonappear.inha.domain.payment.value.PaymentStatus;
@@ -27,6 +28,7 @@ public class Scheduler {
     private final BuyingService buyingService;
     private final IamportService iamportService;
     private final DealService dealService;
+    private final FcmSendService fcmSendService;
 
     @Transactional
     @Scheduled(fixedDelay = 1000*60  ,zone = "Asia/Seoul")
@@ -60,7 +62,12 @@ public class Scheduler {
     }
 
     /**
-     * 7일동안 입고완료가 진행이 안되면 취소 추가 로직 필요
+     * 업데이트가 7일동안 되지 않으면 취소
+     */
+
+
+    /**
+     * 검수탈락시에 구매자 결제 취소
      */
 
     private void cancelPayment(Payment payment) {

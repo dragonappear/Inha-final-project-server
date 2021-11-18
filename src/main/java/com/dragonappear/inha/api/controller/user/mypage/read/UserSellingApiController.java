@@ -19,19 +19,19 @@ public class UserSellingApiController {
     private final SellingQueryRepository sellingQueryRepository;
 
     @ApiOperation(value = "유저 판매입찰 상세 내역 조회 API", notes = "유저 판매입찰 상세 내역 조회")
-    @GetMapping("/users/mypage/selling/bid/{userId}")
+    @GetMapping("/api/v1/users/mypage/selling/bid/{userId}")
     public ResultDto getMyPageUserSellingBidDto(@PathVariable("userId") Long userId) {
         return returnResults(sellingQueryRepository.getMyPageUserSellingBidDto(userId));
     }
 
     @ApiOperation(value = "유저 판매진행 상세 내역 조회 API", notes = "유저 판매진행 상세 내역 조회")
-    @GetMapping("/users/mypage/selling/ongoing/{userId}")
+    @GetMapping("/api/v1/users/mypage/selling/ongoing/{userId}")
     public ResultDto getMyPageUserSellingOngoingDto(@PathVariable("userId") Long userId) {
         return returnResults(sellingQueryRepository.getMyPageUserSellingOngoingDto(userId));
     }
 
     @ApiOperation(value = "유저 판매종료 상세 내역 조회 API", notes = "유저 판매종료 상세 내역 조회")
-    @GetMapping("/users/mypage/selling/end/{userId}")
+    @GetMapping("/api/v1/users/mypage/selling/end/{userId}")
     public ResultDto getMyPageUserSellingEndDto(@PathVariable("userId") Long userId) {
         return returnResults(sellingQueryRepository.getMyPageUserSellingEndDto(userId));
     }

@@ -19,19 +19,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-       /* return userRepository.findOneWithAuthoritiesByEmail(email)
+        return userRepository.findByEmail(email)
                 .map(user -> createUser(email, user))
-                .orElseThrow(() -> new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다."));*/
-        return null;
+                .orElseThrow(() -> new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다."));
     }
 
     private org.springframework.security.core.userdetails.User createUser(String email, User user) {
-        /*List<SimpleGrantedAuthority> authorities = user.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
+        List<SimpleGrantedAuthority> grantedAuthorities = user.getUserRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
-
-        return new org.springframework.security.core.userdetails.User(user.getEmail()
-        ,user.getPassword(),authorities);*/
-        return null;
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(),
+                grantedAuthorities);
     }
 }

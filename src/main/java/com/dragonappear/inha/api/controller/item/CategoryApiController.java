@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 @Api(tags = {"아이템 카테고리 API"})
 @RestController
 @RequiredArgsConstructor
-public class CategoryController {
+public class CategoryApiController {
     private final CategoryRepository categoryRepository;
     private final CategoryManufacturerRepository categoryManufacturerRepository;
 
     @ApiOperation(value = "모든 카테고리 조회 API", notes = "모든 카테고리를 조회")
-    @GetMapping("/items/categories")
+    @GetMapping("/api/v1/items/categories")
     public List<CategoryName> categoryNames() {
         return categoryRepository.findAll()
                 .stream()
@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @ApiOperation(value = "카테고리 내 모든 제조사 조회 API", notes = "카테고리 내 모든 제조사 조회")
-    @GetMapping("/items/{categoryName}/manufacturers")
+    @GetMapping("/api/v1/items/{categoryName}/manufacturers")
     public List<ManufacturerName> manufacturerNames(@PathVariable(name = "categoryName") CategoryName categoryName) {
         return categoryManufacturerRepository.findByCategoryName(categoryName)
                 .stream()

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<form name="hiddenForm" action="http://info.sweettracker.co.kr/tracking/5" method="post">
+    <div class="form-group">
+        <input type="hidden" class="form-control" id="t_key" name="t_key" th:value="${t_key}" placeholder="제공받은 APIKEY">
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" class="form-control" name="t_code" id="t_code"  th:value="${t_code}" placeholder="택배사 코드">
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" class="form-control" name="t_invoice" id="t_invoice" th:value="${t_invoice}" placeholder="운송장 번호">
+    </div>
+</form>
+
+<script>
+    document.hiddenForm.submit();
+</script>
+</body>
+</html>

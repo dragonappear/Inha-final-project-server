@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Api(tags = {"아이템 구매 API"})
@@ -22,8 +24,8 @@ public class BuyingApiController {
     private final CreateDealService createDealService;
 
     @ApiOperation(value = "입찰구매 결제저장 API", notes = "입찰구매 결제저장")
-    @PostMapping("/payments/new/bid")
-    public MessageDto postBidPayment(@RequestBody BidPaymentApiDto dto) {
+    @PostMapping("/api/v1/payments/new/bid")
+    public MessageDto postBidPayment(@Valid @RequestBody BidPaymentApiDto dto) {
         validatePaymentService.validateBidPayment(dto);
         createDealService.createBidBuying(dto);
         return MessageDto.builder()
@@ -32,8 +34,8 @@ public class BuyingApiController {
     }
 
     @ApiOperation(value = "즉시구매 결제저장 API", notes = "즉시구매 결제저장")
-    @PostMapping("/payments/new/instant")
-    public MessageDto postInstantPayment(@RequestBody InstantPaymentApiDto dto) {
+    @PostMapping("/api/v1/payments/new/instant")
+    public MessageDto postInstantPayment(@Valid @RequestBody InstantPaymentApiDto dto) {
         validatePaymentService.validateInstantPayment(dto);
         Long dealId = createDealService.createInstantBuying(dto);
         return MessageDto.builder()

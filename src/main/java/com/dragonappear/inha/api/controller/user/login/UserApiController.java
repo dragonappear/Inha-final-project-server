@@ -1,9 +1,12 @@
 package com.dragonappear.inha.api.controller.user.login;
 
-import com.dragonappear.inha.api.controller.user.login.dto.UserSaveDto;
+import com.dragonappear.inha.api.controller.user.login.dto.LoginDto;
+import com.dragonappear.inha.api.controller.user.login.dto.TokenDto;
+import com.dragonappear.inha.api.controller.user.login.dto.registerDto;
 import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.controller.user.login.dto.UserDto;
-import com.dragonappear.inha.domain.user.Role;
+import com.dragonappear.inha.config.jwt.JwtFilter;
+import com.dragonappear.inha.config.jwt.TokenProvider;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserToken;
 import com.dragonappear.inha.domain.value.Account;
@@ -13,17 +16,23 @@ import com.dragonappear.inha.service.user.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 import static java.util.stream.Collectors.*;
 
-@Api(tags = {"유저 정보 API"})
+@Api(tags = {"유저 로그인 API"})
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
@@ -35,9 +44,27 @@ public class UserApiController {
     private final UserTokenService userTokenService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @ApiOperation(value = "유저 토큰 API By 유저이메일, 패스워드", notes = "유저 토큰 API")
+    @PostMapping("/api/v1/authenticate")
+    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.createToken(authentication);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+    }
+
     
     @ApiOperation(value = "유저 등록 조회 API By 유저이메일", notes = "유저 정보 조회")
-    @GetMapping(value = "/users/{email}")
+    @GetMapping(value = "/api/v1/users/{email}")
     public MessageDto checkRegistered(@PathVariable("email") String email) {
         User user = userService.findOneByEmail(email);
         List<String> roles = user.getUserRoles().stream().map(role -> {
@@ -50,7 +77,7 @@ public class UserApiController {
     }
 
     @ApiOperation(value = "유저 정보 조회 API By 유저아이디", notes = "유저 정보 조회")
-    @GetMapping(value = "/users/find/{userId}")
+    @GetMapping(value = "/api/v1/users/find/{userId}")
     public UserDto getUserInfo(@PathVariable("userId") Long userId) {
         User user = userService.findOneById(userId);
         return new UserDto(user);
@@ -58,15 +85,15 @@ public class UserApiController {
     }
 
     @ApiOperation(value = "유저 정보 저장 API", notes = "유저 정보 저장")
-    @PostMapping(value = "/users/new")
-    public UserDto save(@RequestBody UserSaveDto dto) {
+    @PostMapping(value = "/api/v1/users/new")
+    public UserDto save(@Valid @RequestBody registerDto dto) {
         return createUser(dto);
     }
 
     /**
      *  유저 DB 저장 로직
      */
-    private UserDto createUser(UserSaveDto dto) {
+    private UserDto createUser(registerDto dto) {
         String encodedPassword = passwordEncoder.encode(dto.getPassword()); // 유저 패스워드 암호화
         User user = dto.toEntity(roleRepository.findByRoleName("ROLE_USER"),encodedPassword);
         userService.join(user);
