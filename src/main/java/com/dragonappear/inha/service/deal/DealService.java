@@ -43,6 +43,17 @@ public class DealService {
         return dealRepository.findUnregisteredSellingDelivery();
     }
 
+    // 미입고된 거래 조회
+    public List<Deal> findUndeliveredDeal() {
+        return dealRepository.findUndeliveredDeal();
+    }
+
+    // 검수 탈락된 거래 조회
+    public List<Deal> findFailInspectionDeal() {
+        return dealRepository.findFailInspectionDeal();
+    }
+
+
     // 거래 전체 조회
     public List<Deal> findAll() {
         return dealRepository.findAll();

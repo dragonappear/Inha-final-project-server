@@ -74,6 +74,7 @@ public class Deal extends JpaBaseTimeEntity {
      * 비즈니스로직
      */
     public void updateDealStatus(DealStatus dealStatus) {
+
         this.dealStatus = dealStatus;
         updateBuyingAndSellingStatus(dealStatus);
     }
