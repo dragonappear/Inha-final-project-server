@@ -44,7 +44,7 @@ public class Scheduler {
 
     @Transactional
     @Scheduled(fixedDelay = 1000 * 60, zone = "Asia/Seoul")
-    public void cancelOverduePayment(Payment payment) {
+    public void cancelOverduePayment() {
     buyingService.findOverdueAndNotCanceled().stream().forEach(bidBuying -> {
         String itemName = bidBuying.getPayment().getAuctionitem().getItem().getItemName();
         String body = "입찰 구매하신" + itemName + "의 입찰기한이 만료되어서 결제 취소되었음을 알려드립니다.";
