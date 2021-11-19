@@ -1,17 +1,20 @@
-<html>
+<!DOCTYPE html>
+<html lang="kr">
 <head>
-    <meta charset="utf-8" />
-    <title>WebRtc tutorial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
-
 <body>
-<div>
-    <video id="localVideo" autoplay width="480px"></video>
-    <video id="remoteVideo" width="480px" autoplay></video>
-</div>
 
-<script src="/socket.io/socket.io.js"></script>
+
+<textarea id="dataChannelSend"></textarea>
+<textarea id="dataChannelReceive"></textarea>
+
+<div>
+    <button id="send">send</button>
+</div>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="./rtc.js"></script>
 </body>
-
 </html>

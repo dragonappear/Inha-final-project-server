@@ -27,6 +27,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @Api(tags = {"유저 로그인 API"})
@@ -91,6 +95,7 @@ public class UserApiController {
         userPointService.create(user.getId()); // 유저 포인트 초기 생성
         userAccountService.update(user, // 유저 주소 저장
                 new Account(dto.getAccount().getBankName(), dto.getAccount().getAccountNumber(), dto.getAccount().getAccountHolder()));
-        userTokenService.save(new UserToken("fcm", dto.getMessageToken(), user));
+        String fcmToken = Base64.getEncoder().encodeToString(dto.getMessageToken().getBytes(StandardCharsets.UTF_8));
+        userTokenService.save(new UserToken("fcm", fcmToken, user));
     }
 }
