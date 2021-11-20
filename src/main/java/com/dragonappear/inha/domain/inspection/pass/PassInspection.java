@@ -3,6 +3,7 @@ package com.dragonappear.inha.domain.inspection.pass;
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.Inspection;
+import com.dragonappear.inha.domain.inspection.pass.settlement.Settlement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,12 +31,19 @@ public class PassInspection extends Inspection {
     @OneToOne(fetch = LAZY,cascade = ALL,mappedBy = "passInspection")
     private PassDelivery passDelivery;
 
+    @OneToOne(fetch = LAZY, cascade = ALL, mappedBy = "passInspection")
+    private Settlement settlement;
+
     /**
      * 연관관계편의메서드
      */
 
     public void updateDelivery(PassDelivery passDelivery) {
+
         this.passDelivery = passDelivery;
     }
 
+    public void updateSettlement(Settlement settlement) {
+        this.settlement = settlement;
+    }
 }

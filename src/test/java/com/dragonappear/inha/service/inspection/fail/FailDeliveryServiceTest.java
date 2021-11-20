@@ -19,7 +19,6 @@ import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAddress;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Delivery;
-import com.dragonappear.inha.domain.value.DeliveryStatus;
 import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.repository.auctionitem.AuctionitemRepository;
 import com.dragonappear.inha.repository.buying.BuyingRepository;
@@ -128,7 +127,6 @@ class FailDeliveryServiceTest {
         FailDelivery find = failDeliveryRepository.findById(failDelivery.getId()).get();
         //then
         Assertions.assertThat(find).isEqualTo(failDelivery);
-        Assertions.assertThat(find.getDeliveryStatus()).isEqualTo(DeliveryStatus.배송시작);
         Assertions.assertThat(find.getSellerAddress()).isEqualTo(user.getUserAddresses().get(0).getUserAddress());
         Assertions.assertThat(find.getDelivery()).isEqualTo(new Delivery(CJ대한통운, "1234-1234"));
     }
@@ -146,7 +144,6 @@ class FailDeliveryServiceTest {
         FailDelivery find = failDeliveryService.findById(failDelivery.getId());
         //then
         Assertions.assertThat(find).isEqualTo(failDelivery);
-        Assertions.assertThat(find.getDeliveryStatus()).isEqualTo(DeliveryStatus.배송시작);
         Assertions.assertThat(find.getSellerAddress()).isEqualTo(user.getUserAddresses().get(0).getUserAddress());
         Assertions.assertThat(find.getDelivery()).isEqualTo(new Delivery(CJ대한통운, "1234-1234"));
     }

@@ -124,7 +124,6 @@ class PassDeliveryServiceTest {
         PassDelivery find = passDeliveryRepository.findById(passDelivery.getId()).get();
         //then
         Assertions.assertThat(find).isEqualTo(passDelivery);
-        Assertions.assertThat(find.getDeliveryStatus()).isEqualTo(DeliveryStatus.배송시작);
         Assertions.assertThat(find.getBuyerAddress()).isEqualTo(user.getUserAddresses().get(0).getUserAddress());
         Assertions.assertThat(find.getDelivery()).isEqualTo(new Delivery(CJ대한통운, "1234-1234"));
     }
@@ -142,7 +141,6 @@ class PassDeliveryServiceTest {
         PassDelivery find = passDeliveryService.findById(passDelivery.getId());
         //then
         Assertions.assertThat(find).isEqualTo(passDelivery);
-        Assertions.assertThat(find.getDeliveryStatus()).isEqualTo(DeliveryStatus.배송시작);
         Assertions.assertThat(find.getBuyerAddress()).isEqualTo(user.getUserAddresses().get(0).getUserAddress());
         Assertions.assertThat(find.getDelivery()).isEqualTo(new Delivery(CJ대한통운, "1234-1234"));
     }
