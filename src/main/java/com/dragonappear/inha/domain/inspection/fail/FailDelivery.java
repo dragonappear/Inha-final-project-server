@@ -3,14 +3,11 @@ package com.dragonappear.inha.domain.inspection.fail;
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Delivery;
-import com.dragonappear.inha.domain.value.DeliveryStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static com.dragonappear.inha.domain.value.DeliveryStatus.*;
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -31,10 +28,6 @@ public class FailDelivery extends JpaBaseTimeEntity {
     @Column(nullable = false)
     @Embedded
     private Address sellerAddress;
-
-    @Column(nullable = false)
-    @Enumerated(STRING)
-    private DeliveryStatus deliveryStatus;
 
     /**
      * 연관관계
@@ -59,7 +52,6 @@ public class FailDelivery extends JpaBaseTimeEntity {
     public FailDelivery(Delivery delivery, Address sellerAddress,FailInspection failInspection) {
         this.delivery = delivery;
         this.sellerAddress = sellerAddress;
-        this.deliveryStatus = 배송시작;
         if (failInspection != null) {
             updateFailDelivery(failInspection);
         }
@@ -69,6 +61,4 @@ public class FailDelivery extends JpaBaseTimeEntity {
     /**
      * 비즈니스로직
      */
-
-
 }

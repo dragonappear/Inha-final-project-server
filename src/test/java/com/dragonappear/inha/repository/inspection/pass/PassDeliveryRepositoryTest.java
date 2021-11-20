@@ -114,7 +114,6 @@ class PassDeliveryRepositoryTest {
         assertThat(findDelivery).isEqualTo(newDelivery);
         assertThat(findDelivery.getId()).isEqualTo(newDelivery.getId());
         assertThat(findDelivery.getDelivery()).isEqualTo(newDelivery.getDelivery());
-        assertThat(findDelivery.getDeliveryStatus()).isEqualTo(newDelivery.getDeliveryStatus());
         assertThat(findDelivery.getBuyerAddress()).isEqualTo(newDelivery.getBuyerAddress());
         assertThat(findDelivery.getPassInspection()).isEqualTo(newDelivery.getPassInspection());
         assertThat(passInspection.getPassDelivery()).isEqualTo(findDelivery);

@@ -3,12 +3,10 @@ package com.dragonappear.inha.domain.inspection.pass;
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.value.Address;
 import com.dragonappear.inha.domain.value.Delivery;
-import com.dragonappear.inha.domain.value.DeliveryStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
-import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -29,10 +27,6 @@ public class PassDelivery extends JpaBaseTimeEntity {
     @Column(nullable = false)
     @Embedded
     private Address buyerAddress;
-
-    @Column(nullable = false)
-    @Enumerated(STRING)
-    private DeliveryStatus deliveryStatus;
 
     /**
      * 연관관계
@@ -57,7 +51,6 @@ public class PassDelivery extends JpaBaseTimeEntity {
     public PassDelivery(Delivery delivery, Address buyerAddress,PassInspection passInspection) {
         this.delivery = delivery;
         this.buyerAddress = buyerAddress;
-        this.deliveryStatus = DeliveryStatus.배송시작;
         if (passInspection != null) {
             updateInspectionDelivery(passInspection);
         }
@@ -66,9 +59,5 @@ public class PassDelivery extends JpaBaseTimeEntity {
     /**
      * 비즈니스로직
      */
-    public void updateDeliveryStatus(DeliveryStatus deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
-    }
-
 
 }

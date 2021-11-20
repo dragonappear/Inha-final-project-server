@@ -113,7 +113,6 @@ class FailDeliveryRepositoryTest {
         assertThat(findDelivery).isEqualTo(newDelivery);
         assertThat(findDelivery.getId()).isEqualTo(newDelivery.getId());
         assertThat(findDelivery.getDelivery()).isEqualTo(newDelivery.getDelivery());
-        assertThat(findDelivery.getDeliveryStatus()).isEqualTo(newDelivery.getDeliveryStatus());
         assertThat(findDelivery.getSellerAddress()).isEqualTo(newDelivery.getSellerAddress());
         assertThat(findDelivery.getFailInspection()).isEqualTo(newDelivery.getFailInspection());
         assertThat(failInspection.getFailDelivery()).isEqualTo(findDelivery);
