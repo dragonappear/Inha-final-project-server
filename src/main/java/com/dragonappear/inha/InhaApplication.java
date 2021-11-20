@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @EnableScheduling
 @EnableJpaAuditing
+@EnableWebSocket
 @SpringBootApplication
 public class InhaApplication {
 

@@ -32,6 +32,8 @@ repositories {
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 
+		implementation 'org.springframework:spring-websocket'
+
 		// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
 		implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0'
 

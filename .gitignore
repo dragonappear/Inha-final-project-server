@@ -10,6 +10,7 @@ application-local-db.yml
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+logs/
 
 ### java ###
 InitNotebook.java
