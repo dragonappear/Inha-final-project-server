@@ -1,4 +1,4 @@
-package com.dragonappear.inha.domain.inspection.pass.settlement;
+package com.dragonappear.inha.domain.inspection.pass;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
 import com.dragonappear.inha.domain.inspection.pass.PassInspection;
