@@ -28,6 +28,10 @@ public class SettlementService {
         return settlementRepository.findById(settlementId).orElse(null);
     }
 
+    public Settlement findByInspectionId(Long passInspectionId) {
+        return settlementRepository.findByInspectionId(passInspectionId).orElse(null);
+    }
+
     /**
      * UPDATE
      */

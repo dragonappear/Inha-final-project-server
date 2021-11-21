@@ -5,27 +5,36 @@
 <div th:replace="layout/top::header"></div>
 
 <div class="py-5 text-center">
-    <h2>정산관리</h2>
+    <h2>정산 내역</h2>
 </div>
 <hr class="my-4">
 <div>
     <table class="table">
         <thead>
         <tr>
-            <th>결제ID</th> <th>유저ID</th> <th>날짜</th> <th>상태</th> <th>금액</th> <th>포인트</th> <th>pg사</th> <th>impId</th> <th>merchantId</th>
+            <th>거래 ID</th> <th>검수 ID</th>  <th>거래체결시간</th> <th>업데이트시간</th> <th>판매 금액</th>  <th>정산 금액</th> <th>거래 상태</th> <th>판매 상태</th>
+            <th>판매자 ID</th> <th>은행</th> <th>예금주</th> <th>계좌번호</th> <th>정산처리</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="payment : ${payments}">
-            <td th:text="${payment.paymentId}"></td>
-            <td th:text="${payment.userId}"></td>
-            <td th:text="${payment.updateDate}"></td>
-            <td th:text="${payment.status}"}></td>
-            <td th:text="${payment.price}"}></td>
-            <td th:text="${payment.point}"}></td>
-            <td th:text="${payment.pgName}"}></td>
-            <td th:text="${payment.impId}"}></td>
-            <td th:text="${payment.merchantId}"}></td>
+        <tr th:each="deal : ${deals}">
+            <td th:text="${deal.dealId}"></td>
+            <td th:text="${deal.inspectionId}"></td>
+            <td th:text="${deal.createdDate}"></td>
+            <td th:text="${deal.updatedDate}"></td>
+            <td th:text="${deal.saleAmount}"></td>
+            <td th:text="${deal.settlementAmount}"></td>
+            <td th:text="${deal.dealStatus}"></td>
+            <td th:text="${deal.sellingStatus}"></td>
+            <td th:text="${deal.sellerId}"></td>
+            <td th:text="${deal.bankName}"></td>
+            <td th:text="${deal.accountNumber}"></td>
+            <td th:text="${deal.accountHolder}"></td>
+            <td>
+                <form name="settlementRegisterForm" th:action="|@{/web/admin/settlements/inspections/{inspectionId}(inspectionId=${deal.inspectionId})}|" method="post">
+                    <input type="submit" value="완료"/>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

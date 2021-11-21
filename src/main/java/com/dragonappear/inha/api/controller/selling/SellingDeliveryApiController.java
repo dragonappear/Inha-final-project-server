@@ -55,7 +55,7 @@ public class SellingDeliveryApiController {
             String title = "판매자 아이템 발송완료 알림";
             String body = "판매자가 " + selling.getAuctionitem().getItem().getItemName() + "을 발송하였습니다.";
             fcmSendService.sendFCM(buyer, title, body);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("deliveryId:{} 발송완료 FCM 메시지가 전송되지 않았습니다.", deliveryId);
         }
 

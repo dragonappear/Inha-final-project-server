@@ -1,7 +1,7 @@
 package com.dragonappear.inha.domain.inspection.pass;
 
 import com.dragonappear.inha.domain.JpaBaseTimeEntity;
-import com.dragonappear.inha.domain.inspection.pass.PassInspection;
+import com.dragonappear.inha.domain.value.Account;
 import com.dragonappear.inha.domain.value.Money;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +42,10 @@ public class Settlement extends JpaBaseTimeEntity {
     @Embedded
     private Money settlementPrice;
 
+    @Column(nullable = false)
+    @Embedded
+    private Account account;
+
     /**
      * 연관관계
      */
@@ -54,12 +58,13 @@ public class Settlement extends JpaBaseTimeEntity {
      */
 
     @Builder
-    public Settlement(Long dealId, Long sellerId, Long auctionitemId, Money auctionitemPrice, Money settlementPrice, PassInspection passInspection) {
+    public Settlement(Long dealId, Long sellerId, Long auctionitemId, Money auctionitemPrice, Money settlementPrice, PassInspection passInspection, Account account) {
         this.dealId = dealId;
         this.sellerId = sellerId;
         this.auctionitemId = auctionitemId;
         this.auctionitemPrice = auctionitemPrice;
         this.settlementPrice = settlementPrice;
+        this.account = account;
         if (passInspection != null) {
             updateInspectionSettlement(passInspection);
         }

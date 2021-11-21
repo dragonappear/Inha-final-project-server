@@ -88,4 +88,8 @@ public class SellingService {
         Long aLong = sellingRepository.endBidSelling();
     }
 
+    @Transactional
+    public void updateSellingStatus(Selling selling, SellingStatus sellingStatus) {
+        selling.updateStatus(sellingStatus);
+    }
 }

@@ -31,12 +31,14 @@ import com.dragonappear.inha.service.user.UserPointService;
 import com.dragonappear.inha.service.user.UserService;
 import com.dragonappear.inha.service.user.UserTokenService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -143,7 +145,11 @@ public class CreateDealService {
         String title = "입찰구매하신 아이템의 거래가 성사되었습니다.";
         String body = buying.getPayment().getAuctionitem().getItem().getItemName() + " 거래가 성사되었습니다.\n"+
                 "판매자가 검수지역으로 미배송시 자동결제 취소됨을 미리 알려드립니다.";
-        fcmSendService.sendFCM(buyer, title,body);
+        try {
+            fcmSendService.sendFCM(buyer, title,body);
+        } catch (Exception e) {
+            log.error("buyerId:{} 거래성사 FCM 메시지가 전송되지 않았습니다.",buyer.getId());
+        }
     }
 
     private void fcmToSeller(Selling selling) throws IOException {
@@ -152,6 +158,10 @@ public class CreateDealService {
         String body = selling.getAuctionitem().getItem().getItemName() + " 거래가 성사되었습니다.\n" +
                 "2일내로 검수지역으로 물건과 구매 영수증을 동봉한 후 안전포장하여 배송하신 후, 마이페이지 진행중인 판매내역에서 송장번호를 등록하시기 바랍니다.\n" +
                 "파손된 상태로 제품이 배송될 시에 거래가 취소될 수 있음을 미리 알려드립니다.\n";
-        fcmSendService.sendFCM(seller, title,body);
+        try {
+            fcmSendService.sendFCM(seller, title, body);
+        } catch (Exception e) {
+            log.error("sellerId:{} 거래성사 FCM 메시지가 전송되지 않았습니다.",seller.getId());
+        }
     }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header::userHead"></head>
+<body>
+<div th:replace="layout/top::header"></div>
+<div class="py-5 text-center">
+    <h2>정산 업로드</h2>
+</div>
+<hr class="my-4">
+<div class="py-5 text-center">
+        <span>정산 예정액: </span> <span th:text="${settlementAmount}"></span>
+    <form name="fileForm" th:action="|@{/web/admin/settlements/inspections/{inspectionId}/register(inspectionId=${inspectionId})}|" method="post" >
+        <span>입금액</span>    <input type="text" name="amount"/><br>
+        <span>은행명</span>    <input type="text" name="bankName"/><br>
+        <span>예금주</span>    <input type="text" name="accountNumber"/><br>
+        <span>계좌번호</span>   <input type="text" name="accountHolder"/><br>
+        <input type="submit" value="서버에 저장" />
+    </form>
+</div>
+<div th:replace="layout/footer::footer"></div>
+</body>
+</html>
