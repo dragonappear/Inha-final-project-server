@@ -69,7 +69,11 @@ public class InspectionWebController {
         return "inspection/inspectionRegister";
     }
 
-    @PostMapping("/{dealId}/receivingRegister")
+    /**
+     * 입고처리
+     */
+
+    @PostMapping("/deals/{dealId}/receivingRegister")
     public String receivingRegister(@PathVariable("dealId") Long dealId) {
         Deal deal = dealService.findById(dealId);
         if (deal.getDealStatus() == 판매자발송완료) {
@@ -85,11 +89,14 @@ public class InspectionWebController {
                 log.error("dealId:{} 입고완료 FCM 메시지가 전송되지 않았습니다.",deal.getId());
             }
         }
-        return "redirect:/web/admin/deals";
+        return "redirect:/web/admin/inspections";
     }
 
+    /**
+     * 검수진행 처리
+     */
 
-    @PostMapping("/{dealId}/inspectionStart")
+    @PostMapping("/deals/{dealId}/inspectionStart")
     public String inspectionStart(@PathVariable("dealId") Long dealId) {
         Deal deal = dealService.findById(dealId);
         if (deal.getDealStatus() == 입고완료) {
@@ -105,10 +112,14 @@ public class InspectionWebController {
                 log.error("dealId:{} 검수진행 FCM 메시지가 전송되지 않았습니다.",deal.getId());
             }
         }
-        return "redirect:/web/admin/deals";
+        return "redirect:/web/admin/inspections";
     }
 
-    @PostMapping("/{dealId}/register")
+    /**
+     * 검수등록
+     */
+
+    @PostMapping("/deals/{dealId}/register")
     public String inspectionRegister(@PathVariable("dealId") Long dealId, MultipartHttpServletRequest request) throws IOException {
         Deal deal = dealService.findById(dealId);
         if (deal.getDealStatus() == 검수진행 || deal.getDealStatus() == 검수합격 || deal.getDealStatus() == 검수탈락) {
@@ -136,9 +147,8 @@ public class InspectionWebController {
             } catch (IOException e) {
                 log.error("dealId:{} 검수결과 FCM 메시지가 전송되지 않았습니다.",deal.getId());
             }
-            return "redirect:/web/admin/inspections/"+ inspectionId;
         }
-        return "redirect:/web/admin/deals";
+        return "redirect:/web/admin/inspections";
     }
 
     /**
