@@ -1,6 +1,7 @@
 package com.dragonappear.inha.web.admin.payment;
 
 import com.dragonappear.inha.api.returndto.MessageDto;
+import com.dragonappear.inha.repository.payment.PaymentRepository;
 import com.dragonappear.inha.web.admin.payment.dto.PaymentWebDto;
 import com.dragonappear.inha.api.service.buying.iamport.dto.CancelDto;
 import com.dragonappear.inha.api.service.buying.iamport.IamportService;
@@ -9,10 +10,12 @@ import com.dragonappear.inha.domain.value.Money;
 import com.dragonappear.inha.service.payment.PaymentService;
 import com.dragonappear.inha.service.user.UserPointService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,16 +23,18 @@ import java.util.stream.Collectors;
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @RequiredArgsConstructor
-@Controller(value = "/web/admin/payments")
+@Controller
+@RequestMapping(value = "/web/admin/payments")
 public class PaymentWebController {
     private final PaymentService paymentService;
+    private final PaymentRepository paymentRepository;
     private final UserPointService userPointService;
     private final IamportService iamportService;
 
     @GetMapping
     public String getAllPayments(Model model) {
-        List<Payment> payments = paymentService.findAll();
-        List<PaymentWebDto> dtos = payments.stream().map(payment -> {
+        List<Payment> all = paymentRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedDate"));
+        List<PaymentWebDto> dtos = all.stream().map(payment -> {
             return PaymentWebDto.builder()
                     .paymentId(payment.getId())
                     .price(payment.getPaymentPrice().getAmount())
@@ -45,7 +50,7 @@ public class PaymentWebController {
         model.addAttribute("payments", dtos);
         return "payment/paymentList";
     }
-    
+
     @GetMapping("/cancel/{paymentId}")
     public MessageDto cancelPayment(@PathVariable("paymentId") Long paymentId) {
         Payment payment = paymentService.findById(paymentId);

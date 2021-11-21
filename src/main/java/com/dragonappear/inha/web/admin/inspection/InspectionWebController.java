@@ -33,7 +33,8 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller(value = "/web/admin/inspections")
+@Controller
+@RequestMapping(value = "/web/admin/inspections")
 public class InspectionWebController {
     private final InspectionService inspectionService;
     private final InspectionImageService inspectionImageService;

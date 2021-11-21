@@ -6,11 +6,13 @@ import com.dragonappear.inha.domain.auctionitem.Auctionitem;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.deal.value.DealStatus;
 import com.dragonappear.inha.domain.user.User;
+import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.service.deal.DealService;
 import com.dragonappear.inha.service.user.UserTokenService;
 import com.dragonappear.inha.web.admin.deal.dto.DealWebDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,18 +29,23 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(("/web/admin/deals"))
+@RequestMapping(value = "/web/admin/deals")
 public class DealWebController {
     private final DealService dealService;
     private final FcmSendService fcmSendService;
+    private final DealRepository dealRepository;
 
     @GetMapping
     public String getAllDeals(Model model) {
-        List<DealWebDto> dtos = dealService.findAll().stream().map(deal -> {
+        List<Deal> all = dealRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedDate"));
+        List<DealWebDto> dtos = all.stream().map(deal -> {
             return DealWebDto.builder()
                     .dealId(deal.getId())
-                    .createdDate(deal.getUpdatedDate())
+                    .createdDate(deal.getCreatedDate())
+                    .updatedDate(deal.getUpdatedDate())
                     .status(deal.getDealStatus())
+                    .itemId(deal.getSelling().getAuctionitem().getItem().getId())
+                    .amount(deal.getSelling().getAuctionitem().getPrice().getAmount())
                     .buyingId(deal.getBuying().getId())
                     .sellingId(deal.getSelling().getId())
                     .inspectionId((deal.getInspection() == null) ? null : deal.getInspection().getId())

@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
-
 @DiscriminatorValue(value = "bid")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
