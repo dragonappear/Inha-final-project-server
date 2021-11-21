@@ -8,7 +8,7 @@
 </div>
 <hr class="my-4">
 <div class="py-5 text-center">
-    <form name="fileForm" th:action="|@{/web/inspections/{dealId}/register(dealId=${dealId})}|" method="post" enctype="multipart/form-data">
+    <form name="fileForm" th:action="|@{/web/admin/inspections/{dealId}/register(dealId=${dealId})}|" method="post" enctype="multipart/form-data">
         <input multiple="multiple" type="file" name="file" />
         <select name="result">
             <option value="pass">pass</option>

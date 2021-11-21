@@ -24,19 +24,19 @@
             <td th:text="${deal.sellingId}"></td>
             <td th:text="${deal.inspectionId}"></td>
             <td>
-                <form name="receivingForm" th:action="|@{/web/deals/{dealId}/receivingRegister(dealId=${deal.dealId})}|" method="post">
+                <form name="receivingForm" th:action="|@{/web/admin/deals/{dealId}/receivingRegister(dealId=${deal.dealId})}|" method="post">
                     <input type="submit" value="완료"/>
                 </form>
             </td>
 
             <td>
-                <form name="inspectionStartForm" th:action="|@{/web/deals/{dealId}/inspectionStart(dealId=${deal.dealId})}|" method="post">
+                <form name="inspectionStartForm" th:action="|@{/web/admin/deals/{dealId}/inspectionStart(dealId=${deal.dealId})}|" method="post">
                     <input type="submit" value="시작"/>
                 </form>
             </td>
 
             <td>
-                <form name="inspectionForm" th:action="@{/web/inspections/deals/{dealId}(dealId=${deal.dealId})}" method="get">
+                <form name="inspectionForm" th:action="@{/web/admin/inspections/deals/{dealId}(dealId=${deal.dealId})}" method="get">
                     <input type="submit" value="등록"/>
                 </form>
             </td>

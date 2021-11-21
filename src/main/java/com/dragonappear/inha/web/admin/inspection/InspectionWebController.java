@@ -33,8 +33,7 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
-@RequestMapping("/web/inspections")
+@Controller(value = "/web/admin/inspections")
 public class InspectionWebController {
     private final InspectionService inspectionService;
     private final InspectionImageService inspectionImageService;
@@ -91,9 +90,9 @@ public class InspectionWebController {
             } catch (IOException e) {
                 log.error("dealId:{} 검수결과 FCM 메시지가 전송되지 않았습니다.",deal.getId());
             }
-            return "redirect:/web/inspections/"+ inspectionId;
+            return "redirect:/web/admin/inspections/"+ inspectionId;
         }
-        return "redirect:/web/deals";
+        return "redirect:/web/admin/deals";
     }
 
     private Long updateInspection(MultipartHttpServletRequest request, Deal deal) throws IOException {

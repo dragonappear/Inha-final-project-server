@@ -9,7 +9,6 @@
 <hr class="my-4">
 <div class="py-5 text-center">
 
-
         <img th:src="@{/inspections/qeMvyldThfhDZElXhlGuJwqvOkIubTWB.png}">
         <span  th:each="image : ${images}" th:text="${image.getInspectionImage().getFileName()}"></span><br>
         <img th:each="image : ${images}" th:src="@{/inspections/${image.getInspectionImage().getFileName()}}"><br>

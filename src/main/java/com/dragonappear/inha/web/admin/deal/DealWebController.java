@@ -27,7 +27,7 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(("/web/deals"))
+@RequestMapping(("/web/admin/deals"))
 public class DealWebController {
     private final DealService dealService;
     private final FcmSendService fcmSendService;
@@ -64,7 +64,7 @@ public class DealWebController {
                 log.error("dealId:{} 입고완료 FCM 메시지가 전송되지 않았습니다.",deal.getId());
             }
         }
-        return "redirect:/web/deals";
+        return "redirect:/web/admin/deals";
     }
 
 
@@ -84,7 +84,7 @@ public class DealWebController {
                 log.error("dealId:{} 검수진행 FCM 메시지가 전송되지 않았습니다.",deal.getId());
             }
         }
-        return "redirect:/web/deals";
+        return "redirect:/web/admin/deals";
     }
 
 }

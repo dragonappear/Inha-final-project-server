@@ -27,8 +27,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers(
-                        "/web/inspections/**"
-                        ,"/favicon.ico"
+                        "/favicon.ico"
                         ,"/error"
                         ,"/swagger-ui.html/**"
                         ,"/js/**"
@@ -65,7 +64,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/authenticate").permitAll()
                 .antMatchers("/api/v1/users/{email}").permitAll()
                 .antMatchers("/api/v1/users/new").permitAll()
-                .antMatchers("/web/**").permitAll()
+                .antMatchers("/web/admin/**").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .apply(new JwtSecurityConfig(tokenProvider));

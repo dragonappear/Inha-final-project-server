@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 import static com.dragonappear.inha.api.returndto.MessageDto.getMessage;
 
 @RequiredArgsConstructor
-@Controller
+@Controller(value = "/web/admin/payments")
 public class PaymentWebController {
     private final PaymentService paymentService;
     private final UserPointService userPointService;
     private final IamportService iamportService;
 
-    @GetMapping("/web/payments")
+    @GetMapping
     public String getAllPayments(Model model) {
         List<Payment> payments = paymentService.findAll();
         List<PaymentWebDto> dtos = payments.stream().map(payment -> {
@@ -45,9 +45,8 @@ public class PaymentWebController {
         model.addAttribute("payments", dtos);
         return "payment/paymentList";
     }
-
-
-    @GetMapping("/web/payments/cancel/{paymentId}")
+    
+    @GetMapping("/cancel/{paymentId}")
     public MessageDto cancelPayment(@PathVariable("paymentId") Long paymentId) {
         Payment payment = paymentService.findById(paymentId);
         userPointService.accumulate(payment.getUser().getId(), new Money(payment.getPoint().getAmount())); // 유저 포인트 복구
