@@ -7,20 +7,26 @@
 <div class="py-5 text-center">
     <h2>아이템 리스트</h2>
 </div>
-<hr class="my-4">
+
+<div align="right">
+    <form name="itemRegisterForm" th:action="|@{/web/admin/items}|" method="post">
+        <input type="submit" value="새로운 아이템 등록"/>
+    </form>
+</div>
+
 <div>
     <table class="table">
         <thead>
         <tr>
-            <th>아이템 ID</th> <th>아이템 이미지</th> <th>아이템 이름</th>
+            <th>아이템 ID</th> <th>제조사</th> <th>아이템 카테고리</th> <th>아이템 이름</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${items}">
             <td th:text="${item.itemId}"></td>
-            <td> <img th:src="@{/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/} + ${item.itemImageName}"></td>
+            <td th:text="${item.manufacturer}"></td>
+            <td th:text="${item.category}"></td>
             <td th:text="${item.itemName}"></td>
-            <!--<td th:text="${item.itemImageName}"></td>-->
         </tr>
         </tbody>
     </table>
