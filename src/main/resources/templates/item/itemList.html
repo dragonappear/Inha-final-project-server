@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header::userHead"></head>
+<body>
+<div th:replace="layout/top::header"></div>
+
+<div class="py-5 text-center">
+    <h2>아이템 리스트</h2>
+</div>
+<hr class="my-4">
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>아이템 ID</th> <th>아이템 이미지</th> <th>아이템 이름</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.itemId}"></td>
+            <td> <img th:src="@{/Users/dragonappear/Documents/study/inha_document/컴퓨터종합설계/code/inha/src/main/resources/static/items/} + ${item.itemImageName}"></td>
+            <td th:text="${item.itemName}"></td>
+            <!--<td th:text="${item.itemImageName}"></td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="layout/footer::footer"></div>
+</body>
+</html>
