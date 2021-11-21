@@ -5,32 +5,31 @@
 <div th:replace="layout/top::header"></div>
 
 <div class="py-5 text-center">
-    <h2>검수 관리</h2>
+    <h2>검수 내역</h2>
 </div>
 <hr class="my-4">
 <div>
     <table class="table">
         <thead>
         <tr>
-            <th>거래 ID</th> <th>업데이트 시간</th> <th>거래 상태</th> <th>구매 ID</th><th>판매 ID</th> <th>검수 ID</th> <th>입고처리</th> <th>검수진행</th> <th>검수처리</th>
+            <th>거래 ID</th> <th>거래체결시간</th> <th>업데이트 시간</th> <th>거래 상태</th> <th>검수 ID</th> <th>입고처리</th> <th>검수진행</th> <th>검수처리</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="deal : ${deals}">
             <td th:text="${deal.dealId}"></td>
             <td th:text="${deal.createdDate}"></td>
+            <td th:text="${deal.updatedDate}"></td>
             <td th:text="${deal.status}"></td>
-            <td th:text="${deal.buyingId}"></td>
-            <td th:text="${deal.sellingId}"></td>
             <td th:text="${deal.inspectionId}"></td>
             <td>
-                <form name="receivingForm" th:action="|@{/web/admin/deals/{dealId}/receivingRegister(dealId=${deal.dealId})}|" method="post">
+                <form name="receivingForm" th:action="|@{/web/admin/inspections/{dealId}/receivingRegister(dealId=${deal.dealId})}|" method="post">
                     <input type="submit" value="완료"/>
                 </form>
             </td>
 
             <td>
-                <form name="inspectionStartForm" th:action="|@{/web/admin/deals/{dealId}/inspectionStart(dealId=${deal.dealId})}|" method="post">
+                <form name="inspectionStartForm" th:action="|@{/web/admin/inspections/{dealId}/inspectionStart(dealId=${deal.dealId})}|" method="post">
                     <input type="submit" value="시작"/>
                 </form>
             </td>

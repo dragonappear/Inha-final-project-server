@@ -31,8 +31,6 @@ import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
 @Controller
 @RequestMapping(value = "/web/admin/deals")
 public class DealWebController {
-    private final DealService dealService;
-    private final FcmSendService fcmSendService;
     private final DealRepository dealRepository;
 
     @GetMapping
@@ -48,50 +46,12 @@ public class DealWebController {
                     .amount(deal.getSelling().getAuctionitem().getPrice().getAmount())
                     .buyingId(deal.getBuying().getId())
                     .sellingId(deal.getSelling().getId())
+                    .buyerId(deal.getBuying().getPayment().getUser().getId())
+                    .sellerId(deal.getSelling().getSeller().getId())
                     .inspectionId((deal.getInspection() == null) ? null : deal.getInspection().getId())
                     .build();
         }).collect(Collectors.toList());
         model.addAttribute("deals", dtos);
         return "deal/dealList";
     }
-
-    @PostMapping("/{dealId}/receivingRegister")
-    public String receivingRegister(@PathVariable("dealId") Long dealId) {
-        Deal deal = dealService.findById(dealId);
-        if (deal.getDealStatus() == 판매자발송완료) {
-            dealService.updateDealStatus(deal,입고완료);
-            String title = "아이템 입고 알림";
-            String body = deal.getSelling().getAuctionitem().getItem().getItemName() + " 입고가 완료되었습니다.";
-            User buyer = deal.getBuying().getPayment().getUser();
-            User seller = deal.getSelling().getSeller();
-            try {
-                fcmSendService.sendFCM(buyer, title, body);
-                fcmSendService.sendFCM(seller, title, body);
-            } catch (IOException e) {
-                log.error("dealId:{} 입고완료 FCM 메시지가 전송되지 않았습니다.",deal.getId());
-            }
-        }
-        return "redirect:/web/admin/deals";
-    }
-
-
-    @PostMapping("/{dealId}/inspectionStart")
-    public String inspectionStart(@PathVariable("dealId") Long dealId) {
-        Deal deal = dealService.findById(dealId);
-        if (deal.getDealStatus() == 입고완료) {
-            dealService.updateDealStatus(deal,검수진행);
-            String title = "아이템 검수진행 알림";
-            String body = deal.getSelling().getAuctionitem().getItem().getItemName() + " 의 검수가 시작됨을 알려드립니다.";
-            User buyer = deal.getBuying().getPayment().getUser();
-            User seller = deal.getSelling().getSeller();
-            try {
-                fcmSendService.sendFCM(buyer, title, body);
-                fcmSendService.sendFCM(seller, title, body);
-            } catch (IOException e) {
-                log.error("dealId:{} 검수진행 FCM 메시지가 전송되지 않았습니다.",deal.getId());
-            }
-        }
-        return "redirect:/web/admin/deals";
-    }
-
 }

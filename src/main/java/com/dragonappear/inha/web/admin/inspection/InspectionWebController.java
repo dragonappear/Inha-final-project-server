@@ -9,13 +9,17 @@ import com.dragonappear.inha.domain.inspection.fail.FailInspection;
 import com.dragonappear.inha.domain.inspection.pass.PassInspection;
 import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.value.Image;
+import com.dragonappear.inha.repository.deal.DealRepository;
 import com.dragonappear.inha.service.deal.DealService;
 import com.dragonappear.inha.service.inspection.InspectionImageService;
 import com.dragonappear.inha.service.inspection.InspectionService;
+import com.dragonappear.inha.web.admin.deal.dto.DealWebDto;
+import com.dragonappear.inha.web.admin.inspection.dto.InspectionWebDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +44,24 @@ public class InspectionWebController {
     private final InspectionImageService inspectionImageService;
     private final DealService dealService;
     private final FcmSendService fcmSendService;
+    private final DealRepository dealRepository;
 
+
+    @GetMapping
+    public String getAllInspections(Model model) {
+        List<Deal> all = dealRepository.findAll(Sort.by(Sort.Direction.DESC, "updatedDate"));
+        List<InspectionWebDto> dtos = all.stream().map(deal -> {
+            return InspectionWebDto.builder()
+                    .dealId(deal.getId())
+                    .createdDate(deal.getCreatedDate())
+                    .updatedDate(deal.getUpdatedDate())
+                    .status(deal.getDealStatus())
+                    .inspectionId((deal.getInspection() == null) ? null : deal.getInspection().getId())
+                    .build();
+        }).collect(Collectors.toList());
+        model.addAttribute("deals", dtos);
+        return "inspection/inspectionList";
+    }
 
     @GetMapping("/deals/{dealId}")
     public String registerPage(@PathVariable("dealId") Long dealId, Model model) {
@@ -48,19 +69,43 @@ public class InspectionWebController {
         return "inspection/inspectionRegister";
     }
 
-    @GetMapping("/{inspectionId}")
-    public String getInspectionResult(@PathVariable("inspectionId") Long inspectionId, Model model) {
-        Inspection inspection = inspectionService.findById(inspectionId);
-        String result;
-        if (inspection instanceof PassInspection) {
-            result = "합격";
-        }  else{
-            result = "탈락";
+    @PostMapping("/{dealId}/receivingRegister")
+    public String receivingRegister(@PathVariable("dealId") Long dealId) {
+        Deal deal = dealService.findById(dealId);
+        if (deal.getDealStatus() == 판매자발송완료) {
+            dealService.updateDealStatus(deal,입고완료);
+            String title = "아이템 입고 알림";
+            String body = deal.getSelling().getAuctionitem().getItem().getItemName() + " 입고가 완료되었습니다.";
+            User buyer = deal.getBuying().getPayment().getUser();
+            User seller = deal.getSelling().getSeller();
+            try {
+                fcmSendService.sendFCM(buyer, title, body);
+                fcmSendService.sendFCM(seller, title, body);
+            } catch (IOException e) {
+                log.error("dealId:{} 입고완료 FCM 메시지가 전송되지 않았습니다.",deal.getId());
+            }
         }
-        List<InspectionImage> images = inspectionImageService.findByInspectionId(inspectionId);
-        model.addAttribute("result", result);
-        model.addAttribute("images", images);
-        return "inspection/result";
+        return "redirect:/web/admin/deals";
+    }
+
+
+    @PostMapping("/{dealId}/inspectionStart")
+    public String inspectionStart(@PathVariable("dealId") Long dealId) {
+        Deal deal = dealService.findById(dealId);
+        if (deal.getDealStatus() == 입고완료) {
+            dealService.updateDealStatus(deal,검수진행);
+            String title = "아이템 검수진행 알림";
+            String body = deal.getSelling().getAuctionitem().getItem().getItemName() + " 의 검수가 시작됨을 알려드립니다.";
+            User buyer = deal.getBuying().getPayment().getUser();
+            User seller = deal.getSelling().getSeller();
+            try {
+                fcmSendService.sendFCM(buyer, title, body);
+                fcmSendService.sendFCM(seller, title, body);
+            } catch (IOException e) {
+                log.error("dealId:{} 검수진행 FCM 메시지가 전송되지 않았습니다.",deal.getId());
+            }
+        }
+        return "redirect:/web/admin/deals";
     }
 
     @PostMapping("/{dealId}/register")
@@ -95,6 +140,10 @@ public class InspectionWebController {
         }
         return "redirect:/web/admin/deals";
     }
+
+    /**
+     * 검수등록로직
+     */
 
     private Long updateInspection(MultipartHttpServletRequest request, Deal deal) throws IOException {
         List<MultipartFile> files = request.getFiles("file");
