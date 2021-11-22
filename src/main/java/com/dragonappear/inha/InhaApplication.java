@@ -2,6 +2,7 @@ package com.dragonappear.inha;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,11 @@ public class InhaApplication {
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
 		return new HiddenHttpMethodFilter();
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 	@Bean

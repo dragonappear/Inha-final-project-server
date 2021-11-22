@@ -2,14 +2,15 @@ package com.dragonappear.inha.web.admin.item;
 
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
 import com.dragonappear.inha.repository.item.CategoryManufacturerRepository;
-import com.dragonappear.inha.repository.item.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.dragonappear.inha.domain.item.value.CategoryName.*;
-import static com.dragonappear.inha.domain.item.value.CategoryName.모니터;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -25,7 +25,6 @@ import static com.dragonappear.inha.domain.item.value.CategoryName.모니터;
 @RequestMapping("/web/admin/items/register")
 public class ItemWebRegisterController {
     private final CategoryManufacturerRepository categoryManufacturerRepository;
-    private final CategoryRepository categoryRepository;
     private Map<String, String> urlMap = new HashMap<>();
 
 
@@ -48,6 +47,11 @@ public class ItemWebRegisterController {
         List<ManufacturerName> names = categoryManufacturerRepository.findByCategoryName(노트북);
         model.addAttribute("names", names);
         return "item/product/notebookRegister";
+    }
+
+    @PostMapping("/notebooks")
+    public void saveNotebook(MultipartHttpServletRequest request) {
+
     }
 
     // 태블릿 등록 페이지

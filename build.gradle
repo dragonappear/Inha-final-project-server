@@ -70,6 +70,8 @@ repositories {
 		// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
 		runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
+		// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+		implementation 'org.modelmapper:modelmapper:2.4.4'
 
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
 			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
