@@ -15,5 +15,5 @@ public class ItemWebDto {
     private String category;
     private String manufacturer;
     private String itemName;
-    private String itemImageName;
+    private int itemDealCount;
 }

@@ -9,7 +9,12 @@
 </div>
 
 <div align="right">
-    <form name="itemRegisterForm" th:action="|@{/web/admin/items}|" method="post">
+    <form name="itemRegisterForm" th:action="|@{/web/admin/items/register}|" method="post">
+        <select name="categoryName">
+            <tr th:each="category : ${categories}">
+                <td><option th:value="${category}"><span th:text="${category}"></span></option></td>
+            </tr>
+        </select>
         <input type="submit" value="새로운 아이템 등록"/>
     </form>
 </div>
@@ -18,7 +23,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th>아이템 ID</th> <th>제조사</th> <th>아이템 카테고리</th> <th>아이템 이름</th>
+            <th>아이템 ID</th> <th>제조사</th> <th>아이템 카테고리</th> <th>아이템 이름</th> <th>아이템 거래건수</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +32,7 @@
             <td th:text="${item.manufacturer}"></td>
             <td th:text="${item.category}"></td>
             <td th:text="${item.itemName}"></td>
+            <td th:text="${item.itemDealCount}"></td>
         </tr>
         </tbody>
     </table>

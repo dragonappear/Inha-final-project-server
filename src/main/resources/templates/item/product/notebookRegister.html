@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header::userHead"></head>
+<body>
+<div th:replace="layout/top::header"></div>
+<div class="py-5 text-center">
+    <h2>노트북 등록 페이지</h2>
+</div>
+<hr class="my-4">
+<div class="py-5 text-center">
+    <form name="fileForm" th:action="|@{/web/admin/inspections/deals/{dealId}/register(dealId=${dealId})}|" method="post" enctype="multipart/form-data">
+        이미지 : <input multiple="multiple" type="file" name="file" /><br>
+        이름: <input type="text" /> <br>
+        모델번호: <input type="text" /> <br>
+        출시날짜: <input type="text" /> <br>
+        색상: <input type="text" /> <br>
+        출시가격: <input type="text" /> <br>
+        제조사 :
+        <select name="manufacturerName">
+            <tr th:each="name : ${names}">
+                <td><option th:value="${name}"><span th:text="${name}"></span></option></td>
+            </tr>
+        </select> <br>
+        인치: <input type="text" /> <br>
+        CPU: <input type="text" /> <br>
+        코어: <input type="text" /> <br>
+        OS: <input type="text" /> <br>
+        메모리: <input type="text" /> <br>
+        용량: <input type="text" /> <br>
+        GPU: <input type="text" /> <br>
+        무게: <input type="text" /> <br>
+
+        <input type="submit" value="서버에 저장" />
+    </form>
+</div>
+<div th:replace="layout/footer::footer"></div>
+</body>
+</html>
