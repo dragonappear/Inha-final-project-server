@@ -13,14 +13,13 @@ application-local-db.yml
 logs/
 
 ### java ###
-InitNotebook.java
-InitTablet.java
-InitUser.java
-InitManufacturer.java
-InitSmartPhone.java
-InitMonitor.java
-InitKeyboard.java
-Test.java
+Init5Notebook.java
+Init7Tablet.java
+Init2User.java
+Init1Manufacturer.java
+Init6SmartPhone.java
+Init4Monitor.java
+Init3Keyboard.java
 
 ### IntelliJ IDEA ###
 .idea

@@ -1,6 +1,5 @@
 package com.dragonappear.inha.web.admin.item;
 
-import com.dragonappear.inha.domain.item.value.Category;
 import com.dragonappear.inha.repository.item.CategoryRepository;
 import com.dragonappear.inha.service.item.ItemService;
 import com.dragonappear.inha.web.admin.item.dto.ItemWebDto;
@@ -59,6 +58,4 @@ public class ItemWebController {
         model.addAttribute("categories", categories);
         return "item/itemList";
     }
-
-
 }
