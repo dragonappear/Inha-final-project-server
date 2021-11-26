@@ -52,6 +52,9 @@ public class Scheduler {
         });
     }
 
+    /**
+     * 판매자 송장번호 미등록 시 취소
+     */
     @Transactional
     @Scheduled(fixedDelay = 1000 * 60, zone = "Asia/Seoul")
     public void cancelUnregisteredDeliveryDeal() {
@@ -87,15 +90,13 @@ public class Scheduler {
         });
     }
 
-
     /**
      * 검수탈락시에 구매자 결제 취소
      */
-
     @Transactional
     @Scheduled(fixedDelay = 1000 * 60, zone = "Asia/Seoul")
     public void cancelFailInspectionDeal() {
-        List<Deal> deals = dealService.findUndeliveredDeal();
+        List<Deal> deals = dealService.findFailInspectionDeal();
         deals.stream().forEach(deal->{
             deal.updateDealStatus(검수탈락취소);
             Payment payment = deal.getBuying().getPayment();

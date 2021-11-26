@@ -1,15 +1,12 @@
 package com.dragonappear.inha.api.controller.auctionitem.dto;
 
-import com.dragonappear.inha.domain.value.Money;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @NoArgsConstructor(access = PROTECTED)
 @Data

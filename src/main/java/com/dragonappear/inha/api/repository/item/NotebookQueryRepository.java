@@ -1,12 +1,13 @@
 package com.dragonappear.inha.api.repository.item;
 
 
-import com.dragonappear.inha.api.repository.item.dto.NotebookDto;
-import com.dragonappear.inha.api.repository.item.dto.QNotebookDto;
+import com.dragonappear.inha.api.repository.item.dto.NotebookApiDto;
+import com.dragonappear.inha.api.repository.item.dto.QNotebookApiDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import static com.dragonappear.inha.domain.item.QItem.*;
+
+import static com.dragonappear.inha.domain.item.QItem.item;
 import static com.dragonappear.inha.domain.item.product.QNotebook.notebook;
 
 
@@ -16,9 +17,9 @@ public class NotebookQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public NotebookDto findById(Long itemId) {
-        NotebookDto dto = queryFactory.select(
-                        new QNotebookDto(item.id
+    public NotebookApiDto findById(Long itemId) {
+        NotebookApiDto dto = queryFactory.select(
+                        new QNotebookApiDto(item.id
                                 , item.manufacturer.manufacturerName.stringValue()
                                 , item.itemName
                                 , item.modelNumber

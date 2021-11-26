@@ -1,26 +1,33 @@
 package com.dragonappear.inha.api.controller.item.shoppage;
 
-import com.dragonappear.inha.api.returndto.DetailDto;
-import com.dragonappear.inha.api.returndto.ResultDto;
+import com.dragonappear.inha.api.controller.auctionitem.dto.DetailItemDto;
 import com.dragonappear.inha.api.controller.auctionitem.dto.ItemDto;
 import com.dragonappear.inha.api.controller.auctionitem.dto.SimpleItemDto;
-import com.dragonappear.inha.api.repository.item.dto.NotebookDto;
+import com.dragonappear.inha.api.repository.item.NotebookQueryRepository;
+import com.dragonappear.inha.api.repository.item.dto.*;
+import com.dragonappear.inha.api.returndto.DetailDto;
+import com.dragonappear.inha.api.returndto.ResultDto;
 import com.dragonappear.inha.domain.item.Item;
-import com.dragonappear.inha.domain.item.product.Notebook;
+import com.dragonappear.inha.domain.item.product.*;
 import com.dragonappear.inha.domain.item.value.CategoryName;
 import com.dragonappear.inha.domain.item.value.ManufacturerName;
-import com.dragonappear.inha.api.repository.item.NotebookQueryRepository;
 import com.dragonappear.inha.service.item.ItemImageService;
 import com.dragonappear.inha.service.item.ItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Api(tags = {"아이템 정보 조회 API"})
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +35,16 @@ public class ItemApiController {
     private final ItemService itemService;
     private final NotebookQueryRepository notebookQueryRepository;
     private final ItemImageService itemImageService;
+    private  Map<Class< ? extends Item>,Class< ? extends DetailItemDto>> itemMap = new HashMap<>();
+
+    @PostConstruct
+    public void init() {
+        itemMap.put(Notebook.class, NotebookApiDto.class);
+        itemMap.put(Monitor.class, MonitorApiDto.class);
+        itemMap.put(SmartPhone.class, SmartPhoneApiDto.class);
+        itemMap.put(Keyboard.class, KeyboardApiDto.class);
+        itemMap.put(Tablet.class, TabletApiDto.class);
+    }
 
     @ApiOperation(value = "전체 아이템 조회 API", notes = "모든 아이템을 조회")
     @GetMapping("/api/v1/items")
@@ -73,7 +90,7 @@ public class ItemApiController {
                 .stream()
                 .map(item ->
                         new ItemDto(item.getId()
-                                , item.getItemImages().get(0).getItemImage().getFileName()
+                                , item.getItemImages().size()==0 ? null: item.getItemImages().get(0).getItemImage().getFileName()
                                 , item.getManufacturer().getManufacturerName(), item.getItemName()
                                 , item.getLikeCount()
                                 , (item.getLatestPrice()==null) ? null : item.getLatestPrice().getAmount()))
@@ -89,9 +106,13 @@ public class ItemApiController {
     @GetMapping("/api/v1/items/details/{itemId}")
     public DetailDto detailItem(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
+        List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileName()).collect(Collectors.toList());
+        for (Class<? extends Item> itemType : itemMap.keySet()) {
+            if (item.getClass().toString().equals(itemType.toString())) {
+            }
+        }
         if (item instanceof Notebook) {
-            NotebookDto dto = notebookQueryRepository.findById(itemId);
-            List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileName()).collect(Collectors.toList());
+            NotebookApiDto dto = notebookQueryRepository.findById(itemId);
             return DetailDto.builder()
                     .fileNames(names)
                     .detail(dto)
