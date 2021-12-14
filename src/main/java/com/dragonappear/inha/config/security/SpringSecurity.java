@@ -64,6 +64,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/users/{email}").permitAll()
                 .antMatchers("/api/v1/users/new").permitAll()
                 .antMatchers("/web/admin/**").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
