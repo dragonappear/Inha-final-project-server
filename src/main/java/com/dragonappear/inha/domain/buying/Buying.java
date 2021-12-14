@@ -74,6 +74,4 @@ public abstract class Buying extends JpaBaseTimeEntity {
     public void updateStatus(BuyingStatus buyingStatus) {
         this.buyingStatus = buyingStatus;
     }
-
-
 }

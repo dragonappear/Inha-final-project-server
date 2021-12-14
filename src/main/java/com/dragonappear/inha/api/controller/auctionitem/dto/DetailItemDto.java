@@ -1,5 +1,6 @@
 package com.dragonappear.inha.api.controller.auctionitem.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 
 import static lombok.AccessLevel.PROTECTED;
 
+@AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Data
 public class DetailItemDto {
@@ -20,16 +22,4 @@ public class DetailItemDto {
     private String color;
     private Long itemLike;
     private BigDecimal latestPrice;
-
-    public DetailItemDto(Long itemId, String manufacturer, String itemName, String modelNumber, LocalDate releaseDay, BigDecimal releasePrice, String color, Long itemLike, BigDecimal latestPrice) {
-        this.itemId = itemId;
-        this.manufacturer = manufacturer;
-        this.itemName = itemName;
-        this.modelNumber = modelNumber;
-        this.releaseDay = releaseDay;
-        this.releasePrice = releasePrice;
-        this.color = color;
-        this.itemLike = itemLike;
-        this.latestPrice = latestPrice;
-    }
 }

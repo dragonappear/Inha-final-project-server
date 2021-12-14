@@ -1,23 +1,22 @@
 package com.dragonappear.inha.api.repository.item;
 
-
-import com.dragonappear.inha.api.repository.item.dto.NotebookApiDto;
-import com.dragonappear.inha.api.repository.item.dto.QNotebookApiDto;
+import com.dragonappear.inha.api.repository.item.dto.MonitorApiDto;
+import com.dragonappear.inha.api.repository.item.dto.QMonitorApiDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import static com.dragonappear.inha.domain.item.QItem.item;
-import static com.dragonappear.inha.domain.item.product.QNotebook.notebook;
+import static com.dragonappear.inha.domain.item.product.QMonitor.monitor;
 
 @RequiredArgsConstructor
 @Repository
-public class NotebookQueryRepository {
+public class MonitorQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public NotebookApiDto findById(Long itemId) {
-        NotebookApiDto dto = queryFactory.select(
-                        new QNotebookApiDto(item.id
+    public MonitorApiDto findById(Long itemId) {
+        MonitorApiDto dto = queryFactory.select(
+                        new QMonitorApiDto(item.id
                                 , item.manufacturer.manufacturerName.stringValue()
                                 , item.itemName
                                 , item.modelNumber
@@ -26,17 +25,16 @@ public class NotebookQueryRepository {
                                 , item.color
                                 , item.likeCount
                                 , item.latestPrice.amount
-                                , notebook.inch
-                                , notebook.cpu
-                                , notebook.core
-                                , notebook.os
-                                , notebook.memory
-                                , notebook.storage
-                                , notebook.gpu
-                                , notebook.weight)
+                                , monitor.inch
+                                , monitor.displayRate
+                                , monitor.panelType
+                                , monitor.resolution
+                                , monitor.dpPort
+                                , monitor.hdmi
+                                , monitor.maxInjectionRate)
                 )
                 .from(item)
-                .join(notebook).on(notebook.id.eq(item.id))
+                .join(monitor).on(monitor.id.eq(item.id))
                 .where(item.id.eq(itemId))
                 .fetchOne();
         if (dto == null) {

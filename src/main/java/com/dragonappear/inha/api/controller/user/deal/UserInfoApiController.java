@@ -1,26 +1,24 @@
 package com.dragonappear.inha.api.controller.user.deal;
 
 import com.dragonappear.inha.api.controller.user.deal.dto.AddressDto;
+import com.dragonappear.inha.api.controller.user.deal.dto.CardDto;
 import com.dragonappear.inha.api.controller.user.deal.dto.PointDto;
 import com.dragonappear.inha.api.controller.user.mypage.dto.UserAccountApiDto;
+import com.dragonappear.inha.api.returndto.MessageDto;
 import com.dragonappear.inha.api.returndto.ResultDto;
+import com.dragonappear.inha.domain.user.User;
 import com.dragonappear.inha.domain.user.UserAccount;
 import com.dragonappear.inha.domain.user.UserAddress;
-import com.dragonappear.inha.exception.user.NotFoundUserAccountException;
-import com.dragonappear.inha.service.user.UserAccountService;
-import com.dragonappear.inha.service.user.UserAddressService;
-import com.dragonappear.inha.service.user.UserPointService;
+import com.dragonappear.inha.domain.user.UserCardInfo;
+import com.dragonappear.inha.domain.value.Card;
+import com.dragonappear.inha.service.user.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,9 +28,11 @@ import static com.dragonappear.inha.api.returndto.ResultDto.returnResults;
 @RestController
 @RequiredArgsConstructor
 public class UserInfoApiController {
+    private final UserService userService;
     private final UserPointService userPointService;
     private final UserAddressService userAddressService;
     private final UserAccountService userAccountService;
+    private final UserCardInfoService userCardInfoService;
 
     @ApiOperation(value = "유저 포인트조회 API by 유저아이디", notes = "유저 포인트 조회")
     @GetMapping("/api/v1/payments/points/{userId}")
@@ -98,5 +98,34 @@ public class UserInfoApiController {
                     .build();
     }
 
+    @ApiOperation(value = "유저 카드 조회 API", notes = "유저 카드 조회")
+    @GetMapping("/api/v1/payments/cards/{userId}")
+    public ResultDto getUserCardInfo(@PathVariable("userId") Long userId) {
+        try {
+            List<UserCardInfo> all = userCardInfoService.findAll(userId);
+            List<CardDto> dtos = all.stream().map(userCard -> {
+                return CardDto.builder()
+                        .cardId(userCard.getId())
+                        .cardCompanyName(userCard.getUserCard().getCardCompanyName())
+                        .cardNumber(userCard.getUserCard().getCardNumber())
+                        .build();
+            }).collect(Collectors.toList());
+            return returnResults(dtos);
+        } catch (Exception e) {
+            return returnResults(null);
+        }
+    }
+
+    @ApiOperation(value = "유저 카드 등록 API", notes = "유저 카드 등록")
+    @PostMapping("/api/v1/payments/cards/{userId}")
+    public MessageDto saveUserCardInfo(@PathVariable("userId") Long userId, @RequestBody CardDto dto) {
+        User user = userService.findOneById(userId);
+        Card card = dto.toEntity();
+        UserCardInfo cardInfo = new UserCardInfo(card, user);
+        userCardInfoService.save(cardInfo);
+        return MessageDto.builder()
+                .message(MessageDto.getMessage("isRegistered", true))
+                .build();
+    }
 }
 

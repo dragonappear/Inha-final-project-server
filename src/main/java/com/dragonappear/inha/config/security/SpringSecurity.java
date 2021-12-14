@@ -60,7 +60,6 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 
             .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
                 .antMatchers("/api/v1/authenticate").permitAll()
                 .antMatchers("/api/v1/users/{email}").permitAll()
                 .antMatchers("/api/v1/users/new").permitAll()

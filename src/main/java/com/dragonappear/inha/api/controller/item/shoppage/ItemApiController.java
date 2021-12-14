@@ -1,9 +1,8 @@
 package com.dragonappear.inha.api.controller.item.shoppage;
 
-import com.dragonappear.inha.api.controller.auctionitem.dto.DetailItemDto;
 import com.dragonappear.inha.api.controller.auctionitem.dto.ItemDto;
 import com.dragonappear.inha.api.controller.auctionitem.dto.SimpleItemDto;
-import com.dragonappear.inha.api.repository.item.NotebookQueryRepository;
+import com.dragonappear.inha.api.repository.item.*;
 import com.dragonappear.inha.api.repository.item.dto.*;
 import com.dragonappear.inha.api.returndto.DetailDto;
 import com.dragonappear.inha.api.returndto.ResultDto;
@@ -21,10 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,16 +31,10 @@ public class ItemApiController {
     private final ItemService itemService;
     private final NotebookQueryRepository notebookQueryRepository;
     private final ItemImageService itemImageService;
-    private  Map<Class< ? extends Item>,Class< ? extends DetailItemDto>> itemMap = new HashMap<>();
-
-    @PostConstruct
-    public void init() {
-        itemMap.put(Notebook.class, NotebookApiDto.class);
-        itemMap.put(Monitor.class, MonitorApiDto.class);
-        itemMap.put(SmartPhone.class, SmartPhoneApiDto.class);
-        itemMap.put(Keyboard.class, KeyboardApiDto.class);
-        itemMap.put(Tablet.class, TabletApiDto.class);
-    }
+    private final KeyboardQueryRepository keyboardQueryRepository;
+    private final MonitorQueryRepository monitorQueryRepository;
+    private final SmartPhoneQueryRepository smartPhoneQueryRepository;
+    private final TabletQueryRepository tabletQueryRepository;
 
     @ApiOperation(value = "전체 아이템 조회 API", notes = "모든 아이템을 조회")
     @GetMapping("/api/v1/items")
@@ -107,19 +97,7 @@ public class ItemApiController {
     public DetailDto detailItem(@PathVariable("itemId") Long itemId) {
         Item item = itemService.findByItemId(itemId);
         List<String> names = itemImageService.findByItemId(itemId).stream().map(image -> image.getItemImage().getFileName()).collect(Collectors.toList());
-        for (Class<? extends Item> itemType : itemMap.keySet()) {
-            if (item.getClass().toString().equals(itemType.toString())) {
-            }
-        }
-        if (item instanceof Notebook) {
-            NotebookApiDto dto = notebookQueryRepository.findById(itemId);
-            return DetailDto.builder()
-                    .fileNames(names)
-                    .detail(dto)
-                    .build();
-        }
-        return null;
-
+        return getItemDetailDto(item, names);
     }
 
     @ApiOperation(value = "판매전, 구매전 아이템 대표정보 조회 API", notes = "판매전, 구매전 아이템 대표정보 조회")
@@ -132,5 +110,48 @@ public class ItemApiController {
                 .modelNumber(item.getModelNumber())
                 .fileOriName(item.getItemImages().get(0).getItemImage().getFileName())
                 .build();
+    }
+
+    public DetailDto getItemDetailDto(Item item, List<String> names) {
+        if (item instanceof Notebook) {
+            NotebookApiDto dto = notebookQueryRepository.findById(item.getId());
+            return DetailDto.builder()
+                    .fileNames(names)
+                    .detail(dto)
+                    .build();
+        }
+        else if (item instanceof Tablet) {
+            TabletApiDto dto = tabletQueryRepository.findById(item.getId());
+            return DetailDto.builder()
+                    .fileNames(names)
+                    .detail(dto)
+                    .build();
+        }
+
+        else if (item instanceof SmartPhone) {
+            SmartPhoneApiDto dto = smartPhoneQueryRepository.findById(item.getId());
+            return DetailDto.builder()
+                    .fileNames(names)
+                    .detail(dto)
+                    .build();
+        }
+
+        else if (item instanceof Keyboard) {
+            KeyboardApiDto dto = keyboardQueryRepository.findById(item.getId());
+            return DetailDto.builder()
+                    .fileNames(names)
+                    .detail(dto)
+                    .build();
+        }
+
+        else if (item instanceof Monitor) {
+            MonitorApiDto dto = monitorQueryRepository.findById(item.getId());
+            return DetailDto.builder()
+                    .fileNames(names)
+                    .detail(dto)
+                    .build();
+        }
+
+        return null;
     }
 }

@@ -1,23 +1,22 @@
 package com.dragonappear.inha.api.repository.item;
 
-
-import com.dragonappear.inha.api.repository.item.dto.NotebookApiDto;
-import com.dragonappear.inha.api.repository.item.dto.QNotebookApiDto;
+import com.dragonappear.inha.api.repository.item.dto.QTabletApiDto;
+import com.dragonappear.inha.api.repository.item.dto.TabletApiDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import static com.dragonappear.inha.domain.item.QItem.item;
-import static com.dragonappear.inha.domain.item.product.QNotebook.notebook;
+import static com.dragonappear.inha.domain.item.product.QTablet.tablet;
 
 @RequiredArgsConstructor
 @Repository
-public class NotebookQueryRepository {
+public class TabletQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public NotebookApiDto findById(Long itemId) {
-        NotebookApiDto dto = queryFactory.select(
-                        new QNotebookApiDto(item.id
+    public TabletApiDto findById(Long itemId) {
+        TabletApiDto dto = queryFactory.select(
+                        new QTabletApiDto(item.id
                                 , item.manufacturer.manufacturerName.stringValue()
                                 , item.itemName
                                 , item.modelNumber
@@ -26,17 +25,19 @@ public class NotebookQueryRepository {
                                 , item.color
                                 , item.likeCount
                                 , item.latestPrice.amount
-                                , notebook.inch
-                                , notebook.cpu
-                                , notebook.core
-                                , notebook.os
-                                , notebook.memory
-                                , notebook.storage
-                                , notebook.gpu
-                                , notebook.weight)
+                                , tablet.inch
+                                , tablet.cpu
+                                , tablet.core
+                                , tablet.os
+                                , tablet.memory
+                                , tablet.storage
+                                , tablet.gpu
+                                , tablet.weight
+                                , tablet.ppi
+                                , tablet.maxInjectionRate)
                 )
                 .from(item)
-                .join(notebook).on(notebook.id.eq(item.id))
+                .join(tablet).on(tablet.id.eq(item.id))
                 .where(item.id.eq(itemId))
                 .fetchOne();
         if (dto == null) {
