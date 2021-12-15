@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.dragonappear.inha.domain.deal.value.DealStatus.*;
+import static com.dragonappear.inha.domain.deal.value.DealStatus.검수탈락취소;
+import static com.dragonappear.inha.domain.deal.value.DealStatus.미입고취소;
 
 @RequiredArgsConstructor
 @RestController
@@ -65,9 +66,6 @@ public class Scheduler {
             String itemName = payment.getAuctionitem().getItem().getItemName();
             String body = "판매자가 " + itemName + "을 배송하지 않아 결제가 취소되었음을 알려드립니다.";
             cancelPayment(payment,body);
-            /**
-             * 판매자 페널티 결제추가해야됌
-             */
         });
     }
 
@@ -84,9 +82,6 @@ public class Scheduler {
             String itemName = payment.getAuctionitem().getItem().getItemName();
             String body = "판매자가 " + itemName + "을 배송하지 않아 결제가 취소되었음을 알려드립니다.";
             cancelPayment(payment,body);
-            /**
-             * 판매자 페널티 결제추가해야됌
-             */
         });
     }
 
@@ -103,9 +98,6 @@ public class Scheduler {
             String itemName = payment.getAuctionitem().getItem().getItemName();
             String body = "구매하신 " + itemName + "이 검수결과 탈락하여 결제가 취소되었음을 알려드립니다.";
             cancelPayment(payment,body);
-            /**
-             * 판매자 페널티 결제추가해야됌
-             */
         });
     }
 

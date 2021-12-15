@@ -62,7 +62,7 @@ public class DealWebRepository {
     public List<ReturnDealWebDto> getReturnList() {
         return jpaQueryFactory.select(new QReturnDealWebDto(deal.id
                         , selling.id
-                        , payment.addressId
+                        , selling.seller.userAddresses.get(0).id
                         , selling.sellingStatus
                         , passInspection.id
                         , (failInspection.failDelivery==null) ? null : failInspection.failDelivery.delivery.courierName
@@ -70,7 +70,6 @@ public class DealWebRepository {
                 ))
                 .from(deal)
                 .join(deal.selling, selling)
-                .join(buying.payment, payment)
                 .join(failInspection).on(deal.id.eq(failInspection.id))
                 .where(deal.dealStatus.eq(검수탈락))
                 .fetch();
