@@ -66,7 +66,7 @@ public class DealWebRepository {
                         , selling.id
                         , user.userAddresses.get(0).id
                         , selling.sellingStatus
-                        , passInspection.id
+                        , failInspection.id
                         , (failInspection.failDelivery==null) ? null : failInspection.failDelivery.delivery.courierName
                         , (failInspection.failDelivery==null) ? null : failInspection.failDelivery.delivery.invoiceNumber
                 ))
