@@ -4,6 +4,7 @@ package com.dragonappear.inha.web.repository;
 import com.dragonappear.inha.domain.deal.Deal;
 import com.dragonappear.inha.domain.inspection.fail.QFailInspection;
 import com.dragonappear.inha.domain.selling.value.SellingStatus;
+import com.dragonappear.inha.domain.user.QUser;
 import com.dragonappear.inha.domain.value.CourierName;
 import com.dragonappear.inha.web.repository.dto.QReturnDealWebDto;
 import com.dragonappear.inha.web.repository.dto.QSendDealWebDto;
@@ -25,6 +26,7 @@ import static com.dragonappear.inha.domain.inspection.pass.QPassInspection.passI
 import static com.dragonappear.inha.domain.item.QItem.item;
 import static com.dragonappear.inha.domain.payment.QPayment.payment;
 import static com.dragonappear.inha.domain.selling.QSelling.selling;
+import static com.dragonappear.inha.domain.user.QUser.*;
 
 @RequiredArgsConstructor
 @Repository
@@ -70,6 +72,7 @@ public class DealWebRepository {
                 ))
                 .from(deal)
                 .join(deal.selling, selling)
+                .join(selling.seller, user)
                 .join(failInspection).on(deal.inspection.id.eq(failInspection.id))
                 .where(deal.dealStatus.eq(검수탈락))
                 .fetch();
