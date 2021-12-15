@@ -24,6 +24,4 @@ public class PassDeliveryService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 배송정보가 조회되지 않습니다"));
     }
 
-    // 배송완료체크 서비스
-    // 배송완료시 -> 구매,판매,거래 상태 변경
 }

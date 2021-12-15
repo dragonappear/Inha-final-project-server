@@ -5,25 +5,27 @@
 <div th:replace="layout/top::header"></div>
 
 <div class="py-5 text-center">
-    <h2>검수 내역</h2>
+    <h2>배송 내역</h2>
 </div>
 <hr class="my-4">
 <div>
     <table class="table">
         <thead>
         <tr>
-            <th>거래 ID</th> <th>거래체결시간</th> <th>업데이트 시간</th> <th>거래 상태</th> <th>검수 ID</th> <th>입고처리</th> <th>검수진행</th> <th>검수처리</th>
+            <th>거래 ID</th> <th>구매 ID</th> <th>주소 ID</th> <th>구매 상태</th> <th>검수 ID</th> <th>배송사</th> <th>송장번호</th> <th>배송등록</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="deal : ${deals}">
-            <td th:text="${deal.dealId}"></td>
-            <td th:text="${deal.createdDate}"></td>
-            <td th:text="${deal.updatedDate}"></td>
-            <td th:text="${deal.status}"></td>
-            <td th:text="${deal.inspectionId}"></td>
+        <tr th:each="element : ${list}">
+            <td th:text="${element.dealId}"></td>
+            <td th:text="${element.buyingId}"></td>
+            <td th:text="${element.addressId}"></td>
+            <td th:text="${element.buyingStatus}"></td>
+            <td th:text="${element.inspectionId}"></td>
+            <td th:text="${element.courierName}"></td>
+            <td th:text="${element.deliveryNumber}"></td>
             <td>
-                <form name="receivingForm" th:action="|@{/web/admin/inspections/deals/{dealId}/receivingRegister(dealId=${deal.dealId})}|" method="post">
+                <form name="registerForm" th:action="|@{/web/admin/deliveries/sends/{inspectionId}(inspectionId=${element.inspectionId})}|" method="post">
                     <input type="submit" value="완료"/>
                 </form>
             </td>

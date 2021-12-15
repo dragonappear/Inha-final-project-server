@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @NoArgsConstructor
 @Data
 public class ReturnDealWebDto {
@@ -15,15 +14,17 @@ public class ReturnDealWebDto {
     private Long sellingId;
     private Long addressId;
     private SellingStatus sellingStatus;
+    private Long inspectionId;
     private CourierName courierName;
     private String deliveryNumber;
 
     @QueryProjection
-    public ReturnDealWebDto(Long dealId, Long sellingId, Long addressId, SellingStatus sellingStatus, CourierName courierName, String deliveryNumber) {
+    public ReturnDealWebDto(Long dealId, Long sellingId, Long addressId, SellingStatus sellingStatus, Long inspectionId, CourierName courierName, String deliveryNumber) {
         this.dealId = dealId;
         this.sellingId = sellingId;
         this.addressId = addressId;
         this.sellingStatus = sellingStatus;
+        this.inspectionId = inspectionId;
         this.courierName = courierName;
         this.deliveryNumber = deliveryNumber;
     }
