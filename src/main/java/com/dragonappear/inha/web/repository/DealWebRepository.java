@@ -54,7 +54,7 @@ public class DealWebRepository {
                 .from(deal)
                 .join(deal.buying, buying)
                 .join(buying.payment, payment)
-                .join(passInspection).on(deal.id.eq(passInspection.id))
+                .join(passInspection).on(deal.inspection.id.eq(passInspection.id))
                 .where(deal.dealStatus.eq(검수합격))
                 .fetch();
     }
@@ -70,7 +70,7 @@ public class DealWebRepository {
                 ))
                 .from(deal)
                 .join(deal.selling, selling)
-                .join(failInspection).on(deal.id.eq(failInspection.id))
+                .join(failInspection).on(deal.inspection.id.eq(failInspection.id))
                 .where(deal.dealStatus.eq(검수탈락))
                 .fetch();
     }
