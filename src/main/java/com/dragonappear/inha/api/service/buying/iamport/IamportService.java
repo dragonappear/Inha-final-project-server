@@ -20,8 +20,8 @@ import java.util.*;
 public class IamportService {
     public static final String IMPORT_TOKEN_URL = "https://api.iamport.kr/users/getToken";
     public static final String IMPORT_CANCEL_URL = "https://api.iamport.kr/payments/cancel";
-    public static final String KEY = "5132626560989602";
-    public static final String SECRET = "76b263a820b4d8645755eb3f51f7afb500027545cbe027a24bdf8751e53ba34a9190b36a12508e46";
+    public static final String KEY = "";
+    public static final String SECRET = "";
 
     // 아임포트에서 인증(토큰)을 받아오는 메서드
     public static String getImportToken()  {
